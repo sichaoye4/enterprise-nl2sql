@@ -1,0 +1,14 @@
+[
+  {
+    "question": "how many customer have a debit card with overdraft (negative balance)",
+    "db_id": "debit_card_specializing",
+    "sql": "SELECT COUNT(DISTINCT yr.CustomerID) AS customer_count FROM yearmonth yr GROUP BY yr.CustomerID HAVING SUM(yr.Consumption) < 0;",
+    "timestamp": 1780123003.2323222
+  },
+  {
+    "question": "What is the highest eligible free rate for K-12 students in Alameda County?",
+    "db_id": "california_schools",
+    "sql": "SELECT MAX(`Percent (%) Eligible Free (K-12)`) FROM frpm WHERE `County Name` = 'Alameda';",
+    "timestamp": 1780122852.5776577
+  }
+]

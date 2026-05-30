@@ -1,0 +1,15 @@
+metric: conversion_rate
+concept: conversion_rate_concept
+description: Paid orders divided by ad clicks.
+type: ratio
+numerator:
+  metric: paid_order_count
+denominator:
+  metric: click_count
+expression: paid_order_count / nullif(click_count, 0)
+allowed_dimensions:
+  - campaign
+  - channel
+  - region
+owner: marketing_analytics
+status: certified

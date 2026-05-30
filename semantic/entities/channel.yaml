@@ -1,0 +1,9 @@
+entity: channel
+description: Marketing or transaction attribution channel.
+primary_keys:
+  - channel_id
+related_entities:
+  - campaign
+  - order
+ambiguity_notes: Channel may represent paid media source or transaction source depending on table context.
+status: certified

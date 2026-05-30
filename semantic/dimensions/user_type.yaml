@@ -1,0 +1,9 @@
+dimension: user_type
+description: User lifecycle segment such as new, returning, or reactivated.
+entity: user
+synonyms:
+  - lifecycle segment
+physical_mappings:
+  - table: ads_user_growth_daily
+    column: user_type
+status: certified

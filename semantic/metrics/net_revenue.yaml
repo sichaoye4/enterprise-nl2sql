@@ -1,0 +1,18 @@
+metric: net_revenue
+concept: net_revenue
+description: Total realized revenue after refund and settlement adjustment.
+type: simple_sum
+measure:
+  table: ads_finance_channel_daily
+  column: net_revenue_amt
+aggregation: sum
+unit: CNY
+default_time_dimension: settlement_date
+physical_time_column: settlement_dt
+allowed_dimensions:
+  - channel
+  - product_category
+  - region
+  - settlement_date
+owner: finance_analytics
+status: certified

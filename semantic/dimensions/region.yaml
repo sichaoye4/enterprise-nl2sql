@@ -1,0 +1,10 @@
+dimension: region
+description: Geographic reporting region.
+entity: null
+synonyms:
+  - geo
+  - area
+physical_mappings:
+  - table: ads_order_channel_daily
+    column: region_name
+status: certified

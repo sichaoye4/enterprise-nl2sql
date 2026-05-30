@@ -1,0 +1,9 @@
+dimension: device_type
+description: User device category.
+entity: user
+synonyms:
+  - device
+physical_mappings:
+  - table: ads_user_growth_daily
+    column: device_type
+status: certified

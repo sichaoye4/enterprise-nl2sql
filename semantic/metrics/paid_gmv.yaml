@@ -1,0 +1,18 @@
+metric: paid_gmv
+concept: paid_gmv
+description: Successfully paid order value before refund adjustment.
+type: simple_sum
+measure:
+  table: ads_order_channel_daily
+  column: paid_gmv_amt
+aggregation: sum
+unit: CNY
+default_time_dimension: payment_date
+physical_time_column: payment_dt
+allowed_dimensions:
+  - channel
+  - campaign
+  - region
+  - payment_date
+owner: commerce_analytics
+status: certified

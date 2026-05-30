@@ -70,7 +70,10 @@ def _foreign_keys(db_path: str) -> tuple[tuple[str, str, str, str], ...]:
             for table, _cols in _schema_info(db_path):
                 for row in conn.execute(f"PRAGMA foreign_key_list({_quote_ident(table)})").fetchall():
                     # row: id, seq, table, from, to, on_update, on_delete, match
-                    paths.append((table, row[3], row[2], row[4]))
+                    from_col = row[3] or ""
+                    to_table = row[2] or ""
+                    to_col = row[4] or ""
+                    paths.append((table, from_col, to_table, to_col))
     except sqlite3.Error:
         pass
     return tuple(paths)

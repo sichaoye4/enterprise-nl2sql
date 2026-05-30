@@ -1,0 +1,11 @@
+concept: conversion_rate_concept
+display_name: Conversion Rate
+domain: marketing
+definition: Paid orders divided by clicks for campaign performance analysis.
+type: metric_concept
+owner: marketing_analytics
+related_but_different:
+  click_count: Total ad click volume.
+  paid_gmv: Paid value generated after conversion.
+canonical_metric: conversion_rate
+status: certified

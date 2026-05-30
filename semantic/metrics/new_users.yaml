@@ -1,0 +1,17 @@
+metric: new_users
+concept: new_user_concept
+description: Distinct newly registered users in the reporting window.
+type: distinct_count
+measure:
+  table: ads_user_growth_daily
+  column: new_user_id
+aggregation: count_distinct
+unit: users
+default_time_dimension: order_date
+physical_time_column: dt
+allowed_dimensions:
+  - region
+  - device_type
+  - user_type
+owner: growth_analytics
+status: certified

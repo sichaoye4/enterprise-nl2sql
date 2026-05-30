@@ -1,0 +1,18 @@
+metric: paid_order_count
+concept: order_concept
+description: Count of orders with successful payment.
+type: simple_count
+measure:
+  table: ads_order_channel_daily
+  column: paid_order_id
+aggregation: count
+unit: orders
+default_time_dimension: payment_date
+physical_time_column: payment_dt
+allowed_dimensions:
+  - channel
+  - campaign
+  - region
+  - payment_date
+owner: commerce_analytics
+status: certified

@@ -1,0 +1,10 @@
+concept: order_concept
+display_name: Order
+domain: commerce
+definition: A submitted commerce transaction that may be unpaid, paid, refunded, or cancelled.
+type: entity_concept
+owner: commerce_analytics
+related_but_different:
+  paid_order_count: Count of orders with successful payment.
+canonical_metric: order_count
+status: certified

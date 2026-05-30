@@ -1,0 +1,18 @@
+metric: gmv
+concept: gmv_concept
+description: Submitted order value before payment and refund adjustment.
+type: simple_sum
+measure:
+  table: ads_order_channel_daily
+  column: gmv_amt
+aggregation: sum
+unit: CNY
+default_time_dimension: order_date
+physical_time_column: order_dt
+allowed_dimensions:
+  - channel
+  - product_category
+  - region
+  - order_date
+owner: commerce_analytics
+status: certified

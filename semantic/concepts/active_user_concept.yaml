@@ -1,0 +1,10 @@
+concept: active_user_concept
+display_name: Active User
+domain: growth
+definition: A registered user with qualifying activity in the measurement window.
+type: metric_concept
+owner: growth_analytics
+related_but_different:
+  new_user_concept: User whose registration happened in the measurement window.
+canonical_metric: active_users
+status: certified

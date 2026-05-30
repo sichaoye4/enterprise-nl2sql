@@ -1,0 +1,13 @@
+term: net_revenue
+description: Finance-recognized revenue after adjustments.
+synonyms:
+  - realized revenue
+candidate_concepts:
+  - net_revenue
+default_concept_by_domain:
+  finance: net_revenue
+ambiguity_level: low
+clarification_required_when: []
+owner: finance_analytics
+domain: finance
+status: certified

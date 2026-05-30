@@ -1,0 +1,9 @@
+entity: customer
+description: Business-facing customer identity derived from registered users.
+primary_keys:
+  - customer_id
+related_entities:
+  - user
+  - order
+ambiguity_notes: Customer and user are not always one-to-one in finance reporting.
+status: certified

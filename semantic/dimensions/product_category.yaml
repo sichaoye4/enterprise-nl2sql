@@ -1,0 +1,9 @@
+dimension: product_category
+description: Product category used for commerce and finance aggregation.
+entity: product
+synonyms:
+  - category
+physical_mappings:
+  - table: ads_order_product_daily
+    column: product_category
+status: certified

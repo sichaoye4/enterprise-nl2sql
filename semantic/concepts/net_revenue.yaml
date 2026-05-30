@@ -1,0 +1,11 @@
+concept: net_revenue
+display_name: Net Revenue
+domain: finance
+definition: Revenue after refunds, discounts, commissions, and settlement adjustments.
+type: metric_concept
+owner: finance_analytics
+related_but_different:
+  gmv_concept: Submitted order value before payment success and refunds.
+  paid_gmv: Successfully paid order value before refund adjustment.
+canonical_metric: net_revenue
+status: certified

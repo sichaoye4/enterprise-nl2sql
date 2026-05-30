@@ -1,0 +1,17 @@
+term: channel
+description: Marketing acquisition or transaction attribution source.
+synonyms:
+  - traffic source
+  - acquisition source
+candidate_concepts:
+  - conversion_rate_concept
+  - order_concept
+default_concept_by_domain:
+  marketing: conversion_rate_concept
+  commerce: order_concept
+ambiguity_level: medium
+clarification_required_when:
+  - attribution_context_unknown
+owner: marketing_analytics
+domain: marketing
+status: certified

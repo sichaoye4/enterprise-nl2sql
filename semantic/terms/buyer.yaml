@@ -1,0 +1,14 @@
+term: buyer
+description: User or customer who placed an order.
+synonyms:
+  - purchaser
+candidate_concepts:
+  - order_concept
+default_concept_by_domain:
+  commerce: order_concept
+ambiguity_level: medium
+clarification_required_when:
+  - buyer_vs_payer_unknown
+owner: commerce_analytics
+domain: commerce
+status: reviewed

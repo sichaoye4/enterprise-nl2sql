@@ -1,0 +1,14 @@
+term: customer
+description: Business-facing purchaser identity used in reporting.
+synonyms:
+  - client
+candidate_concepts:
+  - order_concept
+default_concept_by_domain:
+  commerce: order_concept
+ambiguity_level: high
+clarification_required_when:
+  - user_vs_customer_unknown
+owner: commerce_analytics
+domain: commerce
+status: reviewed

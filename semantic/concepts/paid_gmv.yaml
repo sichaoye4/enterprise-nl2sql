@@ -1,0 +1,11 @@
+concept: paid_gmv
+display_name: Paid GMV
+domain: commerce
+definition: Successfully paid order value before refund adjustment.
+type: metric_concept
+owner: commerce_analytics
+related_but_different:
+  gmv_concept: Submitted order value regardless of payment status.
+  net_revenue: Revenue after downstream adjustments.
+canonical_metric: paid_gmv
+status: certified

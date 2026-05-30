@@ -1,0 +1,9 @@
+entity: campaign
+description: Marketing campaign used for acquisition and paid media analysis.
+primary_keys:
+  - campaign_id
+related_entities:
+  - channel
+  - order
+ambiguity_notes: Campaign attribution depends on the configured attribution window.
+status: certified

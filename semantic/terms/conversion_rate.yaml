@@ -1,0 +1,16 @@
+term: conversion_rate
+description: Rate at which clicks convert into paid orders.
+synonyms:
+  - cvr
+  - conversion
+candidate_concepts:
+  - conversion_rate_concept
+default_concept_by_domain:
+  marketing: conversion_rate_concept
+  growth: conversion_rate_concept
+ambiguity_level: medium
+clarification_required_when:
+  - denominator_unknown
+owner: marketing_analytics
+domain: marketing
+status: certified

@@ -1,0 +1,12 @@
+join_path_name: order_to_channel
+from_table: ads_order_channel_daily
+to_table: dim_channel
+relationship: many_to_one
+join_condition: ads_order_channel_daily.channel_id = dim_channel.channel_id
+safe_for_metrics:
+  - paid_gmv
+  - gmv
+  - order_count
+fanout_risk: low
+notes: Safe for all order metrics.
+status: certified

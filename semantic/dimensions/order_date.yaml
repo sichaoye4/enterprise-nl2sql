@@ -1,0 +1,9 @@
+dimension: order_date
+description: Date when an order was submitted.
+entity: order
+synonyms:
+  - submit date
+physical_mappings:
+  - table: ads_order_channel_daily
+    column: order_dt
+status: certified

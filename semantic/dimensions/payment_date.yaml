@@ -1,0 +1,9 @@
+dimension: payment_date
+description: Date when an order payment succeeded.
+entity: order
+synonyms:
+  - paid date
+physical_mappings:
+  - table: ads_order_channel_daily
+    column: payment_dt
+status: certified

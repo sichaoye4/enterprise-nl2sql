@@ -1,0 +1,17 @@
+metric: impression_count
+concept: conversion_rate_concept
+description: Count of paid media impressions.
+type: simple_count
+measure:
+  table: ads_campaign_daily
+  column: impression_id
+aggregation: count
+unit: impressions
+default_time_dimension: order_date
+physical_time_column: dt
+allowed_dimensions:
+  - campaign
+  - channel
+  - device_type
+owner: marketing_analytics
+status: certified

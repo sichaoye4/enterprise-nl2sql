@@ -1,0 +1,21 @@
+term: revenue
+description: Generic business term for monetary business performance.
+synonyms:
+  - sales
+  - income
+  - turnover
+candidate_concepts:
+  - gmv_concept
+  - paid_gmv
+  - net_revenue
+default_concept_by_domain:
+  finance: net_revenue
+  commerce: paid_gmv
+  growth: paid_gmv
+ambiguity_level: high
+clarification_required_when:
+  - domain_unknown
+  - user_mentions_only_revenue_without_context
+owner: business_analytics
+domain: finance
+status: certified

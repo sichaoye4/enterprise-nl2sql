@@ -1,0 +1,10 @@
+concept: new_user_concept
+display_name: New User
+domain: growth
+definition: A user whose first registration happened in the measurement window.
+type: metric_concept
+owner: growth_analytics
+related_but_different:
+  active_user_concept: User active in the window regardless of registration date.
+canonical_metric: new_users
+status: certified

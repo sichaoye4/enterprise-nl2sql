@@ -1,0 +1,9 @@
+dimension: campaign
+description: Marketing campaign name.
+entity: campaign
+synonyms:
+  - promotion
+physical_mappings:
+  - table: ads_campaign_daily
+    column: campaign_name
+status: certified

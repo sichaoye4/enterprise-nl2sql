@@ -1,0 +1,15 @@
+term: order
+description: Commerce transaction submitted by a user.
+synonyms:
+  - transaction
+  - purchase
+candidate_concepts:
+  - order_concept
+default_concept_by_domain:
+  commerce: order_concept
+ambiguity_level: medium
+clarification_required_when:
+  - payment_status_unknown
+owner: commerce_analytics
+domain: commerce
+status: certified

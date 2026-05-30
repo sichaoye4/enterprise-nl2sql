@@ -1,0 +1,13 @@
+term: paid_gmv
+description: Gross merchandise value for successfully paid orders.
+synonyms:
+  - paid sales
+candidate_concepts:
+  - paid_gmv
+default_concept_by_domain:
+  commerce: paid_gmv
+ambiguity_level: low
+clarification_required_when: []
+owner: commerce_analytics
+domain: commerce
+status: certified

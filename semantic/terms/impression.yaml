@@ -1,0 +1,13 @@
+term: impression
+description: Paid media ad impression.
+synonyms:
+  - ad view
+candidate_concepts:
+  - conversion_rate_concept
+default_concept_by_domain:
+  marketing: conversion_rate_concept
+ambiguity_level: low
+clarification_required_when: []
+owner: marketing_analytics
+domain: marketing
+status: certified

@@ -1,0 +1,8 @@
+entity: product
+description: Sellable product or SKU in the commerce catalog.
+primary_keys:
+  - product_id
+related_entities:
+  - order
+ambiguity_notes: Product category is a dimension and not a product primary key.
+status: certified

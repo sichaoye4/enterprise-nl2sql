@@ -1,0 +1,14 @@
+term: gmv
+description: Gross merchandise value before payment success and refund adjustment.
+synonyms:
+  - gross merchandise value
+candidate_concepts:
+  - gmv_concept
+default_concept_by_domain:
+  commerce: gmv_concept
+ambiguity_level: medium
+clarification_required_when:
+  - payment_status_unknown
+owner: commerce_analytics
+domain: commerce
+status: certified

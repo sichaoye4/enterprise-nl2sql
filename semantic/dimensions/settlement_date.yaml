@@ -1,0 +1,9 @@
+dimension: settlement_date
+description: Date when finance settlement was recognized.
+entity: order
+synonyms:
+  - settle date
+physical_mappings:
+  - table: ads_finance_channel_daily
+    column: settlement_dt
+status: certified

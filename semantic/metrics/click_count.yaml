@@ -1,0 +1,17 @@
+metric: click_count
+concept: conversion_rate_concept
+description: Count of paid media clicks.
+type: simple_count
+measure:
+  table: ads_campaign_daily
+  column: click_id
+aggregation: count
+unit: clicks
+default_time_dimension: order_date
+physical_time_column: dt
+allowed_dimensions:
+  - campaign
+  - channel
+  - device_type
+owner: marketing_analytics
+status: certified

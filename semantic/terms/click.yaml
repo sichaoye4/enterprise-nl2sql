@@ -1,0 +1,13 @@
+term: click
+description: User click on a marketing impression or campaign link.
+synonyms:
+  - ad click
+candidate_concepts:
+  - conversion_rate_concept
+default_concept_by_domain:
+  marketing: conversion_rate_concept
+ambiguity_level: low
+clarification_required_when: []
+owner: marketing_analytics
+domain: marketing
+status: certified

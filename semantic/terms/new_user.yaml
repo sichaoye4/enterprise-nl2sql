@@ -1,0 +1,14 @@
+term: new_user
+description: User whose registration occurred in the reporting period.
+synonyms:
+  - new users
+  - registrations
+candidate_concepts:
+  - new_user_concept
+default_concept_by_domain:
+  growth: new_user_concept
+ambiguity_level: low
+clarification_required_when: []
+owner: growth_analytics
+domain: growth
+status: certified

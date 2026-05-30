@@ -1,0 +1,11 @@
+concept: gmv_concept
+display_name: Gross Merchandise Value
+domain: commerce
+definition: Submitted order value before payment success, refunds, discounts, and settlement adjustments.
+type: metric_concept
+owner: commerce_analytics
+related_but_different:
+  paid_gmv: Successfully paid order value.
+  net_revenue: Realized finance revenue after adjustments.
+canonical_metric: gmv
+status: certified

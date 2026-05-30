@@ -1,0 +1,10 @@
+entity: order
+description: Commerce transaction submitted by a user.
+primary_keys:
+  - order_id
+related_entities:
+  - user
+  - product
+  - channel
+ambiguity_notes: Submitted orders, paid orders, and refunded orders must be distinguished by status fields.
+status: certified

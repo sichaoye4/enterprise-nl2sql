@@ -1,0 +1,15 @@
+term: active_user
+description: User with qualifying activity during the reporting period.
+synonyms:
+  - active users
+  - au
+candidate_concepts:
+  - active_user_concept
+default_concept_by_domain:
+  growth: active_user_concept
+ambiguity_level: medium
+clarification_required_when:
+  - activity_definition_unknown
+owner: growth_analytics
+domain: growth
+status: certified

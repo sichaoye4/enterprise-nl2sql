@@ -1,0 +1,12 @@
+dimension: channel
+description: Marketing acquisition or transaction attribution channel.
+entity: channel
+synonyms:
+  - traffic source
+  - acquisition source
+physical_mappings:
+  - table: ads_order_channel_daily
+    column: channel_name
+  - table: ads_finance_channel_daily
+    column: channel_name
+status: certified

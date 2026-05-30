@@ -1,0 +1,9 @@
+entity: user
+description: Registered platform user.
+primary_keys:
+  - user_id
+related_entities:
+  - customer
+  - order
+ambiguity_notes: buyer_user_id means the user who placed the order; payer_user_id means the user who completed payment.
+status: certified
