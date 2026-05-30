@@ -1,0 +1,10 @@
+term: major
+description: The academic major of a member.
+candidate_concepts:
+- major
+default_concept_by_domain:
+  student_club: major
+ambiguity_level: low
+owner: bird_benchmark
+domain: student_club
+status: certified

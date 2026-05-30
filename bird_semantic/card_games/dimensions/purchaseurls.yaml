@@ -1,0 +1,7 @@
+dimension: purchaseurls
+description: Purchaseurls for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: purchaseUrls
+status: certified

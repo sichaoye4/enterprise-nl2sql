@@ -1,0 +1,7 @@
+dimension: originalreleasedate
+description: Originalreleasedate for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: originalReleaseDate
+status: certified

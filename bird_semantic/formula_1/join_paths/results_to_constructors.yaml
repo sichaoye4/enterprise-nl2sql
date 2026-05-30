@@ -1,0 +1,7 @@
+join_path_name: results_to_constructors
+from_table: results
+to_table: constructors
+relationship: many_to_one
+join_condition: results.constructorId = constructors.constructorId
+fanout_risk: low
+status: certified

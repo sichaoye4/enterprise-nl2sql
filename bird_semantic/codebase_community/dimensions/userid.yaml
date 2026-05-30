@@ -1,0 +1,7 @@
+dimension: userid
+description: Userid for reporting and filtering.
+entity: badges
+physical_mappings:
+- table: badges
+  column: UserId
+status: certified

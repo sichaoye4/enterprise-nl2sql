@@ -1,0 +1,97 @@
+cases:
+  - case_id: multi_word_active_users
+    question: "show active users by device type"
+    domain: growth
+    difficulty: medium
+    expected_semantic_plan:
+      metric: active_users
+      dimension: device_type
+      time_range: null
+      time_semantics: order_date
+      domain: growth
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT device_type AS device_type, user_id AS active_users FROM ads_user_growth_daily WHERE dt IS NOT NULL GROUP BY device_type ORDER BY active_users DESC"
+    required_tables:
+      - ads_user_growth_daily
+    required_columns:
+      - device_type
+      - user_id
+      - dt
+    active: true
+    tags:
+      - multi_word_term
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: synonym_paid_sales
+    question: "show paid sales by channel"
+    domain: commerce
+    difficulty: easy
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: channel
+      time_range: null
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT channel_name AS channel, SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt IS NOT NULL GROUP BY channel_name ORDER BY paid_gmv DESC"
+    required_tables:
+      - ads_order_channel_daily
+    required_columns:
+      - channel_name
+      - paid_gmv_amt
+      - payment_dt
+    active: true
+    tags:
+      - synonym
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: finance_net_revenue_channel
+    question: "show revenue by channel for finance last quarter"
+    domain: finance
+    difficulty: medium
+    expected_semantic_plan:
+      metric: net_revenue
+      dimension: channel
+      time_range: last_quarter
+      time_semantics: settlement_date
+      domain: finance
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT channel_name AS channel, SUM(net_revenue_amt) AS net_revenue FROM ads_finance_channel_daily WHERE settlement_dt >= CURRENT_DATE - 92 GROUP BY channel_name ORDER BY net_revenue DESC"
+    required_tables:
+      - ads_finance_channel_daily
+    required_columns:
+      - channel_name
+      - net_revenue_amt
+      - settlement_dt
+    active: true
+    tags:
+      - cross_domain
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: paid_gmv_by_campaign_join
+    question: "show paid GMV by campaign"
+    domain: commerce
+    difficulty: hard
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: campaign
+      time_range: null
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT campaign_name AS campaign, SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily JOIN ads_campaign_daily ON ads_order_channel_daily.campaign_id = ads_campaign_daily.campaign_id WHERE payment_dt IS NOT NULL GROUP BY campaign_name ORDER BY paid_gmv DESC"
+    required_tables:
+      - ads_order_channel_daily
+      - ads_campaign_daily
+    required_columns:
+      - campaign_name
+      - paid_gmv_amt
+      - payment_dt
+    active: true
+    tags:
+      - join
+    created_at: "2026-05-29T00:00:00+00:00"

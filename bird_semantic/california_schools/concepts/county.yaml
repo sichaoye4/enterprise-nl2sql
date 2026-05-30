@@ -1,0 +1,8 @@
+concept: county
+display_name: County
+domain: california_schools
+definition: County name.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: county_count

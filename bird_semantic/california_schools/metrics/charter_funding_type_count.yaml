@@ -1,0 +1,12 @@
+metric: charter_funding_type_count
+concept: charter_funding_type
+description: Number of distinct charter funding types present in the data
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: frpm
+  column: Charter Funding Type
+aggregation: count
+unit: ''
+allowed_dimensions: []

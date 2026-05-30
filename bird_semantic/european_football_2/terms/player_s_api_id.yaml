@@ -1,0 +1,13 @@
+term: player_s_api_id
+description: The API identifier of a player.
+synonyms:
+- player_id
+- player_api_id
+candidate_concepts:
+- player
+default_concept_by_domain:
+  european_football_2: player
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

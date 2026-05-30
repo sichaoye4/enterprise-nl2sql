@@ -1,0 +1,8 @@
+concept: frpm_count
+display_name: FRPM Count
+domain: california_schools
+definition: Number of students eligible for free or reduced-price meals.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_frpm_count_k12

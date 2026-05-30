@@ -1,0 +1,7 @@
+dimension: description
+description: Description for reporting and filtering.
+entity: products
+physical_mappings:
+- table: products
+  column: Description
+status: certified

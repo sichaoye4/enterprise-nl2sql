@@ -1,0 +1,9 @@
+metric: circuit_location
+concept: circuit
+description: The location city/region of a circuit
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: circuits.location
+unit: ''
+allowed_dimensions: []

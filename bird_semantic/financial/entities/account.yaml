@@ -1,0 +1,5 @@
+entity: account
+description: Represents account data.
+primary_keys:
+- account_id
+status: certified

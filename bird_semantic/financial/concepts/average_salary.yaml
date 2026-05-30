@@ -1,0 +1,8 @@
+concept: average_salary
+display_name: Average Salary
+domain: financial
+definition: Average salary in a district.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: avg_salary

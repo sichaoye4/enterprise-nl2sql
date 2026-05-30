@@ -1,0 +1,7 @@
+dimension: userdisplayname
+description: Userdisplayname for reporting and filtering.
+entity: comments
+physical_mappings:
+- table: comments
+  column: UserDisplayName
+status: certified

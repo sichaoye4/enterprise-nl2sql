@@ -1,0 +1,5 @@
+entity: legalities
+description: Represents legalities data.
+primary_keys:
+- id
+status: certified

@@ -1,0 +1,7 @@
+dimension: excerptpostid
+description: Excerptpostid for reporting and filtering.
+entity: tags
+physical_mappings:
+- table: tags
+  column: ExcerptPostId
+status: certified

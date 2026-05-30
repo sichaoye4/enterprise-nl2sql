@@ -1,0 +1,9 @@
+metric: low_defensive_work_rate_count
+concept: defensive_work_rate
+description: Number of player attribute records with defensive work rate 'low'.
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT COUNT(*) FROM Player_Attributes WHERE defensive_work_rate = 'low'
+unit: ''
+allowed_dimensions: []

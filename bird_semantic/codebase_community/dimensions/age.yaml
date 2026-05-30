@@ -1,0 +1,7 @@
+dimension: age
+description: Age for reporting and filtering.
+entity: users
+physical_mappings:
+- table: users
+  column: Age
+status: certified

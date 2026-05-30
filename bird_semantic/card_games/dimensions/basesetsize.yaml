@@ -1,0 +1,7 @@
+dimension: basesetsize
+description: Basesetsize for reporting and filtering.
+entity: sets
+physical_mappings:
+- table: sets
+  column: baseSetSize
+status: certified

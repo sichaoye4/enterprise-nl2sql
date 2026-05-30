@@ -1,0 +1,11 @@
+metric: powerful_foil_card_count
+concept: powerful_foil
+description: Number of cards that have both a foil and non-foil version (both Card
+  Kingdom IDs present).
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT COUNT(*) FROM cards WHERE cardKingdomFoilId IS NOT NULL AND cardKingdomId
+  IS NOT NULL
+unit: ''
+allowed_dimensions: []

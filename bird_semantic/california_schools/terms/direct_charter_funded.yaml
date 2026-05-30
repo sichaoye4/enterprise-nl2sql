@@ -1,0 +1,13 @@
+term: direct_charter_funded
+description: Charter schools that are directly funded by the state.
+synonyms:
+- direct charter-funded
+- direct charter-funded schools
+candidate_concepts:
+- charter_funding_type
+default_concept_by_domain:
+  california_schools: charter_funding_type
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

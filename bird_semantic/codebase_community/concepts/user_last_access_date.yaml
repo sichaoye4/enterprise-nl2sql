@@ -1,0 +1,8 @@
+concept: user_last_access_date
+display_name: Last Access Date
+domain: codebase_community
+definition: The date and time when the user last accessed the website.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: latest_last_access_date

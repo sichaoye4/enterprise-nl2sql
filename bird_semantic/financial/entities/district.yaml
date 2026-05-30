@@ -1,0 +1,5 @@
+entity: district
+description: Represents district data.
+primary_keys:
+- district_id
+status: certified

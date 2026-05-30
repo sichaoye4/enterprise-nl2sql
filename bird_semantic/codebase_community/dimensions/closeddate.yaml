@@ -1,0 +1,7 @@
+dimension: closeddate
+description: Closeddate for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: ClosedDate
+status: certified

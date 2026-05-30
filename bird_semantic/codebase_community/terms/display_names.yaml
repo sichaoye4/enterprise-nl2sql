@@ -1,0 +1,12 @@
+term: display_names
+description: The display names of users, often requested in queries.
+synonyms:
+- display name
+candidate_concepts:
+- user_display_name
+default_concept_by_domain:
+  codebase_community: user_display_name
+ambiguity_level: low
+owner: bird_benchmark
+domain: codebase_community
+status: certified

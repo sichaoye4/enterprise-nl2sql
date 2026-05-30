@@ -1,0 +1,10 @@
+term: germany
+description: The country where circuits may be located.
+candidate_concepts:
+- circuit
+default_concept_by_domain:
+  formula_1: circuit
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

@@ -1,0 +1,7 @@
+dimension: tp
+description: Tp for reporting and filtering.
+entity: Laboratory
+physical_mappings:
+- table: Laboratory
+  column: TP
+status: certified

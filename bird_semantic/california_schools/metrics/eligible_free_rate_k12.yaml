@@ -1,0 +1,10 @@
+metric: eligible_free_rate_k12
+concept: eligible_free_rate
+description: Percentage of K-12 students eligible for free meals, computed as Free
+  Meal Count (K-12) divided by Enrollment (K-12)
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)`
+unit: ''
+allowed_dimensions: []

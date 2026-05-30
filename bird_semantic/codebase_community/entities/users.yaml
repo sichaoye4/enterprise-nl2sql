@@ -1,0 +1,5 @@
+entity: users
+description: Represents users data.
+primary_keys:
+- Id
+status: certified

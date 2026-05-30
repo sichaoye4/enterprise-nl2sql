@@ -1,0 +1,11 @@
+term: higher_reputation
+description: The phrase 'higher reputation' refers to comparing reputation values,
+  often to find the user with the maximum reputation.
+candidate_concepts:
+- user_reputation
+default_concept_by_domain:
+  codebase_community: user_reputation
+ambiguity_level: low
+owner: bird_benchmark
+domain: codebase_community
+status: certified

@@ -1,0 +1,10 @@
+term: born_after_1930
+description: Patients with birth year greater than 1930
+candidate_concepts:
+- patient_birth_date
+default_concept_by_domain:
+  thrombosis_prediction: patient_birth_date
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

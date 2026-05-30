@@ -1,0 +1,5 @@
+entity: status
+description: Represents status data.
+primary_keys:
+- statusId
+status: certified

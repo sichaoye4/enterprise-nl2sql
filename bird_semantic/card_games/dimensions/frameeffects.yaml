@@ -1,0 +1,7 @@
+dimension: frameeffects
+description: Frameeffects for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: frameEffects
+status: certified

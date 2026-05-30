@@ -1,0 +1,8 @@
+concept: enrollment
+display_name: Enrollment
+domain: california_schools
+definition: Total number of enrolled students.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_enrollment_k12

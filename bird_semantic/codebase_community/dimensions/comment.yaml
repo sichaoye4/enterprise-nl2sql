@@ -1,0 +1,7 @@
+dimension: comment
+description: Comment for reporting and filtering.
+entity: postHistory
+physical_mappings:
+- table: postHistory
+  column: Comment
+status: certified

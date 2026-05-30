@@ -1,0 +1,7 @@
+dimension: cardkingdomfoilid
+description: Cardkingdomfoilid for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: cardKingdomFoilId
+status: certified

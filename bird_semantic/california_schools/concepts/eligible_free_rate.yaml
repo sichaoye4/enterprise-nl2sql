@@ -1,0 +1,9 @@
+concept: eligible_free_rate
+display_name: Eligible Free Rate
+domain: california_schools
+definition: Percentage of students eligible for free meals, calculated as the number
+  of students receiving free meals divided by total enrollment.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: eligible_free_rate_k12

@@ -1,0 +1,12 @@
+metric: schools_with_phone
+concept: school_contact
+description: Number of schools that have a phone number (non-null Phone)
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: schools
+  column: Phone
+aggregation: count
+unit: ''
+allowed_dimensions: []

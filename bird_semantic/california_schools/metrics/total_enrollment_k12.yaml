@@ -1,0 +1,12 @@
+metric: total_enrollment_k12
+concept: enrollment
+description: Total K-12 enrollment across all schools
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: frpm
+  column: Enrollment (K-12)
+aggregation: sum
+unit: ''
+allowed_dimensions: []

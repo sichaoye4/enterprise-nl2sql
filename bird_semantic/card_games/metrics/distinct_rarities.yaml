@@ -1,0 +1,12 @@
+metric: distinct_rarities
+concept: rarity
+description: Number of distinct rarity levels among cards.
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: cards
+  column: rarity
+aggregation: count
+unit: ''
+allowed_dimensions: []

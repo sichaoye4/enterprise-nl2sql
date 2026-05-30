@@ -1,0 +1,12 @@
+metric: total_views
+concept: user_views
+description: Total number of profile views across all users.
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: users
+  column: Views
+aggregation: sum
+unit: ''
+allowed_dimensions: []

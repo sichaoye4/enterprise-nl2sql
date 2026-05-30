@@ -1,0 +1,7 @@
+dimension: avgscrmath
+description: Avgscrmath for reporting and filtering.
+entity: satscores
+physical_mappings:
+- table: satscores
+  column: AvgScrMath
+status: certified

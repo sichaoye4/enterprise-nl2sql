@@ -1,0 +1,7 @@
+join_path_name: match_to_player
+from_table: Match
+to_table: Player
+relationship: many_to_one
+join_condition: Match.away_player_11 = Player.player_api_id
+fanout_risk: low
+status: certified

@@ -1,0 +1,10 @@
+term: players_whose_going_to_be_in_all_of_your_attack_moves_instead_of
+description: Players with defensive work rate set to 'low'.
+candidate_concepts:
+- defensive_work_rate
+default_concept_by_domain:
+  european_football_2: defensive_work_rate
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

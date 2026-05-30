@@ -1,0 +1,8 @@
+concept: expense
+display_name: Expense
+domain: student_club
+definition: An expense incurred by the club.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_expense_cost

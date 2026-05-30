@@ -1,0 +1,7 @@
+dimension: creationdate
+description: Creationdate for reporting and filtering.
+entity: comments
+physical_mappings:
+- table: comments
+  column: CreationDate
+status: certified

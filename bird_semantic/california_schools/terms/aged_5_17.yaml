@@ -1,0 +1,13 @@
+term: aged_5_17
+description: Students aged 5 to 17 years.
+synonyms:
+- students aged 5-17
+- ages 5-17
+candidate_concepts:
+- grade_range
+default_concept_by_domain:
+  california_schools: grade_range
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

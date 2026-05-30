@@ -1,0 +1,5 @@
+entity: races
+description: Represents races data.
+primary_keys:
+- raceId
+status: certified

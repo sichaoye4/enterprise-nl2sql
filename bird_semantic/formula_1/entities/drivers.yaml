@@ -1,0 +1,5 @@
+entity: drivers
+description: Represents drivers data.
+primary_keys:
+- driverId
+status: certified

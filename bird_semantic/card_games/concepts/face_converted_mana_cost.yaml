@@ -1,0 +1,8 @@
+concept: face_converted_mana_cost
+display_name: Face Converted Mana Cost
+domain: card_games
+definition: The converted mana cost of the face side of double-faced cards.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: avg_face_cmc

@@ -1,0 +1,7 @@
+dimension: district
+description: District for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: District
+status: certified

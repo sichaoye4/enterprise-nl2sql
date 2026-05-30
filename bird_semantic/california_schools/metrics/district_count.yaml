@@ -1,0 +1,12 @@
+metric: district_count
+concept: district
+description: Number of distinct districts
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: frpm
+  column: District Name
+aggregation: count
+unit: ''
+allowed_dimensions: []

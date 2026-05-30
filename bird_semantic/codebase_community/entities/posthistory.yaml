@@ -1,0 +1,5 @@
+entity: posthistory
+description: Represents posthistory data.
+primary_keys:
+- Id
+status: certified

@@ -1,0 +1,7 @@
+dimension: birthday
+description: Birthday for reporting and filtering.
+entity: Patient
+physical_mappings:
+- table: Patient
+  column: Birthday
+status: certified

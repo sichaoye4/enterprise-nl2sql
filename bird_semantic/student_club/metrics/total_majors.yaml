@@ -1,0 +1,12 @@
+metric: total_majors
+concept: major
+description: Total number of majors
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: major
+  column: major_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

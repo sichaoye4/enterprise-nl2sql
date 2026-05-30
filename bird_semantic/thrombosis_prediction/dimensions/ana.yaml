@@ -1,0 +1,7 @@
+dimension: ana
+description: Ana for reporting and filtering.
+entity: Examination
+physical_mappings:
+- table: Examination
+  column: ANA
+status: certified

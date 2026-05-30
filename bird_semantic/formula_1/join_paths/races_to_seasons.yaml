@@ -1,0 +1,7 @@
+join_path_name: races_to_seasons
+from_table: races
+to_table: seasons
+relationship: many_to_one
+join_condition: races.year = seasons.year
+fanout_risk: low
+status: certified

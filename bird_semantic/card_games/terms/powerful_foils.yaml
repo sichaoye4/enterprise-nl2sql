@@ -1,0 +1,12 @@
+term: powerful_foils
+description: Phrase referring to cards that have both foil and non-foil versions.
+synonyms:
+- incredibly powerful foils
+candidate_concepts:
+- powerful_foil
+default_concept_by_domain:
+  card_games: powerful_foil
+ambiguity_level: low
+owner: bird_benchmark
+domain: card_games
+status: certified

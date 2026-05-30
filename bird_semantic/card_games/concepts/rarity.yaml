@@ -1,0 +1,8 @@
+concept: rarity
+display_name: Rarity
+domain: card_games
+definition: The rarity level of a card, such as 'mythic'.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: distinct_rarities

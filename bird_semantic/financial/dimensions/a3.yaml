@@ -1,0 +1,7 @@
+dimension: a3
+description: A3 for reporting and filtering.
+entity: district
+physical_mappings:
+- table: district
+  column: A3
+status: certified

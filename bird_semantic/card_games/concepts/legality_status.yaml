@@ -1,0 +1,8 @@
+concept: legality_status
+display_name: Legality Status
+domain: card_games
+definition: The status of a card in a given format, e.g., 'Banned'.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: distinct_legality_statuses

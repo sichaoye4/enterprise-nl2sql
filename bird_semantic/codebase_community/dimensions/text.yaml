@@ -1,0 +1,7 @@
+dimension: text
+description: Text for reporting and filtering.
+entity: comments
+physical_mappings:
+- table: comments
+  column: Text
+status: certified

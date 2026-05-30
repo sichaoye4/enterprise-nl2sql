@@ -1,0 +1,13 @@
+metric: distinct_legality_statuses
+concept: legality_status
+description: Number of distinct legality statuses (e.g., Legal, Banned) in the legalities
+  table.
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: legalities
+  column: status
+aggregation: count
+unit: ''
+allowed_dimensions: []

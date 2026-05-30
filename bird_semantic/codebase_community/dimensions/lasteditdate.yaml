@@ -1,0 +1,7 @@
+dimension: lasteditdate
+description: Lasteditdate for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: LastEditDate
+status: certified

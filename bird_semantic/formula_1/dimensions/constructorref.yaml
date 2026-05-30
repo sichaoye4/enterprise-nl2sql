@@ -1,0 +1,7 @@
+dimension: constructorref
+description: Constructorref for reporting and filtering.
+entity: constructors
+physical_mappings:
+- table: constructors
+  column: constructorRef
+status: certified

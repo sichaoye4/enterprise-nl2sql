@@ -1,0 +1,5 @@
+entity: frpm
+description: Represents frpm data.
+primary_keys:
+- CDSCode
+status: certified

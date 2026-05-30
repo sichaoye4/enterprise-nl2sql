@@ -1,0 +1,7 @@
+dimension: buildupplaypassingclass
+description: Buildupplaypassingclass for reporting and filtering.
+entity: Team_Attributes
+physical_mappings:
+- table: Team_Attributes
+  column: buildUpPlayPassingClass
+status: certified

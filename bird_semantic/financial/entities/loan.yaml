@@ -1,0 +1,5 @@
+entity: loan
+description: Represents loan data.
+primary_keys:
+- loan_id
+status: certified

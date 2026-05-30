@@ -1,0 +1,10 @@
+term: mythic_rarity_print
+description: Phrase referring to cards with rarity 'mythic'.
+candidate_concepts:
+- rarity
+default_concept_by_domain:
+  card_games: rarity
+ambiguity_level: low
+owner: bird_benchmark
+domain: card_games
+status: certified

@@ -1,0 +1,12 @@
+term: county
+description: County name.
+synonyms:
+- county
+candidate_concepts:
+- county
+default_concept_by_domain:
+  california_schools: county
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

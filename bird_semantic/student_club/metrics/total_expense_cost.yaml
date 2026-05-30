@@ -1,0 +1,12 @@
+metric: total_expense_cost
+concept: expense
+description: Total expenses cost
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: expense
+  column: cost
+aggregation: sum
+unit: ''
+allowed_dimensions: []

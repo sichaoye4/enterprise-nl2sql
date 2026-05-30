@@ -1,0 +1,7 @@
+join_path_name: account_to_district
+from_table: account
+to_table: district
+relationship: many_to_one
+join_condition: account.district_id = district.district_id
+fanout_risk: low
+status: certified

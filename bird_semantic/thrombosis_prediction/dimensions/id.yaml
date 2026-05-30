@@ -1,0 +1,7 @@
+dimension: id
+description: Id for reporting and filtering.
+entity: Examination
+physical_mappings:
+- table: Examination
+  column: ID
+status: certified

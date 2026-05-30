@@ -1,0 +1,8 @@
+concept: free_meal_count
+display_name: Free Meal Count
+domain: california_schools
+definition: Number of students receiving free meals.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_free_meal_count_k12

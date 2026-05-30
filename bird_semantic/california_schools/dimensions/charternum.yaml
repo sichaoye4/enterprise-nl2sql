@@ -1,0 +1,7 @@
+dimension: charternum
+description: Charternum for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: CharterNum
+status: certified

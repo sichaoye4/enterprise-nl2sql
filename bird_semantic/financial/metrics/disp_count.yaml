@@ -1,0 +1,12 @@
+metric: disp_count
+concept: disp
+description: Count of all disposition records
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: disp
+  column: disp_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

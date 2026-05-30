@@ -1,0 +1,13 @@
+metric: schools_with_k12_enrollment
+concept: grade_range
+description: Number of schools that have reported K-12 enrollment (non-null Enrollment
+  (K-12))
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: frpm
+  column: Enrollment (K-12)
+aggregation: count
+unit: ''
+allowed_dimensions: []

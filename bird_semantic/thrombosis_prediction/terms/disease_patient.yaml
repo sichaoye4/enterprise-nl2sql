@@ -1,0 +1,12 @@
+term: disease_patient
+description: The disease a patient is diagnosed with
+synonyms:
+- diagnosed with
+candidate_concepts:
+- diagnosis
+default_concept_by_domain:
+  thrombosis_prediction: diagnosis
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

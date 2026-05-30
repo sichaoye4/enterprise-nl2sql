@@ -1,0 +1,10 @@
+term: issuance_after_transaction
+description: Frequency type meaning issuance after transaction (POPLATEK PO OBRATU)
+candidate_concepts:
+- account
+default_concept_by_domain:
+  financial: account
+ambiguity_level: low
+owner: bird_benchmark
+domain: financial
+status: certified

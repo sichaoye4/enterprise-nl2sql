@@ -1,0 +1,10 @@
+term: shanghai
+description: The location of a circuit (city in China).
+candidate_concepts:
+- circuit
+default_concept_by_domain:
+  formula_1: circuit
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

@@ -1,0 +1,7 @@
+dimension: mtgocode
+description: Mtgocode for reporting and filtering.
+entity: sets
+physical_mappings:
+- table: sets
+  column: mtgoCode
+status: certified

@@ -1,0 +1,12 @@
+term: male
+description: Gender male
+synonyms:
+- male_customers
+candidate_concepts:
+- client
+default_concept_by_domain:
+  financial: client
+ambiguity_level: low
+owner: bird_benchmark
+domain: financial
+status: certified

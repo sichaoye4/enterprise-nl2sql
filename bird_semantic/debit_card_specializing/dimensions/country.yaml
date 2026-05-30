@@ -1,0 +1,7 @@
+dimension: country
+description: Country for reporting and filtering.
+entity: gasstations
+physical_mappings:
+- table: gasstations
+  column: Country
+status: certified

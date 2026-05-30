@@ -1,0 +1,7 @@
+dimension: gsoffered
+description: Gsoffered for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: GSoffered
+status: certified

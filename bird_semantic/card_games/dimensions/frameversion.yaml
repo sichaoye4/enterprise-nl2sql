@@ -1,0 +1,7 @@
+dimension: frameversion
+description: Frameversion for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: frameVersion
+status: certified

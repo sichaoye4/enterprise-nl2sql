@@ -1,0 +1,7 @@
+dimension: tags
+description: Tags for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: Tags
+status: certified

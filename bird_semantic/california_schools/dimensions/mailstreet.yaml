@@ -1,0 +1,7 @@
+dimension: mailstreet
+description: Mailstreet for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: MailStreet
+status: certified

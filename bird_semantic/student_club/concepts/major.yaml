@@ -1,0 +1,8 @@
+concept: major
+display_name: Major
+domain: student_club
+definition: An academic major or field of study.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_majors

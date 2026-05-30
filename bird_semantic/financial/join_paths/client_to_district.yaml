@@ -1,0 +1,7 @@
+join_path_name: client_to_district
+from_table: client
+to_table: district
+relationship: many_to_one
+join_condition: client.district_id = district.district_id
+fanout_risk: low
+status: certified

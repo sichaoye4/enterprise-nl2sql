@@ -1,0 +1,7 @@
+join_path_name: expense_to_budget
+from_table: expense
+to_table: budget
+relationship: many_to_one
+join_condition: expense.link_to_budget = budget.budget_id
+fanout_risk: low
+status: certified

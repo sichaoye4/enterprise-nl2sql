@@ -1,0 +1,13 @@
+term: year
+description: The year in which a race or season occurs.
+synonyms:
+- season
+- season year
+candidate_concepts:
+- race
+default_concept_by_domain:
+  formula_1: race
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

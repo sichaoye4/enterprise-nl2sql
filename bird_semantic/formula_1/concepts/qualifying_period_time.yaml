@@ -1,0 +1,9 @@
+concept: qualifying_period_time
+display_name: Qualifying Period Time
+domain: formula_1
+definition: The lap time recorded by a driver in a specific qualifying period (Q1,
+  Q2, or Q3).
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: best_q2_time

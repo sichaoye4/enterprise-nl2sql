@@ -1,0 +1,5 @@
+entity: colour
+description: Represents colour data.
+primary_keys:
+- id
+status: certified

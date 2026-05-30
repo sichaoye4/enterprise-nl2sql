@@ -1,0 +1,65 @@
+{
+  "total": 110,
+  "passed": 2,
+  "ex": 1.82,
+  "by_difficulty": {
+    "simple": {
+      "count": 69,
+      "pass": 2
+    },
+    "moderate": {
+      "count": 36,
+      "pass": 0
+    },
+    "challenging": {
+      "count": 5,
+      "pass": 0
+    }
+  },
+  "by_db": {
+    "california_schools": {
+      "count": 10,
+      "pass": 1
+    },
+    "financial": {
+      "count": 10,
+      "pass": 0
+    },
+    "toxicology": {
+      "count": 10,
+      "pass": 0
+    },
+    "card_games": {
+      "count": 10,
+      "pass": 0
+    },
+    "codebase_community": {
+      "count": 10,
+      "pass": 0
+    },
+    "superhero": {
+      "count": 10,
+      "pass": 0
+    },
+    "formula_1": {
+      "count": 10,
+      "pass": 0
+    },
+    "european_football_2": {
+      "count": 10,
+      "pass": 1
+    },
+    "thrombosis_prediction": {
+      "count": 10,
+      "pass": 0
+    },
+    "student_club": {
+      "count": 10,
+      "pass": 0
+    },
+    "debit_card_specializing": {
+      "count": 10,
+      "pass": 0
+    }
+  }
+}

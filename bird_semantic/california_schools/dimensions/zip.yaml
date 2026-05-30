@@ -1,0 +1,7 @@
+dimension: zip
+description: Zip for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: Zip
+status: certified

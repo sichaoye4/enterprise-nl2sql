@@ -1,0 +1,5 @@
+entity: constructorresults
+description: Represents constructorresults data.
+primary_keys:
+- constructorResultsId
+status: certified

@@ -1,0 +1,7 @@
+dimension: avgscrwrite
+description: Avgscrwrite for reporting and filtering.
+entity: satscores
+physical_mappings:
+- table: satscores
+  column: AvgScrWrite
+status: certified

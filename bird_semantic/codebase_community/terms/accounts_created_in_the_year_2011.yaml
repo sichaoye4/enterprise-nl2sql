@@ -1,0 +1,10 @@
+term: accounts_created_in_the_year_2011
+description: Refers to the condition that a user account was created in the year 2011.
+candidate_concepts:
+- user_account_creation_date
+default_concept_by_domain:
+  codebase_community: user_account_creation_date
+ambiguity_level: low
+owner: bird_benchmark
+domain: codebase_community
+status: certified

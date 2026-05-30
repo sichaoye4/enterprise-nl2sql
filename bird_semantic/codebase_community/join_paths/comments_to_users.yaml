@@ -1,0 +1,7 @@
+join_path_name: comments_to_users
+from_table: comments
+to_table: users
+relationship: many_to_one
+join_condition: comments.UserId = users.Id
+fanout_risk: low
+status: certified

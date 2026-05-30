@@ -1,0 +1,12 @@
+metric: bond_count
+concept: bond
+description: Total number of bonds
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: bond
+  column: bond_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

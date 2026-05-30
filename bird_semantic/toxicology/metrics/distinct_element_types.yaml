@@ -1,0 +1,12 @@
+metric: distinct_element_types
+concept: element
+description: Number of distinct chemical elements present in atoms
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: atom
+  column: element
+aggregation: count
+unit: ''
+allowed_dimensions: []

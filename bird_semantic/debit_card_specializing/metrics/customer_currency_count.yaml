@@ -1,0 +1,12 @@
+metric: customer_currency_count
+concept: customer_currency
+description: Number of distinct customers, which can be filtered by currency.
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: customers
+  column: CustomerID
+aggregation: count
+unit: ''
+allowed_dimensions: []

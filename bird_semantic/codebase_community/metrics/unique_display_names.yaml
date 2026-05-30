@@ -1,0 +1,12 @@
+metric: unique_display_names
+concept: user_display_name
+description: Number of distinct display names among users.
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: users
+  column: DisplayName
+aggregation: count
+unit: ''
+allowed_dimensions: []

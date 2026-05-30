@@ -1,0 +1,7 @@
+join_path_name: posts_to_posts
+from_table: posts
+to_table: posts
+relationship: many_to_one
+join_condition: posts.ParentId = posts.Id
+fanout_risk: low
+status: certified

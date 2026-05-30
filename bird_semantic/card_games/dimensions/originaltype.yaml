@@ -1,0 +1,7 @@
+dimension: originaltype
+description: Originaltype for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: originalType
+status: certified

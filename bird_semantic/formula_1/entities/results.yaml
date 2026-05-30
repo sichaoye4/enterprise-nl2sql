@@ -1,0 +1,5 @@
+entity: results
+description: Represents results data.
+primary_keys:
+- resultId
+status: certified

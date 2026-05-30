@@ -1,0 +1,8 @@
+concept: charter_funding_type
+display_name: Charter Funding Type
+domain: california_schools
+definition: Funding model for charter schools (e.g., Directly funded).
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: charter_funding_type_count

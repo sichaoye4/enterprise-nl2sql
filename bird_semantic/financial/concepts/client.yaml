@@ -1,0 +1,8 @@
+concept: client
+display_name: Client
+domain: financial
+definition: Represents a bank client with gender and birth date.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: client_count

@@ -1,0 +1,5 @@
+entity: constructors
+description: Represents constructors data.
+primary_keys:
+- constructorId
+status: certified

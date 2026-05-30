@@ -1,0 +1,10 @@
+term: sle_diagnosed_patient
+description: Patients diagnosed with SLE
+candidate_concepts:
+- diagnosis
+default_concept_by_domain:
+  thrombosis_prediction: diagnosis
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

@@ -1,0 +1,10 @@
+term: 2015_frame_style
+description: Phrase referring to cards with frame version 2015.
+candidate_concepts:
+- frame_style
+default_concept_by_domain:
+  card_games: frame_style
+ambiguity_level: low
+owner: bird_benchmark
+domain: card_games
+status: certified

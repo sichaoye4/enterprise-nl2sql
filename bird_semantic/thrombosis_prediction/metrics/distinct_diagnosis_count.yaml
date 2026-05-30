@@ -1,0 +1,12 @@
+metric: distinct_diagnosis_count
+concept: diagnosis
+description: Number of distinct disease diagnoses among patients
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: Patient
+  column: Diagnosis
+aggregation: count
+unit: ''
+allowed_dimensions: []

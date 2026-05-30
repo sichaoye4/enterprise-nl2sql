@@ -1,0 +1,7 @@
+dimension: buildupplaydribblingclass
+description: Buildupplaydribblingclass for reporting and filtering.
+entity: Team_Attributes
+physical_mappings:
+- table: Team_Attributes
+  column: buildUpPlayDribblingClass
+status: certified

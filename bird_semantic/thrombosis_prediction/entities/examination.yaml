@@ -1,0 +1,3 @@
+entity: examination
+description: Represents examination data.
+status: certified

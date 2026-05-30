@@ -1,0 +1,8 @@
+concept: unemployment_rate
+display_name: Unemployment Rate
+domain: financial
+definition: Unemployment rate for a district in a given year.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: avg_unemployment_rate

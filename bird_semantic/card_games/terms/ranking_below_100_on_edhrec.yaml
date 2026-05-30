@@ -1,0 +1,10 @@
+term: ranking_below_100_on_edhrec
+description: Phrase referring to cards with EDHREC rank less than 100.
+candidate_concepts:
+- edhrec_ranking
+default_concept_by_domain:
+  card_games: edhrec_ranking
+ambiguity_level: low
+owner: bird_benchmark
+domain: card_games
+status: certified

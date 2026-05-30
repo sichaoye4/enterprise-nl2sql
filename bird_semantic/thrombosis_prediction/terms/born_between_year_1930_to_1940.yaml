@@ -1,0 +1,10 @@
+term: born_between_year_1930_to_1940
+description: Patients with birth year between 1930 and 1940 inclusive
+candidate_concepts:
+- patient_birth_date
+default_concept_by_domain:
+  thrombosis_prediction: patient_birth_date
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

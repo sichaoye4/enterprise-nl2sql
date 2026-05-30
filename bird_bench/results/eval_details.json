@@ -1,0 +1,32 @@
+[
+  {
+    "idx": 0,
+    "question": "What is the highest eligible free rate for K-12 students in the schools in Alameda County?",
+    "db_id": "california_schools",
+    "difficulty": "simple",
+    "execution_match": true,
+    "error": null,
+    "predicted_sql": "SELECT MAX(`Free Meal Count (K-12)` * 1.0 / NULLIF(`Enrollment (K-12)`, 0)) AS highest_eligible_free_rate FROM frpm WHERE `County Name` = 'Alameda'\t----- bird -----\tcalifornia_schools",
+    "gold_sql": "SELECT `Free Meal Count (K-12)` / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY (CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)`) DESC LIMIT 1"
+  },
+  {
+    "idx": 1,
+    "question": "Please list the lowest three eligible free rates for students aged 5-17 in continuation schools.",
+    "db_id": "california_schools",
+    "difficulty": "moderate",
+    "execution_match": false,
+    "error": null,
+    "predicted_sql": "SELECT `CDSCode`, `School Name`, CAST(`Free Meal Count (Ages 5-17)` AS REAL) / CAST(`Enrollment (Ages 5-17)` AS REAL) AS `EligibleFreeRate` FROM frpm WHERE `School Type` = 'Continuation' AND `Enrollment (Ages 5-17)` > 0 AND `Free Meal Count (Ages 5-17)` IS NOT NULL AND (`CDSCode`, `Academic Year`) IN (SELECT `CDSCode`, MAX(`Academic Year`) FROM frpm GROUP BY `CDSCode`) ORDER BY `EligibleFreeRate` ASC LIMIT 3;\t----- bird -----\tcalifornia_schools",
+    "gold_sql": "SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` FROM frpm WHERE `Educational Option Type` = 'Continuation School' AND `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` IS NOT NULL ORDER BY `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` ASC LIMIT 3"
+  },
+  {
+    "idx": 2,
+    "question": "Please list the zip code of all the charter schools in Fresno County Office of Education.",
+    "db_id": "california_schools",
+    "difficulty": "simple",
+    "execution_match": true,
+    "error": null,
+    "predicted_sql": "SELECT DISTINCT s.`Zip` FROM `schools` s INNER JOIN `frpm` f ON s.`CDSCode` = f.`CDSCode` WHERE f.`Charter School (Y/N)` = 1 AND s.`District` = 'Fresno County Office of Education'\t----- bird -----\tcalifornia_schools",
+    "gold_sql": "SELECT T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`District Name` = 'Fresno County Office of Education' AND T1.`Charter School (Y/N)` = 1"
+  }
+]

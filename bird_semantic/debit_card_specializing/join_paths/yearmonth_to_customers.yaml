@@ -1,0 +1,7 @@
+join_path_name: yearmonth_to_customers
+from_table: yearmonth
+to_table: customers
+relationship: many_to_one
+join_condition: yearmonth.CustomerID = customers.CustomerID
+fanout_risk: low
+status: certified

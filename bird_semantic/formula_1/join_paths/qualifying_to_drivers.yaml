@@ -1,0 +1,7 @@
+join_path_name: qualifying_to_drivers
+from_table: qualifying
+to_table: drivers
+relationship: many_to_one
+join_condition: qualifying.driverId = drivers.driverId
+fanout_risk: low
+status: certified

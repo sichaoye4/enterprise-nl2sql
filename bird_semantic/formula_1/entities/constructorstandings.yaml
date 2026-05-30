@@ -1,0 +1,5 @@
+entity: constructorstandings
+description: Represents constructorstandings data.
+primary_keys:
+- constructorStandingsId
+status: certified

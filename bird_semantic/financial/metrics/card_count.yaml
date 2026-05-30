@@ -1,0 +1,12 @@
+metric: card_count
+concept: card
+description: Count of all credit cards
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: card
+  column: card_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

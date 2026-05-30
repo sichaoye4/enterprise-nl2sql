@@ -1,0 +1,8 @@
+concept: income
+display_name: Income
+domain: student_club
+definition: Income received by the club.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_income_amount

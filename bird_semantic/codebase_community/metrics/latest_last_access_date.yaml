@@ -1,0 +1,9 @@
+metric: latest_last_access_date
+concept: user_last_access_date
+description: Most recent date/time any user accessed the website.
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT MAX(LastAccessDate) FROM users
+unit: ''
+allowed_dimensions: []

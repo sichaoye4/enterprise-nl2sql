@@ -1,0 +1,8 @@
+concept: loan
+display_name: Loan
+domain: financial
+definition: Represents a loan associated with an account.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_loan_amount

@@ -1,0 +1,8 @@
+concept: bond
+display_name: Bond
+domain: toxicology
+definition: A chemical bond between atoms, identified by bond_id, with a bond_type.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: bond_count

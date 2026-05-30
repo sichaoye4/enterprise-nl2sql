@@ -1,0 +1,8 @@
+concept: gas_station_country
+display_name: Gas Station Country
+domain: debit_card_specializing
+definition: The country where a gas station is located (e.g., CZE).
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: gas_station_country_count

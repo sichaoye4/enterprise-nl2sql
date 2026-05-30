@@ -1,0 +1,9 @@
+metric: low_edhrec_rank_count
+concept: edhrec_ranking
+description: Number of cards with EDHREC rank below 100.
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT COUNT(*) FROM cards WHERE edhrecRank < 100
+unit: ''
+allowed_dimensions: []

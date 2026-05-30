@@ -1,0 +1,7 @@
+dimension: commentcount
+description: Commentcount for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: CommentCount
+status: certified

@@ -1,0 +1,12 @@
+metric: distinct_bond_types
+concept: bond_type
+description: Number of distinct bond types
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: bond
+  column: bond_type
+aggregation: count
+unit: ''
+allowed_dimensions: []

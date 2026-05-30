@@ -1,0 +1,8 @@
+concept: superpower_count
+display_name: Superpower Count
+domain: superhero
+definition: The number of superpowers a superhero possesses.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: superpower_assignment_count

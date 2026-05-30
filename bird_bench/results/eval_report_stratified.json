@@ -1,0 +1,83 @@
+{
+  "model": "DeepSeek V4 Flash",
+  "mode": "zero-shot",
+  "sample_size": 110,
+  "databases": 11,
+  "execution_accuracy": 50.91,
+  "by_difficulty": {
+    "challenging": {
+      "count": 5,
+      "pass": 2,
+      "ex": 40.0
+    },
+    "moderate": {
+      "count": 36,
+      "pass": 11,
+      "ex": 30.56
+    },
+    "simple": {
+      "count": 69,
+      "pass": 43,
+      "ex": 62.32
+    }
+  },
+  "by_database": {
+    "california_schools": {
+      "count": 10,
+      "pass": 5,
+      "ex": 50.0
+    },
+    "card_games": {
+      "count": 10,
+      "pass": 1,
+      "ex": 10.0
+    },
+    "codebase_community": {
+      "count": 10,
+      "pass": 8,
+      "ex": 80.0
+    },
+    "debit_card_specializing": {
+      "count": 10,
+      "pass": 5,
+      "ex": 50.0
+    },
+    "european_football_2": {
+      "count": 10,
+      "pass": 1,
+      "ex": 10.0
+    },
+    "financial": {
+      "count": 10,
+      "pass": 4,
+      "ex": 40.0
+    },
+    "formula_1": {
+      "count": 10,
+      "pass": 6,
+      "ex": 60.0
+    },
+    "student_club": {
+      "count": 10,
+      "pass": 5,
+      "ex": 50.0
+    },
+    "superhero": {
+      "count": 10,
+      "pass": 8,
+      "ex": 80.0
+    },
+    "thrombosis_prediction": {
+      "count": 10,
+      "pass": 7,
+      "ex": 70.0
+    },
+    "toxicology": {
+      "count": 10,
+      "pass": 6,
+      "ex": 60.0
+    }
+  },
+  "execution_errors": 2,
+  "wrong_results": 52
+}

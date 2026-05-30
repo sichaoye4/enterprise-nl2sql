@@ -1,0 +1,10 @@
+term: borderless_cards
+description: Phrase referring to cards with a borderless border color.
+candidate_concepts:
+- border_style
+default_concept_by_domain:
+  card_games: border_style
+ambiguity_level: low
+owner: bird_benchmark
+domain: card_games
+status: certified

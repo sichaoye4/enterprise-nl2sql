@@ -1,0 +1,10 @@
+term: female
+description: Refers to female patients
+candidate_concepts:
+- patient_gender
+default_concept_by_domain:
+  thrombosis_prediction: patient_gender
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

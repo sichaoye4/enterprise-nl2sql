@@ -1,0 +1,8 @@
+concept: preferred_foot
+display_name: Preferred Foot
+domain: european_football_2
+definition: The foot a player prefers to use.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: left_foot_count

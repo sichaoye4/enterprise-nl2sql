@@ -1,0 +1,13 @@
+metric: yearly_consumption
+concept: year
+description: Sum of consumption from the yearmonth table, typically grouped or filtered
+  by year.
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: yearmonth
+  column: Consumption
+aggregation: sum
+unit: ''
+allowed_dimensions: []

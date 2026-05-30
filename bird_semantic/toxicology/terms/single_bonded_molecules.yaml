@@ -1,0 +1,13 @@
+term: single_bonded_molecules
+description: Molecules that have at least one single bond (bond_type '-').
+synonyms:
+- single bonded
+candidate_concepts:
+- bond_type
+- molecule
+default_concept_by_domain:
+  toxicology: bond_type
+ambiguity_level: low
+owner: bird_benchmark
+domain: toxicology
+status: certified

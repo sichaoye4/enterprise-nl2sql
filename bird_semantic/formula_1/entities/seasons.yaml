@@ -1,0 +1,5 @@
+entity: seasons
+description: Represents seasons data.
+primary_keys:
+- year
+status: certified

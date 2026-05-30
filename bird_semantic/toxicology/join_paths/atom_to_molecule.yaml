@@ -1,0 +1,7 @@
+join_path_name: atom_to_molecule
+from_table: atom
+to_table: molecule
+relationship: many_to_one
+join_condition: atom.molecule_id = molecule.molecule_id
+fanout_risk: low
+status: certified

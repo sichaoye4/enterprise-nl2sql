@@ -1,0 +1,5 @@
+entity: foreign_data
+description: Represents foreign data data.
+primary_keys:
+- id
+status: certified

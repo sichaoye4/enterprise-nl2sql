@@ -1,0 +1,5 @@
+entity: match
+description: Represents match data.
+primary_keys:
+- id
+status: certified

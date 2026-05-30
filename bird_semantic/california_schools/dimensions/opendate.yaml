@@ -1,0 +1,7 @@
+dimension: opendate
+description: Opendate for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: OpenDate
+status: certified

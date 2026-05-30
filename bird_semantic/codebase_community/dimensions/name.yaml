@@ -1,0 +1,7 @@
+dimension: name
+description: Name for reporting and filtering.
+entity: badges
+physical_mappings:
+- table: badges
+  column: Name
+status: certified

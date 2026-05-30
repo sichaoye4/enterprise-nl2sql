@@ -1,0 +1,9 @@
+metric: driver_surname
+concept: driver
+description: The surname (last name) of a driver
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: drivers.surname
+unit: ''
+allowed_dimensions: []

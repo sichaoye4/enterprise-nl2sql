@@ -1,0 +1,7 @@
+dimension: a13
+description: A13 for reporting and filtering.
+entity: district
+physical_mappings:
+- table: district
+  column: A13
+status: certified

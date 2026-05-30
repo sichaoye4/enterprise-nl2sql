@@ -1,0 +1,5 @@
+entity: order
+description: Represents order data.
+primary_keys:
+- order_id
+status: certified

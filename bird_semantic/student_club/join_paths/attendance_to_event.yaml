@@ -1,0 +1,7 @@
+join_path_name: attendance_to_event
+from_table: attendance
+to_table: event
+relationship: many_to_one
+join_condition: attendance.link_to_event = event.event_id
+fanout_risk: low
+status: certified

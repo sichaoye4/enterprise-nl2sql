@@ -1,0 +1,5 @@
+entity: income
+description: Represents income data.
+primary_keys:
+- income_id
+status: certified

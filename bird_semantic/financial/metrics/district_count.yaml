@@ -1,0 +1,12 @@
+metric: district_count
+concept: district
+description: Count of all districts
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: district
+  column: district_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

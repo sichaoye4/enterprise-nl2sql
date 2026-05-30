@@ -1,0 +1,8 @@
+concept: patient_ratio
+display_name: Patient Ratio
+domain: thrombosis_prediction
+definition: Ratios or percentages derived from patient counts
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: inpatient_percentage

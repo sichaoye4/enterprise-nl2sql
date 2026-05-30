@@ -1,0 +1,5 @@
+entity: disp
+description: Represents disp data.
+primary_keys:
+- disp_id
+status: certified

@@ -1,0 +1,8 @@
+concept: crossing
+display_name: Crossing
+domain: european_football_2
+definition: A skill rating for a player's crossing ability.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: max_crossing

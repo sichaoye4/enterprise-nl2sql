@@ -1,0 +1,8 @@
+concept: user_reputation
+display_name: User Reputation
+domain: codebase_community
+definition: The reputation score of a user.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_reputation

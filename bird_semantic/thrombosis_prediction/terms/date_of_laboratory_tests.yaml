@@ -1,0 +1,6 @@
+term: date_of_laboratory_tests
+description: Date when laboratory tests were performed
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

@@ -1,0 +1,8 @@
+concept: year
+display_name: Year
+domain: debit_card_specializing
+definition: The year derived from the Date field in the yearmonth table.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: yearly_consumption

@@ -1,0 +1,8 @@
+concept: format
+display_name: Format
+domain: card_games
+definition: A game format in which cards have legality status (e.g., gladiator).
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: distinct_formats

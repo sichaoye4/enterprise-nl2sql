@@ -1,0 +1,5 @@
+entity: customers
+description: Represents customers data.
+primary_keys:
+- CustomerID
+status: certified

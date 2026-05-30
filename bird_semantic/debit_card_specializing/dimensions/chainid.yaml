@@ -1,0 +1,7 @@
+dimension: chainid
+description: Chainid for reporting and filtering.
+entity: gasstations
+physical_mappings:
+- table: gasstations
+  column: ChainID
+status: certified

@@ -1,0 +1,9 @@
+concept: molecule
+display_name: Molecule
+domain: toxicology
+definition: A chemical molecule entity, identified by molecule_id, with a label indicating
+  carcinogenicity.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: molecule_count

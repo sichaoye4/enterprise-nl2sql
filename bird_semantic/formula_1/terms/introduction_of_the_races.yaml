@@ -1,0 +1,13 @@
+term: introduction_of_the_races
+description: The URL or web page introducing a circuit or race.
+synonyms:
+- introduction
+- url
+candidate_concepts:
+- circuit
+default_concept_by_domain:
+  formula_1: circuit
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

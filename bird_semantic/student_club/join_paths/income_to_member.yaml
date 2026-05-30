@@ -1,0 +1,7 @@
+join_path_name: income_to_member
+from_table: income
+to_table: member
+relationship: many_to_one
+join_condition: income.link_to_member = member.member_id
+fanout_risk: low
+status: certified

@@ -1,0 +1,10 @@
+term: attended
+description: Indicates attendance at an event.
+candidate_concepts:
+- attendance
+default_concept_by_domain:
+  student_club: attendance
+ambiguity_level: low
+owner: bird_benchmark
+domain: student_club
+status: certified

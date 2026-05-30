@@ -1,0 +1,8 @@
+concept: player_attribute
+display_name: Player Attribute
+domain: european_football_2
+definition: A set of performance ratings for a player at a given point in time.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: player_attribute_count

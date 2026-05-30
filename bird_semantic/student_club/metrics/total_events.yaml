@@ -1,0 +1,12 @@
+metric: total_events
+concept: event
+description: Total number of events
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: event
+  column: event_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

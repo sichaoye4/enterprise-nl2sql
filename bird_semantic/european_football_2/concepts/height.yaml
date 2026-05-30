@@ -1,0 +1,8 @@
+concept: height
+display_name: Height
+domain: european_football_2
+definition: The height of a player in centimeters.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: max_height

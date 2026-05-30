@@ -1,0 +1,10 @@
+term: more_converted_mana_for_the_face
+description: Phrase referring to the maximum face converted mana cost.
+candidate_concepts:
+- face_converted_mana_cost
+default_concept_by_domain:
+  card_games: face_converted_mana_cost
+ambiguity_level: low
+owner: bird_benchmark
+domain: card_games
+status: certified

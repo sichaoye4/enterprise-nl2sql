@@ -1,0 +1,7 @@
+dimension: chancecreationpassingclass
+description: Chancecreationpassingclass for reporting and filtering.
+entity: Team_Attributes
+physical_mappings:
+- table: Team_Attributes
+  column: chanceCreationPassingClass
+status: certified

@@ -1,0 +1,12 @@
+metric: total_zip_codes
+concept: zip_code
+description: Total number of zip codes
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: zip_code
+  column: zip_code
+aggregation: count
+unit: ''
+allowed_dimensions: []

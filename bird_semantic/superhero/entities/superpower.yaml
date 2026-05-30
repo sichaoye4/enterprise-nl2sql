@@ -1,0 +1,5 @@
+entity: superpower
+description: Represents superpower data.
+primary_keys:
+- id
+status: certified

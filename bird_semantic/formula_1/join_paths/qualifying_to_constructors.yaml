@@ -1,0 +1,7 @@
+join_path_name: qualifying_to_constructors
+from_table: qualifying
+to_table: constructors
+relationship: many_to_one
+join_condition: qualifying.constructorId = constructors.constructorId
+fanout_risk: low
+status: certified

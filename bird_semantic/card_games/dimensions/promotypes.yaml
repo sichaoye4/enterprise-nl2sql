@@ -1,0 +1,7 @@
+dimension: promotypes
+description: Promotypes for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: promoTypes
+status: certified

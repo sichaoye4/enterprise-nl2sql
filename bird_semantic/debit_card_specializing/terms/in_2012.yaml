@@ -1,0 +1,12 @@
+term: in_2012
+description: Specifies the year 2012.
+synonyms:
+- '2012'
+candidate_concepts:
+- year
+default_concept_by_domain:
+  debit_card_specializing: year
+ambiguity_level: low
+owner: bird_benchmark
+domain: debit_card_specializing
+status: certified

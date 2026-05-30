@@ -1,0 +1,13 @@
+term: race_number
+description: The unique identifier for a race, often referred to as race ID.
+synonyms:
+- race id
+- raceId
+candidate_concepts:
+- race
+default_concept_by_domain:
+  formula_1: race
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

@@ -1,0 +1,5 @@
+entity: sets
+description: Represents sets data.
+primary_keys:
+- id
+status: certified

@@ -1,0 +1,9 @@
+metric: avg_salary
+concept: average_salary
+description: Average of district average salaries (A11)
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: AVG(A11)
+unit: ''
+allowed_dimensions: []

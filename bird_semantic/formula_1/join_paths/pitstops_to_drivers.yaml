@@ -1,0 +1,7 @@
+join_path_name: pitstops_to_drivers
+from_table: pitStops
+to_table: drivers
+relationship: many_to_one
+join_condition: pitStops.driverId = drivers.driverId
+fanout_risk: low
+status: certified

@@ -1,0 +1,5 @@
+entity: patient
+description: Represents patient data.
+primary_keys:
+- ID
+status: certified

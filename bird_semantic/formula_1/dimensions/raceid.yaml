@@ -1,0 +1,7 @@
+dimension: raceid
+description: Raceid for reporting and filtering.
+entity: races
+physical_mappings:
+- table: races
+  column: raceId
+status: certified

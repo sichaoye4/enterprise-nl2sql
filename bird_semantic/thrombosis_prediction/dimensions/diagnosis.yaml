@@ -1,0 +1,7 @@
+dimension: diagnosis
+description: Diagnosis for reporting and filtering.
+entity: Examination
+physical_mappings:
+- table: Examination
+  column: Diagnosis
+status: certified

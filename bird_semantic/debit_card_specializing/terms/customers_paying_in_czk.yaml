@@ -1,0 +1,13 @@
+term: customers_paying_in_czk
+description: Customers who use CZK currency.
+synonyms:
+- CZK-paying customers
+- paying in CZK
+candidate_concepts:
+- customer_currency
+default_concept_by_domain:
+  debit_card_specializing: customer_currency
+ambiguity_level: low
+owner: bird_benchmark
+domain: debit_card_specializing
+status: certified

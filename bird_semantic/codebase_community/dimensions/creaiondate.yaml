@@ -1,0 +1,7 @@
+dimension: creaiondate
+description: Creaiondate for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: CreaionDate
+status: certified

@@ -1,0 +1,7 @@
+dimension: manacost
+description: Manacost for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: manaCost
+status: certified

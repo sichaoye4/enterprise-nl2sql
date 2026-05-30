@@ -1,0 +1,13 @@
+term: continuation_school
+description: A type of educational option for at-risk students.
+synonyms:
+- continuation school
+- continuation schools
+candidate_concepts:
+- educational_option_type
+default_concept_by_domain:
+  california_schools: educational_option_type
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

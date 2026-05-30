@@ -1,0 +1,8 @@
+concept: gas_station_segment
+display_name: Gas Station Segment
+domain: debit_card_specializing
+definition: The segment classification of a gas station (e.g., Premium).
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: gas_station_segment_count

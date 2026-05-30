@@ -1,0 +1,7 @@
+dimension: mcmname
+description: Mcmname for reporting and filtering.
+entity: sets
+physical_mappings:
+- table: sets
+  column: mcmName
+status: certified

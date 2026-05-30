@@ -1,0 +1,7 @@
+dimension: totalsetsize
+description: Totalsetsize for reporting and filtering.
+entity: sets
+physical_mappings:
+- table: sets
+  column: totalSetSize
+status: certified

@@ -1,0 +1,13 @@
+term: district
+description: School district or county office of education.
+synonyms:
+- county office of education
+- school district
+candidate_concepts:
+- district
+default_concept_by_domain:
+  california_schools: district
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

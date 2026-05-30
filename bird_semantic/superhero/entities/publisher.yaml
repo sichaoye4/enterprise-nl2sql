@@ -1,0 +1,5 @@
+entity: publisher
+description: Represents publisher data.
+primary_keys:
+- id
+status: certified

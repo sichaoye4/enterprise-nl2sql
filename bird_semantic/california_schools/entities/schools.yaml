@@ -1,0 +1,5 @@
+entity: schools
+description: Represents schools data.
+primary_keys:
+- CDSCode
+status: certified

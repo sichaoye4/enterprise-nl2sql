@@ -1,0 +1,11 @@
+term: last_accessed_the_website_after_2014_9_1
+description: Refers to the condition that the user last accessed the website after
+  September 1, 2014.
+candidate_concepts:
+- user_last_access_date
+default_concept_by_domain:
+  codebase_community: user_last_access_date
+ambiguity_level: low
+owner: bird_benchmark
+domain: codebase_community
+status: certified

@@ -1,0 +1,8 @@
+concept: user_downvotes
+display_name: User Downvotes
+domain: codebase_community
+definition: The number of downvotes received by the user.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_downvotes

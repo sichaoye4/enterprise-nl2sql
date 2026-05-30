@@ -1,0 +1,8 @@
+concept: trans
+display_name: Transaction
+domain: financial
+definition: Represents a transaction on an account.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: trans_count

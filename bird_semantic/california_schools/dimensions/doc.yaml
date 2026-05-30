@@ -1,0 +1,7 @@
+dimension: doc
+description: Doc for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: DOC
+status: certified

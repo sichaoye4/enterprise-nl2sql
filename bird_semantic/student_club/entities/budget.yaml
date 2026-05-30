@@ -1,0 +1,5 @@
+entity: budget
+description: Represents budget data.
+primary_keys:
+- budget_id
+status: certified

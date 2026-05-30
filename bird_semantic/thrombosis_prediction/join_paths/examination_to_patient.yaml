@@ -1,0 +1,7 @@
+join_path_name: examination_to_patient
+from_table: Examination
+to_table: Patient
+relationship: many_to_one
+join_condition: Examination.ID = Patient.ID
+fanout_risk: low
+status: certified

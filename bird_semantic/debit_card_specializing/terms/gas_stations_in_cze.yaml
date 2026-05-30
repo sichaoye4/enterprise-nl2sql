@@ -1,0 +1,10 @@
+term: gas_stations_in_cze
+description: Refers to gas stations located in the country CZE.
+candidate_concepts:
+- gas_station_country
+default_concept_by_domain:
+  debit_card_specializing: gas_station_country
+ambiguity_level: low
+owner: bird_benchmark
+domain: debit_card_specializing
+status: certified

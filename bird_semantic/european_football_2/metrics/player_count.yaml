@@ -1,0 +1,12 @@
+metric: player_count
+concept: player
+description: Total number of distinct players.
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: Player
+  column: id
+aggregation: count
+unit: ''
+allowed_dimensions: []

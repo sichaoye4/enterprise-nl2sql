@@ -1,0 +1,7 @@
+dimension: cardkingdomid
+description: Cardkingdomid for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: cardKingdomId
+status: certified

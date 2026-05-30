@@ -1,0 +1,10 @@
+term: east_bohemia_region
+description: Region east Bohemia
+candidate_concepts:
+- district
+default_concept_by_domain:
+  financial: district
+ambiguity_level: low
+owner: bird_benchmark
+domain: financial
+status: certified

@@ -1,0 +1,5 @@
+entity: transactions_1k
+description: Represents transactions 1k data.
+primary_keys:
+- TransactionID
+status: certified

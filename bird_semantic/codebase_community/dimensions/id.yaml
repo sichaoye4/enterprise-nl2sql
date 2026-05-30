@@ -1,0 +1,7 @@
+dimension: id
+description: Id for reporting and filtering.
+entity: badges
+physical_mappings:
+- table: badges
+  column: Id
+status: certified

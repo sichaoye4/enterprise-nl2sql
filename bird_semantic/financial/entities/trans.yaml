@@ -1,0 +1,5 @@
+entity: trans
+description: Represents trans data.
+primary_keys:
+- trans_id
+status: certified

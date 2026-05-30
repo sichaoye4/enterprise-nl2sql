@@ -1,0 +1,7 @@
+dimension: state
+description: State for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: State
+status: certified

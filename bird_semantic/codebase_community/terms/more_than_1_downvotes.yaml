@@ -1,0 +1,10 @@
+term: more_than_1_downvotes
+description: Refers to the condition that a user has more than 1 downvote.
+candidate_concepts:
+- user_downvotes
+default_concept_by_domain:
+  codebase_community: user_downvotes
+ambiguity_level: low
+owner: bird_benchmark
+domain: codebase_community
+status: certified

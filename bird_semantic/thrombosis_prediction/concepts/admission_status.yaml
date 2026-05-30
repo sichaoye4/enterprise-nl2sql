@@ -1,0 +1,9 @@
+concept: admission_status
+display_name: Admission Status
+domain: thrombosis_prediction
+definition: Indicates whether a patient is inpatient or outpatient based on Admission
+  column
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: inpatient_count

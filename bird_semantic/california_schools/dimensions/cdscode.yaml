@@ -1,0 +1,7 @@
+dimension: cdscode
+description: Cdscode for reporting and filtering.
+entity: frpm
+physical_mappings:
+- table: frpm
+  column: CDSCode
+status: certified

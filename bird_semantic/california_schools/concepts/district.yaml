@@ -1,0 +1,8 @@
+concept: district
+display_name: District
+domain: california_schools
+definition: School district or county office of education.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: district_count

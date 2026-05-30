@@ -1,0 +1,7 @@
+join_path_name: order_to_account
+from_table: order
+to_table: account
+relationship: many_to_one
+join_condition: order.account_id = account.account_id
+fanout_risk: low
+status: certified

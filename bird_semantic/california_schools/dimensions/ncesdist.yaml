@@ -1,0 +1,7 @@
+dimension: ncesdist
+description: Ncesdist for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: NCESDist
+status: certified

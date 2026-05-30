@@ -1,0 +1,8 @@
+concept: card
+display_name: Card
+domain: card_games
+definition: 'A Magic: The Gathering card entity.'
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_cards

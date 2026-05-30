@@ -1,0 +1,7 @@
+dimension: bordercolor
+description: Bordercolor for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: borderColor
+status: certified

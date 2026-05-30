@@ -1,0 +1,7 @@
+dimension: productid
+description: Productid for reporting and filtering.
+entity: products
+physical_mappings:
+- table: products
+  column: ProductID
+status: certified

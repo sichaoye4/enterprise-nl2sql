@@ -1,0 +1,7 @@
+dimension: eilname
+description: Eilname for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: EILName
+status: certified

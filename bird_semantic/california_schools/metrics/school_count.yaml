@@ -1,0 +1,12 @@
+metric: school_count
+concept: school
+description: Number of distinct schools (by name) in the schools table
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: schools
+  column: School
+aggregation: count
+unit: ''
+allowed_dimensions: []

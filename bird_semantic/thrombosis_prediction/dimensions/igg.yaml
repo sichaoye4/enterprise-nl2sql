@@ -1,0 +1,7 @@
+dimension: igg
+description: Igg for reporting and filtering.
+entity: Laboratory
+physical_mappings:
+- table: Laboratory
+  column: IGG
+status: certified

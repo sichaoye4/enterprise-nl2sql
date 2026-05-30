@@ -1,0 +1,7 @@
+dimension: isforeignonly
+description: Isforeignonly for reporting and filtering.
+entity: sets
+physical_mappings:
+- table: sets
+  column: isForeignOnly
+status: certified

@@ -1,0 +1,12 @@
+metric: total_income_amount
+concept: income
+description: Total income received
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: income
+  column: amount
+aggregation: sum
+unit: ''
+allowed_dimensions: []

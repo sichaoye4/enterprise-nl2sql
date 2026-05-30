@@ -1,0 +1,13 @@
+term: phone_number
+description: Phone number of the school.
+synonyms:
+- phone numbers
+- phone number
+candidate_concepts:
+- school_contact
+default_concept_by_domain:
+  california_schools: school_contact
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

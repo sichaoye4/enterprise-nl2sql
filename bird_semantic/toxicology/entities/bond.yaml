@@ -1,0 +1,5 @@
+entity: bond
+description: Represents bond data.
+primary_keys:
+- bond_id
+status: certified

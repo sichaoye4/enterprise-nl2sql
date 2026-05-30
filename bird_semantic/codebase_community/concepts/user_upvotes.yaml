@@ -1,0 +1,8 @@
+concept: user_upvotes
+display_name: User Upvotes
+domain: codebase_community
+definition: The number of upvotes received by the user.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_upvotes

@@ -1,0 +1,8 @@
+concept: frame_style
+display_name: Frame Style
+domain: card_games
+definition: The frame version of a card, e.g., 2015.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: distinct_frame_versions

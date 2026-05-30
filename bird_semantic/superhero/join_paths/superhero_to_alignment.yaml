@@ -1,0 +1,7 @@
+join_path_name: superhero_to_alignment
+from_table: superhero
+to_table: alignment
+relationship: many_to_one
+join_condition: superhero.alignment_id = alignment.id
+fanout_risk: low
+status: certified

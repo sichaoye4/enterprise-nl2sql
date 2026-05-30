@@ -1,0 +1,7 @@
+dimension: wikipostid
+description: Wikipostid for reporting and filtering.
+entity: tags
+physical_mappings:
+- table: tags
+  column: WikiPostId
+status: certified

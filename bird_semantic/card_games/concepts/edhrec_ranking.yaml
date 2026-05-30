@@ -1,0 +1,9 @@
+concept: edhrec_ranking
+display_name: EDHRec Ranking
+domain: card_games
+definition: The numeric ranking of a card on EDHREC, with lower numbers indicating
+  higher popularity.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: low_edhrec_rank_count

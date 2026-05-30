@@ -1,0 +1,8 @@
+concept: account
+display_name: Account
+domain: financial
+definition: Represents a bank account with frequency and creation date.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: account_count

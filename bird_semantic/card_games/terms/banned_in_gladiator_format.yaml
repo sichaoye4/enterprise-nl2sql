@@ -1,0 +1,11 @@
+term: banned_in_gladiator_format
+description: Phrase referring to cards banned in the gladiator format.
+candidate_concepts:
+- legality_status
+- format
+default_concept_by_domain:
+  card_games: legality_status
+ambiguity_level: low
+owner: bird_benchmark
+domain: card_games
+status: certified

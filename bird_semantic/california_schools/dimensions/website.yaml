@@ -1,0 +1,7 @@
+dimension: website
+description: Website for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: Website
+status: certified

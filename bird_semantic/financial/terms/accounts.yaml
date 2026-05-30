@@ -1,0 +1,10 @@
+term: accounts
+description: Bank accounts
+candidate_concepts:
+- account
+default_concept_by_domain:
+  financial: account
+ambiguity_level: low
+owner: bird_benchmark
+domain: financial
+status: certified

@@ -1,0 +1,12 @@
+metric: total_attendance
+concept: attendance
+description: Total number of attendance records
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: attendance
+  column: link_to_event
+aggregation: count
+unit: ''
+allowed_dimensions: []

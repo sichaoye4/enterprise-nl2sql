@@ -1,0 +1,12 @@
+metric: order_count
+concept: order
+description: Count of all orders
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: order
+  column: order_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

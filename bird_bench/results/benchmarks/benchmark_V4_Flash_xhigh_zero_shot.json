@@ -1,0 +1,12 @@
+{
+  "config": {
+    "name": "V4 Flash \u00b7 xhigh \u00b7 zero_shot",
+    "model": "deepseek-v4-flash",
+    "reasoning": "xhigh",
+    "few_shot": false
+  },
+  "total": 110,
+  "passed": 62,
+  "ex": 56.36,
+  "time_min": 22.7
+}

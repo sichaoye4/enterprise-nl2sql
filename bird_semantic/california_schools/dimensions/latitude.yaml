@@ -1,0 +1,7 @@
+dimension: latitude
+description: Latitude for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: Latitude
+status: certified

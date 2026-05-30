@@ -1,0 +1,7 @@
+dimension: viewcount
+description: Viewcount for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: ViewCount
+status: certified

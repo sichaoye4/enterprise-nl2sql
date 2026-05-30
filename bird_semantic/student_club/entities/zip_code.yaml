@@ -1,0 +1,5 @@
+entity: zip_code
+description: Represents zip code data.
+primary_keys:
+- zip_code
+status: certified

@@ -1,0 +1,5 @@
+entity: qualifying
+description: Represents qualifying data.
+primary_keys:
+- qualifyId
+status: certified

@@ -1,0 +1,10 @@
+term: most_number_of_views
+description: Refers to the maximum number of views among users.
+candidate_concepts:
+- user_views
+default_concept_by_domain:
+  codebase_community: user_views
+ambiguity_level: low
+owner: bird_benchmark
+domain: codebase_community
+status: certified

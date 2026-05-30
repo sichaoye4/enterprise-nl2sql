@@ -1,0 +1,11 @@
+term: first_period
+description: The first qualifying period (Q1) in a qualifying session.
+candidate_concepts:
+- qualifying_result
+- qualifying_period_time
+default_concept_by_domain:
+  formula_1: qualifying_period_time
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

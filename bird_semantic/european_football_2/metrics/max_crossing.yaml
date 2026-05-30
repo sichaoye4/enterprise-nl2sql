@@ -1,0 +1,12 @@
+metric: max_crossing
+concept: crossing
+description: Maximum crossing skill rating among all player attributes.
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: Player_Attributes
+  column: crossing
+aggregation: max
+unit: ''
+allowed_dimensions: []

@@ -1,0 +1,396 @@
+cases:
+  # ═══════════════════════════════════════════
+  # GROUP 1: Simple metrics (6 cases)
+  # ═══════════════════════════════════════════
+
+  - case_id: simple_paid_gmv
+    question: "show paid GMV"
+    domain: commerce
+    difficulty: easy
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: null
+      time_range: null
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt IS NOT NULL"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [paid_gmv_amt, payment_dt]
+    active: true
+    tags: [simple_metric, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: simple_net_revenue
+    question: "show net revenue"
+    domain: finance
+    difficulty: easy
+    expected_semantic_plan:
+      metric: net_revenue
+      dimension: null
+      time_range: null
+      time_semantics: settlement_date
+      domain: finance
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT SUM(net_revenue_amt) AS net_revenue FROM ads_finance_channel_daily WHERE settlement_dt IS NOT NULL"
+    required_tables: [ads_finance_channel_daily]
+    required_columns: [net_revenue_amt, settlement_dt]
+    active: true
+    tags: [simple_metric, finance]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: simple_gmv
+    question: "show GMV"
+    domain: commerce
+    difficulty: easy
+    expected_semantic_plan:
+      metric: gmv
+      dimension: null
+      time_range: null
+      time_semantics: order_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT SUM(gmv_amt) AS gmv FROM ads_order_channel_daily WHERE order_dt IS NOT NULL"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [gmv_amt, order_dt]
+    active: true
+    tags: [simple_metric, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: simple_order_count
+    question: "how many orders"
+    domain: commerce
+    difficulty: easy
+    expected_semantic_plan:
+      metric: order_count
+      dimension: null
+      time_range: null
+      time_semantics: order_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT COUNT(order_id) AS order_count FROM ads_order_channel_daily WHERE order_dt IS NOT NULL"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [order_id, order_dt]
+    active: true
+    tags: [simple_metric, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: simple_active_users
+    question: "how many active users"
+    domain: growth
+    difficulty: easy
+    expected_semantic_plan:
+      metric: active_users
+      dimension: null
+      time_range: null
+      time_semantics: order_date
+      domain: growth
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT user_id AS active_users FROM ads_user_growth_daily WHERE dt IS NOT NULL"
+    required_tables: [ads_user_growth_daily]
+    required_columns: [user_id, dt]
+    active: true
+    tags: [simple_metric, growth]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: simple_conversion_rate
+    question: "what is the conversion rate"
+    domain: commerce
+    difficulty: medium
+    expected_semantic_plan:
+      metric: conversion_rate
+      dimension: null
+      time_range: null
+      time_semantics: null
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT paid_order_count / nullif(click_count, 0) AS conversion_rate FROM ads_marketing_daily WHERE dt IS NOT NULL"
+    required_tables: [ads_marketing_daily]
+    required_columns: [paid_order_count, click_count, dt]
+    active: true
+    tags: [simple_metric, ratio, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  # ═══════════════════════════════════════════
+  # GROUP 2: Metric by dimension (6 cases)
+  # ═══════════════════════════════════════════
+
+  - case_id: paid_gmv_by_channel
+    question: "show paid GMV by channel"
+    domain: commerce
+    difficulty: medium
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: channel
+      time_range: null
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT channel_name AS channel, SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt IS NOT NULL GROUP BY channel_name ORDER BY paid_gmv DESC"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [channel_name, paid_gmv_amt, payment_dt]
+    active: true
+    tags: [metric_by_dimension, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: paid_gmv_by_channel_30d
+    question: "show paid GMV by channel for last 30 days"
+    domain: commerce
+    difficulty: medium
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: channel
+      time_range: last_30_days
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT channel_name AS channel, SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt >= CURRENT_DATE - 30 GROUP BY channel_name ORDER BY paid_gmv DESC"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [channel_name, paid_gmv_amt, payment_dt]
+    active: true
+    tags: [metric_by_dimension, time_range, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: net_revenue_by_region
+    question: "show net revenue by region"
+    domain: finance
+    difficulty: medium
+    expected_semantic_plan:
+      metric: net_revenue
+      dimension: region
+      time_range: null
+      time_semantics: settlement_date
+      domain: finance
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT region_name AS region, SUM(net_revenue_amt) AS net_revenue FROM ads_finance_channel_daily WHERE settlement_dt IS NOT NULL GROUP BY region_name ORDER BY net_revenue DESC"
+    required_tables: [ads_finance_channel_daily]
+    required_columns: [region_name, net_revenue_amt, settlement_dt]
+    active: true
+    tags: [metric_by_dimension, finance]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: gmv_by_product_category
+    question: "show GMV by product category"
+    domain: commerce
+    difficulty: medium
+    expected_semantic_plan:
+      metric: gmv
+      dimension: product_category
+      time_range: null
+      time_semantics: order_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT product_category_name AS product_category, SUM(gmv_amt) AS gmv FROM ads_order_channel_daily WHERE order_dt IS NOT NULL GROUP BY product_category_name ORDER BY gmv DESC"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [product_category_name, gmv_amt, order_dt]
+    active: true
+    tags: [metric_by_dimension, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: active_users_by_device
+    question: "show active users by device type"
+    domain: growth
+    difficulty: medium
+    expected_semantic_plan:
+      metric: active_users
+      dimension: device_type
+      time_range: null
+      time_semantics: order_date
+      domain: growth
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT device_type AS device_type, user_id AS active_users FROM ads_user_growth_daily WHERE dt IS NOT NULL GROUP BY device_type ORDER BY active_users DESC"
+    required_tables: [ads_user_growth_daily]
+    required_columns: [device_type, user_id, dt]
+    active: true
+    tags: [metric_by_dimension, growth, multi_word_term]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: new_users_by_region
+    question: "show new users by region"
+    domain: growth
+    difficulty: medium
+    expected_semantic_plan:
+      metric: new_users
+      dimension: region
+      time_range: null
+      time_semantics: order_date
+      domain: growth
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT region_name AS region, user_id AS new_users FROM ads_user_growth_daily WHERE dt IS NOT NULL GROUP BY region_name ORDER BY new_users DESC"
+    required_tables: [ads_user_growth_daily]
+    required_columns: [region_name, user_id, dt]
+    active: true
+    tags: [metric_by_dimension, growth]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  # ═══════════════════════════════════════════
+  # GROUP 3: Time-series / Top-N (4 cases)
+  # ═══════════════════════════════════════════
+
+  - case_id: top_channels_paid_gmv
+    question: "top channels by paid GMV last month"
+    domain: commerce
+    difficulty: medium
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: channel
+      time_range: last_month
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT channel_name AS channel, SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt >= CURRENT_DATE - 31 GROUP BY channel_name ORDER BY paid_gmv DESC"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [channel_name, paid_gmv_amt, payment_dt]
+    active: true
+    tags: [top_n, time_range, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: top_products_gmv
+    question: "top 10 products by GMV"
+    domain: commerce
+    difficulty: medium
+    expected_semantic_plan:
+      metric: gmv
+      dimension: product_category
+      time_range: null
+      time_semantics: order_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT product_category_name AS product_category, SUM(gmv_amt) AS gmv FROM ads_order_channel_daily WHERE order_dt IS NOT NULL GROUP BY product_category_name ORDER BY gmv DESC LIMIT 10"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [product_category_name, gmv_amt, order_dt]
+    active: true
+    tags: [top_n, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: daily_paid_gmv_trend
+    question: "show daily paid GMV trend for this month"
+    domain: commerce
+    difficulty: medium
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: settlement_date
+      time_range: current_month
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT payment_dt AS settlement_date, SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt >= CURRENT_DATE - 31 GROUP BY payment_dt ORDER BY payment_dt"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [paid_gmv_amt, payment_dt]
+    active: true
+    tags: [time_series, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: compare_paid_gmv_periods
+    question: "compare paid GMV this month versus last month"
+    domain: commerce
+    difficulty: hard
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: null
+      time_range: current_month
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt >= CURRENT_DATE - 31"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [paid_gmv_amt, payment_dt]
+    active: true
+    tags: [comparison, time_range, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  # ═══════════════════════════════════════════
+  # GROUP 4: Ambiguity & Clarification (4 cases)
+  # ═══════════════════════════════════════════
+
+  - case_id: ambiguous_revenue_no_domain
+    question: "show revenue"
+    domain: null
+    difficulty: medium
+    expected_semantic_plan:
+      metric: null
+      dimension: null
+      time_range: null
+      time_semantics: null
+      domain: null
+      filters: []
+      requires_clarification: true
+    gold_sql: ""
+    required_tables: []
+    required_columns: []
+    active: true
+    tags: [ambiguous, clarification, revenue]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: revenue_in_finance
+    question: "show revenue in finance"
+    domain: finance
+    difficulty: easy
+    expected_semantic_plan:
+      metric: net_revenue
+      dimension: null
+      time_range: null
+      time_semantics: settlement_date
+      domain: finance
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT SUM(net_revenue_amt) AS net_revenue FROM ads_finance_channel_daily WHERE settlement_dt IS NOT NULL"
+    required_tables: [ads_finance_channel_daily]
+    required_columns: [net_revenue_amt, settlement_dt]
+    active: true
+    tags: [domain_specific, finance]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: ambiguous_time_semantics
+    question: "show paid GMV last month"
+    domain: commerce
+    difficulty: hard
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: null
+      time_range: last_month
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt >= CURRENT_DATE - 31"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [paid_gmv_amt, payment_dt]
+    active: true
+    tags: [time_range, commerce]
+    created_at: "2026-05-29T00:00:00+00:00"
+
+  - case_id: ambiguity_domain_conflict
+    question: "show revenue by channel"
+    domain: null
+    difficulty: hard
+    expected_semantic_plan:
+      metric: paid_gmv
+      dimension: channel
+      time_range: null
+      time_semantics: payment_date
+      domain: commerce
+      filters: []
+      requires_clarification: false
+    gold_sql: "SELECT channel_name AS channel, SUM(paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily WHERE payment_dt IS NOT NULL GROUP BY channel_name ORDER BY paid_gmv DESC"
+    required_tables: [ads_order_channel_daily]
+    required_columns: [channel_name, paid_gmv_amt, payment_dt]
+    active: true
+    tags: [ambiguous, cross_domain, revenue]
+    created_at: "2026-05-29T00:00:00+00:00"

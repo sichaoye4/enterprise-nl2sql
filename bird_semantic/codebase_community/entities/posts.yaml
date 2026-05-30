@@ -1,0 +1,5 @@
+entity: posts
+description: Represents posts data.
+primary_keys:
+- Id
+status: certified

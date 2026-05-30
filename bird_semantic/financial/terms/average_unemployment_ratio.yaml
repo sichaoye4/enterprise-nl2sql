@@ -1,0 +1,10 @@
+term: average_unemployment_ratio
+description: Unemployment ratio for a year
+candidate_concepts:
+- unemployment_rate
+default_concept_by_domain:
+  financial: unemployment_rate
+ambiguity_level: low
+owner: bird_benchmark
+domain: financial
+status: certified

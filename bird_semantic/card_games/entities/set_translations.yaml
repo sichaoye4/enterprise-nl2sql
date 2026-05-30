@@ -1,0 +1,5 @@
+entity: set_translations
+description: Represents set translations data.
+primary_keys:
+- id
+status: certified

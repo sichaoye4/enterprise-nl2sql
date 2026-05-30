@@ -1,0 +1,12 @@
+metric: total_consumption
+concept: consumption
+description: Sum of consumption from the yearmonth table.
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: yearmonth
+  column: Consumption
+aggregation: sum
+unit: ''
+allowed_dimensions: []

@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+dist/
+build/
+
+# Environment
+.env
+.env.*
+*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Benchmark raw data (large)
+bird_bench/dev/
+bird_bench/*.zip
+
+# Temp files
+tmp/
+_gen_full_benchmark.py
+_gen_full_indices.py
+_test_v4pro.py
+
+# Alembic
+alembic.ini
+
+# Reports/analysis (generated)
+bird_bench/results/failure_analysis_report.md
+bird_bench/results/question_classifications.json

@@ -1,0 +1,8 @@
+concept: player
+display_name: Player
+domain: european_football_2
+definition: A football player with biographical information.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: player_count

@@ -1,0 +1,7 @@
+dimension: circuitref
+description: Circuitref for reporting and filtering.
+entity: circuits
+physical_mappings:
+- table: circuits
+  column: circuitRef
+status: certified

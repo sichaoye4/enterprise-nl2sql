@@ -1,0 +1,10 @@
+term: overall_rating
+description: The overall rating attribute of a player.
+candidate_concepts:
+- overall_rating
+default_concept_by_domain:
+  european_football_2: overall_rating
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

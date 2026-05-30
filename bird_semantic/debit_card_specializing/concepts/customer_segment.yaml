@@ -1,0 +1,8 @@
+concept: customer_segment
+display_name: Customer Segment
+domain: debit_card_specializing
+definition: The segment classification of a customer (e.g., LAM, SME).
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: customer_segment_count

@@ -1,0 +1,10 @@
+term: height_of_the_tallest_player
+description: The height of the tallest player.
+candidate_concepts:
+- height
+default_concept_by_domain:
+  european_football_2: height
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

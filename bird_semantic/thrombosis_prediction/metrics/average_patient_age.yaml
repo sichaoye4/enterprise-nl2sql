@@ -1,0 +1,10 @@
+metric: average_patient_age
+concept: patient_birth_date
+description: Average age of patients based on birth date
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: AVG(CAST(STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', Birthday)
+  AS INTEGER))
+unit: ''
+allowed_dimensions: []

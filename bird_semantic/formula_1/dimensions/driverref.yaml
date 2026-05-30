@@ -1,0 +1,7 @@
+dimension: driverref
+description: Driverref for reporting and filtering.
+entity: drivers
+physical_mappings:
+- table: drivers
+  column: driverRef
+status: certified

@@ -1,0 +1,7 @@
+dimension: edopsname
+description: Edopsname for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: EdOpsName
+status: certified

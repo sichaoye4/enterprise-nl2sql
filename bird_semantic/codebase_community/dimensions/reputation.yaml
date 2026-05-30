@@ -1,0 +1,7 @@
+dimension: reputation
+description: Reputation for reporting and filtering.
+entity: users
+physical_mappings:
+- table: users
+  column: Reputation
+status: certified

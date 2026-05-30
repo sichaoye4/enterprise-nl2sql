@@ -1,0 +1,7 @@
+join_path_name: loan_to_account
+from_table: loan
+to_table: account
+relationship: many_to_one
+join_condition: loan.account_id = account.account_id
+fanout_risk: low
+status: certified

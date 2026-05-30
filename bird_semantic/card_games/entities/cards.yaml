@@ -1,0 +1,5 @@
+entity: cards
+description: Represents cards data.
+primary_keys:
+- id
+status: certified

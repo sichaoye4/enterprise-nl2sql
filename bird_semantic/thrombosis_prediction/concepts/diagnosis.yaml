@@ -1,0 +1,8 @@
+concept: diagnosis
+display_name: Diagnosis
+domain: thrombosis_prediction
+definition: Disease diagnosis for the patient
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: distinct_diagnosis_count

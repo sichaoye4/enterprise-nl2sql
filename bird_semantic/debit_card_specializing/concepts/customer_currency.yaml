@@ -1,0 +1,8 @@
+concept: customer_currency
+display_name: Customer Currency
+domain: debit_card_specializing
+definition: The currency used by a customer for payments (e.g., EUR, CZK).
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: customer_currency_count

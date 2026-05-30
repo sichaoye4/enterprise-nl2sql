@@ -1,0 +1,9 @@
+concept: driver
+display_name: Driver
+domain: formula_1
+definition: A person who drives in Formula 1 races, identified by a unique driver
+  ID and having attributes like name, surname, nationality.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: driver_surname

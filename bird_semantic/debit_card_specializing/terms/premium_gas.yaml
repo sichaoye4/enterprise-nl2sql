@@ -1,0 +1,10 @@
+term: premium_gas
+description: Refers to gas station segment 'Premium'.
+candidate_concepts:
+- gas_station_segment
+default_concept_by_domain:
+  debit_card_specializing: gas_station_segment
+ambiguity_level: low
+owner: bird_benchmark
+domain: debit_card_specializing
+status: certified

@@ -1,0 +1,12 @@
+term: average_salary
+description: Average salary in a district
+synonyms:
+- female_average_salary
+candidate_concepts:
+- average_salary
+default_concept_by_domain:
+  financial: average_salary
+ambiguity_level: low
+owner: bird_benchmark
+domain: financial
+status: certified

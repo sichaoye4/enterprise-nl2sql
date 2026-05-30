@@ -1,0 +1,7 @@
+dimension: edhrecrank
+description: Edhrecrank for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: edhrecRank
+status: certified

@@ -1,0 +1,10 @@
+term: preferred_foot_when_attacking
+description: The foot a player prefers when attacking.
+candidate_concepts:
+- preferred_foot
+default_concept_by_domain:
+  european_football_2: preferred_foot
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

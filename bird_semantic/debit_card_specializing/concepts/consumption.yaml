@@ -1,0 +1,9 @@
+concept: consumption
+display_name: Consumption
+domain: debit_card_specializing
+definition: The amount of consumption recorded in the yearmonth table, representing
+  periodic consumption.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_consumption

@@ -1,0 +1,7 @@
+join_path_name: card_to_disp
+from_table: card
+to_table: disp
+relationship: many_to_one
+join_condition: card.disp_id = disp.disp_id
+fanout_risk: low
+status: certified

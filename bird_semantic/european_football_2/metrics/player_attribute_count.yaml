@@ -1,0 +1,12 @@
+metric: player_attribute_count
+concept: player_attribute
+description: Total number of player attribute records.
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: Player_Attributes
+  column: id
+aggregation: count
+unit: ''
+allowed_dimensions: []

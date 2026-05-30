@@ -1,0 +1,7 @@
+dimension: constructorid
+description: Constructorid for reporting and filtering.
+entity: constructors
+physical_mappings:
+- table: constructors
+  column: constructorId
+status: certified

@@ -1,0 +1,8 @@
+concept: disp
+display_name: Disposition
+domain: financial
+definition: Represents a link between a client and an account with type.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: disp_count

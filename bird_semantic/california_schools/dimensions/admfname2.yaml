@@ -1,0 +1,7 @@
+dimension: admfname2
+description: Admfname2 for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: AdmFName2
+status: certified

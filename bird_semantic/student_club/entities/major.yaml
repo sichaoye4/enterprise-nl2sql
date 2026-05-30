@@ -1,0 +1,5 @@
+entity: major
+description: Represents major data.
+primary_keys:
+- major_id
+status: certified

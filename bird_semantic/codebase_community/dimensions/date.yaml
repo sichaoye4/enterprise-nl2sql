@@ -1,0 +1,7 @@
+dimension: date
+description: Date for reporting and filtering.
+entity: badges
+physical_mappings:
+- table: badges
+  column: Date
+status: certified

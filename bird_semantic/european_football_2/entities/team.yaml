@@ -1,0 +1,5 @@
+entity: team
+description: Represents team data.
+primary_keys:
+- id
+status: certified

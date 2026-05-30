@@ -1,0 +1,13 @@
+term: charter_school
+description: A publicly funded independent school.
+synonyms:
+- charter school
+- charter schools
+candidate_concepts:
+- charter_school
+default_concept_by_domain:
+  california_schools: charter_school
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

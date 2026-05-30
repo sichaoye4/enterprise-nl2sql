@@ -1,0 +1,10 @@
+term: average_number_of_oxygen_atoms
+description: The average count of oxygen atoms per molecule.
+candidate_concepts:
+- atom
+default_concept_by_domain:
+  toxicology: atom
+ambiguity_level: low
+owner: bird_benchmark
+domain: toxicology
+status: certified

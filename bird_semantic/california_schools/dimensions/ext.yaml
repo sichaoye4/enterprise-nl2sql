@@ -1,0 +1,7 @@
+dimension: ext
+description: Ext for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: Ext
+status: certified

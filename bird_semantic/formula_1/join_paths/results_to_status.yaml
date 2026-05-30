@@ -1,0 +1,7 @@
+join_path_name: results_to_status
+from_table: results
+to_table: status
+relationship: many_to_one
+join_condition: results.statusId = status.statusId
+fanout_risk: low
+status: certified

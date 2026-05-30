@@ -1,0 +1,5 @@
+entity: atom
+description: Represents atom data.
+primary_keys:
+- atom_id
+status: certified

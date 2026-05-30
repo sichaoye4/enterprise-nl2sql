@@ -1,0 +1,12 @@
+term: crossing_actions
+description: The action of crossing the ball.
+synonyms:
+- crossing
+candidate_concepts:
+- crossing
+default_concept_by_domain:
+  european_football_2: crossing
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

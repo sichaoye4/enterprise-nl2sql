@@ -1,0 +1,7 @@
+dimension: keyrunecode
+description: Keyrunecode for reporting and filtering.
+entity: sets
+physical_mappings:
+- table: sets
+  column: keyruneCode
+status: certified

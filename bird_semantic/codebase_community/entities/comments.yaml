@@ -1,0 +1,5 @@
+entity: comments
+description: Represents comments data.
+primary_keys:
+- Id
+status: certified

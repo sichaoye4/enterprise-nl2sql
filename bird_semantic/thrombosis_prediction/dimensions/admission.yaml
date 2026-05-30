@@ -1,0 +1,7 @@
+dimension: admission
+description: Admission for reporting and filtering.
+entity: Patient
+physical_mappings:
+- table: Patient
+  column: Admission
+status: certified

@@ -1,0 +1,7 @@
+dimension: consumption
+description: Consumption for reporting and filtering.
+entity: yearmonth
+physical_mappings:
+- table: yearmonth
+  column: Consumption
+status: certified

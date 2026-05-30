@@ -1,0 +1,10 @@
+term: '1995'
+description: Year 1995
+candidate_concepts:
+- unemployment_rate
+default_concept_by_domain:
+  financial: unemployment_rate
+ambiguity_level: low
+owner: bird_benchmark
+domain: financial
+status: certified

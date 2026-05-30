@@ -1,0 +1,8 @@
+concept: school_open_date
+display_name: School Open Date
+domain: california_schools
+definition: Date when the school opened.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: min_open_date

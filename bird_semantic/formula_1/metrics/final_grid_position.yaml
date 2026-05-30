@@ -1,0 +1,9 @@
+metric: final_grid_position
+concept: qualifying_result
+description: The final grid position achieved in qualifying
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: qualifying.position
+unit: ''
+allowed_dimensions: []

@@ -1,0 +1,7 @@
+dimension: admemail1
+description: Admemail1 for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: AdmEmail1
+status: certified

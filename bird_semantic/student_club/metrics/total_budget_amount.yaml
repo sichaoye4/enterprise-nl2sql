@@ -1,0 +1,12 @@
+metric: total_budget_amount
+concept: budget
+description: Total amount budgeted for events
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: budget
+  column: amount
+aggregation: sum
+unit: ''
+allowed_dimensions: []

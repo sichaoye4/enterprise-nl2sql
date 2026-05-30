@@ -1,0 +1,8 @@
+concept: patient
+display_name: Patient
+domain: thrombosis_prediction
+definition: A person in the thrombosis prediction study
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_patients

@@ -1,0 +1,7 @@
+dimension: ispromo
+description: Ispromo for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: isPromo
+status: certified

@@ -1,0 +1,12 @@
+metric: client_count
+concept: client
+description: Count of all clients
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: client
+  column: client_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

@@ -1,0 +1,12 @@
+metric: total_downvotes
+concept: user_downvotes
+description: Sum of all downvotes received by users.
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: users
+  column: DownVotes
+aggregation: sum
+unit: ''
+allowed_dimensions: []

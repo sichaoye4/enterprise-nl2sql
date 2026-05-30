@@ -1,0 +1,10 @@
+term: ratio
+description: A ratio between two quantities
+candidate_concepts:
+- patient_ratio
+default_concept_by_domain:
+  thrombosis_prediction: patient_ratio
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

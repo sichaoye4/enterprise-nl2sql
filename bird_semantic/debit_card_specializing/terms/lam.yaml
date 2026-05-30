@@ -1,0 +1,12 @@
+term: lam
+description: Customer segment LAM.
+synonyms:
+- LAM segment
+candidate_concepts:
+- customer_segment
+default_concept_by_domain:
+  debit_card_specializing: customer_segment
+ambiguity_level: low
+owner: bird_benchmark
+domain: debit_card_specializing
+status: certified

@@ -1,0 +1,12 @@
+term: his_name
+description: The name of a player.
+synonyms:
+- player_name
+candidate_concepts:
+- player
+default_concept_by_domain:
+  european_football_2: player
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

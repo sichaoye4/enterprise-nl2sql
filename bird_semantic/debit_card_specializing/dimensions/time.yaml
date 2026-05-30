@@ -1,0 +1,7 @@
+dimension: time
+description: Time for reporting and filtering.
+entity: transactions_1k
+physical_mappings:
+- table: transactions_1k
+  column: Time
+status: certified

@@ -1,0 +1,8 @@
+concept: event
+display_name: Event
+domain: student_club
+definition: An event or activity organized by the club.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_events

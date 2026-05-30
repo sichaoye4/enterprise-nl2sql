@@ -1,0 +1,9 @@
+metric: carcinogenic_molecule_count
+concept: carcinogenicity
+description: Count of molecules labeled as carcinogenic (label '+')
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT COUNT(*) FROM molecule WHERE label = '+'
+unit: ''
+allowed_dimensions: []

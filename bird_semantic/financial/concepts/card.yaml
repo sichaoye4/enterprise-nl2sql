@@ -1,0 +1,8 @@
+concept: card
+display_name: Card
+domain: financial
+definition: Represents a credit card associated with a disp.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: card_count

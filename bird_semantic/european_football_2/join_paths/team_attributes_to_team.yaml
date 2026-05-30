@@ -1,0 +1,7 @@
+join_path_name: team_attributes_to_team
+from_table: Team_Attributes
+to_table: Team
+relationship: many_to_one
+join_condition: Team_Attributes.team_api_id = Team.team_api_id
+fanout_risk: low
+status: certified

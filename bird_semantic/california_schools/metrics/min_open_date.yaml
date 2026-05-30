@@ -1,0 +1,12 @@
+metric: min_open_date
+concept: school_open_date
+description: Earliest (oldest) school open date
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: schools
+  column: OpenDate
+aggregation: min
+unit: ''
+allowed_dimensions: []

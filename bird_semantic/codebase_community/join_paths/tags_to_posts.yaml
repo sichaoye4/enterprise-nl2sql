@@ -1,0 +1,7 @@
+join_path_name: tags_to_posts
+from_table: tags
+to_table: posts
+relationship: many_to_one
+join_condition: tags.ExcerptPostId = posts.Id
+fanout_risk: low
+status: certified

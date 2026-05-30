@@ -1,0 +1,11 @@
+term: carcinogenic_molecules
+description: Molecules that are carcinogenic, indicated by label '+'.
+candidate_concepts:
+- carcinogenicity
+- molecule
+default_concept_by_domain:
+  toxicology: carcinogenicity
+ambiguity_level: low
+owner: bird_benchmark
+domain: toxicology
+status: certified

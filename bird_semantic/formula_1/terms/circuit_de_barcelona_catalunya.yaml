@@ -1,0 +1,10 @@
+term: circuit_de_barcelona_catalunya
+description: The full name of a specific circuit.
+candidate_concepts:
+- circuit
+default_concept_by_domain:
+  formula_1: circuit
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

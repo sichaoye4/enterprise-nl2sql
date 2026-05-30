@@ -1,0 +1,7 @@
+dimension: customerid
+description: Customerid for reporting and filtering.
+entity: customers
+physical_mappings:
+- table: customers
+  column: CustomerID
+status: certified

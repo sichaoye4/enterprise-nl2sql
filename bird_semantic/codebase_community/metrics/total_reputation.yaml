@@ -1,0 +1,12 @@
+metric: total_reputation
+concept: user_reputation
+description: Total sum of reputation points across all users.
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: users
+  column: Reputation
+aggregation: sum
+unit: ''
+allowed_dimensions: []

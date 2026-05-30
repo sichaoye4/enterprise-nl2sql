@@ -1,0 +1,5 @@
+entity: player_attributes
+description: Represents player attributes data.
+primary_keys:
+- id
+status: certified

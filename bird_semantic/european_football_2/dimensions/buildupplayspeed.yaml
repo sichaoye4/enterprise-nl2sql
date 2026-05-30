@@ -1,0 +1,7 @@
+dimension: buildupplayspeed
+description: Buildupplayspeed for reporting and filtering.
+entity: Team_Attributes
+physical_mappings:
+- table: Team_Attributes
+  column: buildUpPlaySpeed
+status: certified

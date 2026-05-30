@@ -1,0 +1,11 @@
+term: eliminated_in_the_first_period
+description: Refers to the drivers with the five slowest Q1 times who are eliminated
+  from further qualifying.
+candidate_concepts:
+- qualifying_result
+default_concept_by_domain:
+  formula_1: qualifying_result
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

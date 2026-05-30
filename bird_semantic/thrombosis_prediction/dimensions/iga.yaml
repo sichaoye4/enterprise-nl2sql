@@ -1,0 +1,7 @@
+dimension: iga
+description: Iga for reporting and filtering.
+entity: Laboratory
+physical_mappings:
+- table: Laboratory
+  column: IGA
+status: certified

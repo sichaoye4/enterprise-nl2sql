@@ -1,0 +1,5 @@
+entity: molecule
+description: Represents molecule data.
+primary_keys:
+- molecule_id
+status: certified

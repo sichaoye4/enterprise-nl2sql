@@ -1,0 +1,12 @@
+{
+  "config": {
+    "name": "V4 Pro \u00b7 few_shot \u00b7 high",
+    "model": "deepseek-v4-pro",
+    "reasoning": "high",
+    "few_shot": true
+  },
+  "total": 110,
+  "passed": 87,
+  "ex": 79.09,
+  "time_min": 27.5
+}

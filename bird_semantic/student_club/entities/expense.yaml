@@ -1,0 +1,5 @@
+entity: expense
+description: Represents expense data.
+primary_keys:
+- expense_id
+status: certified

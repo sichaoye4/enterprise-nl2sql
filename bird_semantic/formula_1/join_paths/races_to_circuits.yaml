@@ -1,0 +1,7 @@
+join_path_name: races_to_circuits
+from_table: races
+to_table: circuits
+relationship: many_to_one
+join_condition: races.circuitId = circuits.circuitId
+fanout_risk: low
+status: certified

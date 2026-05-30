@@ -1,0 +1,1770 @@
+{
+  "total": 110,
+  "passed": 0,
+  "ex": 0.0,
+  "by_difficulty": {
+    "simple": {
+      "count": 69,
+      "pass": 0
+    },
+    "moderate": {
+      "count": 36,
+      "pass": 0
+    },
+    "challenging": {
+      "count": 5,
+      "pass": 0
+    }
+  },
+  "by_db": {
+    "california_schools": {
+      "count": 10,
+      "pass": 0
+    },
+    "financial": {
+      "count": 10,
+      "pass": 0
+    },
+    "toxicology": {
+      "count": 10,
+      "pass": 0
+    },
+    "card_games": {
+      "count": 10,
+      "pass": 0
+    },
+    "codebase_community": {
+      "count": 10,
+      "pass": 0
+    },
+    "superhero": {
+      "count": 10,
+      "pass": 0
+    },
+    "formula_1": {
+      "count": 10,
+      "pass": 0
+    },
+    "european_football_2": {
+      "count": 10,
+      "pass": 0
+    },
+    "thrombosis_prediction": {
+      "count": 10,
+      "pass": 0
+    },
+    "student_club": {
+      "count": 10,
+      "pass": 0
+    },
+    "debit_card_specializing": {
+      "count": 10,
+      "pass": 0
+    }
+  },
+  "results": [
+    {
+      "idx": 0,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 2,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 3,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 4,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 5,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 6,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 7,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 8,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 9,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 89,
+      "db_id": "financial",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 90,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 91,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 92,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 93,
+      "db_id": "financial",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 94,
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 95,
+      "db_id": "financial",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 96,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 97,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 98,
+      "db_id": "financial",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 195,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 196,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 197,
+      "db_id": "toxicology",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 198,
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 199,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 200,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 201,
+      "db_id": "toxicology",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 202,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 203,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 204,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 340,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 341,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 342,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 343,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 344,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 345,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 346,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 347,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 348,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 349,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 531,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 532,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 533,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 534,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 535,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 536,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 537,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 538,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 539,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 540,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 717,
+      "db_id": "superhero",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 718,
+      "db_id": "superhero",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 719,
+      "db_id": "superhero",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 720,
+      "db_id": "superhero",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 721,
+      "db_id": "superhero",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 722,
+      "db_id": "superhero",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 723,
+      "db_id": "superhero",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 724,
+      "db_id": "superhero",
+      "difficulty": "challenging",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 725,
+      "db_id": "superhero",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 726,
+      "db_id": "superhero",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 846,
+      "db_id": "formula_1",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 847,
+      "db_id": "formula_1",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 848,
+      "db_id": "formula_1",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 849,
+      "db_id": "formula_1",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 850,
+      "db_id": "formula_1",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 851,
+      "db_id": "formula_1",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 852,
+      "db_id": "formula_1",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 853,
+      "db_id": "formula_1",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 854,
+      "db_id": "formula_1",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 855,
+      "db_id": "formula_1",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1020,
+      "db_id": "european_football_2",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1021,
+      "db_id": "european_football_2",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1022,
+      "db_id": "european_football_2",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1023,
+      "db_id": "european_football_2",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1024,
+      "db_id": "european_football_2",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1025,
+      "db_id": "european_football_2",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1026,
+      "db_id": "european_football_2",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1027,
+      "db_id": "european_football_2",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1028,
+      "db_id": "european_football_2",
+      "difficulty": "challenging",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1029,
+      "db_id": "european_football_2",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1149,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1150,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1151,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1152,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1153,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1154,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1155,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1156,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1157,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1158,
+      "db_id": "thrombosis_prediction",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1312,
+      "db_id": "student_club",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1313,
+      "db_id": "student_club",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1314,
+      "db_id": "student_club",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1315,
+      "db_id": "student_club",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1316,
+      "db_id": "student_club",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1317,
+      "db_id": "student_club",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1318,
+      "db_id": "student_club",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1319,
+      "db_id": "student_club",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1320,
+      "db_id": "student_club",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1321,
+      "db_id": "student_club",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1470,
+      "db_id": "debit_card_specializing",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1471,
+      "db_id": "debit_card_specializing",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1472,
+      "db_id": "debit_card_specializing",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1473,
+      "db_id": "debit_card_specializing",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1474,
+      "db_id": "debit_card_specializing",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1475,
+      "db_id": "debit_card_specializing",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1476,
+      "db_id": "debit_card_specializing",
+      "difficulty": "challenging",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1477,
+      "db_id": "debit_card_specializing",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1478,
+      "db_id": "debit_card_specializing",
+      "difficulty": "simple",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    },
+    {
+      "idx": 1479,
+      "db_id": "debit_card_specializing",
+      "difficulty": "moderate",
+      "match": false,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "retrieve_metadata",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
+        "select",
+        "explain",
+        "build_response"
+      ]
+    }
+  ]
+}

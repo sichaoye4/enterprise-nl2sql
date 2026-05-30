@@ -1,0 +1,9 @@
+metric: best_q2_time
+concept: qualifying_period_time
+description: The fastest lap time in the second qualifying period (Q2)
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: MIN(qualifying.q2)
+unit: ''
+allowed_dimensions: []

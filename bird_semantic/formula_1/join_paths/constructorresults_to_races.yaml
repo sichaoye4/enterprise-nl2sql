@@ -1,0 +1,7 @@
+join_path_name: constructorresults_to_races
+from_table: constructorResults
+to_table: races
+relationship: many_to_one
+join_condition: constructorResults.raceId = races.raceId
+fanout_risk: low
+status: certified

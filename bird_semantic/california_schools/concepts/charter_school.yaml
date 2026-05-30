@@ -1,0 +1,8 @@
+concept: charter_school
+display_name: Charter School
+domain: california_schools
+definition: Indicator of whether a school is a charter school.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: charter_school_count

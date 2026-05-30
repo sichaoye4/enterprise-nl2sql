@@ -1,0 +1,12 @@
+metric: charter_school_count
+concept: charter_school
+description: Number of charter schools (where Charter School (Y/N) = 1)
+type: simple_count
+owner: bird_benchmark
+status: certified
+aggregation: count
+unit: ''
+allowed_dimensions: []
+measure:
+  table: schools
+  column: School

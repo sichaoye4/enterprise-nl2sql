@@ -1,0 +1,9 @@
+metric: latest_account_creation_date
+concept: user_account_creation_date
+description: Most recent date any user account was created.
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT MAX(CreationDate) FROM users
+unit: ''
+allowed_dimensions: []

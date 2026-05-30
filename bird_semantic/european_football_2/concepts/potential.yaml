@@ -1,0 +1,8 @@
+concept: potential
+display_name: Potential
+domain: european_football_2
+definition: A numeric rating representing a player's future potential.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: max_potential

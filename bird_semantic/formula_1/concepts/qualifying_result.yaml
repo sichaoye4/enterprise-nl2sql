@@ -1,0 +1,9 @@
+concept: qualifying_result
+display_name: Qualifying Result
+domain: formula_1
+definition: The performance of a driver in a qualifying session for a race, including
+  lap times for three periods (Q1, Q2, Q3) and final grid position.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: final_grid_position

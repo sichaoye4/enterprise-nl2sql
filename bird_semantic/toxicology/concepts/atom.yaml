@@ -1,0 +1,8 @@
+concept: atom
+display_name: Atom
+domain: toxicology
+definition: An atom within a molecule, identified by atom_id, with an element type.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: atom_count

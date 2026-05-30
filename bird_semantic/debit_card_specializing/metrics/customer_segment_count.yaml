@@ -1,0 +1,12 @@
+metric: customer_segment_count
+concept: customer_segment
+description: Number of distinct customers, which can be filtered by segment.
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: customers
+  column: CustomerID
+aggregation: count
+unit: ''
+allowed_dimensions: []

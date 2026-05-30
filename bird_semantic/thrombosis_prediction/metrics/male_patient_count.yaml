@@ -1,0 +1,9 @@
+metric: male_patient_count
+concept: patient_gender
+description: Count of male patients (SEX = 'M')
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SUM(CASE WHEN SEX = 'M' THEN 1 ELSE 0 END)
+unit: ''
+allowed_dimensions: []

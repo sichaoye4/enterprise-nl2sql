@@ -1,0 +1,7 @@
+dimension: answercount
+description: Answercount for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: AnswerCount
+status: certified

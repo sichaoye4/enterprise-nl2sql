@@ -1,0 +1,7 @@
+dimension: parentcode
+description: Parentcode for reporting and filtering.
+entity: sets
+physical_mappings:
+- table: sets
+  column: parentCode
+status: certified

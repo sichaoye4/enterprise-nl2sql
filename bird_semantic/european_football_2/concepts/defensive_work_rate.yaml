@@ -1,0 +1,8 @@
+concept: defensive_work_rate
+display_name: Defensive Work Rate
+domain: european_football_2
+definition: The defensive work rate of a player.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: low_defensive_work_rate_count

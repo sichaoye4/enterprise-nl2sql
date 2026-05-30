@@ -1,0 +1,9 @@
+concept: element
+display_name: Element
+domain: toxicology
+definition: Chemical element symbol of an atom, e.g., 'c' for carbon, 'o' for oxygen,
+  'cl' for chlorine, 'na' for sodium.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: distinct_element_types

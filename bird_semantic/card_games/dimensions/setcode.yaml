@@ -1,0 +1,7 @@
+dimension: setcode
+description: Setcode for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: setCode
+status: certified

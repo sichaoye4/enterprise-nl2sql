@@ -1,0 +1,8 @@
+concept: grade_range
+display_name: Grade Range
+domain: california_schools
+definition: Indicates the grade or age range for student data (e.g., K-12, Ages 5-17).
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: schools_with_k12_enrollment

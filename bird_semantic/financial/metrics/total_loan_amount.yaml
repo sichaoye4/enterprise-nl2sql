@@ -1,0 +1,12 @@
+metric: total_loan_amount
+concept: loan
+description: Total sum of all loan amounts
+type: simple_sum
+owner: bird_benchmark
+status: certified
+measure:
+  table: loan
+  column: amount
+aggregation: sum
+unit: ''
+allowed_dimensions: []

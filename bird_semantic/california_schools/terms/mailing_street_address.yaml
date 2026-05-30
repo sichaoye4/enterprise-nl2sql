@@ -1,0 +1,13 @@
+term: mailing_street_address
+description: Unabbreviated mailing street address of school.
+synonyms:
+- mailing street address
+- unabbreviated mailing street address
+candidate_concepts:
+- school_contact
+default_concept_by_domain:
+  california_schools: school_contact
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

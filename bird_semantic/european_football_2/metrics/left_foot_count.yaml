@@ -1,0 +1,9 @@
+metric: left_foot_count
+concept: preferred_foot
+description: Number of player attribute records with preferred foot 'left'.
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT COUNT(*) FROM Player_Attributes WHERE preferred_foot = 'left'
+unit: ''
+allowed_dimensions: []

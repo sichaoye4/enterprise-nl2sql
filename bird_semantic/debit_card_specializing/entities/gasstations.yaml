@@ -1,0 +1,5 @@
+entity: gasstations
+description: Represents gasstations data.
+primary_keys:
+- GasStationID
+status: certified

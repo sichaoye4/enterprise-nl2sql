@@ -1,0 +1,7 @@
+dimension: location
+description: Location for reporting and filtering.
+entity: users
+physical_mappings:
+- table: users
+  column: Location
+status: certified

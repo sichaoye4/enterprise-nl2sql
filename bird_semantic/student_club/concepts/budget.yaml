@@ -1,0 +1,8 @@
+concept: budget
+display_name: Budget
+domain: student_club
+definition: Financial budget for events.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_budget_amount

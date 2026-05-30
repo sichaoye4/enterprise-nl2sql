@@ -1,0 +1,7 @@
+dimension: county
+description: County for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: County
+status: certified

@@ -1,0 +1,7 @@
+dimension: segment
+description: Segment for reporting and filtering.
+entity: customers
+physical_mappings:
+- table: customers
+  column: Segment
+status: certified

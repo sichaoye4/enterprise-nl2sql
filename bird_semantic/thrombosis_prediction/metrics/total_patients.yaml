@@ -1,0 +1,12 @@
+metric: total_patients
+concept: patient
+description: Total number of unique patients in the study
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: Patient
+  column: ID
+aggregation: count
+unit: ''
+allowed_dimensions: []

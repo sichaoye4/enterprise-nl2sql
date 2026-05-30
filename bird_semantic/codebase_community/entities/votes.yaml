@@ -1,0 +1,5 @@
+entity: votes
+description: Represents votes data.
+primary_keys:
+- Id
+status: certified

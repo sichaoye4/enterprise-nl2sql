@@ -1,0 +1,8 @@
+concept: patient_gender
+display_name: Patient Gender
+domain: thrombosis_prediction
+definition: Gender of the patient
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: male_patient_count

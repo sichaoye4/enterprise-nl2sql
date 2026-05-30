@@ -1,0 +1,7 @@
+dimension: closeddate
+description: Closeddate for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: ClosedDate
+status: certified

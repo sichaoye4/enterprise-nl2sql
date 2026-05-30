@@ -1,0 +1,13 @@
+term: superpowers
+description: Special abilities of superheroes
+synonyms:
+- super power
+- super powers
+candidate_concepts:
+- superpower
+default_concept_by_domain:
+  superhero: superpower
+ambiguity_level: low
+owner: bird_benchmark
+domain: superhero
+status: certified

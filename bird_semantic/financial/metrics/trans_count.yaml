@@ -1,0 +1,12 @@
+metric: trans_count
+concept: trans
+description: Count of all transactions
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: trans
+  column: trans_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

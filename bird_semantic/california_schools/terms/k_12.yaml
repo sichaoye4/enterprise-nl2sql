@@ -1,0 +1,13 @@
+term: k_12
+description: Refers to kindergarten through 12th grade students.
+synonyms:
+- K-12
+- K-12 students
+candidate_concepts:
+- grade_range
+default_concept_by_domain:
+  california_schools: grade_range
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

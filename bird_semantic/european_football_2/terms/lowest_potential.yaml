@@ -1,0 +1,10 @@
+term: lowest_potential
+description: The minimum potential rating.
+candidate_concepts:
+- potential
+default_concept_by_domain:
+  european_football_2: potential
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

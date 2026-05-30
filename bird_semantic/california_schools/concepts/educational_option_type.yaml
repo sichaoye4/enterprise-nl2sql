@@ -1,0 +1,8 @@
+concept: educational_option_type
+display_name: Educational Option Type
+domain: california_schools
+definition: Type of educational program or option offered (e.g., Continuation School).
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: educational_option_type_count

@@ -1,0 +1,7 @@
+dimension: positionorder
+description: Positionorder for reporting and filtering.
+entity: results
+physical_mappings:
+- table: results
+  column: positionOrder
+status: certified

@@ -1,0 +1,7 @@
+dimension: fastestlap
+description: Fastestlap for reporting and filtering.
+entity: results
+physical_mappings:
+- table: results
+  column: fastestLap
+status: certified

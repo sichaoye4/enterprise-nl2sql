@@ -1,0 +1,7 @@
+join_path_name: rulings_to_cards
+from_table: rulings
+to_table: cards
+relationship: many_to_one
+join_condition: rulings.uuid = cards.uuid
+fanout_risk: low
+status: certified

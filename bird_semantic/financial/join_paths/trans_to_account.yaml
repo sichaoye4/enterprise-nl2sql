@@ -1,0 +1,7 @@
+join_path_name: trans_to_account
+from_table: trans
+to_table: account
+relationship: many_to_one
+join_condition: trans.account_id = account.account_id
+fanout_risk: low
+status: certified

@@ -1,0 +1,8 @@
+concept: school_contact
+display_name: School Contact
+domain: california_schools
+definition: Contact information for schools such as phone, address, zip code.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: schools_with_phone

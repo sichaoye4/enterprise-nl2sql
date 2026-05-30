@@ -1,0 +1,13 @@
+term: surname
+description: The last name of a driver.
+synonyms:
+- last name
+- family name
+candidate_concepts:
+- driver
+default_concept_by_domain:
+  formula_1: driver
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

@@ -1,0 +1,9 @@
+metric: avg_unemployment_rate
+concept: unemployment_rate
+description: Average of 1995 and 1996 unemployment rates per district (A12 and A13)
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: (A12 + A13) / 2
+unit: ''
+allowed_dimensions: []

@@ -1,0 +1,10 @@
+metric: avg_face_cmc
+concept: face_converted_mana_cost
+description: Average converted mana cost of the face side of double-faced cards.
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT AVG(faceConvertedManaCost) FROM cards WHERE faceConvertedManaCost
+  IS NOT NULL
+unit: ''
+allowed_dimensions: []

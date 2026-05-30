@@ -1,0 +1,12 @@
+metric: total_cards
+concept: card
+description: Total number of unique cards in the database.
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: cards
+  column: id
+aggregation: count
+unit: ''
+allowed_dimensions: []

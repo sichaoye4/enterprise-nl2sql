@@ -1,0 +1,7 @@
+dimension: sex
+description: Sex for reporting and filtering.
+entity: Patient
+physical_mappings:
+- table: Patient
+  column: SEX
+status: certified

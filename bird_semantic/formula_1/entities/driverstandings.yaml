@@ -1,0 +1,5 @@
+entity: driverstandings
+description: Represents driverstandings data.
+primary_keys:
+- driverStandingsId
+status: certified

@@ -1,0 +1,11 @@
+term: race_held_on_circuits_in
+description: Phrase used to filter races by circuit location or country.
+candidate_concepts:
+- race
+- circuit
+default_concept_by_domain:
+  formula_1: circuit
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

@@ -1,0 +1,7 @@
+dimension: favoritecount
+description: Favoritecount for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: FavoriteCount
+status: certified

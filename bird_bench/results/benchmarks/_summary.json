@@ -1,0 +1,50 @@
+[
+  {
+    "config": {
+      "name": "V4 Pro \u00b7 zero_shot \u00b7 medium",
+      "model": "deepseek-v4-pro",
+      "reasoning": "medium",
+      "few_shot": false
+    },
+    "total": 110,
+    "passed": 68,
+    "ex": 61.82,
+    "time_min": 33.1
+  },
+  {
+    "config": {
+      "name": "V4 Pro \u00b7 few_shot \u00b7 medium",
+      "model": "deepseek-v4-pro",
+      "reasoning": "medium",
+      "few_shot": true
+    },
+    "total": 110,
+    "passed": 84,
+    "ex": 76.36,
+    "time_min": 28.1
+  },
+  {
+    "config": {
+      "name": "V4 Pro \u00b7 zero_shot \u00b7 high",
+      "model": "deepseek-v4-pro",
+      "reasoning": "high",
+      "few_shot": false
+    },
+    "total": 110,
+    "passed": 69,
+    "ex": 62.73,
+    "time_min": 32.0
+  },
+  {
+    "config": {
+      "name": "V4 Pro \u00b7 few_shot \u00b7 high",
+      "model": "deepseek-v4-pro",
+      "reasoning": "high",
+      "few_shot": true
+    },
+    "total": 110,
+    "passed": 87,
+    "ex": 79.09,
+    "time_min": 27.5
+  }
+]

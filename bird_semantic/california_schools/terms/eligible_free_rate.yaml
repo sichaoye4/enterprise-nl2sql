@@ -1,0 +1,13 @@
+term: eligible_free_rate
+description: Proportion of students eligible for free meals.
+synonyms:
+- eligible free rate
+- eligible free rates
+candidate_concepts:
+- eligible_free_rate
+default_concept_by_domain:
+  california_schools: eligible_free_rate
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

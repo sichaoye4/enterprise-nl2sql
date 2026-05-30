@@ -1,0 +1,8 @@
+concept: member
+display_name: Member
+domain: student_club
+definition: A student who is a member of the club.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_members

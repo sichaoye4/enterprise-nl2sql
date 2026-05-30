@@ -1,0 +1,5 @@
+entity: postlinks
+description: Represents postlinks data.
+primary_keys:
+- Id
+status: certified

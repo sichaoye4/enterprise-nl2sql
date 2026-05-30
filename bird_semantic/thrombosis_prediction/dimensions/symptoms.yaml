@@ -1,0 +1,7 @@
+dimension: symptoms
+description: Symptoms for reporting and filtering.
+entity: Examination
+physical_mappings:
+- table: Examination
+  column: Symptoms
+status: certified

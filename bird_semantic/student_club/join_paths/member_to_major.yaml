@@ -1,0 +1,7 @@
+join_path_name: member_to_major
+from_table: member
+to_table: major
+relationship: many_to_one
+join_condition: member.link_to_major = major.major_id
+fanout_risk: low
+status: certified

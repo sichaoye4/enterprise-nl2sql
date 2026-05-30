@@ -1,0 +1,5 @@
+entity: products
+description: Represents products data.
+primary_keys:
+- ProductID
+status: certified

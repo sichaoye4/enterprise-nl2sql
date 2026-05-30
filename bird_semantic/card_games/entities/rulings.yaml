@@ -1,0 +1,5 @@
+entity: rulings
+description: Represents rulings data.
+primary_keys:
+- id
+status: certified

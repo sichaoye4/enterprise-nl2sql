@@ -1,0 +1,10 @@
+term: outpatient_to_inpatient
+description: Ratio of outpatient count to inpatient count
+candidate_concepts:
+- patient_ratio
+default_concept_by_domain:
+  thrombosis_prediction: patient_ratio
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

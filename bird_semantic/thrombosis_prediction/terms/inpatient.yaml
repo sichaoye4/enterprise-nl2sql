@@ -1,0 +1,12 @@
+term: inpatient
+description: Patients with Admission = '+'
+synonyms:
+- in-patient
+candidate_concepts:
+- admission_status
+default_concept_by_domain:
+  thrombosis_prediction: admission_status
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

@@ -1,0 +1,7 @@
+dimension: hascontentwarning
+description: Hascontentwarning for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: hasContentWarning
+status: certified

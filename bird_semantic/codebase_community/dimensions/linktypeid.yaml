@@ -1,0 +1,7 @@
+dimension: linktypeid
+description: Linktypeid for reporting and filtering.
+entity: postLinks
+physical_mappings:
+- table: postLinks
+  column: LinkTypeId
+status: certified

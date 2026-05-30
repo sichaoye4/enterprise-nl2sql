@@ -1,0 +1,11 @@
+term: sodium_atoms
+description: Atoms of the element sodium (na).
+candidate_concepts:
+- element
+- atom
+default_concept_by_domain:
+  toxicology: element
+ambiguity_level: low
+owner: bird_benchmark
+domain: toxicology
+status: certified

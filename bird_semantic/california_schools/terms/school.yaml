@@ -1,0 +1,13 @@
+term: school
+description: General term for educational institution.
+synonyms:
+- school
+- schools
+candidate_concepts:
+- school
+default_concept_by_domain:
+  california_schools: school
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

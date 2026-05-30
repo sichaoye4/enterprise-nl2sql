@@ -1,0 +1,8 @@
+concept: school
+display_name: School
+domain: california_schools
+definition: General information about a school including location and contact.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: school_count

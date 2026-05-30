@@ -1,0 +1,7 @@
+dimension: score
+description: Score for reporting and filtering.
+entity: comments
+physical_mappings:
+- table: comments
+  column: Score
+status: certified

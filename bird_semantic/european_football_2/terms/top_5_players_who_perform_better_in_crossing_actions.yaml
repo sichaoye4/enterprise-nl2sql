@@ -1,0 +1,10 @@
+term: top_5_players_who_perform_better_in_crossing_actions
+description: Players with the highest crossing skill ratings.
+candidate_concepts:
+- crossing
+default_concept_by_domain:
+  european_football_2: crossing
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

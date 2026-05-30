@@ -1,0 +1,7 @@
+dimension: posthistorytypeid
+description: Posthistorytypeid for reporting and filtering.
+entity: postHistory
+physical_mappings:
+- table: postHistory
+  column: PostHistoryTypeId
+status: certified

@@ -1,0 +1,7 @@
+dimension: ncesschool
+description: Ncesschool for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: NCESSchool
+status: certified

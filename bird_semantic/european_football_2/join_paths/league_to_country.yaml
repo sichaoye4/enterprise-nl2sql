@@ -1,0 +1,7 @@
+join_path_name: league_to_country
+from_table: League
+to_table: Country
+relationship: many_to_one
+join_condition: League.country_id = Country.id
+fanout_risk: low
+status: certified

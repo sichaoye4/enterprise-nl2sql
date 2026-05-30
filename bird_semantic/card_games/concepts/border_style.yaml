@@ -1,0 +1,8 @@
+concept: border_style
+display_name: Border Style
+domain: card_games
+definition: The border style of a card, such as 'borderless'.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: borderless_card_count

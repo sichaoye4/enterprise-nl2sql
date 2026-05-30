@@ -1,0 +1,8 @@
+concept: user_display_name
+display_name: Display Name
+domain: codebase_community
+definition: The display name of the user.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: unique_display_names

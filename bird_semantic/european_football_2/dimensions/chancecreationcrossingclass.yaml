@@ -1,0 +1,7 @@
+dimension: chancecreationcrossingclass
+description: Chancecreationcrossingclass for reporting and filtering.
+entity: Team_Attributes
+physical_mappings:
+- table: Team_Attributes
+  column: chanceCreationCrossingClass
+status: certified

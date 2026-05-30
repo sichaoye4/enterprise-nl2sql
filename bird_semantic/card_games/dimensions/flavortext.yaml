@@ -1,0 +1,7 @@
+dimension: flavortext
+description: Flavortext for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: flavorText
+status: certified

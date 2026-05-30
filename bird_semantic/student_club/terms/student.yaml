@@ -1,0 +1,12 @@
+term: student
+description: A member of the club.
+synonyms:
+- students
+candidate_concepts:
+- member
+default_concept_by_domain:
+  student_club: member
+ambiguity_level: low
+owner: bird_benchmark
+domain: student_club
+status: certified

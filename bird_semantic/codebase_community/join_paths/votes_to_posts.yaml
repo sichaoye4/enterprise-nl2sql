@@ -1,0 +1,7 @@
+join_path_name: votes_to_posts
+from_table: votes
+to_table: posts
+relationship: many_to_one
+join_condition: votes.PostId = posts.Id
+fanout_risk: low
+status: certified

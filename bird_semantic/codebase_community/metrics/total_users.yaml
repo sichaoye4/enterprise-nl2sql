@@ -1,0 +1,12 @@
+metric: total_users
+concept: user
+description: Total number of registered users.
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: users
+  column: Id
+aggregation: count
+unit: ''
+allowed_dimensions: []

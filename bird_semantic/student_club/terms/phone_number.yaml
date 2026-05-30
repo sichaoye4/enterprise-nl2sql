@@ -1,0 +1,12 @@
+term: phone_number
+description: A member's phone number.
+synonyms:
+- phone numbers
+candidate_concepts:
+- member
+default_concept_by_domain:
+  student_club: member
+ambiguity_level: low
+owner: bird_benchmark
+domain: student_club
+status: certified

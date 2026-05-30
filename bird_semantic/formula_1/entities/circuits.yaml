@@ -1,0 +1,5 @@
+entity: circuits
+description: Represents circuits data.
+primary_keys:
+- circuitId
+status: certified

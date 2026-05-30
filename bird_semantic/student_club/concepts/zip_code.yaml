@@ -1,0 +1,8 @@
+concept: zip_code
+display_name: Zip Code
+domain: student_club
+definition: Geographic location data.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_zip_codes

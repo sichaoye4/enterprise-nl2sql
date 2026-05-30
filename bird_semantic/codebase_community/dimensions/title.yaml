@@ -1,0 +1,7 @@
+dimension: title
+description: Title for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: Title
+status: certified

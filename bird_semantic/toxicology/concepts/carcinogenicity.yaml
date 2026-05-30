@@ -1,0 +1,9 @@
+concept: carcinogenicity
+display_name: Carcinogenicity
+domain: toxicology
+definition: Indicator of whether a molecule is carcinogenic (label '+') or non-carcinogenic
+  (label '-').
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: carcinogenic_molecule_count

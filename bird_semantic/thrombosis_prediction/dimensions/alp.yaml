@@ -1,0 +1,7 @@
+dimension: alp
+description: Alp for reporting and filtering.
+entity: Laboratory
+physical_mappings:
+- table: Laboratory
+  column: ALP
+status: certified

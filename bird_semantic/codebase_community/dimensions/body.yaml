@@ -1,0 +1,7 @@
+dimension: body
+description: Body for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: Body
+status: certified

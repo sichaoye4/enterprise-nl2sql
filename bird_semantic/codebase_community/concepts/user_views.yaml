@@ -1,0 +1,8 @@
+concept: user_views
+display_name: User Views
+domain: codebase_community
+definition: The number of times the user's profile has been viewed.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_views

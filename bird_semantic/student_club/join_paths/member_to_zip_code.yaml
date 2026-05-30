@@ -1,0 +1,7 @@
+join_path_name: member_to_zip_code
+from_table: member
+to_table: zip_code
+relationship: many_to_one
+join_condition: member.zip = zip_code.zip_code
+fanout_risk: low
+status: certified

@@ -1,0 +1,7 @@
+dimension: mcmid
+description: Mcmid for reporting and filtering.
+entity: cards
+physical_mappings:
+- table: cards
+  column: mcmId
+status: certified

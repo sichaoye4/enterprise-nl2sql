@@ -1,0 +1,11 @@
+term: chlorine_atoms
+description: Atoms of the element chlorine (cl).
+candidate_concepts:
+- element
+- atom
+default_concept_by_domain:
+  toxicology: element
+ambiguity_level: low
+owner: bird_benchmark
+domain: toxicology
+status: certified

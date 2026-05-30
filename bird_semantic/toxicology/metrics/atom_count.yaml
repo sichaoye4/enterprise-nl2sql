@@ -1,0 +1,12 @@
+metric: atom_count
+concept: atom
+description: Total number of atoms
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: atom
+  column: atom_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

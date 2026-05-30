@@ -1,0 +1,7 @@
+dimension: displayname
+description: Displayname for reporting and filtering.
+entity: users
+physical_mappings:
+- table: users
+  column: DisplayName
+status: certified

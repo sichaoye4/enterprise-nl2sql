@@ -1,0 +1,13 @@
+term: opened
+description: Relating to the date a school opened.
+synonyms:
+- opened after
+- opened
+candidate_concepts:
+- school_open_date
+default_concept_by_domain:
+  california_schools: school_open_date
+ambiguity_level: low
+owner: bird_benchmark
+domain: california_schools
+status: certified

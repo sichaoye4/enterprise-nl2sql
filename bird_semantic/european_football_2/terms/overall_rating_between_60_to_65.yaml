@@ -1,0 +1,10 @@
+term: overall_rating_between_60_to_65
+description: Overall rating in the range 60 to 65 inclusive.
+candidate_concepts:
+- overall_rating
+default_concept_by_domain:
+  european_football_2: overall_rating
+ambiguity_level: low
+owner: bird_benchmark
+domain: european_football_2
+status: certified

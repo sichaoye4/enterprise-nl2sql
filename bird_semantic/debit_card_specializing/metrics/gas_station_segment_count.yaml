@@ -1,0 +1,12 @@
+metric: gas_station_segment_count
+concept: gas_station_segment
+description: Number of distinct gas stations, which can be filtered by segment.
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: gasstations
+  column: GasStationID
+aggregation: count
+unit: ''
+allowed_dimensions: []

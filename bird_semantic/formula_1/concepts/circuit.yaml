@@ -1,0 +1,9 @@
+concept: circuit
+display_name: Circuit
+domain: formula_1
+definition: A racetrack where Formula 1 races are held, identified by its name and
+  location.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: circuit_location

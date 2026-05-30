@@ -1,0 +1,153 @@
+{
+  "config": {
+    "name": "V4 Pro \u00b7 few_shot \u00b7 high",
+    "model": "deepseek-v4-pro",
+    "reasoning": "high",
+    "few_shot": true
+  },
+  "total": 5,
+  "passed": 5,
+  "ex": 100.0,
+  "time_min": 1.6,
+  "results": [
+    {
+      "idx": 0,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT `Free Meal Count (K-12)` / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY (CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)`) DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT `Free Meal Count (K-12)` / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY (CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)`) DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 1,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT rate FROM (SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` AS rate FROM frpm WHERE `Educational Option Type` = 'Continuation School') WHERE rate IS NOT NULL ORDER BY rate ASC LIMIT 3",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` FROM frpm WHERE `Educational Option Type` = 'Continuation School' AND `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` IS NOT NULL ORDER BY `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` ASC LIMIT 3",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT rate FROM (SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` AS rate FROM frpm WHERE `Educational Option Type` = 'Continuation School') WHERE rate IS NOT NULL ORDER BY rate ASC LIMIT 3",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 2,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Charter School (Y/N)` = 1 AND T2.District = 'Fresno County Office of Education'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Charter School (Y/N)` = 1 AND T2.District = 'Fresno County Office of Education'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 5,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 3,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT T2.MailStreet FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`FRPM Count (K-12)` DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.MailStreet FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`FRPM Count (K-12)` DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 4,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT s.Phone FROM schools AS s INNER JOIN frpm AS f ON s.CDSCode = f.CDSCode WHERE f.\"Charter School (Y/N)\" = 1 AND f.\"Charter Funding Type\" = 'Directly funded' AND s.OpenDate > '2000-01-01'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT s.Phone FROM schools AS s INNER JOIN frpm AS f ON s.CDSCode = f.CDSCode WHERE f.\"Charter School (Y/N)\" = 1 AND f.\"Charter Funding Type\" = 'Directly funded' AND s.OpenDate > '2000-01-01'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 751,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    }
+  ]
+}

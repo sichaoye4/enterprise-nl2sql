@@ -1,0 +1,5 @@
+entity: event
+description: Represents event data.
+primary_keys:
+- event_id
+status: certified

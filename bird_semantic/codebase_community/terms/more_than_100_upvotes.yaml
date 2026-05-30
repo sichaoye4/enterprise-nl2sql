@@ -1,0 +1,10 @@
+term: more_than_100_upvotes
+description: Refers to the condition that a user has more than 100 upvotes.
+candidate_concepts:
+- user_upvotes
+default_concept_by_domain:
+  codebase_community: user_upvotes
+ambiguity_level: low
+owner: bird_benchmark
+domain: codebase_community
+status: certified

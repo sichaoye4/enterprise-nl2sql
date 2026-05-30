@@ -1,0 +1,12 @@
+term: ratio_of_customers_who_pay_in_eur_against_customers_who_pay_in_c
+description: Ratio of EUR-paying customers to CZK-paying customers.
+synonyms:
+- ratio of customers by currency
+candidate_concepts:
+- customer_currency
+default_concept_by_domain:
+  debit_card_specializing: customer_currency
+ambiguity_level: low
+owner: bird_benchmark
+domain: debit_card_specializing
+status: certified

@@ -1,0 +1,7 @@
+dimension: driverid
+description: Driverid for reporting and filtering.
+entity: drivers
+physical_mappings:
+- table: drivers
+  column: driverId
+status: certified

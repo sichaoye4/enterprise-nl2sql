@@ -1,0 +1,12 @@
+metric: total_members
+concept: member
+description: Total number of members
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: member
+  column: member_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

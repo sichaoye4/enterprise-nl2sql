@@ -1,0 +1,9 @@
+metric: borderless_card_count
+concept: border_style
+description: Number of cards with borderless border color.
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: SELECT COUNT(*) FROM cards WHERE borderColor = 'borderless'
+unit: ''
+allowed_dimensions: []

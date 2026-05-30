@@ -1,0 +1,7 @@
+dimension: mailzip
+description: Mailzip for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: MailZip
+status: certified

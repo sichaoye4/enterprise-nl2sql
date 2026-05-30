@@ -1,0 +1,9 @@
+concept: powerful_foil
+display_name: Powerful Foil
+domain: card_games
+definition: Indicates a card that has both a foil and non-foil version available via
+  Card Kingdom identifiers.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: powerful_foil_card_count

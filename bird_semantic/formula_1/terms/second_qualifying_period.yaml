@@ -1,0 +1,13 @@
+term: second_qualifying_period
+description: The second qualifying period (Q2) in a qualifying session.
+synonyms:
+- second period
+candidate_concepts:
+- qualifying_result
+- qualifying_period_time
+default_concept_by_domain:
+  formula_1: qualifying_period_time
+ambiguity_level: low
+owner: bird_benchmark
+domain: formula_1
+status: certified

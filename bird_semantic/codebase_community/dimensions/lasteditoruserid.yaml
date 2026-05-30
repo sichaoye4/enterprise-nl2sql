@@ -1,0 +1,7 @@
+dimension: lasteditoruserid
+description: Lasteditoruserid for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: LastEditorUserId
+status: certified

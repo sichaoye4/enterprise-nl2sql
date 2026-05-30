@@ -1,0 +1,12 @@
+term: average_monthly_consumption
+description: Average consumption per month.
+synonyms:
+- monthly average consumption
+candidate_concepts:
+- consumption
+default_concept_by_domain:
+  debit_card_specializing: consumption
+ambiguity_level: low
+owner: bird_benchmark
+domain: debit_card_specializing
+status: certified

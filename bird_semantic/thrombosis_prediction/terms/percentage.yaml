@@ -1,0 +1,12 @@
+term: percentage
+description: Represents a ratio multiplied by 100
+synonyms:
+- percent
+candidate_concepts:
+- patient_ratio
+default_concept_by_domain:
+  thrombosis_prediction: patient_ratio
+ambiguity_level: low
+owner: bird_benchmark
+domain: thrombosis_prediction
+status: certified

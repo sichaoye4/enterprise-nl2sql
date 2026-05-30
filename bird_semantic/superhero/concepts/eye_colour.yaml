@@ -1,0 +1,8 @@
+concept: eye_colour
+display_name: Eye Colour
+domain: superhero
+definition: The colour of a superhero's eyes.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: distinct_eye_colours

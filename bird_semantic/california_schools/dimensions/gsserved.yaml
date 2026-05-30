@@ -1,0 +1,7 @@
+dimension: gsserved
+description: Gsserved for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: GSserved
+status: certified

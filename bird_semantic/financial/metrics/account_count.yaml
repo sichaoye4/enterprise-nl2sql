@@ -1,0 +1,12 @@
+metric: account_count
+concept: account
+description: Count of all bank accounts
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: account
+  column: account_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

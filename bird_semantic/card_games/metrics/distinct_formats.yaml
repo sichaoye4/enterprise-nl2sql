@@ -1,0 +1,12 @@
+metric: distinct_formats
+concept: format
+description: Number of distinct game formats in the legalities table.
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: legalities
+  column: format
+aggregation: count
+unit: ''
+allowed_dimensions: []

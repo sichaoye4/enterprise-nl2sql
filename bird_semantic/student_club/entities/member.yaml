@@ -1,0 +1,5 @@
+entity: member
+description: Represents member data.
+primary_keys:
+- member_id
+status: certified

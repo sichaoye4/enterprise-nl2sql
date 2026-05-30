@@ -1,0 +1,8 @@
+concept: attendance
+display_name: Attendance
+domain: student_club
+definition: A record of a member attending an event.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_attendance

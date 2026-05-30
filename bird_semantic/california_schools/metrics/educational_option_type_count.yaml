@@ -1,0 +1,12 @@
+metric: educational_option_type_count
+concept: educational_option_type
+description: Number of distinct educational option types
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: frpm
+  column: Educational Option Type
+aggregation: count
+unit: ''
+allowed_dimensions: []

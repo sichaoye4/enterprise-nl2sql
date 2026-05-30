@@ -1,0 +1,5 @@
+entity: tags
+description: Represents tags data.
+primary_keys:
+- Id
+status: certified

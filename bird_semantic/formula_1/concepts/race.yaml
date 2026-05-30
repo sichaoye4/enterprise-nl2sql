@@ -1,0 +1,9 @@
+concept: race
+display_name: Race
+domain: formula_1
+definition: A Formula 1 race event, part of a season, held at a specific circuit on
+  a given date.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: race_name

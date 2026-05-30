@@ -1,0 +1,5 @@
+entity: satscores
+description: Represents satscores data.
+primary_keys:
+- cds
+status: certified

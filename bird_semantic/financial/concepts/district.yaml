@@ -1,0 +1,8 @@
+concept: district
+display_name: District
+domain: financial
+definition: Represents a geographic district with demographic and economic data.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: district_count

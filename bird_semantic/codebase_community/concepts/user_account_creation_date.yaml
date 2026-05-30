@@ -1,0 +1,8 @@
+concept: user_account_creation_date
+display_name: Account Creation Date
+domain: codebase_community
+definition: The date when the user account was created.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: latest_account_creation_date

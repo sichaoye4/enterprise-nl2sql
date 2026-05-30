@@ -1,0 +1,5 @@
+entity: badges
+description: Represents badges data.
+primary_keys:
+- Id
+status: certified

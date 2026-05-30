@@ -1,0 +1,8 @@
+concept: patient_birth_date
+display_name: Birth Date
+domain: thrombosis_prediction
+definition: Date of birth of the patient
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: average_patient_age

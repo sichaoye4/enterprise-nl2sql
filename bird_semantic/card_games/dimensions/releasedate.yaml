@@ -1,0 +1,7 @@
+dimension: releasedate
+description: Releasedate for reporting and filtering.
+entity: sets
+physical_mappings:
+- table: sets
+  column: releaseDate
+status: certified

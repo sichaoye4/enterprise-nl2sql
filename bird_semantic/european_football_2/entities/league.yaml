@@ -1,0 +1,5 @@
+entity: league
+description: Represents league data.
+primary_keys:
+- id
+status: certified

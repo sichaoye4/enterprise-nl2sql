@@ -1,0 +1,7 @@
+dimension: street
+description: Street for reporting and filtering.
+entity: schools
+physical_mappings:
+- table: schools
+  column: Street
+status: certified

@@ -1,0 +1,8 @@
+concept: user
+display_name: User
+domain: codebase_community
+definition: A registered user of the community platform.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_users

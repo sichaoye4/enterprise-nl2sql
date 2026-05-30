@@ -1,0 +1,10 @@
+term: most_common_bond_type
+description: The bond type with the highest frequency of occurrence.
+candidate_concepts:
+- bond_type
+default_concept_by_domain:
+  toxicology: bond_type
+ambiguity_level: low
+owner: bird_benchmark
+domain: toxicology
+status: certified

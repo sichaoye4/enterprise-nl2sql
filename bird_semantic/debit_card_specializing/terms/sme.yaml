@@ -1,0 +1,12 @@
+term: sme
+description: Customer segment SME.
+synonyms:
+- SME segment
+candidate_concepts:
+- customer_segment
+default_concept_by_domain:
+  debit_card_specializing: customer_segment
+ambiguity_level: low
+owner: bird_benchmark
+domain: debit_card_specializing
+status: certified

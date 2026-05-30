@@ -1,0 +1,5 @@
+entity: country
+description: Represents country data.
+primary_keys:
+- id
+status: certified

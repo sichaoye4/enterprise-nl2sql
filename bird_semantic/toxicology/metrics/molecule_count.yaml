@@ -1,0 +1,12 @@
+metric: molecule_count
+concept: molecule
+description: Total number of distinct molecules
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: molecule
+  column: molecule_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

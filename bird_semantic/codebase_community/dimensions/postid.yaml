@@ -1,0 +1,7 @@
+dimension: postid
+description: Postid for reporting and filtering.
+entity: comments
+physical_mappings:
+- table: comments
+  column: PostId
+status: certified

@@ -1,0 +1,7 @@
+dimension: owneruserid
+description: Owneruserid for reporting and filtering.
+entity: posts
+physical_mappings:
+- table: posts
+  column: OwnerUserId
+status: certified

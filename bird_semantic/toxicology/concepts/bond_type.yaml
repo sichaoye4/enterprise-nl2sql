@@ -1,0 +1,8 @@
+concept: bond_type
+display_name: Bond Type
+domain: toxicology
+definition: Type of chemical bond, e.g., single bond '-', double bond '=', etc.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: distinct_bond_types

@@ -1,0 +1,33 @@
+{
+  "model": "DeepSeek V4 Flash",
+  "mode": "zero-shot",
+  "questions_evaluated": 80,
+  "execution_accuracy": 40.0,
+  "by_difficulty": {
+    "simple": {
+      "count": 49,
+      "pass": 24,
+      "ex": 48.98
+    },
+    "moderate": {
+      "count": 28,
+      "pass": 8,
+      "ex": 28.57
+    },
+    "challenging": {
+      "count": 3,
+      "pass": 0,
+      "ex": 0.0
+    }
+  },
+  "by_database": {
+    "california_schools": {
+      "count": 80,
+      "pass": 32,
+      "ex": 40.0
+    }
+  },
+  "error_types": {
+    "wrong_column_name": 1
+  }
+}

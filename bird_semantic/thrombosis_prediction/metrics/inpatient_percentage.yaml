@@ -1,0 +1,10 @@
+metric: inpatient_percentage
+concept: patient_ratio
+description: Percentage of patients who are inpatient (Admission = '+')
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: CAST(SUM(CASE WHEN Admission = '+' THEN 1 ELSE 0 END) AS REAL) * 100 /
+  COUNT(*)
+unit: ''
+allowed_dimensions: []
