@@ -1,0 +1,205 @@
+{
+  "config": {
+    "name": "V4 Flash \u00b7 few_shot \u00b7 xhigh",
+    "model": "deepseek-v4-flash",
+    "reasoning": "xhigh",
+    "few_shot": true
+  },
+  "memory": "v25",
+  "total": 5,
+  "passed": 4,
+  "ex": 80.0,
+  "time_min": 2.8,
+  "results": [
+    {
+      "idx": 0,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT MAX(CAST(f.`Free Meal Count (K-12)` AS REAL) / f.`Enrollment (K-12)`) FROM frpm f JOIN schools s ON f.CDSCode = s.CDSCode WHERE s.County = 'Alameda' AND s.School IS NOT NULL AND f.`Enrollment (K-12)` > 0 AND f.`Free Meal Count (K-12)` IS NOT NULL",
+      "attempts": 3,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT MAX(CAST(f.`Free Meal Count (K-12)` AS REAL) / f.`Enrollment (K-12)`) FROM frpm f JOIN schools s ON f.CDSCode = s.CDSCode WHERE s.County = 'Alameda' AND s.School IS NOT NULL AND f.`Enrollment (K-12)` > 0 AND f.`Free Meal Count (K-12)` IS NOT NULL",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              },
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT CAST(f.`Free Meal Count (K-12)` AS REAL) / f.`Enrollment (K-12)` AS eligible_free_rate FROM frpm f JOIN schools s ON f.CDSCode = s.CDSCode WHERE s.County = 'Alameda' AND s.School IS NOT NULL AND f.`Enrollment (K-12)` > 0 AND f.`Free Meal Count (K-12)` IS NOT NULL ORDER BY eligible_free_rate DESC LIMIT 1;",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+        },
+        {
+          "attempt": 3,
+          "sql": "SELECT MAX(CAST(f.`Free Meal Count (K-12)` AS REAL) / f.`Enrollment (K-12)`) AS highest_eligible_free_rate FROM frpm f JOIN schools s ON f.CDSCode = s.CDSCode WHERE s.County = 'Alameda' AND f.`Enrollment (K-12)` > 0 AND f.`Free Meal Count (K-12)` IS NOT NULL;",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              },
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery.; Ranking question should usually include both ORDER BY and LIMIT."
+        }
+      ]
+    },
+    {
+      "idx": 1,
+      "db_id": "california_schools",
+      "match": false,
+      "sql": "SELECT `School Name`, CAST(MAX(`Free Meal Count (Ages 5-17)`) AS REAL) / MAX(`Enrollment (Ages 5-17)`) AS `eligible_free_rate_aged_5_17` FROM frpm WHERE `Educational Option Type` = 'Continuation School' GROUP BY `CDSCode`, `School Name` HAVING MAX(`Enrollment (Ages 5-17)`) > 0 AND MAX(`Free Meal Count (Ages 5-17)`) IS NOT NULL ORDER BY `eligible_free_rate_aged_5_17` ASC LIMIT 3",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT `School Name`, CAST(`Free Meal Count (Ages 5-17)` AS REAL) / `Enrollment (Ages 5-17)` AS `eligible_free_rate_aged_5_17` FROM frpm WHERE `Educational Option Type` = 'Continuation School' AND `Enrollment (Ages 5-17)` > 0 AND `Free Meal Count (Ages 5-17)` IS NOT NULL ORDER BY `eligible_free_rate_aged_5_17` ASC LIMIT 3",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT `School Name`, CAST(MAX(`Free Meal Count (Ages 5-17)`) AS REAL) / MAX(`Enrollment (Ages 5-17)`) AS `eligible_free_rate_aged_5_17` FROM frpm WHERE `Educational Option Type` = 'Continuation School' GROUP BY `CDSCode`, `School Name` HAVING MAX(`Enrollment (Ages 5-17)`) > 0 AND MAX(`Free Meal Count (Ages 5-17)`) IS NOT NULL ORDER BY `eligible_free_rate_aged_5_17` ASC LIMIT 3",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 2,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT s.Zip FROM schools s INNER JOIN frpm f ON s.CDSCode = f.CDSCode WHERE s.District = 'Fresno County Office of Education' AND f.`Charter School (Y/N)` = 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT s.Zip FROM schools s INNER JOIN frpm f ON s.CDSCode = f.CDSCode WHERE s.District = 'Fresno County Office of Education' AND f.`Charter School (Y/N)` = 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 5,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 3,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT s.MailStreet FROM schools s INNER JOIN frpm f ON s.CDSCode = f.CDSCode ORDER BY f.\"FRPM Count (K-12)\" DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT s.MailStreet FROM schools s INNER JOIN frpm f ON s.CDSCode = f.CDSCode ORDER BY f.\"FRPM Count (K-12)\" DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 4,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT DISTINCT schools.Phone FROM schools INNER JOIN frpm ON schools.CDSCode = frpm.CDSCode WHERE frpm.`Charter School (Y/N)` = 1 AND frpm.`Charter Funding Type` = 'Directly funded' AND schools.OpenDate > '2000-01-01';",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT schools.Phone FROM schools INNER JOIN frpm ON schools.CDSCode = frpm.CDSCode WHERE frpm.`Charter School (Y/N)` = 1 AND frpm.`Charter Funding Type` = 'Directly funded' AND schools.OpenDate > '2000-01-01';",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 624,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    }
+  ]
+}

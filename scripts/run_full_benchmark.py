@@ -19,6 +19,7 @@ for line in open(env_path):
 from src.semantic_registry.pipeline.llm_gateway import DeepSeekProvider
 from scripts.bird_schema_context import build_schema_context
 from scripts.sql_pattern_memory import SQLPatternMemory, classify_query_type
+from src.semantic_registry.registry.db_registry import DBRegistry
 
 CONFIGS = [
     ("V4 Flash · zero_shot · high",     "deepseek-v4-flash", "high",    False),
@@ -238,6 +239,7 @@ def main():
     parser.add_argument("--resume", type=int, default=0, help="Resume from question index")
     parser.add_argument("--sample", type=int, default=0, help="Run only the first N questions")
     parser.add_argument("--indices", type=str, default=None, help="Path to sample indices JSON file")
+    parser.add_argument("--memory", choices=["v1", "v25"], default="v1", help="Pattern memory implementation")
     args = parser.parse_args()
 
     config_idx = args.config
@@ -264,11 +266,22 @@ def main():
     print(f"Full dev set: {total} questions")
 
     # Seed pattern memory
-    memory = SQLPatternMemory()
-    if memory.store.count() < 100:
-        print("Seeding pattern memory from BIRD...")
-        memory.seed_from_bird(dev_path)
-    print(f"Pattern memory has {memory.store.count()} patterns")
+    if args.memory == "v25":
+        from scripts.pattern_memory_v25 import PatternMemoryV25
+
+        registry = DBRegistry()
+        memory = PatternMemoryV25(registry=registry)
+        if memory.store.count() < 100:
+            print("Seeding V2.5 pattern memory from BIRD...")
+            counts = memory.seed_from_bird(dev_path=dev_path, db_root=db_root)
+            print(f"  Added: {counts['added']}, Skipped: {counts['skipped']}, Registered DBs: {counts['registered']}")
+        print(f"Pattern memory v25 has {memory.store.count()} patterns")
+    else:
+        memory = SQLPatternMemory()
+        if memory.store.count() < 100:
+            print("Seeding pattern memory from BIRD...")
+            memory.seed_from_bird(dev_path)
+        print(f"Pattern memory has {memory.store.count()} patterns")
 
     provider = DeepSeekProvider(model=model, reasoning_effort=reasoning)
 
@@ -279,6 +292,8 @@ def main():
         safe_name = f"{safe_name}_{indices_name}"
     elif args.sample > 0:
         safe_name = f"{safe_name}_sample{args.sample}"
+    if args.memory != "v1":
+        safe_name = f"{safe_name}_{args.memory}"
     progress_path = os.path.join(results_dir, f"full_{safe_name}_progress.json")
     results_path = os.path.join(results_dir, f"full_{safe_name}.json")
 
@@ -302,6 +317,8 @@ def main():
         evidence = q.get("evidence", "")
 
         db_path = os.path.join(db_root, db_id, f"{db_id}.sqlite")
+        if args.memory == "v25":
+            memory.ensure_database(db_id, db_path=db_path)
         schema = build_schema_context(db_root, db_id, question, evidence)
         if i == start_idx:
             print("\nEnriched schema preview:")
@@ -309,8 +326,11 @@ def main():
             print()
 
         if few_shot:
-            qtype = classify_query_type(gold_sql)
-            patterns = memory.retrieve(question, db_id, qtype, top_k=3)
+            if args.memory == "v25":
+                patterns = memory.retrieve(question, db_id, top_k=3)
+            else:
+                qtype = classify_query_type(gold_sql)
+                patterns = memory.retrieve(question, db_id, qtype, top_k=3)
             prompt = memory.build_prompt(question, db_id, schema, patterns, evidence)
         else:
             parts = [
@@ -342,7 +362,10 @@ def main():
                 print(f"  SQL ERROR: {e}")
 
         if match:
-            memory.record_match(question, sql, db_id)
+            if args.memory == "v25":
+                memory.record_match(question, sql, db_id, db_path=db_path)
+            else:
+                memory.record_match(question, sql, db_id)
 
         repair_used = len(attempts) > 1
         results.append({
@@ -368,6 +391,7 @@ def main():
             # Also save complete results periodically
             report = {
                 "config": {"name": name, "model": model, "reasoning": reasoning, "few_shot": few_shot},
+                "memory": args.memory,
                 "total": i + 1,
                 "passed": passed,
                 "ex": round(passed / (i + 1) * 100, 2),
@@ -382,6 +406,7 @@ def main():
     ex = passed / total * 100
     report = {
         "config": {"name": name, "model": model, "reasoning": reasoning, "few_shot": few_shot},
+        "memory": args.memory,
         "total": total,
         "passed": passed,
         "ex": round(ex, 2),
