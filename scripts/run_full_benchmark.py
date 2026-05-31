@@ -327,10 +327,10 @@ def main():
             print()
 
         if few_shot:
-            qtype = classify_query_type(gold_sql)
             if args.memory == "v25":
-                patterns = memory.retrieve(question, db_id, top_k=3, query_type=qtype)
+                patterns = memory.retrieve(question, db_id, top_k=3)
             else:
+                qtype = classify_query_type(gold_sql)
                 patterns = memory.retrieve(question, db_id, qtype, top_k=3)
             prompt = memory.build_prompt(question, db_id, schema, patterns, evidence)
         else:

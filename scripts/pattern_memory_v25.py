@@ -83,6 +83,37 @@ AGGREGATE_WORDS = {
     "max",
 }
 
+SCHEMA_JOIN_GENERIC_TERMS = {
+    "id",
+    "code",
+    "name",
+    "type",
+    "date",
+    "time",
+    "year",
+    "month",
+    "day",
+    "count",
+    "number",
+    "total",
+    "value",
+    "values",
+    "avg",
+    "average",
+    "sum",
+    "min",
+    "max",
+}
+
+SCHEMA_JOIN_ENTITY_TERMS = {
+    "school",
+    "schools",
+    "player",
+    "players",
+    "team",
+    "teams",
+}
+
 
 @dataclass(frozen=True)
 class QuestionFeatures:
@@ -91,6 +122,7 @@ class QuestionFeatures:
     expected_features: dict[str, Any]
     table_hints: list[str] = field(default_factory=list)
     column_hints: list[str] = field(default_factory=list)
+    query_type_priors: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -132,7 +164,156 @@ def _contains_any(text: str, pattern: str) -> bool:
     return bool(re.search(pattern, text or "", re.I))
 
 
-def analyze_question(question: str, profile: DatabaseProfile | None = None) -> QuestionFeatures:
+def _schema_name_tokens(name: str) -> set[str]:
+    spaced = re.sub(r"([a-z])([A-Z])", r"\1 \2", name or "")
+    return {
+        token
+        for token in re.findall(r"[a-zA-Z][a-zA-Z0-9]*", spaced.replace("_", " ").lower())
+        if len(token) > 1
+    }
+
+
+def _term_variants(terms: list[str]) -> set[str]:
+    variants: set[str] = set()
+    for term in terms:
+        if not term:
+            continue
+        variants.add(term)
+        if len(term) > 3 and term.endswith("ies"):
+            variants.add(f"{term[:-3]}y")
+        elif len(term) > 3 and term.endswith("s"):
+            variants.add(term[:-1])
+    return variants
+
+
+def _schema_phrase(name: str) -> str:
+    spaced = re.sub(r"([a-z])([A-Z])", r"\1 \2", name or "")
+    return re.sub(r"\s+", " ", re.sub(r"[^a-zA-Z0-9]+", " ", spaced).strip().lower())
+
+
+def _infer_schema_hints(
+    lower_question: str,
+    terms: list[str],
+    profile: DatabaseProfile,
+) -> tuple[list[str], list[str], bool]:
+    term_variants = _term_variants(terms)
+    table_hints: list[str] = []
+    column_hints: list[str] = []
+    table_hits: dict[str, set[str]] = {}
+    strong_table_hits: set[str] = set()
+    exact_column_tables: set[str] = set()
+
+    for table in profile.schema_snapshot.get("tables", []):
+        table_name = table.get("name", "")
+        table_key = table_name.lower()
+        table_tokens = _schema_name_tokens(table_name)
+        table_phrase = _schema_phrase(table_name)
+        matched_table_terms = term_variants.intersection(table_tokens)
+        if (table_phrase and re.search(rf"\b{re.escape(table_phrase)}\b", lower_question)) or matched_table_terms:
+            table_hints.append(table_key)
+            table_hits.setdefault(table_key, set()).update(matched_table_terms)
+            if table_phrase and re.search(rf"\b{re.escape(table_phrase)}\b", lower_question):
+                strong_table_hits.add(table_key)
+
+        for column in table.get("columns", []):
+            column_name = column.get("name", "")
+            column_tokens = _schema_name_tokens(column_name)
+            column_phrase = _schema_phrase(column_name)
+            matched_column_terms = term_variants.intersection(column_tokens)
+            exact_column_phrase = bool(
+                column_phrase
+                and len(column_phrase) > 2
+                and re.search(rf"\b{re.escape(column_phrase)}\b", lower_question)
+            )
+            if exact_column_phrase or matched_column_terms:
+                column_hints.append(f"{table_key}.{column_name.lower()}")
+                table_hits.setdefault(table_key, set()).update(matched_column_terms)
+                if exact_column_phrase:
+                    exact_column_tables.add(table_key)
+
+    meaningful_tables = {
+        table
+        for table, hits in table_hits.items()
+        if hits - SCHEMA_JOIN_GENERIC_TERMS - SCHEMA_JOIN_ENTITY_TERMS
+        or table in exact_column_tables
+        or (
+            table in strong_table_hits
+            and table_hits.get(table, set()) - SCHEMA_JOIN_ENTITY_TERMS
+        )
+    }
+    inferred_join = len(meaningful_tables) >= 2 or (
+        len(strong_table_hits) >= 2 and len(table_hits) >= 2
+    )
+    return sorted(set(table_hints)), sorted(set(column_hints)), inferred_join
+
+
+def _pattern_type_priors(
+    terms: list[str],
+    table_hints: list[str],
+    column_hints: list[str],
+    past_patterns: list[SQLPatternV25] | None,
+) -> list[tuple[str, float]]:
+    if not past_patterns:
+        return []
+
+    best_scores: dict[str, float] = {}
+    counts: dict[str, int] = {}
+    term_set = set(terms)
+    for pattern in past_patterns:
+        overlap = term_set.intersection(pattern.question_terms)
+        term_score = _jaccard(terms, pattern.question_terms)
+        if term_score < 0.18 and len(overlap) < 2:
+            continue
+        table_score = _jaccard(table_hints, pattern.tables_used) if table_hints else 0.0
+        column_score = _jaccard(column_hints, pattern.columns_used) if column_hints else 0.0
+        popularity = min(pattern.match_count / 20, 1.0)
+        score = 0.7 * term_score + 0.15 * table_score + 0.1 * column_score + 0.05 * popularity
+        best_scores[pattern.query_type] = max(best_scores.get(pattern.query_type, 0.0), score)
+        counts[pattern.query_type] = counts.get(pattern.query_type, 0) + 1
+
+    ranked = []
+    for query_type, score in best_scores.items():
+        # More than one similar example from the same DB is a stronger prior, but
+        # cap the reinforcement so frequent generic types do not dominate.
+        ranked.append((query_type, score + min(0.15, 0.03 * (counts[query_type] - 1))))
+    ranked.sort(key=lambda item: item[1], reverse=True)
+    return ranked
+
+
+def _choose_query_type_from_signals(
+    *,
+    inferred_join: bool,
+    wants_ratio: bool,
+    wants_ranking: bool,
+    wants_aggregation: bool,
+    wants_grouping: bool,
+    has_filter: bool,
+    wants_comparison: bool,
+) -> str:
+    if inferred_join and (wants_aggregation or wants_grouping or wants_ratio):
+        return "join_agg"
+    if inferred_join:
+        return "join_simple"
+    if wants_ratio:
+        return "ratio"
+    if wants_ranking:
+        return "top_n"
+    if wants_aggregation and wants_grouping:
+        return "agg_group_by"
+    if wants_aggregation and (has_filter or wants_comparison):
+        return "agg_filter"
+    if wants_aggregation:
+        return "simple_agg"
+    if wants_comparison:
+        return "agg_filter"
+    return "simple_select"
+
+
+def analyze_question(
+    question: str,
+    profile: DatabaseProfile | None = None,
+    past_patterns: list[SQLPatternV25] | None = None,
+) -> QuestionFeatures:
     text = question or ""
     lower = text.lower()
     terms = question_terms(text)
@@ -150,21 +331,23 @@ def analyze_question(question: str, profile: DatabaseProfile | None = None) -> Q
         r"\b(count|number of|how many|total|sum|average|avg|mean|min|max|minimum|maximum)\b",
     )
     wants_grouping = _contains_any(lower, r"\b(by|per|each|for each|grouped by|breakdown)\b")
-    wants_comparison = _contains_any(lower, r"\b(compare|between|versus|vs|difference|more than|less than)\b")
+    wants_comparison = _contains_any(
+        lower,
+        r"\b(compare|between|versus|vs|difference|more than|less than|greater than|fewer than|at least|at most|equal to|over|under)\b",
+    )
     has_date_hint = _contains_any(lower, r"\b(year|month|day|date|after|before|during|in \d{4})\b")
+    has_filter = bool(
+        re.search(
+            r"\b(where|with|without|after|before|between|over|under|more than|less than|greater than|fewer than|at least|at most|equal)\b",
+            lower,
+        )
+    )
 
-    if wants_ratio:
-        query_type = "ratio"
-    elif wants_ranking:
-        query_type = "top_n"
-    elif wants_aggregation and wants_grouping:
-        query_type = "agg_group_by"
-    elif wants_aggregation:
-        query_type = "simple_agg"
-    elif wants_comparison:
-        query_type = "agg_filter"
-    else:
-        query_type = "simple_select"
+    table_hints: list[str] = []
+    column_hints: list[str] = []
+    inferred_join = False
+    if profile:
+        table_hints, column_hints, inferred_join = _infer_schema_hints(lower, terms, profile)
 
     expected = {
         "has_aggregation": wants_aggregation or wants_ratio,
@@ -172,32 +355,46 @@ def analyze_question(question: str, profile: DatabaseProfile | None = None) -> Q
         "has_order_by": wants_ranking,
         "has_limit": wants_ranking,
         "has_ratio": wants_ratio,
-        "has_filter": bool(re.search(r"\b(where|with|without|after|before|between|over|under|more than|less than|equal)\b", lower)),
+        "has_filter": has_filter,
         "has_date_filter": has_date_hint,
         "has_comparison": wants_comparison,
+        "has_join": inferred_join,
     }
 
-    table_hints: list[str] = []
-    column_hints: list[str] = []
-    if profile:
-        token_set = set(terms)
-        for table in profile.schema_snapshot.get("tables", []):
-            table_name = table.get("name", "")
-            table_tokens = re.findall(r"[a-zA-Z0-9]+", table_name.lower())
-            if table_name.lower() in lower or token_set.intersection(table_tokens):
-                table_hints.append(table_name.lower())
-            for column in table.get("columns", []):
-                column_name = column.get("name", "")
-                column_tokens = re.findall(r"[a-zA-Z0-9]+", column_name.lower())
-                if column_name.lower() in lower or token_set.intersection(column_tokens):
-                    column_hints.append(f"{table_name.lower()}.{column_name.lower()}")
+    query_type = _choose_query_type_from_signals(
+        inferred_join=inferred_join,
+        wants_ratio=wants_ratio,
+        wants_ranking=wants_ranking,
+        wants_aggregation=wants_aggregation,
+        wants_grouping=wants_grouping,
+        has_filter=has_filter,
+        wants_comparison=wants_comparison,
+    )
+
+    prior_scores = _pattern_type_priors(terms, table_hints, column_hints, past_patterns)
+    query_type_priors = [query_type for query_type, _score in prior_scores[:3]]
+    if prior_scores:
+        best_prior, best_score = prior_scores[0]
+        prior_expected = _query_type_expected_features(best_prior)
+        if best_score >= 0.35:
+            expected.update(prior_expected)
+        if best_score >= 0.55 and not prior_expected.get("has_join"):
+            expected["has_join"] = False
+        if best_score >= 0.75:
+            if best_prior in {"simple_select", "top_n", "join_simple"} and not prior_expected.get("has_aggregation"):
+                expected["has_aggregation"] = False
+            if not prior_expected.get("has_ratio"):
+                expected["has_ratio"] = False
+        if best_score >= 0.55 or (best_score >= 0.35 and best_prior in {"join_simple", "join_agg", "subquery", "window_function"}):
+            query_type = best_prior
 
     return QuestionFeatures(
         query_type=query_type,
         terms=terms,
         expected_features=expected,
-        table_hints=sorted(set(table_hints)),
-        column_hints=sorted(set(column_hints)),
+        table_hints=table_hints,
+        column_hints=column_hints,
+        query_type_priors=query_type_priors,
     )
 
 
@@ -502,18 +699,20 @@ class PatternMemoryV25:
         profile = self.registry.get(db_id)
         self.registry.set_pattern_count(db_id, self.store.count(db_id))
         profile = self.registry.get(db_id) or profile
-        qfeatures = analyze_question(question, profile)
-        query_types = _unique_nonempty([query_type, qfeatures.query_type])
-        if query_types:
+        past_patterns = self.store.search(db_id=db_id, limit=None) if db_id else []
+        qfeatures = analyze_question(question, profile, past_patterns=past_patterns)
+        candidate_query_types = _unique_nonempty([query_type, qfeatures.query_type] + qfeatures.query_type_priors)
+        scoring_query_types = _unique_nonempty([query_type, qfeatures.query_type])
+        if query_type:
             expected = dict(qfeatures.expected_features)
-            for qtype in query_types:
-                expected.update(_query_type_expected_features(qtype))
+            expected.update(_query_type_expected_features(query_type))
             qfeatures = QuestionFeatures(
                 query_type=qfeatures.query_type,
                 terms=qfeatures.terms,
                 expected_features=expected,
                 table_hints=qfeatures.table_hints,
                 column_hints=qfeatures.column_hints,
+                query_type_priors=qfeatures.query_type_priors,
             )
         pattern_count = self.store.count(db_id)
         tier = profile.maturity_tier if profile else maturity_tier_for_count(pattern_count)
@@ -521,23 +720,23 @@ class PatternMemoryV25:
         if tier == 5 or pattern_count <= 0:
             return []
         if tier == 1:
-            candidates = self._same_db_candidate_union(db_id, query_types, same_db_limit=None)
-            matches = [self._score_tier1(p, qfeatures, query_types) for p in candidates]
+            candidates = self._same_db_candidate_union(db_id, candidate_query_types, same_db_limit=None)
+            matches = [self._score_tier1(p, qfeatures, scoring_query_types) for p in candidates]
         elif tier == 2:
-            candidates = self._same_db_candidate_union(db_id, query_types, same_db_limit=None)
-            matches = [self._score_keyword_query_type(p, qfeatures, "tier2", query_types) for p in candidates]
+            candidates = self._same_db_candidate_union(db_id, candidate_query_types, same_db_limit=None)
+            matches = [self._score_keyword_query_type(p, qfeatures, "tier2", scoring_query_types) for p in candidates]
         elif tier == 3:
-            candidates = self._same_db_candidate_union(db_id, query_types, same_db_limit=None)
+            candidates = self._same_db_candidate_union(db_id, candidate_query_types, same_db_limit=None)
             matches = [
                 PatternMatchV25(
                     p,
-                    0.55 + (0.15 if p.query_type in query_types else 0.0) + min(p.match_count / 20, 0.3),
-                    ["tier3:same_db", f"type:{1 if p.query_type in query_types else 0}"],
+                    0.55 + (0.15 if p.query_type in scoring_query_types else 0.0) + min(p.match_count / 20, 0.3),
+                    ["tier3:same_db", f"type:{1 if p.query_type in scoring_query_types else 0}"],
                 )
                 for p in candidates
             ]
         else:
-            matches = self._retrieve_tier4(db_id, qfeatures, pattern_count, query_types)
+            matches = self._retrieve_tier4(db_id, qfeatures, pattern_count, candidate_query_types, scoring_query_types)
 
         return self._dedupe(matches, top_k)
 
@@ -569,26 +768,28 @@ class PatternMemoryV25:
         db_id: str,
         qfeatures: QuestionFeatures,
         pattern_count: int,
-        query_types: list[str],
+        candidate_query_types: list[str],
+        scoring_query_types: list[str],
     ) -> list[PatternMatchV25]:
         matches: list[PatternMatchV25] = []
         if pattern_count >= 3:
-            for qtype in query_types:
+            for qtype in candidate_query_types:
                 for pattern in self.store.search(db_id=db_id, query_type=qtype, limit=10):
-                    matches.append(PatternMatchV25(pattern, 0.55 + min(pattern.match_count / 20, 0.2), ["tier4:own_query_type"]))
+                    type_bonus = 0.12 if pattern.query_type in scoring_query_types else 0.0
+                    matches.append(PatternMatchV25(pattern, 0.43 + type_bonus + min(pattern.match_count / 20, 0.2), ["tier4:own_query_type"]))
             if matches:
                 return matches
 
         similar = self.registry.find_similar_databases(db_id, threshold=0.2, limit=5)
         for profile, db_score in similar:
             candidates = []
-            for qtype in query_types:
+            for qtype in candidate_query_types:
                 candidates.extend(self.store.search(db_id=profile.db_id, query_type=qtype, limit=8))
             if not candidates:
                 candidates = self.store.search(db_id=profile.db_id, limit=5)
             for pattern in candidates:
                 term_score = _jaccard(qfeatures.terms, pattern.question_terms)
-                score = 0.35 * db_score + 0.35 * (1 if pattern.query_type in query_types else 0) + 0.3 * term_score
+                score = 0.35 * db_score + 0.35 * (1 if pattern.query_type in scoring_query_types else 0) + 0.3 * term_score
                 matches.append(PatternMatchV25(pattern, score, [f"tier4:similar_db:{profile.db_id}:{db_score:.2f}"]))
 
         if not matches:
@@ -613,8 +814,11 @@ class PatternMemoryV25:
         type_score = 1.0 if pattern.query_type in query_types else 0.0
         term_score = _jaccard(qfeatures.terms, pattern.question_terms)
         popularity = min(pattern.match_count / 20, 1.0)
-        score = 0.35 * footprint_score + 0.3 * feature_score + 0.2 * type_score + 0.1 * term_score + 0.05 * popularity
+        lexical_bonus = 0.2 if term_score >= 0.85 else 0.08 if term_score >= 0.55 else 0.0
+        score = 0.35 * footprint_score + 0.3 * feature_score + 0.2 * type_score + 0.1 * term_score + 0.05 * popularity + lexical_bonus
         reasons = [f"tier1:footprint:{footprint_score:.2f}", f"ast:{feature_score:.2f}", f"type:{type_score:.0f}"]
+        if lexical_bonus:
+            reasons.append(f"lexical:{term_score:.2f}")
         if feature_hits:
             reasons.append("features:" + ",".join(feature_hits[:4]))
         return PatternMatchV25(pattern, score, reasons)
@@ -629,7 +833,8 @@ class PatternMemoryV25:
         term_score = _jaccard(qfeatures.terms, pattern.question_terms)
         type_score = 1.0 if pattern.query_type in query_types else 0.0
         popularity = min(pattern.match_count / 20, 1.0)
-        score = 0.55 * term_score + 0.25 * type_score + 0.1 + 0.1 * popularity
+        lexical_bonus = 0.15 if term_score >= 0.85 else 0.06 if term_score >= 0.55 else 0.0
+        score = 0.55 * term_score + 0.25 * type_score + 0.1 + 0.1 * popularity + lexical_bonus
         return PatternMatchV25(pattern, score, [f"{prefix}:same_db", f"type:{type_score:.0f}", f"terms:{term_score:.2f}"])
 
     def _feature_similarity(
