@@ -167,7 +167,7 @@ def analyze_question(question: str, profile: DatabaseProfile | None = None) -> Q
         query_type = "simple_select"
 
     expected = {
-        "has_aggregation": wants_aggregation or wants_ratio or wants_ranking,
+        "has_aggregation": wants_aggregation or wants_ratio,
         "has_group_by": wants_grouping,
         "has_order_by": wants_ranking,
         "has_limit": wants_ranking,
@@ -199,6 +199,40 @@ def analyze_question(question: str, profile: DatabaseProfile | None = None) -> Q
         table_hints=sorted(set(table_hints)),
         column_hints=sorted(set(column_hints)),
     )
+
+
+def _query_type_expected_features(query_type: str) -> dict[str, bool]:
+    """Translate a stored/V1-style query type into positive structural expectations."""
+    if query_type == "subquery":
+        return {"has_subquery": True}
+    if query_type == "window_function":
+        return {"has_window": True}
+    if query_type == "join_agg":
+        return {"has_join": True, "has_aggregation": True}
+    if query_type == "join_simple":
+        return {"has_join": True}
+    if query_type == "ratio":
+        return {"has_ratio": True}
+    if query_type == "top_n":
+        return {"has_order_by": True, "has_limit": True}
+    if query_type == "agg_group_by":
+        return {"has_aggregation": True, "has_group_by": True}
+    if query_type == "agg_filter":
+        return {"has_aggregation": True, "has_filter": True}
+    if query_type == "simple_agg":
+        return {"has_aggregation": True}
+    return {}
+
+
+def _unique_nonempty(values: list[str | None]) -> list[str]:
+    seen: set[str] = set()
+    result: list[str] = []
+    for value in values:
+        if not value or value in seen:
+            continue
+        seen.add(value)
+        result.append(value)
+    return result
 
 
 def _fallback_sql_features(sql: str) -> tuple[dict[str, Any], list[str], list[str], str]:
@@ -273,14 +307,14 @@ def extract_sql_features(sql: str) -> tuple[dict[str, Any], list[str], list[str]
 def classify_query_type_from_features(features: dict[str, Any]) -> str:
     if features.get("has_subquery"):
         return "subquery"
-    if features.get("has_ratio"):
-        return "ratio"
-    if features.get("has_window"):
-        return "window_function"
     if features.get("join_count", 0) > 0 and features.get("aggregate_count", 0) > 0:
         return "join_agg"
     if features.get("join_count", 0) > 0:
         return "join_simple"
+    if features.get("has_ratio"):
+        return "ratio"
+    if features.get("has_window"):
+        return "window_function"
     if features.get("has_order_by") and features.get("has_limit"):
         return "top_n"
     if features.get("aggregate_count", 0) > 0 and features.get("has_group_by"):
@@ -365,7 +399,7 @@ class PatternStoreV25:
                 (question, sql, db_id),
             )
 
-    def search(self, db_id: str = "", query_type: str = "", limit: int = 20) -> list[SQLPatternV25]:
+    def search(self, db_id: str = "", query_type: str = "", limit: int | None = 20) -> list[SQLPatternV25]:
         conditions: list[str] = []
         params: list[Any] = []
         if db_id:
@@ -376,15 +410,17 @@ class PatternStoreV25:
             params.append(query_type)
         where = " AND ".join(conditions) if conditions else "1=1"
         with self._connect() as conn:
+            limit_sql = "LIMIT ?" if limit is not None else ""
+            query_params = (*params, limit) if limit is not None else tuple(params)
             rows = conn.execute(
                 f"""
                 SELECT *
                 FROM patterns_v25
                 WHERE {where}
                 ORDER BY match_count DESC, created_at DESC
-                LIMIT ?
+                {limit_sql}
                 """,
-                (*params, limit),
+                query_params,
             ).fetchall()
         return [self._row_to_pattern(row) for row in rows]
 
@@ -462,46 +498,97 @@ class PatternMemoryV25:
         if not added:
             self.registry.set_pattern_count(db_id, self.store.count(db_id))
 
-    def retrieve(self, question: str, db_id: str, top_k: int = 3) -> list[PatternMatchV25]:
+    def retrieve(self, question: str, db_id: str, top_k: int = 3, query_type: str | None = None) -> list[PatternMatchV25]:
         profile = self.registry.get(db_id)
         self.registry.set_pattern_count(db_id, self.store.count(db_id))
         profile = self.registry.get(db_id) or profile
         qfeatures = analyze_question(question, profile)
+        query_types = _unique_nonempty([query_type, qfeatures.query_type])
+        if query_types:
+            expected = dict(qfeatures.expected_features)
+            for qtype in query_types:
+                expected.update(_query_type_expected_features(qtype))
+            qfeatures = QuestionFeatures(
+                query_type=qfeatures.query_type,
+                terms=qfeatures.terms,
+                expected_features=expected,
+                table_hints=qfeatures.table_hints,
+                column_hints=qfeatures.column_hints,
+            )
         pattern_count = self.store.count(db_id)
         tier = profile.maturity_tier if profile else maturity_tier_for_count(pattern_count)
 
         if tier == 5 or pattern_count <= 0:
             return []
         if tier == 1:
-            candidates = self.store.search(db_id=db_id, limit=80)
-            matches = [self._score_tier1(p, qfeatures) for p in candidates]
+            candidates = self._same_db_candidate_union(db_id, query_types, same_db_limit=None)
+            matches = [self._score_tier1(p, qfeatures, query_types) for p in candidates]
         elif tier == 2:
-            candidates = self.store.search(db_id=db_id, query_type=qfeatures.query_type, limit=50)
-            matches = [self._score_keyword_query_type(p, qfeatures, "tier2") for p in candidates]
+            candidates = self._same_db_candidate_union(db_id, query_types, same_db_limit=None)
+            matches = [self._score_keyword_query_type(p, qfeatures, "tier2", query_types) for p in candidates]
         elif tier == 3:
-            candidates = self.store.search(db_id=db_id, query_type=qfeatures.query_type, limit=30)
-            matches = [PatternMatchV25(p, 0.6 + min(p.match_count / 20, 0.3), ["tier3:same_db_query_type"]) for p in candidates]
+            candidates = self._same_db_candidate_union(db_id, query_types, same_db_limit=None)
+            matches = [
+                PatternMatchV25(
+                    p,
+                    0.55 + (0.15 if p.query_type in query_types else 0.0) + min(p.match_count / 20, 0.3),
+                    ["tier3:same_db", f"type:{1 if p.query_type in query_types else 0}"],
+                )
+                for p in candidates
+            ]
         else:
-            matches = self._retrieve_tier4(db_id, qfeatures, pattern_count)
+            matches = self._retrieve_tier4(db_id, qfeatures, pattern_count, query_types)
 
         return self._dedupe(matches, top_k)
 
-    def _retrieve_tier4(self, db_id: str, qfeatures: QuestionFeatures, pattern_count: int) -> list[PatternMatchV25]:
+    def _same_db_candidate_union(
+        self,
+        db_id: str,
+        query_types: list[str],
+        same_db_limit: int | None,
+        type_limit: int = 80,
+    ) -> list[SQLPatternV25]:
+        candidates: list[SQLPatternV25] = []
+        seen: set[int] = set()
+
+        def add(patterns: list[SQLPatternV25]) -> None:
+            for pattern in patterns:
+                key = pattern.pattern_id
+                if key in seen:
+                    continue
+                seen.add(key)
+                candidates.append(pattern)
+
+        for qtype in query_types:
+            add(self.store.search(db_id=db_id, query_type=qtype, limit=type_limit))
+        add(self.store.search(db_id=db_id, limit=same_db_limit))
+        return candidates
+
+    def _retrieve_tier4(
+        self,
+        db_id: str,
+        qfeatures: QuestionFeatures,
+        pattern_count: int,
+        query_types: list[str],
+    ) -> list[PatternMatchV25]:
         matches: list[PatternMatchV25] = []
         if pattern_count >= 3:
-            for pattern in self.store.search(db_id=db_id, query_type=qfeatures.query_type, limit=10):
-                matches.append(PatternMatchV25(pattern, 0.55 + min(pattern.match_count / 20, 0.2), ["tier4:own_query_type"]))
+            for qtype in query_types:
+                for pattern in self.store.search(db_id=db_id, query_type=qtype, limit=10):
+                    matches.append(PatternMatchV25(pattern, 0.55 + min(pattern.match_count / 20, 0.2), ["tier4:own_query_type"]))
             if matches:
                 return matches
 
         similar = self.registry.find_similar_databases(db_id, threshold=0.2, limit=5)
         for profile, db_score in similar:
-            candidates = self.store.search(db_id=profile.db_id, query_type=qfeatures.query_type, limit=8)
+            candidates = []
+            for qtype in query_types:
+                candidates.extend(self.store.search(db_id=profile.db_id, query_type=qtype, limit=8))
             if not candidates:
                 candidates = self.store.search(db_id=profile.db_id, limit=5)
             for pattern in candidates:
                 term_score = _jaccard(qfeatures.terms, pattern.question_terms)
-                score = 0.35 * db_score + 0.35 * (1 if pattern.query_type == qfeatures.query_type else 0) + 0.3 * term_score
+                score = 0.35 * db_score + 0.35 * (1 if pattern.query_type in query_types else 0) + 0.3 * term_score
                 matches.append(PatternMatchV25(pattern, score, [f"tier4:similar_db:{profile.db_id}:{db_score:.2f}"]))
 
         if not matches:
@@ -509,7 +596,12 @@ class PatternMemoryV25:
                 matches.append(PatternMatchV25(pattern, 0.35, ["tier4:fallback_own"]))
         return matches
 
-    def _score_tier1(self, pattern: SQLPatternV25, qfeatures: QuestionFeatures) -> PatternMatchV25:
+    def _score_tier1(
+        self,
+        pattern: SQLPatternV25,
+        qfeatures: QuestionFeatures,
+        query_types: list[str],
+    ) -> PatternMatchV25:
         table_score = _jaccard(qfeatures.table_hints, pattern.tables_used)
         column_score = _jaccard(qfeatures.column_hints, pattern.columns_used)
         if not qfeatures.table_hints and not qfeatures.column_hints:
@@ -518,7 +610,7 @@ class PatternMemoryV25:
             footprint_score = 0.65 * table_score + 0.35 * column_score
 
         feature_score, feature_hits = self._feature_similarity(pattern.ast_features, qfeatures.expected_features)
-        type_score = 1.0 if pattern.query_type == qfeatures.query_type else 0.0
+        type_score = 1.0 if pattern.query_type in query_types else 0.0
         term_score = _jaccard(qfeatures.terms, pattern.question_terms)
         popularity = min(pattern.match_count / 20, 1.0)
         score = 0.35 * footprint_score + 0.3 * feature_score + 0.2 * type_score + 0.1 * term_score + 0.05 * popularity
@@ -527,27 +619,95 @@ class PatternMemoryV25:
             reasons.append("features:" + ",".join(feature_hits[:4]))
         return PatternMatchV25(pattern, score, reasons)
 
-    def _score_keyword_query_type(self, pattern: SQLPatternV25, qfeatures: QuestionFeatures, prefix: str) -> PatternMatchV25:
+    def _score_keyword_query_type(
+        self,
+        pattern: SQLPatternV25,
+        qfeatures: QuestionFeatures,
+        prefix: str,
+        query_types: list[str],
+    ) -> PatternMatchV25:
         term_score = _jaccard(qfeatures.terms, pattern.question_terms)
+        type_score = 1.0 if pattern.query_type in query_types else 0.0
         popularity = min(pattern.match_count / 20, 1.0)
-        score = 0.65 * term_score + 0.25 + 0.1 * popularity
-        return PatternMatchV25(pattern, score, [f"{prefix}:same_db_type", f"terms:{term_score:.2f}"])
+        score = 0.55 * term_score + 0.25 * type_score + 0.1 + 0.1 * popularity
+        return PatternMatchV25(pattern, score, [f"{prefix}:same_db", f"type:{type_score:.0f}", f"terms:{term_score:.2f}"])
 
     def _feature_similarity(
         self,
         ast_features: dict[str, Any],
         expected_features: dict[str, Any],
     ) -> tuple[float, list[str]]:
-        checks = [
-            ("has_aggregation", bool(ast_features.get("aggregate_count", 0))),
-            ("has_group_by", bool(ast_features.get("has_group_by"))),
-            ("has_order_by", bool(ast_features.get("has_order_by"))),
-            ("has_limit", bool(ast_features.get("has_limit"))),
-            ("has_ratio", bool(ast_features.get("has_ratio"))),
-            ("has_filter", bool(ast_features.get("has_where") or ast_features.get("has_having"))),
-        ]
-        hits = [name for name, actual in checks if bool(expected_features.get(name)) == actual]
-        return (len(hits) / len(checks) if checks else 0.0), hits
+        actual = {
+            "has_aggregation": bool(ast_features.get("aggregate_count", 0)),
+            "has_group_by": bool(ast_features.get("has_group_by")),
+            "has_order_by": bool(ast_features.get("has_order_by")),
+            "has_limit": bool(ast_features.get("has_limit")),
+            "has_ratio": bool(ast_features.get("has_ratio")),
+            "has_filter": bool(ast_features.get("has_where") or ast_features.get("has_having")),
+            "has_join": bool(ast_features.get("join_count", 0)),
+            "has_subquery": bool(ast_features.get("has_subquery")),
+            "has_window": bool(ast_features.get("has_window")),
+            "has_distinct": bool(ast_features.get("has_distinct")),
+            "has_having": bool(ast_features.get("has_having")),
+        }
+        weights = {
+            "has_join": 1.5,
+            "has_subquery": 1.5,
+            "has_window": 1.4,
+            "has_ratio": 1.3,
+            "has_group_by": 1.1,
+            "has_order_by": 1.0,
+            "has_limit": 1.0,
+            "has_aggregation": 1.0,
+            "has_filter": 0.9,
+            "has_distinct": 0.8,
+            "has_having": 0.8,
+        }
+
+        expected_positive = [name for name in weights if expected_features.get(name)]
+        if not expected_positive:
+            score = 0.5
+            if actual["has_subquery"] or actual["has_window"] or actual["has_ratio"]:
+                score -= 0.15
+            if actual["has_group_by"] or actual["has_order_by"] or actual["has_limit"]:
+                score -= 0.10
+            return max(0.0, score), []
+
+        matched_weight = 0.0
+        expected_weight = 0.0
+        annotations: list[str] = []
+        penalties = 0.0
+        contradiction_penalties = {
+            "has_join": 0.25,
+            "has_subquery": 0.30,
+            "has_window": 0.30,
+            "has_ratio": 0.25,
+            "has_order_by": 0.18,
+            "has_limit": 0.18,
+            "has_group_by": 0.16,
+            "has_aggregation": 0.14,
+            "has_filter": 0.12,
+            "has_having": 0.12,
+            "has_distinct": 0.08,
+        }
+
+        for name in expected_positive:
+            weight = weights[name]
+            expected_weight += weight
+            if actual[name]:
+                matched_weight += weight
+                annotations.append(f"hit:{name}")
+            else:
+                penalties += contradiction_penalties.get(name, 0.0)
+                annotations.append(f"miss:{name}")
+
+        if not expected_features.get("has_order_by") and actual["has_order_by"]:
+            penalties += 0.05
+        if not expected_features.get("has_limit") and actual["has_limit"]:
+            penalties += 0.05
+
+        base = matched_weight / expected_weight if expected_weight else 0.5
+        return max(0.0, min(1.0, base - penalties)), annotations
 
     def _dedupe(self, matches: list[PatternMatchV25], top_k: int) -> list[PatternMatchV25]:
         matches.sort(key=lambda m: (-m.score, -m.pattern.match_count, -m.pattern.created_at))

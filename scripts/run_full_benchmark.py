@@ -5,7 +5,7 @@ Usage:
   .venv/bin/python scripts/run_full_benchmark.py --config 6   # V4 Pro high few-shot
   .venv/bin/python scripts/run_full_benchmark.py --config 2   # V4 Flash xhigh few-shot
 """
-import sys, os, json, time, re, sqlite3
+import sys, os, json, time, re, sqlite3, tempfile
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 # Load API key
@@ -270,12 +270,13 @@ def main():
         from scripts.pattern_memory_v25 import PatternMemoryV25
 
         registry = DBRegistry()
-        memory = PatternMemoryV25(registry=registry)
-        if memory.store.count() < 100:
-            print("Seeding V2.5 pattern memory from BIRD...")
-            counts = memory.seed_from_bird(dev_path=dev_path, db_root=db_root)
-            print(f"  Added: {counts['added']}, Skipped: {counts['skipped']}, Registered DBs: {counts['registered']}")
-        print(f"Pattern memory v25 has {memory.store.count()} patterns")
+        v25_memory_dir = tempfile.TemporaryDirectory(prefix="nl2sql_v25_bird_seed_")
+        v25_memory_path = os.path.join(v25_memory_dir.name, "patterns_v25.db")
+        memory = PatternMemoryV25(db_path=v25_memory_path, registry=registry)
+        print("Seeding V2.5 pattern memory from BIRD...")
+        counts = memory.seed_from_bird(dev_path=dev_path, db_root=db_root)
+        print(f"  Added: {counts['added']}, Skipped: {counts['skipped']}, Registered DBs: {counts['registered']}")
+        print(f"Pattern memory v25 has {memory.store.count()} seed patterns")
     else:
         memory = SQLPatternMemory()
         if memory.store.count() < 100:
@@ -326,10 +327,10 @@ def main():
             print()
 
         if few_shot:
+            qtype = classify_query_type(gold_sql)
             if args.memory == "v25":
-                patterns = memory.retrieve(question, db_id, top_k=3)
+                patterns = memory.retrieve(question, db_id, top_k=3, query_type=qtype)
             else:
-                qtype = classify_query_type(gold_sql)
                 patterns = memory.retrieve(question, db_id, qtype, top_k=3)
             prompt = memory.build_prompt(question, db_id, schema, patterns, evidence)
         else:
@@ -363,7 +364,8 @@ def main():
 
         if match:
             if args.memory == "v25":
-                memory.record_match(question, sql, db_id, db_path=db_path)
+                # Keep benchmark comparisons immutable: V2.5 is seeded from BIRD only.
+                pass
             else:
                 memory.record_match(question, sql, db_id)
 
