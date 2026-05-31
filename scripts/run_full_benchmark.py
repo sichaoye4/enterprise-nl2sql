@@ -274,7 +274,10 @@ def main():
 
     # Progress tracking
     safe_name = name.replace("·", "").replace(" ", "_").replace("__", "_")
-    if args.sample > 0:
+    if args.indices:
+        indices_name = os.path.splitext(os.path.basename(args.indices))[0]
+        safe_name = f"{safe_name}_{indices_name}"
+    elif args.sample > 0:
         safe_name = f"{safe_name}_sample{args.sample}"
     progress_path = os.path.join(results_dir, f"full_{safe_name}_progress.json")
     results_path = os.path.join(results_dir, f"full_{safe_name}.json")
