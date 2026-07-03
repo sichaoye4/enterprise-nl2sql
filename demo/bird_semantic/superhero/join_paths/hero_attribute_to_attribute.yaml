@@ -1,0 +1,7 @@
+join_path_name: hero_attribute_to_attribute
+from_table: hero_attribute
+to_table: attribute
+relationship: many_to_one
+join_condition: hero_attribute.attribute_id = attribute.id
+fanout_risk: low
+status: certified

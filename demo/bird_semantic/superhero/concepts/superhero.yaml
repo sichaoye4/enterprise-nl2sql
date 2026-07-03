@@ -1,0 +1,8 @@
+concept: superhero
+display_name: Superhero
+domain: superhero
+definition: A superhero character with powers and attributes.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_superheroes

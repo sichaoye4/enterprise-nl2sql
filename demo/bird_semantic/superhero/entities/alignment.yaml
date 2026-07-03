@@ -1,0 +1,5 @@
+entity: alignment
+description: Represents alignment data.
+primary_keys:
+- id
+status: certified

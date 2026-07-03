@@ -1,0 +1,10 @@
+term: full_names
+description: The full real names of superheroes
+candidate_concepts:
+- superhero
+default_concept_by_domain:
+  superhero: superhero
+ambiguity_level: low
+owner: bird_benchmark
+domain: superhero
+status: certified

@@ -1,0 +1,5 @@
+entity: superhero
+description: Represents superhero data.
+primary_keys:
+- id
+status: certified

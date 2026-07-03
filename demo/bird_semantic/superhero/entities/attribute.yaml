@@ -1,0 +1,5 @@
+entity: attribute
+description: Represents attribute data.
+primary_keys:
+- id
+status: certified

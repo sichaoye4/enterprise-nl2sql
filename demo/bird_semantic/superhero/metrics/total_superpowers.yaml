@@ -1,0 +1,12 @@
+metric: total_superpowers
+concept: superpower
+description: Total number of distinct superpowers
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: superpower
+  column: id
+aggregation: count
+unit: ''
+allowed_dimensions: []

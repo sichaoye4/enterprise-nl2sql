@@ -1,0 +1,10 @@
+term: blue_eyes
+description: Eye colour blue
+candidate_concepts:
+- eye_colour
+default_concept_by_domain:
+  superhero: eye_colour
+ambiguity_level: low
+owner: bird_benchmark
+domain: superhero
+status: certified

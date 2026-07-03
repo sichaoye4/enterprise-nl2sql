@@ -1,0 +1,10 @@
+term: over_15_super_powers
+description: Condition that a superhero has more than 15 superpowers
+candidate_concepts:
+- superpower_count
+default_concept_by_domain:
+  superhero: superpower_count
+ambiguity_level: low
+owner: bird_benchmark
+domain: superhero
+status: certified

@@ -1,0 +1,2927 @@
+{
+  "config": {
+    "name": "V4 Flash \u00b7 few_shot \u00b7 xhigh",
+    "model": "deepseek-v4-flash",
+    "reasoning": "xhigh",
+    "few_shot": true
+  },
+  "memory": "v25",
+  "total": 110,
+  "passed": 100,
+  "ex": 90.91,
+  "time_min": 22.6,
+  "results": [
+    {
+      "idx": 0,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)` DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)` DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 1,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT rate FROM (SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` AS rate FROM frpm WHERE `Educational Option Type` = 'Continuation School') WHERE rate IS NOT NULL ORDER BY rate ASC LIMIT 3",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` FROM frpm WHERE `Educational Option Type` = 'Continuation School' AND `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` IS NOT NULL ORDER BY `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` ASC LIMIT 3",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT rate FROM (SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` AS rate FROM frpm WHERE `Educational Option Type` = 'Continuation School') WHERE rate IS NOT NULL ORDER BY rate ASC LIMIT 3",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 2,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`District Name` = 'Fresno County Office of Education' AND T1.`Charter School (Y/N)` = 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`District Name` = 'Fresno County Office of Education' AND T1.`Charter School (Y/N)` = 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 5,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 3,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT T2.MailStreet FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`FRPM Count (K-12)` DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.MailStreet FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`FRPM Count (K-12)` DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 4,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT T2.Phone FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Charter Funding Type` = 'Directly funded' AND T1.`Charter School (Y/N)` = 1 AND T2.OpenDate > '2000-01-01'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.Phone FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Charter Funding Type` = 'Directly funded' AND T1.`Charter School (Y/N)` = 1 AND T2.OpenDate > '2000-01-01'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 751,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 5,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT COUNT(DISTINCT T2.School) FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Virtual = 'F' AND T1.AvgScrMath > 400",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(DISTINCT T2.School) FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Virtual = 'F' AND T1.AvgScrMath > 400",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 6,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT T2.School FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Magnet = 1 AND T1.NumTstTakr > 500",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.School FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Magnet = 1 AND T1.NumTstTakr > 500",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 7,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT T2.Phone FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode ORDER BY T1.NumGE1500 DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.Phone FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode ORDER BY T1.NumGE1500 DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 8,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT NumTstTakr FROM satscores WHERE cds = ( SELECT CDSCode FROM frpm ORDER BY `FRPM Count (K-12)` DESC LIMIT 1 )",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT NumTstTakr FROM satscores WHERE cds = ( SELECT CDSCode FROM frpm ORDER BY `FRPM Count (K-12)` DESC LIMIT 1 )",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 9,
+      "db_id": "california_schools",
+      "match": true,
+      "sql": "SELECT COUNT(T2.`School Code`) FROM satscores AS T1 INNER JOIN frpm AS T2 ON T1.cds = T2.CDSCode WHERE T1.AvgScrMath > 560 AND T2.`Charter Funding Type` = 'Directly funded'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T2.`School Code`) FROM satscores AS T1 INNER JOIN frpm AS T2 ON T1.cds = T2.CDSCode WHERE T1.AvgScrMath > 560 AND T2.`Charter Funding Type` = 'Directly funded'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 10,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT COUNT(T2.account_id) FROM district AS T1 INNER JOIN account AS T2 ON T1.district_id = T2.district_id WHERE T1.A3 = 'east Bohemia' AND T2.frequency = 'POPLATEK PO OBRATU'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T2.account_id) FROM district AS T1 INNER JOIN account AS T2 ON T1.district_id = T2.district_id WHERE T1.A3 = 'east Bohemia' AND T2.frequency = 'POPLATEK PO OBRATU'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 11,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT COUNT(T1.account_id) FROM account AS T1 INNER JOIN loan AS T2 ON T1.account_id = T2.account_id INNER JOIN district AS T3 ON T1.district_id = T3.district_id WHERE T3.A3 = 'Prague'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.account_id) FROM account AS T1 INNER JOIN loan AS T2 ON T1.account_id = T2.account_id INNER JOIN district AS T3 ON T1.district_id = T3.district_id WHERE T3.A3 = 'Prague'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 12,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT DISTINCT IIF(AVG(A13) > AVG(A12), '1996', '1995') FROM district",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT IIF(AVG(A13) > AVG(A12), '1996', '1995') FROM district",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 13,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT COUNT(DISTINCT T2.district_id) FROM client AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id WHERE T1.gender = 'F' AND T2.A11 BETWEEN 6000 AND 10000",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(DISTINCT T2.district_id) FROM client AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id WHERE T1.gender = 'F' AND T2.A11 BETWEEN 6000 AND 10000",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 14,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT COUNT(T1.client_id) FROM client AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id WHERE T1.gender = 'M' AND T2.A3 = 'north Bohemia' AND T2.A11 > 8000",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.client_id) FROM client AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id WHERE T1.gender = 'M' AND T2.A3 = 'north Bohemia' AND T2.A11 > 8000",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 15,
+      "db_id": "financial",
+      "match": false,
+      "sql": "WITH oldest_females AS (\n    SELECT client_id, district_id\n    FROM client\n    WHERE gender = 'F'\n      AND birth_date = (SELECT MIN(birth_date) FROM client WHERE gender = 'F')\n),\nmin_salary_oldest AS (\n    SELECT MIN(d.A11) AS min_a11\n    FROM oldest_females f\n    JOIN district d ON f.district_id = d.district_id\n)\nSELECT a.account_id,\n       (SELECT MAX(A11) FROM district) - (SELECT min_a11 FROM min_salary_oldest) AS gap\nFROM oldest_females f\nJOIN disp dp ON f.client_id = dp.client_id\nJOIN account a ON dp.account_id = a.account_id\nJOIN district d ON f.district_id = d.district_id\nWHERE d.A11 = (SELECT min_a11 FROM min_salary_oldest)\nORDER BY a.account_id;",
+      "attempts": 3,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.account_id, (SELECT MAX(A11) - MIN(A11) FROM district) AS gap FROM account T1 INNER JOIN disp T2 ON T1.account_id = T2.account_id INNER JOIN client T3 ON T2.client_id = T3.client_id INNER JOIN district T4 ON T1.district_id = T4.district_id WHERE T3.gender = 'F' AND T3.birth_date = (SELECT MIN(birth_date) FROM client WHERE gender = 'F') AND T4.A11 = (SELECT MIN(A11) FROM district) ORDER BY T1.account_id;",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              },
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 0,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "WITH oldest_females AS (\n    SELECT client_id, district_id\n    FROM client\n    WHERE gender = 'F'\n      AND birth_date = (SELECT MIN(birth_date) FROM client WHERE gender = 'F')\n),\nmin_salary_oldest AS (\n    SELECT MIN(d.A11) AS min_a11\n    FROM oldest_females f\n    JOIN district d ON f.district_id = d.district_id\n)\nSELECT a.account_id,\n       (SELECT MAX(A11) FROM district) - (SELECT min_a11 FROM min_salary_oldest) AS gap\nFROM oldest_females f\nJOIN disp dp ON f.client_id = dp.client_id\nJOIN account a ON dp.account_id = a.account_id\nJOIN district d ON f.district_id = d.district_id\nWHERE d.A11 = (SELECT min_a11 FROM min_salary_oldest)\nORDER BY a.account_id;",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              },
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery.; Ranking question should usually include both ORDER BY and LIMIT."
+        },
+        {
+          "attempt": 3,
+          "sql": "WITH ranked_females AS (\n    SELECT c.client_id, c.district_id, d.A11, a.account_id,\n           RANK() OVER (ORDER BY c.birth_date ASC, d.A11 ASC) AS rnk\n    FROM client c\n    JOIN district d ON c.district_id = d.district_id\n    JOIN disp dp ON c.client_id = dp.client_id\n    JOIN account a ON dp.account_id = a.account_id\n    WHERE c.gender = 'F'\n)\nSELECT account_id,\n       (SELECT MAX(A11) FROM district) - A11 AS gap\nFROM ranked_females\nWHERE rnk = 1\nORDER BY account_id;",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              },
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery.; Ranking question should usually include both ORDER BY and LIMIT."
+        }
+      ]
+    },
+    {
+      "idx": 16,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT T1.account_id FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id INNER JOIN client AS T3 ON T2.client_id = T3.client_id INNER JOIN district AS T4 ON T4.district_id = T1.district_id WHERE T2.client_id = (SELECT client_id FROM client ORDER BY birth_date DESC LIMIT 1) GROUP BY T4.A11, T1.account_id",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.account_id FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id INNER JOIN client AS T3 ON T2.client_id = T3.client_id INNER JOIN district AS T4 ON T4.district_id = T1.district_id WHERE T2.client_id = (SELECT client_id FROM client ORDER BY birth_date DESC LIMIT 1) GROUP BY T4.A11, T1.account_id",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 17,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT COUNT(T1.account_id) FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id WHERE T2.type = 'OWNER' AND T1.frequency = 'POPLATEK TYDNE'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.account_id) FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id WHERE T2.type = 'OWNER' AND T1.frequency = 'POPLATEK TYDNE'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 18,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT T2.client_id FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id WHERE T1.frequency = 'POPLATEK PO OBRATU' AND T2.type = 'DISPONENT'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.client_id FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id WHERE T1.frequency = 'POPLATEK PO OBRATU' AND T2.type = 'DISPONENT'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 14,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 19,
+      "db_id": "financial",
+      "match": true,
+      "sql": "SELECT T1.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE STRFTIME('%Y', T1.date) = '1997' AND T2.frequency = 'POPLATEK TYDNE' ORDER BY T1.amount LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE STRFTIME('%Y', T1.date) = '1997' AND T2.frequency = 'POPLATEK TYDNE' ORDER BY T1.amount LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 20,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT bond_type FROM bond GROUP BY bond_type ORDER BY COUNT(bond_id) DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT bond_type FROM bond GROUP BY bond_type ORDER BY COUNT(bond_id) DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 21,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT COUNT(DISTINCT T1.molecule_id) FROM molecule AS T1 INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.element = 'cl' AND T1.label = '-'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(DISTINCT T1.molecule_id) FROM molecule AS T1 INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.element = 'cl' AND T1.label = '-'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 22,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT AVG(oxygen_count) FROM (SELECT T1.molecule_id, COUNT(T1.element) AS oxygen_count FROM atom AS T1 INNER JOIN bond AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.bond_type = '-' AND T1.element = 'o' GROUP BY T1.molecule_id) AS oxygen_counts",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT AVG(oxygen_count) FROM (SELECT T1.molecule_id, COUNT(T1.element) AS oxygen_count FROM atom AS T1 INNER JOIN bond AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.bond_type = '-' AND T1.element = 'o' GROUP BY T1.molecule_id) AS oxygen_counts",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 23,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT AVG(single_bond_count) FROM (SELECT T3.molecule_id, COUNT(T1.bond_type) AS single_bond_count FROM bond AS T1 INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN molecule AS T3 ON T3.molecule_id = T2.molecule_id WHERE T1.bond_type = '-' AND T3.label = '+' GROUP BY T3.molecule_id) AS subquery",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT AVG(single_bond_count) FROM (SELECT T3.molecule_id, COUNT(T1.bond_type) AS single_bond_count FROM bond AS T1 INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN molecule AS T3 ON T3.molecule_id = T2.molecule_id WHERE T1.bond_type = '-' AND T3.label = '+' GROUP BY T3.molecule_id) AS subquery",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 24,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT COUNT(DISTINCT T2.molecule_id) FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.element = 'na' AND T2.label = '-'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(DISTINCT T2.molecule_id) FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.element = 'na' AND T2.label = '-'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 25,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT DISTINCT T2.molecule_id FROM bond AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.bond_type = '#' AND T2.label = '+'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T2.molecule_id FROM bond AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.bond_type = '#' AND T2.label = '+'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 2,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 26,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT CAST(COUNT(DISTINCT CASE WHEN T1.element = 'c' THEN T1.atom_id ELSE NULL END) AS REAL) * 100 / COUNT(DISTINCT T1.atom_id) FROM atom AS T1 INNER JOIN bond AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.bond_type = '='",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT CAST(COUNT(DISTINCT CASE WHEN T1.element = 'c' THEN T1.atom_id ELSE NULL END) AS REAL) * 100 / COUNT(DISTINCT T1.atom_id) FROM atom AS T1 INNER JOIN bond AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.bond_type = '='",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 27,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT COUNT(T.bond_id) FROM bond AS T WHERE T.bond_type = '#'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T.bond_id) FROM bond AS T WHERE T.bond_type = '#'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 28,
+      "db_id": "toxicology",
+      "match": true,
+      "sql": "SELECT COUNT(atom_id) FROM atom WHERE element <> 'br'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(atom_id) FROM atom WHERE element <> 'br'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 29,
+      "db_id": "toxicology",
+      "match": false,
+      "sql": "SELECT COUNT(*) FROM (SELECT molecule_id, label FROM molecule ORDER BY molecule_id LIMIT 100) AS first_hundred WHERE label = '+'",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T.molecule_id) FROM molecule AS T WHERE T.molecule_id BETWEEN 'TR000' AND 'TR099' AND T.label = '+'",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT COUNT(*) FROM (SELECT molecule_id, label FROM molecule ORDER BY molecule_id LIMIT 100) AS first_hundred WHERE label = '+'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 30,
+      "db_id": "card_games",
+      "match": true,
+      "sql": "SELECT id FROM cards WHERE cardKingdomFoilId IS NOT NULL AND cardKingdomId IS NOT NULL",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT id FROM cards WHERE cardKingdomFoilId IS NOT NULL AND cardKingdomId IS NOT NULL",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 25061,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 31,
+      "db_id": "card_games",
+      "match": false,
+      "sql": "SELECT id FROM cards WHERE borderColor = 'borderless' AND (cardKingdomFoilId IS NULL OR cardKingdomId IS NULL);",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT id FROM cards WHERE borderColor = 'borderless' AND (cardKingdomFoilId IS NULL OR cardKingdomId IS NULL);",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 72,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 32,
+      "db_id": "card_games",
+      "match": false,
+      "sql": "SELECT name FROM cards ORDER BY faceConvertedManaCost DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT name FROM cards ORDER BY faceConvertedManaCost DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 33,
+      "db_id": "card_games",
+      "match": false,
+      "sql": "SELECT name FROM cards WHERE frameVersion = '2015' AND edhrecRank < 100 ORDER BY edhrecRank ASC LIMIT 2147483647;",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT name FROM cards WHERE frameVersion = '2015' AND edhrecRank < 100",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 654,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT name FROM cards WHERE frameVersion = '2015' AND edhrecRank < 100 ORDER BY edhrecRank ASC LIMIT 2147483647;",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 654,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 34,
+      "db_id": "card_games",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.id FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T2.format = 'gladiator' AND T2.status = 'Banned' AND T1.rarity = 'mythic'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.id FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T2.format = 'gladiator' AND T2.status = 'Banned' AND T1.rarity = 'mythic'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 5,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 35,
+      "db_id": "card_games",
+      "match": true,
+      "sql": "SELECT DISTINCT T2.status FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T1.types = 'Artifact' AND T2.format = 'vintage' AND T1.side IS NULL",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T2.status FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T1.types = 'Artifact' AND T2.format = 'vintage' AND T1.side IS NULL",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 36,
+      "db_id": "card_games",
+      "match": true,
+      "sql": "SELECT T1.id, T1.artist FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T2.format = 'commander' AND T2.status = 'Legal' AND (T1.power IS NULL OR T1.power = '*')",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.id, T1.artist FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T2.format = 'commander' AND T2.status = 'Legal' AND (T1.power IS NULL OR T1.power = '*')",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 29936,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 37,
+      "db_id": "card_games",
+      "match": true,
+      "sql": "SELECT T1.id, T2.text, T1.hasContentWarning FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.artist = 'Stephen Daniele'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.id, T2.text, T1.hasContentWarning FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.artist = 'Stephen Daniele'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 23,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 38,
+      "db_id": "card_games",
+      "match": true,
+      "sql": "SELECT T2.text FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.name = 'Sublime Epiphany' AND T1.number = '74s'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.text FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.name = 'Sublime Epiphany' AND T1.number = '74s'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 15,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 39,
+      "db_id": "card_games",
+      "match": false,
+      "sql": "SELECT cards.name, cards.artist, cards.isPromo FROM cards INNER JOIN rulings ON cards.uuid = rulings.uuid GROUP BY cards.uuid ORDER BY COUNT(rulings.uuid) DESC, cards.name ASC LIMIT 1;",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT cards.name, cards.artist, cards.isPromo FROM cards INNER JOIN rulings ON cards.uuid = rulings.uuid GROUP BY cards.uuid HAVING COUNT(*) = (SELECT MAX(cnt) FROM (SELECT COUNT(*) AS cnt FROM rulings GROUP BY uuid) AS max_counts) LIMIT 1;",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              },
+              {
+                "code": "limit_without_order",
+                "message": "LIMIT without ORDER BY is unstable for ranking questions."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT cards.name, cards.artist, cards.isPromo FROM cards INNER JOIN rulings ON cards.uuid = rulings.uuid GROUP BY cards.uuid ORDER BY COUNT(rulings.uuid) DESC, cards.name ASC LIMIT 1;",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 40,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT DisplayName FROM users WHERE DisplayName IN ('Harlan', 'Jarrod Dixon') ORDER BY Reputation DESC LIMIT 1;",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DisplayName FROM users WHERE DisplayName IN ('Harlan', 'Jarrod Dixon') AND Reputation = (SELECT MAX(Reputation) FROM users WHERE DisplayName IN ('Harlan', 'Jarrod Dixon'))",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT DisplayName FROM users WHERE DisplayName IN ('Harlan', 'Jarrod Dixon') ORDER BY Reputation DESC LIMIT 1;",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 41,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT DisplayName FROM users WHERE STRFTIME('%Y', CreationDate) = '2011'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DisplayName FROM users WHERE STRFTIME('%Y', CreationDate) = '2011'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 4430,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 42,
+      "db_id": "codebase_community",
+      "match": false,
+      "sql": "SELECT COUNT(Id) FROM users WHERE LastAccessDate > '2014-09-01' ORDER BY 1 DESC LIMIT 1;",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(Id) FROM users WHERE date(LastAccessDate) > '2014-09-01'",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT COUNT(Id) FROM users WHERE LastAccessDate > '2014-09-01' ORDER BY 1 DESC LIMIT 1;",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 43,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT DisplayName FROM users ORDER BY Views DESC LIMIT 1",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DisplayName FROM users WHERE Views = (SELECT MAX(Views) FROM users)",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "aggregate_in_where",
+                "message": "Aggregate functions cannot be filtered in WHERE; use HAVING or a subquery."
+              },
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT DisplayName FROM users ORDER BY Views DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 44,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT COUNT(Id) FROM users WHERE UpVotes > 100 AND DownVotes > 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(Id) FROM users WHERE UpVotes > 100 AND DownVotes > 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 45,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT COUNT(Id) FROM users WHERE Views > 10 AND STRFTIME('%Y', CreationDate) > '2013'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(Id) FROM users WHERE Views > 10 AND STRFTIME('%Y', CreationDate) > '2013'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 46,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT COUNT(T1.Id) FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.Id) FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 47,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT T1.Title FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.Title FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 121,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 48,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT T2.DisplayName FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T1.Title = 'Eliciting priors from experts'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.DisplayName FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T1.Title = 'Eliciting priors from experts'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 49,
+      "db_id": "codebase_community",
+      "match": true,
+      "sql": "SELECT T1.Title FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie' ORDER BY T1.ViewCount DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.Title FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie' ORDER BY T1.ViewCount DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 50,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT T3.power_name FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id INNER JOIN superpower AS T3 ON T2.power_id = T3.id WHERE T1.superhero_name = '3-D Man'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T3.power_name FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id INNER JOIN superpower AS T3 ON T2.power_id = T3.id WHERE T1.superhero_name = '3-D Man'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 4,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 51,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT COUNT(T1.hero_id) FROM hero_power AS T1 INNER JOIN superpower AS T2 ON T1.power_id = T2.id WHERE T2.power_name = 'Super Strength'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.hero_id) FROM hero_power AS T1 INNER JOIN superpower AS T2 ON T1.power_id = T2.id WHERE T2.power_name = 'Super Strength'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 52,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id INNER JOIN superpower AS T3 ON T2.power_id = T3.id WHERE T3.power_name = 'Super Strength' AND T1.height_cm > 200",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id INNER JOIN superpower AS T3 ON T2.power_id = T3.id WHERE T3.power_name = 'Super Strength' AND T1.height_cm > 200",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 53,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.full_name FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id GROUP BY T1.full_name HAVING COUNT(T2.power_id) > 15",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.full_name FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id GROUP BY T1.full_name HAVING COUNT(T2.power_id) > 15",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 71,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 54,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id WHERE T2.colour = 'Blue'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id WHERE T2.colour = 'Blue'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 55,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT T2.colour FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.skin_colour_id = T2.id WHERE T1.superhero_name = 'Apocalypse'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.colour FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.skin_colour_id = T2.id WHERE T1.superhero_name = 'Apocalypse'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 56,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id INNER JOIN superpower AS T3 ON T2.power_id = T3.id INNER JOIN colour AS T4 ON T1.eye_colour_id = T4.id WHERE T3.power_name = 'Agility' AND T4.colour = 'Blue'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN hero_power AS T2 ON T1.id = T2.hero_id INNER JOIN superpower AS T3 ON T2.power_id = T3.id INNER JOIN colour AS T4 ON T1.eye_colour_id = T4.id WHERE T3.power_name = 'Agility' AND T4.colour = 'Blue'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 57,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id INNER JOIN colour AS T3 ON T1.hair_colour_id = T3.id WHERE T2.colour = 'Blue' AND T3.colour = 'Blond';",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.superhero_name FROM superhero AS T1 INNER JOIN colour AS T2 ON T1.eye_colour_id = T2.id INNER JOIN colour AS T3 ON T1.hair_colour_id = T3.id WHERE T2.colour = 'Blue' AND T3.colour = 'Blond';",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 90,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 58,
+      "db_id": "superhero",
+      "match": true,
+      "sql": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id WHERE T2.publisher_name = 'Marvel Comics'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.id) FROM superhero AS T1 INNER JOIN publisher AS T2 ON T1.publisher_id = T2.id WHERE T2.publisher_name = 'Marvel Comics'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 59,
+      "db_id": "superhero",
+      "match": false,
+      "sql": "SELECT superhero_name, height_cm, RANK() OVER (ORDER BY height_cm DESC) AS HeightRank FROM superhero INNER JOIN publisher ON superhero.publisher_id = publisher.id WHERE publisher.publisher_name = 'Marvel Comics' ORDER BY HeightRank LIMIT 1",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT superhero_name, height_cm, RANK() OVER (ORDER BY height_cm DESC) AS HeightRank FROM superhero INNER JOIN publisher ON superhero.publisher_id = publisher.id WHERE publisher.publisher_name = 'Marvel Comics'",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "missing_ranking_construct",
+                "message": "Ranking question should usually include both ORDER BY and LIMIT."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 387,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT superhero_name, height_cm, RANK() OVER (ORDER BY height_cm DESC) AS HeightRank FROM superhero INNER JOIN publisher ON superhero.publisher_id = publisher.id WHERE publisher.publisher_name = 'Marvel Comics' ORDER BY HeightRank LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 60,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT T2.driverRef FROM qualifying AS T1 INNER JOIN drivers AS T2 ON T2.driverId = T1.driverId WHERE T1.raceId = 20 ORDER BY T1.q1 DESC LIMIT 5",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.driverRef FROM qualifying AS T1 INNER JOIN drivers AS T2 ON T2.driverId = T1.driverId WHERE T1.raceId = 20 ORDER BY T1.q1 DESC LIMIT 5",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 5,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 61,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT T2.surname FROM qualifying AS T1 INNER JOIN drivers AS T2 ON T2.driverId = T1.driverId WHERE T1.raceId = 19 ORDER BY T1.q2 ASC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.surname FROM qualifying AS T1 INNER JOIN drivers AS T2 ON T2.driverId = T1.driverId WHERE T1.raceId = 19 ORDER BY T1.q2 ASC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 62,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT T2.year FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T1.location = 'Shanghai'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.year FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T1.location = 'Shanghai'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 14,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 63,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.url FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitId = T1.circuitId WHERE T1.name = 'Circuit de Barcelona-Catalunya'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.url FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitId = T1.circuitId WHERE T1.name = 'Circuit de Barcelona-Catalunya'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 64,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT DISTINCT T2.name FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitId = T1.circuitId WHERE T1.country = 'Germany'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T2.name FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitId = T1.circuitId WHERE T1.country = 'Germany'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 65,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.position FROM constructorStandings AS T1 INNER JOIN constructors AS T2 ON T2.constructorId = T1.constructorId WHERE T2.name = 'Renault'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.position FROM constructorStandings AS T1 INNER JOIN constructors AS T2 ON T2.constructorId = T1.constructorId WHERE T2.name = 'Renault'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 18,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 66,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT COUNT(T3.raceId) FROM circuits AS T1 INNER JOIN races AS T3 ON T3.circuitId = T1.circuitId WHERE T1.country NOT IN ( 'Bahrain', 'China', 'Singapore', 'Japan', 'Korea', 'Turkey', 'UAE', 'Malaysia', 'Spain', 'Monaco', 'Azerbaijan', 'Austria', 'Belgium', 'France', 'Germany', 'Hungary', 'Italy', 'UK' ) AND T3.year = 2010",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T3.raceId) FROM circuits AS T1 INNER JOIN races AS T3 ON T3.circuitId = T1.circuitId WHERE T1.country NOT IN ( 'Bahrain', 'China', 'Singapore', 'Japan', 'Korea', 'Turkey', 'UAE', 'Malaysia', 'Spain', 'Monaco', 'Azerbaijan', 'Austria', 'Belgium', 'France', 'Germany', 'Hungary', 'Italy', 'UK' ) AND T3.year = 2010",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 67,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT DISTINCT T2.name FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitId = T1.circuitId WHERE T1.country = 'Spain'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T2.name FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitId = T1.circuitId WHERE T1.country = 'Spain'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 2,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 68,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.lat, T1.lng FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T2.name = 'Australian Grand Prix'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.lat, T1.lng FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T2.name = 'Australian Grand Prix'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 69,
+      "db_id": "formula_1",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.url FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T1.name = 'Sepang International Circuit'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.url FROM circuits AS T1 INNER JOIN races AS T2 ON T2.circuitID = T1.circuitId WHERE T1.name = 'Sepang International Circuit'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 70,
+      "db_id": "european_football_2",
+      "match": true,
+      "sql": "SELECT player_api_id FROM Player_Attributes ORDER BY overall_rating DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT player_api_id FROM Player_Attributes ORDER BY overall_rating DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 71,
+      "db_id": "european_football_2",
+      "match": false,
+      "sql": "SELECT player_name, height FROM Player ORDER BY height DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT player_name, height FROM Player ORDER BY height DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 72,
+      "db_id": "european_football_2",
+      "match": true,
+      "sql": "SELECT preferred_foot FROM Player_Attributes WHERE potential IS NOT NULL ORDER BY potential ASC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT preferred_foot FROM Player_Attributes WHERE potential IS NOT NULL ORDER BY potential ASC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 73,
+      "db_id": "european_football_2",
+      "match": true,
+      "sql": "SELECT COUNT(id) FROM Player_Attributes WHERE overall_rating BETWEEN 60 AND 65 AND defensive_work_rate = 'low'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(id) FROM Player_Attributes WHERE overall_rating BETWEEN 60 AND 65 AND defensive_work_rate = 'low'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 74,
+      "db_id": "european_football_2",
+      "match": true,
+      "sql": "SELECT id FROM Player_Attributes ORDER BY crossing DESC LIMIT 5",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT id FROM Player_Attributes ORDER BY crossing DESC LIMIT 5",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 5,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 75,
+      "db_id": "european_football_2",
+      "match": true,
+      "sql": "SELECT t2.name FROM Match AS t1 INNER JOIN League AS t2 ON t1.league_id = t2.id WHERE t1.season = '2015/2016' GROUP BY t2.name ORDER BY SUM(t1.home_team_goal + t1.away_team_goal) DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT t2.name FROM Match AS t1 INNER JOIN League AS t2 ON t1.league_id = t2.id WHERE t1.season = '2015/2016' GROUP BY t2.name ORDER BY SUM(t1.home_team_goal + t1.away_team_goal) DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 76,
+      "db_id": "european_football_2",
+      "match": true,
+      "sql": "SELECT teamDetails.team_long_name FROM Match AS matchData INNER JOIN Team AS teamDetails ON matchData.home_team_api_id = teamDetails.team_api_id WHERE matchData.season = '2015/2016' AND matchData.home_team_goal - matchData.away_team_goal < 0 GROUP BY matchData.home_team_api_id ORDER BY COUNT(*) ASC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT teamDetails.team_long_name FROM Match AS matchData INNER JOIN Team AS teamDetails ON matchData.home_team_api_id = teamDetails.team_api_id WHERE matchData.season = '2015/2016' AND matchData.home_team_goal - matchData.away_team_goal < 0 GROUP BY matchData.home_team_api_id ORDER BY COUNT(*) ASC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 77,
+      "db_id": "european_football_2",
+      "match": false,
+      "sql": "SELECT DISTINCT t2.player_name FROM Player_Attributes AS t1 INNER JOIN Player AS t2 ON t1.player_api_id = t2.player_api_id ORDER BY t1.penalties DESC LIMIT 10",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT t2.player_name FROM Player_Attributes AS t1 INNER JOIN Player AS t2 ON t1.player_api_id = t2.player_api_id ORDER BY t1.penalties DESC LIMIT 10",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 10,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 78,
+      "db_id": "european_football_2",
+      "match": true,
+      "sql": "SELECT teamInfo.team_long_name FROM League AS leagueData INNER JOIN Match AS matchData ON leagueData.id = matchData.league_id INNER JOIN Team AS teamInfo ON matchData.away_team_api_id = teamInfo.team_api_id WHERE leagueData.name = 'Scotland Premier League' AND matchData.season = '2009/2010' AND matchData.away_team_goal - matchData.home_team_goal > 0 GROUP BY matchData.away_team_api_id ORDER BY COUNT(*) DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT teamInfo.team_long_name FROM League AS leagueData INNER JOIN Match AS matchData ON leagueData.id = matchData.league_id INNER JOIN Team AS teamInfo ON matchData.away_team_api_id = teamInfo.team_api_id WHERE leagueData.name = 'Scotland Premier League' AND matchData.season = '2009/2010' AND matchData.away_team_goal - matchData.home_team_goal > 0 GROUP BY matchData.away_team_api_id ORDER BY COUNT(*) DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 79,
+      "db_id": "european_football_2",
+      "match": true,
+      "sql": "SELECT t1.buildUpPlaySpeed FROM Team_Attributes AS t1 INNER JOIN Team AS t2 ON t1.team_api_id = t2.team_api_id ORDER BY t1.buildUpPlaySpeed ASC LIMIT 4",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT t1.buildUpPlaySpeed FROM Team_Attributes AS t1 INNER JOIN Team AS t2 ON t1.team_api_id = t2.team_api_id ORDER BY t1.buildUpPlaySpeed ASC LIMIT 4",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 4,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 80,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT CAST(SUM(CASE WHEN Admission = '+' THEN 1 ELSE 0 END) AS REAL) * 100 / SUM(CASE WHEN Admission = '-' THEN 1 ELSE 0 END) FROM Patient WHERE SEX = 'M'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT CAST(SUM(CASE WHEN Admission = '+' THEN 1 ELSE 0 END) AS REAL) * 100 / SUM(CASE WHEN Admission = '-' THEN 1 ELSE 0 END) FROM Patient WHERE SEX = 'M'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 81,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT CAST(SUM(CASE WHEN STRFTIME('%Y', Birthday) > '1930' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM Patient WHERE SEX = 'F'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT CAST(SUM(CASE WHEN STRFTIME('%Y', Birthday) > '1930' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM Patient WHERE SEX = 'F'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 82,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT CAST(SUM(CASE WHEN Admission = '+' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM Patient WHERE Birthday BETWEEN '1930-01-01' AND '1940-12-31'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT CAST(SUM(CASE WHEN Admission = '+' THEN 1 ELSE 0 END) AS REAL) * 100 / COUNT(*) FROM Patient WHERE Birthday BETWEEN '1930-01-01' AND '1940-12-31'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 83,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT CAST(COUNT(CASE WHEN Admission = '+' THEN 1 END) AS REAL) / NULLIF(COUNT(CASE WHEN Admission = '-' THEN 1 END), 0) FROM Patient WHERE Diagnosis = 'SLE';",
+      "attempts": 2,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT SUM(CASE WHEN Admission = '+' THEN 1.0 ELSE 0 END) / SUM(CASE WHEN Admission = '-' THEN 1 ELSE 0 END) FROM Patient WHERE Diagnosis = 'SLE'",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "integer_division",
+                "message": "Ratio/rate division may need CAST, 1.0 multiplication, or NULLIF to avoid integer division/zero division."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT CAST(COUNT(CASE WHEN Admission = '+' THEN 1 END) AS REAL) / NULLIF(COUNT(CASE WHEN Admission = '-' THEN 1 END), 0) FROM Patient WHERE Diagnosis = 'SLE';",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 84,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT T1.Diagnosis, T2.Date FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T1.ID = 30609",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.Diagnosis, T2.Date FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T1.ID = 30609",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 60,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 85,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT T1.SEX, T1.Birthday, T2.`Examination Date`, T2.Symptoms FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T1.ID = 163109",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.SEX, T1.Birthday, T2.`Examination Date`, T2.Symptoms FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T1.ID = 163109",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 86,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.ID, T1.SEX, T1.Birthday FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.LDH > 500",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.ID, T1.SEX, T1.Birthday FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE T2.LDH > 500",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 103,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 87,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.ID, STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T2.RVVT = '+'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.ID, STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T2.RVVT = '+'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 7,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 88,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.ID, T1.SEX, T1.Diagnosis FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T2.Thrombosis = 2",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.ID, T1.SEX, T1.Diagnosis FROM Patient AS T1 INNER JOIN Examination AS T2 ON T1.ID = T2.ID WHERE T2.Thrombosis = 2",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 3,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 89,
+      "db_id": "thrombosis_prediction",
+      "match": true,
+      "sql": "SELECT DISTINCT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE STRFTIME('%Y', T1.Birthday) = '1937' AND T2.`T-CHO` >= 250",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT DISTINCT T1.ID FROM Patient AS T1 INNER JOIN Laboratory AS T2 ON T1.ID = T2.ID WHERE STRFTIME('%Y', T1.Birthday) = '1937' AND T2.`T-CHO` >= 250",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 90,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT T2.major_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.first_name = 'Angela' AND T1.last_name = 'Sanders'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.major_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.first_name = 'Angela' AND T1.last_name = 'Sanders'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 91,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT COUNT(T1.member_id) FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T2.college = 'College of Engineering'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.member_id) FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T2.college = 'College of Engineering'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 92,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT T1.first_name, T1.last_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T2.department = 'Art and Design Department'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.first_name, T1.last_name FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T2.department = 'Art and Design Department'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 93,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT COUNT(T2.link_to_member) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event WHERE T1.event_name = 'Women''s Soccer'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T2.link_to_member) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event WHERE T1.event_name = 'Women''s Soccer'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 94,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT T3.phone FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T1.event_name = 'Women''s Soccer'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T3.phone FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T1.event_name = 'Women''s Soccer'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 17,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 95,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT COUNT(T1.event_id) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T1.event_name = 'Women''s Soccer' AND T3.t_shirt_size = 'Medium'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.event_id) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T1.event_name = 'Women''s Soccer' AND T3.t_shirt_size = 'Medium'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 96,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT T1.event_name FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event GROUP BY T1.event_name ORDER BY COUNT(T2.link_to_event) DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.event_name FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event GROUP BY T1.event_name ORDER BY COUNT(T2.link_to_event) DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 97,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT T2.college FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.position = 'Vice President'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T2.college FROM member AS T1 INNER JOIN major AS T2 ON T1.link_to_major = T2.major_id WHERE T1.position = 'Vice President'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 98,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT T1.event_name FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T3.first_name = 'Maya' AND T3.last_name = 'Mclean'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.event_name FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T3.first_name = 'Maya' AND T3.last_name = 'Mclean'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 14,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 99,
+      "db_id": "student_club",
+      "match": true,
+      "sql": "SELECT COUNT(T1.event_id) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T3.first_name = 'Sacha' AND T3.last_name = 'Harrison' AND SUBSTR(T1.event_date, 1, 4) = '2019'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(T1.event_id) FROM event AS T1 INNER JOIN attendance AS T2 ON T1.event_id = T2.link_to_event INNER JOIN member AS T3 ON T2.link_to_member = T3.member_id WHERE T3.first_name = 'Sacha' AND T3.last_name = 'Harrison' AND SUBSTR(T1.event_date, 1, 4) = '2019'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 100,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT COUNT(GasStationID) FROM gasstations WHERE Country = 'CZE' AND Segment = 'Premium'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(GasStationID) FROM gasstations WHERE Country = 'CZE' AND Segment = 'Premium'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 101,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT CAST(SUM(IIF(Currency = 'EUR', 1, 0)) AS FLOAT) / SUM(IIF(Currency = 'CZK', 1, 0)) AS ratio FROM customers",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT CAST(SUM(IIF(Currency = 'EUR', 1, 0)) AS FLOAT) / SUM(IIF(Currency = 'CZK', 1, 0)) AS ratio FROM customers",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 102,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT T1.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Segment = 'LAM' AND SUBSTR(T2.Date, 1, 4) = '2012' GROUP BY T1.CustomerID ORDER BY SUM(T2.Consumption) ASC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Segment = 'LAM' AND SUBSTR(T2.Date, 1, 4) = '2012' GROUP BY T1.CustomerID ORDER BY SUM(T2.Consumption) ASC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 103,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT CAST(AVG(T2.Consumption) AS REAL) / 12.0 FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'",
+      "attempts": 3,
+      "repair_used": true,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT AVG(T2.Consumption) / 12 FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "integer_division",
+                "message": "Ratio/rate division may need CAST, 1.0 multiplication, or NULLIF to avoid integer division/zero division."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        },
+        {
+          "attempt": 2,
+          "sql": "SELECT AVG(T2.Consumption) * 1.0 / 12 FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'",
+          "validation": {
+            "ok": false,
+            "issues": [
+              {
+                "code": "integer_division",
+                "message": "Ratio/rate division may need CAST, 1.0 multiplication, or NULLIF to avoid integer division/zero division."
+              }
+            ]
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "Ratio/rate division may need CAST, 1.0 multiplication, or NULLIF to avoid integer division/zero division."
+        },
+        {
+          "attempt": 3,
+          "sql": "SELECT CAST(AVG(T2.Consumption) AS REAL) / 12.0 FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": "The SQL did not satisfy the validation checks."
+        }
+      ]
+    },
+    {
+      "idx": 104,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT T1.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'CZK' AND T2.Date BETWEEN 201101 AND 201112 GROUP BY T1.CustomerID ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'CZK' AND T2.Date BETWEEN 201101 AND 201112 GROUP BY T1.CustomerID ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 105,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT COUNT(*) FROM ( SELECT T2.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Segment = 'KAM' AND SUBSTR(T2.Date, 1, 4) = '2012' GROUP BY T2.CustomerID HAVING SUM(T2.Consumption) < 30000 ) AS t1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT COUNT(*) FROM ( SELECT T2.CustomerID FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Segment = 'KAM' AND SUBSTR(T2.Date, 1, 4) = '2012' GROUP BY T2.CustomerID HAVING SUM(T2.Consumption) < 30000 ) AS t1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 106,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT SUM(CASE WHEN T1.Currency = 'CZK' THEN T2.Consumption ELSE 0 END) - SUM(CASE WHEN T1.Currency = 'EUR' THEN T2.Consumption ELSE 0 END) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2012'",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT SUM(CASE WHEN T1.Currency = 'CZK' THEN T2.Consumption ELSE 0 END) - SUM(CASE WHEN T1.Currency = 'EUR' THEN T2.Consumption ELSE 0 END) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE SUBSTR(T2.Date, 1, 4) = '2012'",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 107,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT SUBSTR(T2.Date, 1, 4) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'EUR' GROUP BY SUBSTR(T2.Date, 1, 4) ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT SUBSTR(T2.Date, 1, 4) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'EUR' GROUP BY SUBSTR(T2.Date, 1, 4) ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 108,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT T1.Segment FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID GROUP BY T1.Segment ORDER BY SUM(T2.Consumption) ASC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT T1.Segment FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID GROUP BY T1.Segment ORDER BY SUM(T2.Consumption) ASC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    },
+    {
+      "idx": 109,
+      "db_id": "debit_card_specializing",
+      "match": true,
+      "sql": "SELECT SUBSTR(T2.Date, 1, 4) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'CZK' GROUP BY SUBSTR(T2.Date, 1, 4) ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+      "attempts": 1,
+      "repair_used": false,
+      "repair_attempts": [
+        {
+          "attempt": 1,
+          "sql": "SELECT SUBSTR(T2.Date, 1, 4) FROM customers AS T1 INNER JOIN yearmonth AS T2 ON T1.CustomerID = T2.CustomerID WHERE T1.Currency = 'CZK' GROUP BY SUBSTR(T2.Date, 1, 4) ORDER BY SUM(T2.Consumption) DESC LIMIT 1",
+          "validation": {
+            "ok": true,
+            "issues": []
+          },
+          "execution": {
+            "ok": true,
+            "row_count": 1,
+            "error": ""
+          },
+          "repair_reason": ""
+        }
+      ]
+    }
+  ]
+}

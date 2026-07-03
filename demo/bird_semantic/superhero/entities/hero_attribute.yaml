@@ -1,0 +1,3 @@
+entity: hero_attribute
+description: Represents hero attribute data.
+status: certified

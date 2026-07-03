@@ -1,0 +1,7 @@
+join_path_name: superhero_to_publisher
+from_table: superhero
+to_table: publisher
+relationship: many_to_one
+join_condition: superhero.publisher_id = publisher.id
+fanout_risk: low
+status: certified

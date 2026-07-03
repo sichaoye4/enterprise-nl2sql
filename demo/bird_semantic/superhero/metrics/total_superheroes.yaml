@@ -1,0 +1,12 @@
+metric: total_superheroes
+concept: superhero
+description: Total number of superheroes
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: superhero
+  column: id
+aggregation: count
+unit: ''
+allowed_dimensions: []

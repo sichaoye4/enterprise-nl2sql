@@ -1,0 +1,8 @@
+concept: superpower
+display_name: Superpower
+domain: superhero
+definition: A special ability or power possessed by a superhero.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: total_superpowers

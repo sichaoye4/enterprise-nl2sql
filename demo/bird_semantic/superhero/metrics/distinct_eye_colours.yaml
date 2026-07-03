@@ -1,0 +1,12 @@
+metric: distinct_eye_colours
+concept: eye_colour
+description: Number of distinct eye colours among superheroes
+type: distinct_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: colour
+  column: colour
+aggregation: count
+unit: ''
+allowed_dimensions: []

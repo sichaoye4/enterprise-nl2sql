@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NL2SQL · Natural Language to SQL</title>
+<style>
+  :root {
+    --bg: #fafafa;
+    --surface: #ffffff;
+    --border: #e5e7eb;
+    --text: #111827;
+    --text-secondary: #6b7280;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --success: #10b981;
+    --error: #ef4444;
+    --accent: #f0f0ff;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 4px 16px rgba(0,0,0,0.08);
+    --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    --mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0a0a0f;
+      --surface: #14141f;
+      --border: #2a2a3a;
+      --text: #e4e4ef;
+      --text-secondary: #8888a0;
+      --primary: #818cf8;
+      --primary-hover: #6366f1;
+      --accent: #1a1a2e;
+      --shadow: 0 1px 3px rgba(0,0,0,0.2);
+      --shadow-lg: 0 4px 16px rgba(0,0,0,0.3);
+    }
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+  }
+  ::selection { background: var(--primary); color: white; }
+
+  /* Sidebar */
+  .sidebar {
+    width: 280px;
+    border-right: 1px solid var(--border);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    background: var(--surface);
+    flex-shrink: 0;
+    height: 100vh;
+    overflow-y: auto;
+  }
+  .sidebar-header {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .sidebar-header .status {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--success);
+    display: inline-block;
+  }
+  .history-item {
+    padding: 10px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 1px solid transparent;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+  .history-item:hover {
+    background: var(--accent);
+    border-color: var(--border);
+  }
+  .history-item .q { color: var(--text); font-weight: 500; }
+  .history-item .meta { color: var(--text-secondary); font-size: 11px; margin-top: 2px; }
+  .db-select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 13px;
+    font-family: var(--font);
+    width: 100%;
+    cursor: pointer;
+  }
+  .db-select:focus { outline: none; border-color: var(--primary); }
+  .stats-box {
+    font-size: 12px;
+    color: var(--text-secondary);
+    padding: 10px;
+    background: var(--bg);
+    border-radius: 8px;
+    line-height: 1.6;
+  }
+  .stats-box strong { color: var(--text); }
+
+  /* Main */
+  .main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 32px;
+    gap: 20px;
+    overflow-y: auto;
+    height: 100vh;
+  }
+  .logo {
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .logo span { color: var(--primary); }
+
+  /* Input */
+  .input-area {
+    position: relative;
+  }
+  .query-input {
+    width: 100%;
+    padding: 16px 20px;
+    border-radius: var(--radius);
+    border: 2px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 15px;
+    font-family: var(--font);
+    resize: vertical;
+    min-height: 56px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    box-shadow: var(--shadow);
+  }
+  .query-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-lg);
+  }
+  .query-input::placeholder { color: var(--text-secondary); }
+  .submit-btn {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .submit-btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
+  .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .submit-btn.loading::after {
+    content: '';
+    display: inline-block;
+    width: 14px; height: 14px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    vertical-align: middle;
+    margin-left: 6px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* Results */
+  .result-area {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .result-area.visible { display: flex; }
+
+  .card {
+    background: var(--surface);
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 20px;
+    box-shadow: var(--shadow);
+  }
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  
+  .sql-display {
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.6;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    color: var(--text);
+    padding: 4px 0;
+  }
+  .sql-keyword { color: var(--primary); font-weight: 600; }
+  .sql-function { color: #10b981; }
+  .sql-string { color: #f59e0b; }
+
+  .elapsed-badge {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--accent);
+    color: var(--text-secondary);
+  }
+
+  .patterns-used {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .pattern-tag {
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    background: var(--accent);
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+  }
+
+  /* Table */
+  .results-table-wrap {
+    overflow-x: auto;
+  }
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  .results-table th {
+    text-align: left;
+    padding: 10px 12px;
+    border-bottom: 2px solid var(--border);
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .results-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--border);
+    max-width: 300px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .results-table tr:hover td { background: var(--accent); }
+  .results-table .row-num {
+    color: var(--text-secondary);
+    font-size: 11px;
+    width: 40px;
+    text-align: right;
+  }
+
+  .empty-state {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-secondary);
+  }
+  .empty-state .icon { font-size: 32px; margin-bottom: 12px; opacity: 0.5; }
+
+  .error-msg {
+    color: var(--error);
+    font-size: 13px;
+    padding: 12px 16px;
+    background: rgba(239,68,68,0.08);
+    border-radius: 8px;
+    border: 1px solid rgba(239,68,68,0.2);
+  }
+
+  .confirm-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--success);
+    background: rgba(16,185,129,0.08);
+    color: var(--success);
+    font-size: 12px;
+    font-weight: 600;
+    font-family: var(--font);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .confirm-btn:hover { background: var(--success); color: white; }
+  .confirm-btn.confirmed { opacity: 0.5; cursor: default; pointer-events: none; }
+
+  @media (max-width: 768px) {
+    body { flex-direction: column; }
+    .sidebar { width: 100%; height: auto; max-height: 200px; border-right: none; border-bottom: 1px solid var(--border); }
+    .main { padding: 16px; height: auto; }
+  }
+</style>
+</head>
+<body>
+<div class="sidebar">
+  <div class="logo"><span>◇</span> NL2SQL</div>
+  
+  <div>
+    <label style="font-size:12px;color:var(--text-secondary);display:block;margin-bottom:4px;">Database</label>
+    <select class="db-select" id="dbSelect">
+      <option value="">Select a database...</option>
+    </select>
+  </div>
+
+  <div>
+    <div class="sidebar-header">
+      <span>History</span>
+      <span class="status" id="statusDot"></span>
+    </div>
+    <div id="historyList" style="display:flex;flex-direction:column;gap:4px;margin-top:8px;">
+      <div class="empty-state" style="font-size:12px;padding:12px;">No queries yet</div>
+    </div>
+  </div>
+
+  <div class="stats-box" id="statsBox">
+    Loading...
+  </div>
+</div>
+
+<div class="main">
+  <div class="input-area">
+    <textarea class="query-input" id="queryInput" 
+      placeholder="Ask a question in natural language...&#10;e.g. What is the highest eligible free rate for K-12 students in Alameda County?"
+      rows="2"></textarea>
+    <button class="submit-btn" id="submitBtn">Ask</button>
+  </div>
+
+  <div class="result-area" id="resultArea">
+    <div class="card">
+      <div class="card-header">
+        <span>Generated SQL</span>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <span class="elapsed-badge" id="elapsedBadge"></span>
+          <button class="confirm-btn" id="confirmBtn">✓ Confirm</button>
+        </div>
+      </div>
+      <div class="sql-display" id="sqlDisplay"></div>
+      <div class="patterns-used" id="patternsUsed"></div>
+      <div class="error-msg" id="errorMsg" style="display:none;"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <span>Results</span>
+        <span style="font-size:12px;color:var(--text-secondary);" id="rowCount"></span>
+      </div>
+      <div class="results-table-wrap" id="resultsTableWrap">
+        <div class="empty-state" id="resultsEmpty">
+          <div class="icon">◇</div>
+          <div>Run a query to see results</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+const state = {
+  databases: [],
+  currentDb: '',
+  currentQuestion: '',
+  currentSql: '',
+  confirmed: false,
+};
+
+// ── Init ────────────────────────────────────────────────────────────────────
+async function init() {
+  await loadDatabases();
+  await loadHistory();
+  await loadStats();
+}
+
+// ── API ─────────────────────────────────────────────────────────────────────
+async function api(method, path, body) {
+  const opts = { method, headers: {'Content-Type': 'application/json'} };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(path, opts);
+  return res.json();
+}
+
+// ── Databases ───────────────────────────────────────────────────────────────
+async function loadDatabases() {
+  const dbs = await api('GET', '/api/databases');
+  state.databases = dbs;
+  const sel = document.getElementById('dbSelect');
+  sel.innerHTML = '<option value="">Select a database...</option>' +
+    dbs.map(d => `<option value="${d.id}">${d.name} (${d.tables} tables)</option>`).join('');
+  sel.addEventListener('change', () => state.currentDb = sel.value);
+}
+
+// ── History ─────────────────────────────────────────────────────────────────
+async function loadHistory() {
+  const history = await api('GET', '/api/history');
+  const list = document.getElementById('historyList');
+  if (!history.length) {
+    list.innerHTML = '<div class="empty-state" style="font-size:12px;padding:12px;">No queries yet</div>';
+    return;
+  }
+  list.innerHTML = history.slice(0, 20).map(h => `
+    <div class="history-item" onclick="replayQuery('${h.question.replace(/'/g, "\\'")}', '${h.db_id}')">
+      <div class="q">${h.question.length > 50 ? h.question.slice(0, 50) + '...' : h.question}</div>
+      <div class="meta">${h.db_id} · ${new Date(h.timestamp * 1000).toLocaleString()}</div>
+    </div>
+  `).join('');
+}
+
+function replayQuery(question, dbId) {
+  document.getElementById('queryInput').value = question;
+  document.getElementById('dbSelect').value = dbId;
+  state.currentDb = dbId;
+  submitQuery();
+}
+
+// ── Stats ───────────────────────────────────────────────────────────────────
+async function loadStats() {
+  try {
+    const stats = await api('GET', '/api/stats');
+    document.getElementById('statsBox').innerHTML = `
+      <strong>${stats.total}</strong> patterns in memory<br>
+      <strong>${Object.keys(stats.by_db || {}).length}</strong> databases<br>
+      Top: ${Object.entries(stats.by_technical || {}).slice(0, 2).map(([k,v]) => `${k} (${v})`).join(', ')}
+    `;
+  } catch { document.getElementById('statsBox').textContent = 'Pattern memory ready'; }
+}
+
+// ── Query ───────────────────────────────────────────────────────────────────
+async function submitQuery() {
+  const question = document.getElementById('queryInput').value.trim();
+  if (!question) return;
+  if (!state.currentDb) { alert('Please select a database first'); return; }
+
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
+  btn.classList.add('loading');
+  btn.textContent = 'Thinking';
+  state.confirmed = false;
+  document.getElementById('errorMsg').style.display = 'none';
+  document.getElementById('resultArea').classList.add('visible');
+  document.getElementById('sqlDisplay').textContent = 'Generating...';
+  document.getElementById('resultsEmpty').style.display = 'block';
+  document.getElementById('resultsTableWrap').querySelector('table')?.remove();
+  document.getElementById('patternsUsed').innerHTML = '';
+  document.getElementById('rowCount').textContent = '';
+  document.getElementById('confirmBtn').className = 'confirm-btn';
+  document.getElementById('confirmBtn').textContent = '✓ Confirm';
+
+  try {
+    const data = await api('POST', '/api/query', { question, db_id: state.currentDb });
+    state.currentSql = data.sql;
+    state.currentQuestion = question;
+
+    // Elapsed time
+    document.getElementById('elapsedBadge').textContent = `${data.elapsed}s`;
+
+    // Error
+    if (data.error || data.execution_error) {
+      document.getElementById('errorMsg').textContent = data.error || data.execution_error;
+      document.getElementById('errorMsg').style.display = 'block';
+    }
+
+    // SQL
+    if (data.sql) {
+      document.getElementById('sqlDisplay').innerHTML = highlightSQL(data.sql);
+    } else {
+      document.getElementById('sqlDisplay').textContent = 'Could not generate SQL';
+    }
+
+    // Patterns used
+    if (data.patterns_used && data.patterns_used.length) {
+      document.getElementById('patternsUsed').innerHTML = 
+        data.patterns_used.map(p => 
+          `<span class="pattern-tag">${p.intent.slice(0, 40)}</span>`
+        ).join('');
+    }
+
+    // Results
+    if (data.results && data.columns) {
+      document.getElementById('resultsEmpty').style.display = 'none';
+      const table = document.createElement('table');
+      table.className = 'results-table';
+      let html = '<thead><tr><th class="row-num">#</th>';
+      html += data.columns.map(c => `<th>${c}</th>`).join('');
+      html += '</tr></thead><tbody>';
+      data.results.forEach((row, i) => {
+        html += `<tr><td class="row-num">${i + 1}</td>`;
+        html += row.map(c => `<td>${c === null ? '<span style="color:var(--text-secondary)">NULL</span>' : c}</td>`).join('');
+        html += '</tr>';
+      });
+      html += '</tbody>';
+      table.innerHTML = html;
+      document.getElementById('resultsTableWrap').appendChild(table);
+      document.getElementById('rowCount').textContent = `${data.results.length} rows`;
+    } else if (data.execution_error) {
+      document.getElementById('resultsEmpty').innerHTML = `
+        <div class="icon">!</div>
+        <div style="color:var(--error)">Execution error</div>`;
+      document.getElementById('resultsEmpty').style.display = 'block';
+    }
+
+  } catch (e) {
+    document.getElementById('sqlDisplay').textContent = `Error: ${e.message}`;
+  }
+
+  btn.disabled = false;
+  btn.classList.remove('loading');
+  btn.textContent = 'Ask';
+  await loadHistory();
+}
+
+// ── Confirm ─────────────────────────────────────────────────────────────────
+document.getElementById('confirmBtn').addEventListener('click', async function() {
+  if (this.classList.contains('confirmed') || !state.currentSql) return;
+  try {
+    await api('POST', '/api/confirm', {
+      question: state.currentQuestion,
+      sql: state.currentSql,
+      db_id: state.currentDb,
+    });
+    this.classList.add('confirmed');
+    this.textContent = '✓ Confirmed';
+    await loadStats();
+  } catch { alert('Failed to confirm'); }
+});
+
+// ── SQL Highlight ───────────────────────────────────────────────────────────
+function highlightSQL(sql) {
+  const keywords = ['SELECT', 'FROM', 'WHERE', 'AND', 'OR', 'NOT', 'IN', 'AS', 
+    'ON', 'JOIN', 'LEFT', 'RIGHT', 'INNER', 'OUTER', 'FULL', 'CROSS',
+    'GROUP BY', 'ORDER BY', 'HAVING', 'LIMIT', 'OFFSET', 'DISTINCT',
+    'INSERT', 'UPDATE', 'DELETE', 'CREATE', 'DROP', 'ALTER', 'TABLE',
+    'SET', 'INTO', 'VALUES', 'IS', 'NULL', 'BETWEEN', 'LIKE', 'EXISTS',
+    'UNION', 'ALL', 'CASE', 'WHEN', 'THEN', 'ELSE', 'END', 'ASC', 'DESC'];
+  const funcs = ['COUNT', 'SUM', 'AVG', 'MIN', 'MAX', 'COALESCE', 'NULLIF',
+    'CAST', 'ABS', 'ROUND', 'UPPER', 'LOWER', 'LENGTH', 'SUBSTR',
+    'REPLACE', 'TRIM', 'DATE', 'TIME', 'DATETIME', 'STRFTIME'];
+  
+  let escaped = sql.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  
+  // Highlight strings (backtick-quoted identifiers)
+  escaped = escaped.replace(/`[^`]+`/g, '<span class="sql-string">$&</span>');
+  // Highlight single-quoted strings
+  escaped = escaped.replace(/'[^']*'/g, '<span class="sql-string">$&</span>');
+  
+  // Highlight functions
+  funcs.forEach(fn => {
+    escaped = escaped.replace(new RegExp(`\\b${fn}\\s*\\(`, 'gi'), `<span class="sql-function">${fn}</span>(`);
+  });
+  
+  // Highlight keywords
+  keywords.sort((a, b) => b.length - a.length);
+  keywords.forEach(kw => {
+    escaped = escaped.replace(new RegExp(`\\b${kw}\\b`, 'gi'), `<span class="sql-keyword">${kw}</span>`);
+  });
+  
+  return escaped;
+}
+
+// ── Keyboard shortcut ──────────────────────────────────────────────────────
+document.getElementById('queryInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+    e.preventDefault();
+    submitQuery();
+  }
+});
+
+// ── Init ────────────────────────────────────────────────────────────────────
+document.getElementById('submitBtn').addEventListener('click', submitQuery);
+init();
+</script>
+</body>
+</html>

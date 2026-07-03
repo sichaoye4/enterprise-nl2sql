@@ -1,0 +1,9 @@
+metric: average_height
+concept: height
+description: Average height of superheroes in cm
+type: advanced
+owner: bird_benchmark
+status: certified
+expression: AVG(superhero.height_cm)
+unit: ''
+allowed_dimensions: []

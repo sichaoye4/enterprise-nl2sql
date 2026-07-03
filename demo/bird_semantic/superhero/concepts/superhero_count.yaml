@@ -1,0 +1,8 @@
+concept: superhero_count
+display_name: Superhero Count
+domain: superhero
+definition: The total number of superheroes.
+type: metric_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: superhero_count

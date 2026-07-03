@@ -1,0 +1,8 @@
+concept: height
+display_name: Height
+domain: superhero
+definition: The height of a superhero in centimeters.
+type: entity_concept
+owner: bird_benchmark
+status: certified
+canonical_metric: average_height

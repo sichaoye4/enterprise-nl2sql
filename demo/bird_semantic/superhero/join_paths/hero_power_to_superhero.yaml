@@ -1,0 +1,7 @@
+join_path_name: hero_power_to_superhero
+from_table: hero_power
+to_table: superhero
+relationship: many_to_one
+join_condition: hero_power.hero_id = superhero.id
+fanout_risk: low
+status: certified

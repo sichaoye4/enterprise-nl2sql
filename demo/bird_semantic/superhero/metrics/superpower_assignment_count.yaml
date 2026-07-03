@@ -1,0 +1,12 @@
+metric: superpower_assignment_count
+concept: superpower_count
+description: Total number of superpower assignments (hero-power pairs)
+type: simple_count
+owner: bird_benchmark
+status: certified
+measure:
+  table: hero_power
+  column: power_id
+aggregation: count
+unit: ''
+allowed_dimensions: []

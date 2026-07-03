@@ -1,0 +1,32 @@
+[project]
+name = "enterprise-nl2sql"
+version = "0.1.0"
+description = "Enterprise NL2SQL semantic registry MVP"
+requires-python = ">=3.11"
+dependencies = [
+  "alembic>=1.13",
+  "asyncpg>=0.29",
+  "fastapi>=0.110",
+  "pydantic>=2.6",
+  "sentence-transformers>=3.0",
+  "sqlglot>=25.0",
+  "pgvector>=0.3",
+  "numpy>=1.26",
+  "openai>=1.0",
+  "PyYAML>=6.0",
+  "SQLAlchemy>=2.0",
+  "uvicorn>=0.27",
+]
+
+[project.optional-dependencies]
+test = [
+  "aiosqlite>=0.19",
+  "httpx>=0.27",
+  "pytest>=8.0",
+  "pytest-asyncio>=0.23",
+]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+pythonpath = ["."]

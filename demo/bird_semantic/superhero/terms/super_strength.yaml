@@ -1,0 +1,10 @@
+term: super_strength
+description: A specific superpower named 'Super Strength'
+candidate_concepts:
+- superpower
+default_concept_by_domain:
+  superhero: superpower
+ambiguity_level: low
+owner: bird_benchmark
+domain: superhero
+status: certified
