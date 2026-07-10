@@ -103,7 +103,7 @@ def test_guarded_llm_route_passes_contract_to_llm_context(registry_data) -> None
     assert '"paid_gmv_amt"' in generator.prompt
 
 
-def test_clarify_route_sets_requires_clarification(registry_data) -> None:
+def test_clarify_route_continues_to_llm_with_gap_report(registry_data) -> None:
     pipeline = NL2SQLPipeline(
         registry_data=registry_data,
         semantic_engine=FakeSemanticEngine(
@@ -120,10 +120,10 @@ def test_clarify_route_sets_requires_clarification(registry_data) -> None:
     context = pipeline.run("show paid GMV by channel")
 
     assert context.semantic_route == "CLARIFY"
-    assert context.requires_clarification is True
-    assert context.clarification is not None
-    assert "profit" in context.clarification.message
-    assert context.trace == ["classify", "extract_terms", "resolve_semantics", "run_semantic_engine", "build_response"]
+    # CLARIFY does NOT short-circuit — pipeline continues to LLM stages
+    assert context.requires_clarification is False
+    assert context.gap_report is not None
+    assert "profit" in str(context.gap_report)
 
 
 def test_blocked_route_sets_error(registry_data) -> None:

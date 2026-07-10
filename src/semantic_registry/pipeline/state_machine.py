@@ -342,8 +342,9 @@ class NL2SQLPipeline:
             contract = self._result_value(result, "guardrail_contract")
             context.guardrail_contract = self._model_dump(contract)
         elif context.semantic_route == "CLARIFY":
-            context.requires_clarification = True
-            context.clarification = self._semantic_clarification(context)
+            # Log gap report but don't short-circuit — let the pipeline fall
+            # through to the existing LLM stages which may still produce SQL.
+            pass
         elif context.semantic_route == "BLOCKED":
             context.error = self._semantic_gap_message("Semantic engine blocked this question.", context.gap_report)
         elif context.semantic_route:

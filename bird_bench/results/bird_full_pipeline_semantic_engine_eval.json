@@ -1,0 +1,5477 @@
+{
+  "config": {
+    "name": "BIRD full pipeline + semantic engine guardrails",
+    "semantic_model_path": "/home/teddy/enterprise-nl2sql/bird_semantic_engine",
+    "semantic_registry_root": "/home/teddy/enterprise-nl2sql/bird_semantic",
+    "indices": "/home/teddy/enterprise-nl2sql/bird_bench/results/sample_indices.json",
+    "limit": 50
+  },
+  "total": 50,
+  "passed": 0,
+  "ex": 0.0,
+  "time_min": 0.02,
+  "per_database": {
+    "california_schools": {
+      "total": 10,
+      "passed": 0,
+      "ex": 0.0
+    },
+    "card_games": {
+      "total": 10,
+      "passed": 0,
+      "ex": 0.0
+    },
+    "codebase_community": {
+      "total": 10,
+      "passed": 0,
+      "ex": 0.0
+    },
+    "financial": {
+      "total": 10,
+      "passed": 0,
+      "ex": 0.0
+    },
+    "toxicology": {
+      "total": 10,
+      "passed": 0,
+      "ex": 0.0
+    }
+  },
+  "per_route": {
+    "BLOCKED": {
+      "total": 2,
+      "passed": 0,
+      "ex": 0.0
+    },
+    "CLARIFY": {
+      "total": 42,
+      "passed": 0,
+      "ex": 0.0
+    },
+    "NOT_RUN": {
+      "total": 6,
+      "passed": 0,
+      "ex": 0.0
+    }
+  },
+  "results": [
+    {
+      "idx": 0,
+      "question_id": 0,
+      "source_idx": 0,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "question": "What is the highest eligible free rate for K-12 students in the schools in Alameda County?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT `Free Meal Count (K-12)` / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY (CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)`) DESC LIMIT 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          1.0
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "What is the highest eligible free rate for K-12 students in the schools in Alameda County?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "alameda",
+          "eligible",
+          "free",
+          "highest",
+          "in",
+          "is",
+          "k",
+          "rate",
+          "student",
+          "what"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "alameda",
+          "eligible",
+          "free",
+          "highest",
+          "in",
+          "is",
+          "k",
+          "rate",
+          "student",
+          "what"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "alameda",
+          "eligible",
+          "free",
+          "highest",
+          "in",
+          "is",
+          "k",
+          "rate",
+          "student",
+          "what"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'alameda'.",
+          "Add or expose a governed dimension for 'eligible'.",
+          "Add or expose a governed dimension for 'free'.",
+          "Add or expose a governed dimension for 'highest'.",
+          "Add or expose a governed dimension for 'in'.",
+          "Add or expose a governed dimension for 'is'.",
+          "Add or expose a governed dimension for 'k'.",
+          "Add or expose a governed dimension for 'rate'.",
+          "Add or expose a governed dimension for 'student'.",
+          "Add or expose a governed dimension for 'what'.",
+          "Consider mapping the request to existing term 'admlname3'.",
+          "Consider mapping the request to existing term 'high grade'.",
+          "Consider mapping the request to existing term 'state'.",
+          "Consider mapping the request to existing term 'street'."
+        ]
+      },
+      "elapsed_sec": 0.072
+    },
+    {
+      "idx": 1,
+      "question_id": 1,
+      "source_idx": 1,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "question": "Please list the lowest three eligible free rates for students aged 5-17 in continuation schools.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` FROM frpm WHERE `Educational Option Type` = 'Continuation School' AND `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` IS NOT NULL ORDER BY `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` ASC LIMIT 3",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 3,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          0.043478260869565216
+        ],
+        [
+          0.07042253521126761
+        ],
+        [
+          0.11363636363636363
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Please list the lowest three eligible free rates for students aged 5-17 in continuation schools.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "aged",
+          "continuation",
+          "eligible",
+          "free",
+          "in",
+          "list",
+          "lowest",
+          "please",
+          "rat",
+          "student",
+          "three"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "aged",
+          "continuation",
+          "eligible",
+          "free",
+          "in",
+          "list",
+          "lowest",
+          "please",
+          "rat",
+          "student",
+          "three"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "aged",
+          "continuation",
+          "eligible",
+          "free",
+          "in",
+          "list",
+          "lowest",
+          "please",
+          "rat",
+          "student",
+          "three"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'aged'.",
+          "Add or expose a governed dimension for 'continuation'.",
+          "Add or expose a governed dimension for 'eligible'.",
+          "Add or expose a governed dimension for 'free'.",
+          "Add or expose a governed dimension for 'in'.",
+          "Add or expose a governed dimension for 'list'.",
+          "Add or expose a governed dimension for 'lowest'.",
+          "Add or expose a governed dimension for 'please'.",
+          "Add or expose a governed dimension for 'rat'.",
+          "Add or expose a governed dimension for 'student'.",
+          "Add or expose a governed dimension for 'three'.",
+          "Consider mapping the request to existing term 'count virtual'.",
+          "Consider mapping the request to existing term 'magnet'.",
+          "Consider mapping the request to existing term 'opendate'.",
+          "Consider mapping the request to existing term 'street'.",
+          "Consider mapping the request to existing term 'website'."
+        ]
+      },
+      "elapsed_sec": 0.007
+    },
+    {
+      "idx": 2,
+      "question_id": 2,
+      "source_idx": 2,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "question": "Please list the zip code of all the charter schools in Fresno County Office of Education.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`District Name` = 'Fresno County Office of Education' AND T1.`Charter School (Y/N)` = 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 5,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "93726-5309"
+        ],
+        [
+          "93628-9602"
+        ],
+        [
+          "93706-2611"
+        ],
+        [
+          "93726-5208"
+        ],
+        [
+          "93706-2819"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Please list the zip code of all the charter schools in Fresno County Office of Education.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "all",
+          "education",
+          "fresno",
+          "in",
+          "list",
+          "office",
+          "please"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "all",
+          "education",
+          "fresno",
+          "in",
+          "list",
+          "office",
+          "please"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "all",
+          "education",
+          "fresno",
+          "in",
+          "list",
+          "office",
+          "please"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'all'.",
+          "Add or expose a governed dimension for 'education'.",
+          "Add or expose a governed dimension for 'fresno'.",
+          "Add or expose a governed dimension for 'in'.",
+          "Add or expose a governed dimension for 'list'.",
+          "Add or expose a governed dimension for 'office'.",
+          "Add or expose a governed dimension for 'please'.",
+          "Consider mapping the request to existing term 'gsoffer'.",
+          "Consider mapping the request to existing term 'opendate'."
+        ]
+      },
+      "elapsed_sec": 0.004
+    },
+    {
+      "idx": 3,
+      "question_id": 3,
+      "source_idx": 3,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "question": "What is the unabbreviated mailing street address of the school with the highest FRPM count for K-12 students?",
+      "route": "NOT_RUN",
+      "route_source": "pre_semantic_pipeline",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.MailStreet FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`FRPM Count (K-12)` DESC LIMIT 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "14429 South Downey Avenue"
+        ]
+      ],
+      "requires_clarification": false,
+      "error": "Sensitive data intent detected; PII fields are not available through NL2SQL.",
+      "trace": [
+        "classify",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": null,
+      "elapsed_sec": 0.0
+    },
+    {
+      "idx": 4,
+      "question_id": 4,
+      "source_idx": 4,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "question": "Please list the phone numbers of the direct charter-funded schools that are opened after 2000/1/1.",
+      "route": "NOT_RUN",
+      "route_source": "pre_semantic_pipeline",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.Phone FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Charter Funding Type` = 'Directly funded' AND T1.`Charter School (Y/N)` = 1 AND T2.OpenDate > '2000-01-01'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 751,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          null
+        ],
+        [
+          "(510) 596-8901"
+        ],
+        [
+          null
+        ],
+        [
+          "(510) 686-4131"
+        ],
+        [
+          "(510) 452-2063"
+        ]
+      ],
+      "requires_clarification": false,
+      "error": "Sensitive data intent detected; PII fields are not available through NL2SQL.",
+      "trace": [
+        "classify",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": null,
+      "elapsed_sec": 0.0
+    },
+    {
+      "idx": 5,
+      "question_id": 5,
+      "source_idx": 5,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "question": "How many schools with an average score in Math greater than 400 in the SAT test are exclusively virtual?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(DISTINCT T2.School) FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Virtual = 'F' AND T1.AvgScrMath > 400",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          4
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many schools with an average score in Math greater than 400 in the SAT test are exclusively virtual?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "average",
+          "exclusively",
+          "greater",
+          "how",
+          "in",
+          "many",
+          "math",
+          "sat",
+          "score",
+          "test",
+          "than",
+          "with"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "are",
+          "average",
+          "exclusively",
+          "greater",
+          "how",
+          "in",
+          "many",
+          "math",
+          "sat",
+          "score",
+          "test",
+          "than",
+          "with"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "average",
+          "exclusively",
+          "greater",
+          "how",
+          "in",
+          "many",
+          "math",
+          "sat",
+          "score",
+          "test",
+          "than",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'are'.",
+          "Add or expose a governed dimension for 'average'.",
+          "Add or expose a governed dimension for 'exclusively'.",
+          "Add or expose a governed dimension for 'greater'.",
+          "Add or expose a governed dimension for 'how'.",
+          "Add or expose a governed dimension for 'in'.",
+          "Add or expose a governed dimension for 'many'.",
+          "Add or expose a governed dimension for 'math'.",
+          "Add or expose a governed dimension for 'sat'.",
+          "Add or expose a governed dimension for 'score'.",
+          "Add or expose a governed dimension for 'test'.",
+          "Add or expose a governed dimension for 'than'.",
+          "Add or expose a governed dimension for 'with'.",
+          "Consider mapping the request to existing term 'charter'.",
+          "Consider mapping the request to existing term 'magnet'.",
+          "Consider mapping the request to existing term 'satscor'.",
+          "Consider mapping the request to existing term 'state'."
+        ]
+      },
+      "elapsed_sec": 0.006
+    },
+    {
+      "idx": 6,
+      "question_id": 6,
+      "source_idx": 6,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "question": "Among the schools with the SAT test takers of over 500, please list the schools that are magnet schools or offer a magnet program.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.School FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Magnet = 1 AND T1.NumTstTakr > 500",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 3,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "Millikan High"
+        ],
+        [
+          "Polytechnic High"
+        ],
+        [
+          "Troy High"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Among the schools with the SAT test takers of over 500, please list the schools that are magnet schools or offer a magnet program.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "among",
+          "are",
+          "list",
+          "offer",
+          "or",
+          "please",
+          "program",
+          "sat",
+          "taker",
+          "test",
+          "that",
+          "with"
+        ],
+        "missing_measures": [
+          "among",
+          "are",
+          "list",
+          "offer",
+          "or",
+          "please",
+          "program",
+          "sat",
+          "taker",
+          "test",
+          "that",
+          "with"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "among",
+          "are",
+          "list",
+          "measure",
+          "offer",
+          "or",
+          "please",
+          "program",
+          "sat",
+          "taker",
+          "test",
+          "that",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'among'.",
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'list'.",
+          "Add or synonym-map a governed measure for 'offer'.",
+          "Add or synonym-map a governed measure for 'or'.",
+          "Add or synonym-map a governed measure for 'please'.",
+          "Add or synonym-map a governed measure for 'program'.",
+          "Add or synonym-map a governed measure for 'sat'.",
+          "Add or synonym-map a governed measure for 'taker'.",
+          "Add or synonym-map a governed measure for 'test'.",
+          "Add or synonym-map a governed measure for 'that'.",
+          "Add or synonym-map a governed measure for 'with'.",
+          "Consider mapping the request to existing term 'charter'.",
+          "Consider mapping the request to existing term 'gsoffer'.",
+          "Consider mapping the request to existing term 'mailstreet'.",
+          "Consider mapping the request to existing term 'opendate'.",
+          "Consider mapping the request to existing term 'state'."
+        ]
+      },
+      "elapsed_sec": 0.006
+    },
+    {
+      "idx": 7,
+      "question_id": 7,
+      "source_idx": 7,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "question": "What is the phone number of the school that has the highest number of test takers with an SAT score of over 1500?",
+      "route": "NOT_RUN",
+      "route_source": "pre_semantic_pipeline",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.Phone FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode ORDER BY T1.NumGE1500 DESC LIMIT 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "(213) 241-1000"
+        ]
+      ],
+      "requires_clarification": false,
+      "error": "Sensitive data intent detected; PII fields are not available through NL2SQL.",
+      "trace": [
+        "classify",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": null,
+      "elapsed_sec": 0.0
+    },
+    {
+      "idx": 8,
+      "question_id": 8,
+      "source_idx": 8,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "question": "What is the number of SAT test takers of the schools with the highest FRPM count for K-12 students?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT NumTstTakr FROM satscores WHERE cds = ( SELECT CDSCode FROM frpm ORDER BY `FRPM Count (K-12)` DESC LIMIT 1 )",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          459
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "What is the number of SAT test takers of the schools with the highest FRPM count for K-12 students?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "highest",
+          "is",
+          "number",
+          "sat",
+          "student",
+          "taker",
+          "test",
+          "what",
+          "with"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "highest",
+          "is",
+          "number",
+          "sat",
+          "student",
+          "taker",
+          "test",
+          "what",
+          "with"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "highest",
+          "is",
+          "number",
+          "sat",
+          "student",
+          "taker",
+          "test",
+          "what",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'highest'.",
+          "Add or expose a governed dimension for 'is'.",
+          "Add or expose a governed dimension for 'number'.",
+          "Add or expose a governed dimension for 'sat'.",
+          "Add or expose a governed dimension for 'student'.",
+          "Add or expose a governed dimension for 'taker'.",
+          "Add or expose a governed dimension for 'test'.",
+          "Add or expose a governed dimension for 'what'.",
+          "Add or expose a governed dimension for 'with'.",
+          "Consider mapping the request to existing term 'high grade'.",
+          "Consider mapping the request to existing term 'state'.",
+          "Consider mapping the request to existing term 'street'."
+        ]
+      },
+      "elapsed_sec": 0.005
+    },
+    {
+      "idx": 9,
+      "question_id": 9,
+      "source_idx": 9,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "question": "Among the schools with the average score in Math over 560 in the SAT test, how many schools are directly charter-funded?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(T2.`School Code`) FROM satscores AS T1 INNER JOIN frpm AS T2 ON T1.cds = T2.CDSCode WHERE T1.AvgScrMath > 560 AND T2.`Charter Funding Type` = 'Directly funded'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          2
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Among the schools with the average score in Math over 560 in the SAT test, how many schools are directly charter-funded?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "among",
+          "are",
+          "average",
+          "directly",
+          "fund",
+          "how",
+          "in",
+          "many",
+          "math",
+          "sat",
+          "score",
+          "test",
+          "with"
+        ],
+        "missing_measures": [
+          "among",
+          "are",
+          "average",
+          "directly",
+          "fund",
+          "how",
+          "in",
+          "many",
+          "math",
+          "sat",
+          "score",
+          "test",
+          "with"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "among",
+          "are",
+          "average",
+          "directly",
+          "fund",
+          "how",
+          "in",
+          "many",
+          "math",
+          "measure",
+          "sat",
+          "score",
+          "test",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'among'.",
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'average'.",
+          "Add or synonym-map a governed measure for 'directly'.",
+          "Add or synonym-map a governed measure for 'fund'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'math'.",
+          "Add or synonym-map a governed measure for 'sat'.",
+          "Add or synonym-map a governed measure for 'score'.",
+          "Add or synonym-map a governed measure for 'test'.",
+          "Add or synonym-map a governed measure for 'with'.",
+          "Consider mapping the request to existing term 'charter'.",
+          "Consider mapping the request to existing term 'district'.",
+          "Consider mapping the request to existing term 'magnet'.",
+          "Consider mapping the request to existing term 'mailstreet'.",
+          "Consider mapping the request to existing term 'satscor'.",
+          "Consider mapping the request to existing term 'state'."
+        ]
+      },
+      "elapsed_sec": 0.006
+    },
+    {
+      "idx": 10,
+      "question_id": 89,
+      "source_idx": 89,
+      "db_id": "financial",
+      "difficulty": "moderate",
+      "question": "How many accounts who choose issuance after transaction are staying in East Bohemia region?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(T2.account_id) FROM district AS T1 INNER JOIN account AS T2 ON T1.district_id = T2.district_id WHERE T1.A3 = 'east Bohemia' AND T2.frequency = 'POPLATEK PO OBRATU'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          13
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many accounts who choose issuance after transaction are staying in East Bohemia region?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "after",
+          "are",
+          "bohemia",
+          "choose",
+          "east",
+          "how",
+          "in",
+          "issuance",
+          "many",
+          "region",
+          "stay",
+          "transaction",
+          "who"
+        ],
+        "missing_measures": [
+          "after",
+          "are",
+          "bohemia",
+          "choose",
+          "east",
+          "how",
+          "in",
+          "issuance",
+          "many",
+          "region",
+          "stay",
+          "transaction",
+          "who"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "after",
+          "are",
+          "bohemia",
+          "choose",
+          "east",
+          "how",
+          "in",
+          "issuance",
+          "many",
+          "measure",
+          "region",
+          "stay",
+          "transaction",
+          "who"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'after'.",
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'bohemia'.",
+          "Add or synonym-map a governed measure for 'choose'.",
+          "Add or synonym-map a governed measure for 'east'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'issuance'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'region'.",
+          "Add or synonym-map a governed measure for 'stay'.",
+          "Add or synonym-map a governed measure for 'transaction'.",
+          "Add or synonym-map a governed measure for 'who'.",
+          "Consider mapping the request to existing term 'date'.",
+          "Consider mapping the request to existing term 'duration'.",
+          "Consider mapping the request to existing term 'issu'.",
+          "Consider mapping the request to existing term 'statu'."
+        ]
+      },
+      "elapsed_sec": 0.021
+    },
+    {
+      "idx": 11,
+      "question_id": 90,
+      "source_idx": 90,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "question": "How many accounts who have region in Prague are eligible for loans?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(T1.account_id) FROM account AS T1 INNER JOIN loan AS T2 ON T1.account_id = T2.account_id INNER JOIN district AS T3 ON T1.district_id = T3.district_id WHERE T3.A3 = 'Prague'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          84
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many accounts who have region in Prague are eligible for loans?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "eligible",
+          "have",
+          "how",
+          "in",
+          "many",
+          "prague",
+          "region",
+          "who"
+        ],
+        "missing_measures": [
+          "are",
+          "eligible",
+          "have",
+          "how",
+          "in",
+          "many",
+          "prague",
+          "region",
+          "who"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "eligible",
+          "have",
+          "how",
+          "in",
+          "many",
+          "measure",
+          "prague",
+          "region",
+          "who"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'eligible'.",
+          "Add or synonym-map a governed measure for 'have'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'prague'.",
+          "Add or synonym-map a governed measure for 'region'.",
+          "Add or synonym-map a governed measure for 'who'.",
+          "Consider mapping the request to existing term 'date'.",
+          "Consider mapping the request to existing term 'duration'."
+        ]
+      },
+      "elapsed_sec": 0.004
+    },
+    {
+      "idx": 12,
+      "question_id": 91,
+      "source_idx": 91,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "question": "The average unemployment ratio of 1995 and 1996, which one has higher percentage?",
+      "route": "BLOCKED",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT DISTINCT IIF(AVG(A13) > AVG(A12), '1996', '1995') FROM district",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "1996"
+        ]
+      ],
+      "requires_clarification": false,
+      "error": "Semantic engine blocked this question. unresolved terms: average, has, higher, one, percentage, ratio, unemployment, which; missing measures: average, has, higher, one, percentage, ratio, unemployment, which; missing members: average, has, higher, measure, one, percentage, ratio, unemployment, which",
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "The average unemployment ratio of 1995 and 1996, which one has higher percentage?",
+        "route": "BLOCKED",
+        "unresolved_terms": [
+          "average",
+          "has",
+          "higher",
+          "one",
+          "percentage",
+          "ratio",
+          "unemployment",
+          "which"
+        ],
+        "missing_measures": [
+          "average",
+          "has",
+          "higher",
+          "one",
+          "percentage",
+          "ratio",
+          "unemployment",
+          "which"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "average",
+          "has",
+          "higher",
+          "measure",
+          "one",
+          "percentage",
+          "ratio",
+          "unemployment",
+          "which"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'average'.",
+          "Add or synonym-map a governed measure for 'has'.",
+          "Add or synonym-map a governed measure for 'higher'.",
+          "Add or synonym-map a governed measure for 'one'.",
+          "Add or synonym-map a governed measure for 'percentage'.",
+          "Add or synonym-map a governed measure for 'ratio'.",
+          "Add or synonym-map a governed measure for 'unemployment'.",
+          "Add or synonym-map a governed measure for 'which'.",
+          "Consider mapping the request to existing term 'duration'.",
+          "Consider mapping the request to existing term 'loan'."
+        ]
+      },
+      "elapsed_sec": 0.005
+    },
+    {
+      "idx": 13,
+      "question_id": 92,
+      "source_idx": 92,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "question": "List out the no. of districts that have female average salary is more than 6000 but less than 10000?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(DISTINCT T2.district_id)  FROM client AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id WHERE T1.gender = 'F' AND T2.A11 BETWEEN 6000 AND 10000",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          69
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "List out the no. of districts that have female average salary is more than 6000 but less than 10000?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "average",
+          "but",
+          "female",
+          "have",
+          "is",
+          "les",
+          "list",
+          "more",
+          "no",
+          "out",
+          "salary",
+          "than",
+          "that"
+        ],
+        "missing_measures": [
+          "average",
+          "but",
+          "female",
+          "have",
+          "is",
+          "les",
+          "list",
+          "more",
+          "no",
+          "out",
+          "salary",
+          "than",
+          "that"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "average",
+          "but",
+          "female",
+          "have",
+          "is",
+          "les",
+          "list",
+          "measure",
+          "more",
+          "no",
+          "out",
+          "salary",
+          "than",
+          "that"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'average'.",
+          "Add or synonym-map a governed measure for 'but'.",
+          "Add or synonym-map a governed measure for 'female'.",
+          "Add or synonym-map a governed measure for 'have'.",
+          "Add or synonym-map a governed measure for 'is'.",
+          "Add or synonym-map a governed measure for 'les'.",
+          "Add or synonym-map a governed measure for 'list'.",
+          "Add or synonym-map a governed measure for 'more'.",
+          "Add or synonym-map a governed measure for 'no'.",
+          "Add or synonym-map a governed measure for 'out'.",
+          "Add or synonym-map a governed measure for 'salary'.",
+          "Add or synonym-map a governed measure for 'than'.",
+          "Add or synonym-map a governed measure for 'that'.",
+          "Consider mapping the request to existing term 'amount'.",
+          "Consider mapping the request to existing term 'client'.",
+          "Consider mapping the request to existing term 'issu'.",
+          "Consider mapping the request to existing term 'order'.",
+          "Consider mapping the request to existing term 'statu'.",
+          "Consider mapping the request to existing term 'tran'."
+        ]
+      },
+      "elapsed_sec": 0.005
+    },
+    {
+      "idx": 14,
+      "question_id": 93,
+      "source_idx": 93,
+      "db_id": "financial",
+      "difficulty": "moderate",
+      "question": "How many male customers who are living in North Bohemia have average salary greater than 8000?",
+      "route": "BLOCKED",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(T1.client_id) FROM client AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id WHERE T1.gender = 'M' AND T2.A3 = 'north Bohemia' AND T2.A11 > 8000",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          280
+        ]
+      ],
+      "requires_clarification": false,
+      "error": "Semantic engine blocked this question. unresolved terms: are, average, bohemia, customer, greater, have, how, in, liv, male, many, north, salary, than, who; missing measures: are, average, bohemia, customer, greater, have, how, in, liv, male, many, north, salary, than, who; missing members: are, average, bohemia, customer, greater, have, how, in, liv, male, many, measure, north, salary, than, who",
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many male customers who are living in North Bohemia have average salary greater than 8000?",
+        "route": "BLOCKED",
+        "unresolved_terms": [
+          "are",
+          "average",
+          "bohemia",
+          "customer",
+          "greater",
+          "have",
+          "how",
+          "in",
+          "liv",
+          "male",
+          "many",
+          "north",
+          "salary",
+          "than",
+          "who"
+        ],
+        "missing_measures": [
+          "are",
+          "average",
+          "bohemia",
+          "customer",
+          "greater",
+          "have",
+          "how",
+          "in",
+          "liv",
+          "male",
+          "many",
+          "north",
+          "salary",
+          "than",
+          "who"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "average",
+          "bohemia",
+          "customer",
+          "greater",
+          "have",
+          "how",
+          "in",
+          "liv",
+          "male",
+          "many",
+          "measure",
+          "north",
+          "salary",
+          "than",
+          "who"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'average'.",
+          "Add or synonym-map a governed measure for 'bohemia'.",
+          "Add or synonym-map a governed measure for 'customer'.",
+          "Add or synonym-map a governed measure for 'greater'.",
+          "Add or synonym-map a governed measure for 'have'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'liv'.",
+          "Add or synonym-map a governed measure for 'male'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'north'.",
+          "Add or synonym-map a governed measure for 'salary'.",
+          "Add or synonym-map a governed measure for 'than'.",
+          "Add or synonym-map a governed measure for 'who'.",
+          "Consider mapping the request to existing term 'date'.",
+          "Consider mapping the request to existing term 'gender'.",
+          "Consider mapping the request to existing term 'tran'."
+        ]
+      },
+      "elapsed_sec": 0.006
+    },
+    {
+      "idx": 15,
+      "question_id": 94,
+      "source_idx": 94,
+      "db_id": "financial",
+      "difficulty": "challenging",
+      "question": "List out the account numbers of female clients who are oldest and has lowest average salary, calculate the gap between this lowest average salary with the highest average salary?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T1.account_id , ( SELECT MAX(A11) - MIN(A11) FROM district ) FROM account AS T1 INNER JOIN district AS T2 ON T1.district_id = T2.district_id INNER JOIN disp AS T3 ON T1.account_id = T3.account_id INNER JOIN client AS T4 ON T3.client_id = T4.client_id WHERE T2.district_id = ( SELECT district_id FROM client WHERE gender = 'F' ORDER BY birth_date ASC LIMIT 1 ) ORDER BY T2.A11 DESC LIMIT 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          6,
+          4431
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "List out the account numbers of female clients who are oldest and has lowest average salary, calculate the gap between this lowest average salary with the highest average salary?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "average",
+          "between",
+          "calculate",
+          "female",
+          "gap",
+          "has",
+          "highest",
+          "list",
+          "lowest",
+          "number",
+          "oldest",
+          "out",
+          "salary",
+          "thi",
+          "who",
+          "with"
+        ],
+        "missing_measures": [
+          "are",
+          "average",
+          "between",
+          "calculate",
+          "female",
+          "gap",
+          "has",
+          "highest",
+          "list",
+          "lowest",
+          "number",
+          "oldest",
+          "out",
+          "salary",
+          "thi",
+          "who",
+          "with"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "average",
+          "between",
+          "calculate",
+          "female",
+          "gap",
+          "has",
+          "highest",
+          "list",
+          "lowest",
+          "measure",
+          "number",
+          "oldest",
+          "out",
+          "salary",
+          "thi",
+          "who",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'average'.",
+          "Add or synonym-map a governed measure for 'between'.",
+          "Add or synonym-map a governed measure for 'calculate'.",
+          "Add or synonym-map a governed measure for 'female'.",
+          "Add or synonym-map a governed measure for 'gap'.",
+          "Add or synonym-map a governed measure for 'has'.",
+          "Add or synonym-map a governed measure for 'highest'.",
+          "Add or synonym-map a governed measure for 'list'.",
+          "Add or synonym-map a governed measure for 'lowest'.",
+          "Add or synonym-map a governed measure for 'number'.",
+          "Add or synonym-map a governed measure for 'oldest'.",
+          "Add or synonym-map a governed measure for 'out'.",
+          "Add or synonym-map a governed measure for 'salary'.",
+          "Add or synonym-map a governed measure for 'thi'.",
+          "Add or synonym-map a governed measure for 'who'.",
+          "Add or synonym-map a governed measure for 'with'.",
+          "Consider mapping the request to existing term 'amount'.",
+          "Consider mapping the request to existing term 'client'.",
+          "Consider mapping the request to existing term 'date'."
+        ]
+      },
+      "elapsed_sec": 0.007
+    },
+    {
+      "idx": 16,
+      "question_id": 95,
+      "source_idx": 95,
+      "db_id": "financial",
+      "difficulty": "moderate",
+      "question": "List out the account numbers of clients who are youngest and have highest average salary?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T1.account_id  FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id INNER JOIN client AS T3 ON T2.client_id = T3.client_id INNER JOIN district AS T4 on T4.district_id = T1.district_id WHERE T2.client_id = ( SELECT client_id FROM client ORDER BY birth_date DESC LIMIT 1) GROUP BY T4.A11, T1.account_id",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          2836
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "List out the account numbers of clients who are youngest and have highest average salary?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "average",
+          "have",
+          "highest",
+          "list",
+          "number",
+          "out",
+          "salary",
+          "who",
+          "youngest"
+        ],
+        "missing_measures": [
+          "are",
+          "average",
+          "have",
+          "highest",
+          "list",
+          "number",
+          "out",
+          "salary",
+          "who",
+          "youngest"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "average",
+          "have",
+          "highest",
+          "list",
+          "measure",
+          "number",
+          "out",
+          "salary",
+          "who",
+          "youngest"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'average'.",
+          "Add or synonym-map a governed measure for 'have'.",
+          "Add or synonym-map a governed measure for 'highest'.",
+          "Add or synonym-map a governed measure for 'list'.",
+          "Add or synonym-map a governed measure for 'number'.",
+          "Add or synonym-map a governed measure for 'out'.",
+          "Add or synonym-map a governed measure for 'salary'.",
+          "Add or synonym-map a governed measure for 'who'.",
+          "Add or synonym-map a governed measure for 'youngest'.",
+          "Consider mapping the request to existing term 'amount'.",
+          "Consider mapping the request to existing term 'client'.",
+          "Consider mapping the request to existing term 'date'."
+        ]
+      },
+      "elapsed_sec": 0.005
+    },
+    {
+      "idx": 17,
+      "question_id": 96,
+      "source_idx": 96,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "question": "How many customers who choose statement of weekly issuance are Owner?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(T1.account_id) FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id WHERE T2.type = 'OWNER' AND T1.frequency = 'POPLATEK TYDNE'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          240
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many customers who choose statement of weekly issuance are Owner?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "choose",
+          "customer",
+          "how",
+          "issuance",
+          "many",
+          "owner",
+          "statement",
+          "who"
+        ],
+        "missing_measures": [
+          "are",
+          "choose",
+          "customer",
+          "how",
+          "issuance",
+          "many",
+          "owner",
+          "statement",
+          "who"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "choose",
+          "customer",
+          "how",
+          "issuance",
+          "many",
+          "measure",
+          "owner",
+          "statement",
+          "who"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'choose'.",
+          "Add or synonym-map a governed measure for 'customer'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'issuance'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'owner'.",
+          "Add or synonym-map a governed measure for 'statement'.",
+          "Add or synonym-map a governed measure for 'who'.",
+          "Consider mapping the request to existing term 'date'.",
+          "Consider mapping the request to existing term 'issu'.",
+          "Consider mapping the request to existing term 'order'.",
+          "Consider mapping the request to existing term 'statu'."
+        ]
+      },
+      "elapsed_sec": 0.004
+    },
+    {
+      "idx": 18,
+      "question_id": 97,
+      "source_idx": 97,
+      "db_id": "financial",
+      "difficulty": "simple",
+      "question": "List out the id number of client who choose statement of issuance after transaction are Disponent?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.client_id FROM account AS T1 INNER JOIN disp AS T2 ON T1.account_id = T2.account_id WHERE T1.frequency = 'POPLATEK PO OBRATU' AND T2.type = 'DISPONENT'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 14,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          159
+        ],
+        [
+          384
+        ],
+        [
+          1261
+        ],
+        [
+          1706
+        ],
+        [
+          2304
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "List out the id number of client who choose statement of issuance after transaction are Disponent?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "after",
+          "are",
+          "choose",
+          "client id",
+          "disponent",
+          "issuance",
+          "list",
+          "number",
+          "out",
+          "statement",
+          "transaction",
+          "who"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "after",
+          "are",
+          "choose",
+          "client id",
+          "disponent",
+          "issuance",
+          "list",
+          "number",
+          "out",
+          "statement",
+          "transaction",
+          "who"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "after",
+          "are",
+          "choose",
+          "client id",
+          "disponent",
+          "issuance",
+          "list",
+          "number",
+          "out",
+          "statement",
+          "transaction",
+          "who"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'after'.",
+          "Add or expose a governed dimension for 'are'.",
+          "Add or expose a governed dimension for 'choose'.",
+          "Add or expose a governed dimension for 'client id'.",
+          "Add or expose a governed dimension for 'disponent'.",
+          "Add or expose a governed dimension for 'issuance'.",
+          "Add or expose a governed dimension for 'list'.",
+          "Add or expose a governed dimension for 'number'.",
+          "Add or expose a governed dimension for 'out'.",
+          "Add or expose a governed dimension for 'statement'.",
+          "Add or expose a governed dimension for 'transaction'.",
+          "Add or expose a governed dimension for 'who'.",
+          "Consider mapping the request to existing term 'amount'.",
+          "Consider mapping the request to existing term 'client'.",
+          "Consider mapping the request to existing term 'date'.",
+          "Consider mapping the request to existing term 'disp'.",
+          "Consider mapping the request to existing term 'duration'.",
+          "Consider mapping the request to existing term 'issu'.",
+          "Consider mapping the request to existing term 'statu'."
+        ]
+      },
+      "elapsed_sec": 0.006
+    },
+    {
+      "idx": 19,
+      "question_id": 98,
+      "source_idx": 98,
+      "db_id": "financial",
+      "difficulty": "moderate",
+      "question": "Among the accounts who have approved loan date in 1997, list out the accounts that have the lowest approved amount and choose weekly issuance statement.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.account_id FROM loan AS T1 INNER JOIN account AS T2 ON T1.account_id = T2.account_id WHERE STRFTIME('%Y', T1.date) = '1997' AND T2.frequency = 'POPLATEK TYDNE' ORDER BY T1.amount LIMIT 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          176
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Among the accounts who have approved loan date in 1997, list out the accounts that have the lowest approved amount and choose weekly issuance statement.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "among",
+          "amount",
+          "approv",
+          "choose",
+          "date",
+          "have",
+          "in",
+          "issuance",
+          "list",
+          "lowest",
+          "out",
+          "statement",
+          "that",
+          "who"
+        ],
+        "missing_measures": [
+          "among",
+          "amount",
+          "approv",
+          "choose",
+          "date",
+          "have",
+          "in",
+          "issuance",
+          "list",
+          "lowest",
+          "out",
+          "statement",
+          "that",
+          "who"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "among",
+          "amount",
+          "approv",
+          "choose",
+          "date",
+          "have",
+          "in",
+          "issuance",
+          "list",
+          "lowest",
+          "measure",
+          "out",
+          "statement",
+          "that",
+          "who"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'among'.",
+          "Add or synonym-map a governed measure for 'amount'.",
+          "Add or synonym-map a governed measure for 'approv'.",
+          "Add or synonym-map a governed measure for 'choose'.",
+          "Add or synonym-map a governed measure for 'date'.",
+          "Add or synonym-map a governed measure for 'have'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'issuance'.",
+          "Add or synonym-map a governed measure for 'list'.",
+          "Add or synonym-map a governed measure for 'lowest'.",
+          "Add or synonym-map a governed measure for 'out'.",
+          "Add or synonym-map a governed measure for 'statement'.",
+          "Add or synonym-map a governed measure for 'that'.",
+          "Add or synonym-map a governed measure for 'who'.",
+          "Consider mapping the request to existing term 'amount'.",
+          "Consider mapping the request to existing term 'client'.",
+          "Consider mapping the request to existing term 'issu'.",
+          "Consider mapping the request to existing term 'statu'."
+        ]
+      },
+      "elapsed_sec": 0.005
+    },
+    {
+      "idx": 20,
+      "question_id": 195,
+      "source_idx": 195,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "question": "What is the most common bond type?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T.bond_type FROM ( SELECT bond_type, COUNT(bond_id) FROM bond GROUP BY bond_type ORDER BY COUNT(bond_id) DESC LIMIT 1 ) AS T",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "-"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "What is the most common bond type?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "common",
+          "is",
+          "most",
+          "what"
+        ],
+        "missing_measures": [
+          "common",
+          "is",
+          "most",
+          "what"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "common",
+          "is",
+          "measure",
+          "most",
+          "what"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'common'.",
+          "Add or synonym-map a governed measure for 'is'.",
+          "Add or synonym-map a governed measure for 'most'.",
+          "Add or synonym-map a governed measure for 'what'."
+        ]
+      },
+      "elapsed_sec": 0.011
+    },
+    {
+      "idx": 21,
+      "question_id": 196,
+      "source_idx": 196,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "question": "In the non-carcinogenic molecules, how many contain chlorine atoms?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(DISTINCT T1.molecule_id) FROM molecule AS T1 INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.element = 'cl' AND T1.label = '-'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          71
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "In the non-carcinogenic molecules, how many contain chlorine atoms?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "carcinogenic",
+          "chlorine",
+          "contain",
+          "how",
+          "in",
+          "many",
+          "molecul",
+          "non"
+        ],
+        "missing_measures": [
+          "carcinogenic",
+          "chlorine",
+          "contain",
+          "how",
+          "in",
+          "many",
+          "molecul",
+          "non"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "carcinogenic",
+          "chlorine",
+          "contain",
+          "how",
+          "in",
+          "many",
+          "measure",
+          "molecul",
+          "non"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'carcinogenic'.",
+          "Add or synonym-map a governed measure for 'chlorine'.",
+          "Add or synonym-map a governed measure for 'contain'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'molecul'.",
+          "Add or synonym-map a governed measure for 'non'.",
+          "Consider mapping the request to existing term 'bond'.",
+          "Consider mapping the request to existing term 'count atom id'.",
+          "Consider mapping the request to existing term 'molecule'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 22,
+      "question_id": 197,
+      "source_idx": 197,
+      "db_id": "toxicology",
+      "difficulty": "moderate",
+      "question": "Calculate the average number of oxygen atoms in single-bonded molecules.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT AVG(oxygen_count) FROM (SELECT T1.molecule_id, COUNT(T1.element) AS oxygen_count FROM atom AS T1 INNER JOIN bond AS T2 ON T1.molecule_id = T2.molecule_id  WHERE T2.bond_type = '-' AND T1.element = 'o'  GROUP BY T1.molecule_id) AS oxygen_counts",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          116.65273311897106
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Calculate the average number of oxygen atoms in single-bonded molecules.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "average",
+          "calculate",
+          "in",
+          "molecul",
+          "number",
+          "oxygen",
+          "single"
+        ],
+        "missing_measures": [
+          "average",
+          "calculate",
+          "in",
+          "molecul",
+          "number",
+          "oxygen",
+          "single"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "average",
+          "calculate",
+          "in",
+          "measure",
+          "molecul",
+          "number",
+          "oxygen",
+          "single"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'average'.",
+          "Add or synonym-map a governed measure for 'calculate'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'molecul'.",
+          "Add or synonym-map a governed measure for 'number'.",
+          "Add or synonym-map a governed measure for 'oxygen'.",
+          "Add or synonym-map a governed measure for 'single'.",
+          "Consider mapping the request to existing term 'molecule'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 23,
+      "question_id": 198,
+      "source_idx": 198,
+      "db_id": "toxicology",
+      "difficulty": "challenging",
+      "question": "On average how many carcinogenic molecules are single bonded?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT AVG(single_bond_count) FROM (SELECT T3.molecule_id, COUNT(T1.bond_type) AS single_bond_count FROM bond AS T1  INNER JOIN atom AS T2 ON T1.molecule_id = T2.molecule_id INNER JOIN molecule AS T3 ON T3.molecule_id = T2.molecule_id WHERE T1.bond_type = '-' AND T3.label = '+' GROUP BY T3.molecule_id) AS subquery",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          732.125
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "On average how many carcinogenic molecules are single bonded?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "average",
+          "carcinogenic",
+          "how",
+          "many",
+          "molecul",
+          "on",
+          "single"
+        ],
+        "missing_measures": [
+          "are",
+          "average",
+          "carcinogenic",
+          "how",
+          "many",
+          "molecul",
+          "on",
+          "single"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "average",
+          "carcinogenic",
+          "how",
+          "many",
+          "measure",
+          "molecul",
+          "on",
+          "single"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'average'.",
+          "Add or synonym-map a governed measure for 'carcinogenic'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'molecul'.",
+          "Add or synonym-map a governed measure for 'on'.",
+          "Add or synonym-map a governed measure for 'single'.",
+          "Consider mapping the request to existing term 'bond'.",
+          "Consider mapping the request to existing term 'molecule'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 24,
+      "question_id": 199,
+      "source_idx": 199,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "question": "In the molecule containing sodium atoms, how many are non-carcinogenic?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(DISTINCT T2.molecule_id) FROM atom AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.element = 'na' AND T2.label = '-'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          11
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "In the molecule containing sodium atoms, how many are non-carcinogenic?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "carcinogenic",
+          "contain",
+          "how",
+          "in",
+          "many",
+          "non",
+          "sodium"
+        ],
+        "missing_measures": [
+          "are",
+          "carcinogenic",
+          "contain",
+          "how",
+          "in",
+          "many",
+          "non",
+          "sodium"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "carcinogenic",
+          "contain",
+          "how",
+          "in",
+          "many",
+          "measure",
+          "non",
+          "sodium"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'carcinogenic'.",
+          "Add or synonym-map a governed measure for 'contain'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'non'.",
+          "Add or synonym-map a governed measure for 'sodium'.",
+          "Consider mapping the request to existing term 'bond'.",
+          "Consider mapping the request to existing term 'count atom id'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 25,
+      "question_id": 200,
+      "source_idx": 200,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "question": "Find the triple-bonded molecules which are carcinogenic.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT DISTINCT T2.molecule_id FROM bond AS T1 INNER JOIN molecule AS T2 ON T1.molecule_id = T2.molecule_id WHERE T1.bond_type = '#' AND T2.label = '+'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 2,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "TR041"
+        ],
+        [
+          "TR499"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Find the triple-bonded molecules which are carcinogenic.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "carcinogenic",
+          "find",
+          "molecul",
+          "triple",
+          "which"
+        ],
+        "missing_measures": [
+          "are",
+          "carcinogenic",
+          "find",
+          "molecul",
+          "triple",
+          "which"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "carcinogenic",
+          "find",
+          "measure",
+          "molecul",
+          "triple",
+          "which"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'carcinogenic'.",
+          "Add or synonym-map a governed measure for 'find'.",
+          "Add or synonym-map a governed measure for 'molecul'.",
+          "Add or synonym-map a governed measure for 'triple'.",
+          "Add or synonym-map a governed measure for 'which'.",
+          "Consider mapping the request to existing term 'molecule'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 26,
+      "question_id": 201,
+      "source_idx": 201,
+      "db_id": "toxicology",
+      "difficulty": "moderate",
+      "question": "What is the percentage of carbon in double-bond molecules?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT CAST(COUNT(DISTINCT CASE WHEN T1.element = 'c' THEN T1.atom_id ELSE NULL END) AS REAL) * 100 / COUNT(DISTINCT T1.atom_id) FROM atom AS T1 INNER JOIN bond AS T2 ON T1.molecule_id = T2.molecule_id WHERE T2.bond_type = '='",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          38.698505286183014
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "What is the percentage of carbon in double-bond molecules?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "carbon",
+          "double",
+          "in",
+          "is",
+          "molecul",
+          "percentage",
+          "what"
+        ],
+        "missing_measures": [
+          "carbon",
+          "double",
+          "in",
+          "is",
+          "molecul",
+          "percentage",
+          "what"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "carbon",
+          "double",
+          "in",
+          "is",
+          "measure",
+          "molecul",
+          "percentage",
+          "what"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'carbon'.",
+          "Add or synonym-map a governed measure for 'double'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'is'.",
+          "Add or synonym-map a governed measure for 'molecul'.",
+          "Add or synonym-map a governed measure for 'percentage'.",
+          "Add or synonym-map a governed measure for 'what'.",
+          "Consider mapping the request to existing term 'bond'.",
+          "Consider mapping the request to existing term 'molecule'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 27,
+      "question_id": 202,
+      "source_idx": 202,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "question": "How many triple type bonds are there?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(T.bond_id) FROM bond AS T WHERE T.bond_type = '#'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          6
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many triple type bonds are there?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "how",
+          "many",
+          "there",
+          "triple"
+        ],
+        "missing_measures": [
+          "are",
+          "how",
+          "many",
+          "there",
+          "triple"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "how",
+          "many",
+          "measure",
+          "there",
+          "triple"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'there'.",
+          "Add or synonym-map a governed measure for 'triple'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 28,
+      "question_id": 203,
+      "source_idx": 203,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "question": "In how many atoms is there no bromine?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(DISTINCT T.atom_id) FROM atom AS T WHERE T.element <> 'br'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          12286
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "In how many atoms is there no bromine?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "bromine",
+          "how",
+          "in",
+          "is",
+          "many",
+          "no",
+          "there"
+        ],
+        "missing_measures": [
+          "bromine",
+          "how",
+          "in",
+          "is",
+          "many",
+          "no",
+          "there"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "bromine",
+          "how",
+          "in",
+          "is",
+          "many",
+          "measure",
+          "no",
+          "there"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'bromine'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'is'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'no'.",
+          "Add or synonym-map a governed measure for 'there'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 29,
+      "question_id": 204,
+      "source_idx": 204,
+      "db_id": "toxicology",
+      "difficulty": "simple",
+      "question": "Of the first 100 molecules in number order, how many are carcinogenic?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(T.molecule_id) FROM molecule AS T WHERE molecule_id BETWEEN 'TR000' AND 'TR099' AND T.label = '+'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          29
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Of the first 100 molecules in number order, how many are carcinogenic?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "carcinogenic",
+          "first",
+          "how",
+          "in",
+          "many",
+          "molecul",
+          "number",
+          "order"
+        ],
+        "missing_measures": [
+          "are",
+          "carcinogenic",
+          "first",
+          "how",
+          "in",
+          "many",
+          "molecul",
+          "number",
+          "order"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "carcinogenic",
+          "first",
+          "how",
+          "in",
+          "many",
+          "measure",
+          "molecul",
+          "number",
+          "order"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'carcinogenic'.",
+          "Add or synonym-map a governed measure for 'first'.",
+          "Add or synonym-map a governed measure for 'how'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'many'.",
+          "Add or synonym-map a governed measure for 'molecul'.",
+          "Add or synonym-map a governed measure for 'number'.",
+          "Add or synonym-map a governed measure for 'order'.",
+          "Consider mapping the request to existing term 'molecule'."
+        ]
+      },
+      "elapsed_sec": 0.002
+    },
+    {
+      "idx": 30,
+      "question_id": 340,
+      "source_idx": 340,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "question": "Which are the cards that have incredibly powerful foils.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT id FROM cards WHERE cardKingdomFoilId IS NOT NULL AND cardKingdomId IS NOT NULL",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 25061,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          4
+        ],
+        [
+          5
+        ],
+        [
+          6
+        ],
+        [
+          9
+        ],
+        [
+          10
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Which are the cards that have incredibly powerful foils.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "foil",
+          "have",
+          "incredibly",
+          "powerful",
+          "that",
+          "which"
+        ],
+        "missing_measures": [
+          "are",
+          "foil",
+          "have",
+          "incredibly",
+          "powerful",
+          "that",
+          "which"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "foil",
+          "have",
+          "incredibly",
+          "measure",
+          "powerful",
+          "that",
+          "which"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'foil'.",
+          "Add or synonym-map a governed measure for 'have'.",
+          "Add or synonym-map a governed measure for 'incredibly'.",
+          "Add or synonym-map a governed measure for 'powerful'.",
+          "Add or synonym-map a governed measure for 'that'.",
+          "Add or synonym-map a governed measure for 'which'.",
+          "Consider mapping the request to existing term 'hasfoil'.",
+          "Consider mapping the request to existing term 'name'.",
+          "Consider mapping the request to existing term 'power'.",
+          "Consider mapping the request to existing term 'statu'."
+        ]
+      },
+      "elapsed_sec": 0.023
+    },
+    {
+      "idx": 31,
+      "question_id": 341,
+      "source_idx": 341,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "question": "What are the borderless cards available without powerful foils?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT id FROM cards WHERE borderColor = 'borderless' AND (cardKingdomId IS NULL OR cardKingdomId IS NULL)",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 67,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          23004
+        ],
+        [
+          25350
+        ],
+        [
+          25355
+        ],
+        [
+          25357
+        ],
+        [
+          25359
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "What are the borderless cards available without powerful foils?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "are",
+          "available",
+          "borderles",
+          "foil",
+          "powerful",
+          "what",
+          "without"
+        ],
+        "missing_measures": [
+          "are",
+          "available",
+          "borderles",
+          "foil",
+          "powerful",
+          "what",
+          "without"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "are",
+          "available",
+          "borderles",
+          "foil",
+          "measure",
+          "powerful",
+          "what",
+          "without"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'are'.",
+          "Add or synonym-map a governed measure for 'available'.",
+          "Add or synonym-map a governed measure for 'borderles'.",
+          "Add or synonym-map a governed measure for 'foil'.",
+          "Add or synonym-map a governed measure for 'powerful'.",
+          "Add or synonym-map a governed measure for 'what'.",
+          "Add or synonym-map a governed measure for 'without'.",
+          "Consider mapping the request to existing term 'availability'.",
+          "Consider mapping the request to existing term 'bordercolor'.",
+          "Consider mapping the request to existing term 'hasfoil'.",
+          "Consider mapping the request to existing term 'name'.",
+          "Consider mapping the request to existing term 'power'."
+        ]
+      },
+      "elapsed_sec": 0.007
+    },
+    {
+      "idx": 32,
+      "question_id": 342,
+      "source_idx": 342,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "question": "List the card names with value that cost more converted mana for the face.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT name FROM cards ORDER BY faceConvertedManaCost LIMIT 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "Ancestor's Chosen"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "List the card names with value that cost more converted mana for the face.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "convert",
+          "cost",
+          "face",
+          "list",
+          "mana",
+          "more",
+          "nam",
+          "name",
+          "that",
+          "value",
+          "with"
+        ],
+        "missing_measures": [
+          "convert",
+          "cost",
+          "face",
+          "list",
+          "mana",
+          "more",
+          "nam",
+          "name",
+          "that",
+          "value",
+          "with"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "convert",
+          "cost",
+          "face",
+          "list",
+          "mana",
+          "measure",
+          "more",
+          "nam",
+          "name",
+          "that",
+          "value",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'convert'.",
+          "Add or synonym-map a governed measure for 'cost'.",
+          "Add or synonym-map a governed measure for 'face'.",
+          "Add or synonym-map a governed measure for 'list'.",
+          "Add or synonym-map a governed measure for 'mana'.",
+          "Add or synonym-map a governed measure for 'more'.",
+          "Add or synonym-map a governed measure for 'nam'.",
+          "Add or synonym-map a governed measure for 'name'.",
+          "Add or synonym-map a governed measure for 'that'.",
+          "Add or synonym-map a governed measure for 'value'.",
+          "Add or synonym-map a governed measure for 'with'.",
+          "Consider mapping the request to existing term 'artist'.",
+          "Consider mapping the request to existing term 'facename'.",
+          "Consider mapping the request to existing term 'manacost'.",
+          "Consider mapping the request to existing term 'name'.",
+          "Consider mapping the request to existing term 'statu'."
+        ]
+      },
+      "elapsed_sec": 0.006
+    },
+    {
+      "idx": 33,
+      "question_id": 343,
+      "source_idx": 343,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "question": "Name all cards with 2015 frame style ranking below 100 on EDHRec.",
+      "route": "NOT_RUN",
+      "route_source": "pre_semantic_pipeline",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT id FROM cards WHERE edhrecRank < 100 AND frameVersion = 2015",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 654,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          835
+        ],
+        [
+          854
+        ],
+        [
+          857
+        ],
+        [
+          927
+        ],
+        [
+          988
+        ]
+      ],
+      "requires_clarification": false,
+      "error": "Sensitive data intent detected; PII fields are not available through NL2SQL.",
+      "trace": [
+        "classify",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": null,
+      "elapsed_sec": 0.0
+    },
+    {
+      "idx": 34,
+      "question_id": 344,
+      "source_idx": 344,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "question": "List all the mythic rarity print cards banned in gladiator format.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT DISTINCT T1.id FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T2.format = 'gladiator' AND T2.status = 'Banned' AND T1.rarity = 'mythic'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 5,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          17983
+        ],
+        [
+          18058
+        ],
+        [
+          29523
+        ],
+        [
+          38736
+        ],
+        [
+          38737
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "List all the mythic rarity print cards banned in gladiator format.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "all",
+          "bann",
+          "gladiator",
+          "in",
+          "list",
+          "mythic",
+          "print"
+        ],
+        "missing_measures": [
+          "all",
+          "bann",
+          "gladiator",
+          "in",
+          "list",
+          "mythic",
+          "print"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "all",
+          "bann",
+          "gladiator",
+          "in",
+          "list",
+          "measure",
+          "mythic",
+          "print"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'all'.",
+          "Add or synonym-map a governed measure for 'bann'.",
+          "Add or synonym-map a governed measure for 'gladiator'.",
+          "Add or synonym-map a governed measure for 'in'.",
+          "Add or synonym-map a governed measure for 'list'.",
+          "Add or synonym-map a governed measure for 'mythic'.",
+          "Add or synonym-map a governed measure for 'print'.",
+          "Consider mapping the request to existing term 'artist'.",
+          "Consider mapping the request to existing term 'colorindicator'.",
+          "Consider mapping the request to existing term 'isreprint'."
+        ]
+      },
+      "elapsed_sec": 0.005
+    },
+    {
+      "idx": 35,
+      "question_id": 345,
+      "source_idx": 345,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "question": "For artifact type of cards that do not have multiple faces on the same card, state its legalities status for vintage play format.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT DISTINCT T2.status FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T1.type = 'Artifact' AND T2.format = 'vintage' AND T1.side IS NULL",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 3,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "Legal"
+        ],
+        [
+          "Restricted"
+        ],
+        [
+          "Banned"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "For artifact type of cards that do not have multiple faces on the same card, state its legalities status for vintage play format.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "artifact",
+          "do",
+          "fac",
+          "have",
+          "its",
+          "multiple",
+          "not",
+          "on",
+          "play",
+          "same",
+          "state",
+          "that",
+          "type",
+          "vintage"
+        ],
+        "missing_measures": [
+          "artifact",
+          "do",
+          "fac",
+          "have",
+          "its",
+          "multiple",
+          "not",
+          "on",
+          "play",
+          "same",
+          "state",
+          "that",
+          "type",
+          "vintage"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "artifact",
+          "do",
+          "fac",
+          "have",
+          "its",
+          "measure",
+          "multiple",
+          "not",
+          "on",
+          "play",
+          "same",
+          "state",
+          "that",
+          "type",
+          "vintage"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'artifact'.",
+          "Add or synonym-map a governed measure for 'do'.",
+          "Add or synonym-map a governed measure for 'fac'.",
+          "Add or synonym-map a governed measure for 'have'.",
+          "Add or synonym-map a governed measure for 'its'.",
+          "Add or synonym-map a governed measure for 'multiple'.",
+          "Add or synonym-map a governed measure for 'not'.",
+          "Add or synonym-map a governed measure for 'on'.",
+          "Add or synonym-map a governed measure for 'play'.",
+          "Add or synonym-map a governed measure for 'same'.",
+          "Add or synonym-map a governed measure for 'state'.",
+          "Add or synonym-map a governed measure for 'that'.",
+          "Add or synonym-map a governed measure for 'type'.",
+          "Add or synonym-map a governed measure for 'vintage'.",
+          "Consider mapping the request to existing term 'artist'.",
+          "Consider mapping the request to existing term 'layout'.",
+          "Consider mapping the request to existing term 'name'.",
+          "Consider mapping the request to existing term 'statu'."
+        ]
+      },
+      "elapsed_sec": 0.01
+    },
+    {
+      "idx": 36,
+      "question_id": 346,
+      "source_idx": 346,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "question": "List all the card id and artist with unknown power which are legal for commander play format.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T1.id, T1.artist FROM cards AS T1 INNER JOIN legalities AS T2 ON T1.uuid = T2.uuid WHERE T2.status = 'Legal' AND T2.format = 'commander' AND (T1.power IS NULL OR T1.power = '*')",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 29936,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          5,
+          "Rebecca Guay"
+        ],
+        [
+          6,
+          "Rob Alexander"
+        ],
+        [
+          10,
+          "Daren Bader"
+        ],
+        [
+          11,
+          "Thomas M. Baxa"
+        ],
+        [
+          13,
+          "Christopher Rush"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "List all the card id and artist with unknown power which are legal for commander play format.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "all",
+          "are",
+          "commander",
+          "id",
+          "legal",
+          "list",
+          "play",
+          "unknown",
+          "which",
+          "with"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "all",
+          "are",
+          "cards.cardkingdomfoilid",
+          "cards.cardkingdomid",
+          "cards.power",
+          "commander",
+          "id",
+          "legal",
+          "legalities.format",
+          "list",
+          "play",
+          "unknown",
+          "which",
+          "with"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "all",
+          "are",
+          "commander",
+          "dimension_not_allowed:cards.cardkingdomfoilid",
+          "dimension_not_allowed:cards.cardkingdomid",
+          "dimension_not_allowed:cards.power",
+          "dimension_not_allowed:legalities.format",
+          "id",
+          "legal",
+          "list",
+          "play",
+          "unknown",
+          "which",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'all'.",
+          "Add or expose a governed dimension for 'are'.",
+          "Add or expose a governed dimension for 'cards.cardkingdomfoilid'.",
+          "Add or expose a governed dimension for 'cards.cardkingdomid'.",
+          "Add or expose a governed dimension for 'cards.power'.",
+          "Add or expose a governed dimension for 'commander'.",
+          "Add or expose a governed dimension for 'id'.",
+          "Add or expose a governed dimension for 'legal'.",
+          "Add or expose a governed dimension for 'legalities.format'.",
+          "Add or expose a governed dimension for 'list'.",
+          "Add or expose a governed dimension for 'play'.",
+          "Add or expose a governed dimension for 'unknown'.",
+          "Add or expose a governed dimension for 'which'.",
+          "Add or expose a governed dimension for 'with'.",
+          "Consider mapping the request to existing term 'artist'.",
+          "Consider mapping the request to existing term 'layout'.",
+          "Consider mapping the request to existing term 'legaliti'.",
+          "Consider mapping the request to existing term 'name'."
+        ]
+      },
+      "elapsed_sec": 0.007
+    },
+    {
+      "idx": 37,
+      "question_id": 347,
+      "source_idx": 347,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "question": "Find all cards illustrated by Stephen Daniel and describe the text of the ruling of these cards. State if these cards have missing or degraded properties and values.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T1.id, T2.text, T1.hasContentWarning FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.artist = 'Stephen Daniele'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 23,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          29,
+          "You can\u2019t put an Aura card from your hand onto the battlefield this way if that Aura can\u2019t legally enchant Academy Researchers. For example, you can\u2019t put an Aura with \u201cenchant land\u201d or \u201cenchant green creature\u201d onto the battlefield attached to Academy Res",
+          0
+        ],
+        [
+          3872,
+          "This card now has Enchant Swamp, which works exactly like any other Enchant ability. This means it can only be cast targeting a Swamp, and it will be put into its owner\u2019s graveyard if the permanent it\u2019s attached to ever stops being a Swamp.",
+          0
+        ],
+        [
+          6651,
+          "Cycling is an activated ability. Effects that interact with activated abilities (such as Stifle or Rings of Brighthearth) will interact with cycling. Effects that interact with spells (such as Remove Soul or Faerie Tauntings) will not.",
+          0
+        ],
+        [
+          6652,
+          "Cycling is an activated ability. Effects that interact with activated abilities (such as Stifle or Rings of Brighthearth) will interact with cycling. Effects that interact with spells (such as Remove Soul or Faerie Tauntings) will not.",
+          0
+        ],
+        [
+          7950,
+          "Cycling is an activated ability. Effects that interact with activated abilities (such as Stifle or Rings of Brighthearth) will interact with cycling. Effects that interact with spells (such as Remove Soul or Faerie Tauntings) will not.",
+          0
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Find all cards illustrated by Stephen Daniel and describe the text of the ruling of these cards. State if these cards have missing or degraded properties and values.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "all",
+          "daniel",
+          "degrad",
+          "describe",
+          "find",
+          "have",
+          "if",
+          "illustrat",
+          "miss",
+          "or",
+          "properti",
+          "state",
+          "stephen",
+          "text",
+          "these",
+          "valu"
+        ],
+        "missing_measures": [
+          "all",
+          "daniel",
+          "degrad",
+          "describe",
+          "find",
+          "have",
+          "if",
+          "illustrat",
+          "miss",
+          "or",
+          "properti",
+          "state",
+          "stephen",
+          "text",
+          "these",
+          "valu"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "all",
+          "daniel",
+          "degrad",
+          "describe",
+          "find",
+          "have",
+          "if",
+          "illustrat",
+          "measure",
+          "miss",
+          "or",
+          "properti",
+          "state",
+          "stephen",
+          "text",
+          "these",
+          "valu"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for 'all'.",
+          "Add or synonym-map a governed measure for 'daniel'.",
+          "Add or synonym-map a governed measure for 'degrad'.",
+          "Add or synonym-map a governed measure for 'describe'.",
+          "Add or synonym-map a governed measure for 'find'.",
+          "Add or synonym-map a governed measure for 'have'.",
+          "Add or synonym-map a governed measure for 'if'.",
+          "Add or synonym-map a governed measure for 'illustrat'.",
+          "Add or synonym-map a governed measure for 'miss'.",
+          "Add or synonym-map a governed measure for 'or'.",
+          "Add or synonym-map a governed measure for 'properti'.",
+          "Add or synonym-map a governed measure for 'state'.",
+          "Add or synonym-map a governed measure for 'stephen'.",
+          "Add or synonym-map a governed measure for 'text'.",
+          "Add or synonym-map a governed measure for 'these'.",
+          "Add or synonym-map a governed measure for 'valu'.",
+          "Consider mapping the request to existing term 'date'.",
+          "Consider mapping the request to existing term 'id'.",
+          "Consider mapping the request to existing term 'life'.",
+          "Consider mapping the request to existing term 'power'.",
+          "Consider mapping the request to existing term 'statu'.",
+          "Consider mapping the request to existing term 'toughnes'."
+        ]
+      },
+      "elapsed_sec": 0.012
+    },
+    {
+      "idx": 38,
+      "question_id": 348,
+      "source_idx": 348,
+      "db_id": "card_games",
+      "difficulty": "simple",
+      "question": "Describe the information about rulings for card named 'Sublime Epiphany' with number 74s.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.text FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.name = 'Sublime Epiphany' AND T1.number = '74s'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 15,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "You can\u2019t choose any one mode more than once."
+        ],
+        [
+          "If any of the targets become illegal, the remaining targets are affected as appropriate."
+        ],
+        [
+          "If you choose more than one mode, you perform the modes in the order specified. For example, if you choose to counter target spell, return target nonland permanent to its owner\u2019s hand, and have target player draw a card, that permanent will be on the batt"
+        ],
+        [
+          "Sublime Epiphany\u2019s second mode counters only activated and triggered abilities already on the stack. It doesn\u2019t prevent abilities from being activated or from triggering later in the turn, and it has no effect on static abilities."
+        ],
+        [
+          "Activated abilities are written in the form \u201c[Cost]: [Effect].\u201d Some keyword abilities (such as equip) are activated abilities and will have colons in their reminder texts."
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Describe the information about rulings for card named 'Sublime Epiphany' with number 74s.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "74s",
+          "about",
+          "describe",
+          "epiphany",
+          "information",
+          "nam",
+          "name",
+          "sublime",
+          "with"
+        ],
+        "missing_measures": [
+          "74s",
+          "about",
+          "describe",
+          "epiphany",
+          "information",
+          "nam",
+          "name",
+          "sublime",
+          "with"
+        ],
+        "missing_dimensions": [],
+        "missing_join_paths": [],
+        "missing_members": [
+          "74s",
+          "about",
+          "describe",
+          "epiphany",
+          "information",
+          "measure",
+          "nam",
+          "name",
+          "sublime",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or synonym-map a governed measure for '74s'.",
+          "Add or synonym-map a governed measure for 'about'.",
+          "Add or synonym-map a governed measure for 'describe'.",
+          "Add or synonym-map a governed measure for 'epiphany'.",
+          "Add or synonym-map a governed measure for 'information'.",
+          "Add or synonym-map a governed measure for 'nam'.",
+          "Add or synonym-map a governed measure for 'name'.",
+          "Add or synonym-map a governed measure for 'sublime'.",
+          "Add or synonym-map a governed measure for 'with'.",
+          "Consider mapping the request to existing term 'format'.",
+          "Consider mapping the request to existing term 'layout'.",
+          "Consider mapping the request to existing term 'name'."
+        ]
+      },
+      "elapsed_sec": 0.009
+    },
+    {
+      "idx": 39,
+      "question_id": 349,
+      "source_idx": 349,
+      "db_id": "card_games",
+      "difficulty": "moderate",
+      "question": "Name the card and artist with the most ruling information. Also state if the card is a promotional printing.",
+      "route": "NOT_RUN",
+      "route_source": "pre_semantic_pipeline",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T1.name, T1.artist, T1.isPromo FROM cards AS T1 INNER JOIN rulings AS T2 ON T1.uuid = T2.uuid WHERE T1.isPromo = 1 AND T1.artist = (SELECT artist FROM cards WHERE isPromo = 1 GROUP BY artist HAVING COUNT(DISTINCT uuid) = (SELECT MAX(count_uuid) FROM ( SELECT COUNT(DISTINCT uuid) AS count_uuid FROM cards WHERE isPromo = 1 GROUP BY artist ))) LIMIT 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "Serrated Arrows",
+          "John Avon",
+          1
+        ]
+      ],
+      "requires_clarification": false,
+      "error": "Sensitive data intent detected; PII fields are not available through NL2SQL.",
+      "trace": [
+        "classify",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": null,
+      "elapsed_sec": 0.0
+    },
+    {
+      "idx": 40,
+      "question_id": 531,
+      "source_idx": 531,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "Which user has a higher reputation, Harlan or Jarrod Dixon?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT DisplayName FROM users WHERE DisplayName IN ('Harlan', 'Jarrod Dixon') AND Reputation = ( SELECT MAX(Reputation) FROM users WHERE DisplayName IN ('Harlan', 'Jarrod Dixon') )",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "Harlan"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Which user has a higher reputation, Harlan or Jarrod Dixon?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "dixon",
+          "harlan",
+          "has",
+          "higher",
+          "jarrod",
+          "or",
+          "reputation",
+          "userdisplayname",
+          "which"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "dixon",
+          "harlan",
+          "has",
+          "higher",
+          "jarrod",
+          "or",
+          "reputation",
+          "userdisplayname",
+          "which"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "dixon",
+          "harlan",
+          "has",
+          "higher",
+          "jarrod",
+          "or",
+          "reputation",
+          "userdisplayname",
+          "which"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'dixon'.",
+          "Add or expose a governed dimension for 'harlan'.",
+          "Add or expose a governed dimension for 'has'.",
+          "Add or expose a governed dimension for 'higher'.",
+          "Add or expose a governed dimension for 'jarrod'.",
+          "Add or expose a governed dimension for 'or'.",
+          "Add or expose a governed dimension for 'reputation'.",
+          "Add or expose a governed dimension for 'userdisplayname'.",
+          "Add or expose a governed dimension for 'which'.",
+          "Consider mapping the request to existing term 'score'."
+        ]
+      },
+      "elapsed_sec": 0.026
+    },
+    {
+      "idx": 41,
+      "question_id": 532,
+      "source_idx": 532,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "Please list the display names of all the users whose accounts were created in the year 2011.",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT DisplayName FROM users WHERE STRFTIME('%Y', CreationDate) = '2011'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 4430,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "Rob"
+        ],
+        [
+          "Anubhav"
+        ],
+        [
+          "Betamoo"
+        ],
+        [
+          "dram"
+        ],
+        [
+          "dcurtis"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Please list the display names of all the users whose accounts were created in the year 2011.",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "account",
+          "all",
+          "creat",
+          "creationdate",
+          "display",
+          "in",
+          "list",
+          "nam",
+          "please",
+          "userdisplayname",
+          "were",
+          "whose"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "account",
+          "all",
+          "creat",
+          "creationdate",
+          "display",
+          "in",
+          "list",
+          "nam",
+          "please",
+          "userdisplayname",
+          "were",
+          "whose"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "account",
+          "all",
+          "creat",
+          "creationdate",
+          "display",
+          "in",
+          "list",
+          "nam",
+          "please",
+          "userdisplayname",
+          "were",
+          "whose"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'account'.",
+          "Add or expose a governed dimension for 'all'.",
+          "Add or expose a governed dimension for 'creat'.",
+          "Add or expose a governed dimension for 'creationdate'.",
+          "Add or expose a governed dimension for 'display'.",
+          "Add or expose a governed dimension for 'in'.",
+          "Add or expose a governed dimension for 'list'.",
+          "Add or expose a governed dimension for 'nam'.",
+          "Add or expose a governed dimension for 'please'.",
+          "Add or expose a governed dimension for 'userdisplayname'.",
+          "Add or expose a governed dimension for 'were'.",
+          "Add or expose a governed dimension for 'whose'.",
+          "Consider mapping the request to existing term 'count'.",
+          "Consider mapping the request to existing term 'displayname'.",
+          "Consider mapping the request to existing term 'name'.",
+          "Consider mapping the request to existing term 'score'."
+        ]
+      },
+      "elapsed_sec": 0.005
+    },
+    {
+      "idx": 42,
+      "question_id": 533,
+      "source_idx": 533,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "How many users last accessed the website after 2014/9/1?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(Id) FROM users WHERE date(LastAccessDate) > '2014-09-01'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          4941
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many users last accessed the website after 2014/9/1?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "access",
+          "after",
+          "how",
+          "many",
+          "userdisplayname",
+          "website"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "access",
+          "after",
+          "how",
+          "many",
+          "userdisplayname",
+          "website"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "access",
+          "after",
+          "how",
+          "many",
+          "userdisplayname",
+          "website"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'access'.",
+          "Add or expose a governed dimension for 'after'.",
+          "Add or expose a governed dimension for 'how'.",
+          "Add or expose a governed dimension for 'many'.",
+          "Add or expose a governed dimension for 'userdisplayname'.",
+          "Add or expose a governed dimension for 'website'.",
+          "Consider mapping the request to existing term 'date'.",
+          "Consider mapping the request to existing term 'websiteurl'."
+        ]
+      },
+      "elapsed_sec": 0.003
+    },
+    {
+      "idx": 43,
+      "question_id": 534,
+      "source_idx": 534,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "What is the display name of the user who has the most number of views?",
+      "route": "NOT_RUN",
+      "route_source": "pre_semantic_pipeline",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT DisplayName FROM users WHERE Views = ( SELECT MAX(Views) FROM users )",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "whuber"
+        ]
+      ],
+      "requires_clarification": false,
+      "error": "Sensitive data intent detected; PII fields are not available through NL2SQL.",
+      "trace": [
+        "classify",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": null,
+      "elapsed_sec": 0.0
+    },
+    {
+      "idx": 44,
+      "question_id": 535,
+      "source_idx": 535,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "Among the users who have more than 100 upvotes, how many of them have more then 1 downvotes?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(Id) FROM users WHERE Upvotes > 100 AND Downvotes > 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          207
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Among the users who have more than 100 upvotes, how many of them have more then 1 downvotes?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "among",
+          "have",
+          "how",
+          "many",
+          "more",
+          "than",
+          "them",
+          "then",
+          "upvot",
+          "userdisplayname",
+          "who"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "among",
+          "have",
+          "how",
+          "many",
+          "more",
+          "than",
+          "them",
+          "then",
+          "upvot",
+          "userdisplayname",
+          "who"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "among",
+          "have",
+          "how",
+          "many",
+          "more",
+          "than",
+          "them",
+          "then",
+          "upvot",
+          "userdisplayname",
+          "who"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'among'.",
+          "Add or expose a governed dimension for 'have'.",
+          "Add or expose a governed dimension for 'how'.",
+          "Add or expose a governed dimension for 'many'.",
+          "Add or expose a governed dimension for 'more'.",
+          "Add or expose a governed dimension for 'than'.",
+          "Add or expose a governed dimension for 'them'.",
+          "Add or expose a governed dimension for 'then'.",
+          "Add or expose a governed dimension for 'upvot'.",
+          "Add or expose a governed dimension for 'userdisplayname'.",
+          "Add or expose a governed dimension for 'who'.",
+          "Consider mapping the request to existing term 'age'.",
+          "Consider mapping the request to existing term 'score'.",
+          "Consider mapping the request to existing term 'tag'."
+        ]
+      },
+      "elapsed_sec": 0.004
+    },
+    {
+      "idx": 45,
+      "question_id": 536,
+      "source_idx": 536,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "How many users with more than 10 views created their account after the year 2013?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(id) FROM users WHERE STRFTIME('%Y', CreationDate) > '2013' AND Views > 10",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          236
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many users with more than 10 views created their account after the year 2013?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "account",
+          "after",
+          "creat",
+          "creationdate",
+          "how",
+          "many",
+          "more",
+          "than",
+          "their",
+          "userdisplayname",
+          "view",
+          "viewcount",
+          "with"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "account",
+          "after",
+          "comments.creationdate",
+          "comments.userdisplayname",
+          "creat",
+          "creationdate",
+          "how",
+          "many",
+          "more",
+          "than",
+          "their",
+          "userdisplayname",
+          "view",
+          "viewcount",
+          "with"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "account",
+          "after",
+          "creat",
+          "creationdate",
+          "dimension_not_allowed:comments.creationdate",
+          "dimension_not_allowed:comments.userdisplayname",
+          "how",
+          "many",
+          "more",
+          "than",
+          "their",
+          "userdisplayname",
+          "view",
+          "viewcount",
+          "with"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'account'.",
+          "Add or expose a governed dimension for 'after'.",
+          "Add or expose a governed dimension for 'comments.creationdate'.",
+          "Add or expose a governed dimension for 'comments.userdisplayname'.",
+          "Add or expose a governed dimension for 'creat'.",
+          "Add or expose a governed dimension for 'creationdate'.",
+          "Add or expose a governed dimension for 'how'.",
+          "Add or expose a governed dimension for 'many'.",
+          "Add or expose a governed dimension for 'more'.",
+          "Add or expose a governed dimension for 'than'.",
+          "Add or expose a governed dimension for 'their'.",
+          "Add or expose a governed dimension for 'userdisplayname'.",
+          "Add or expose a governed dimension for 'view'.",
+          "Add or expose a governed dimension for 'viewcount'.",
+          "Add or expose a governed dimension for 'with'.",
+          "Consider mapping the request to existing term 'count'.",
+          "Consider mapping the request to existing term 'date'.",
+          "Consider mapping the request to existing term 'score'.",
+          "Consider mapping the request to existing term 'tag'."
+        ]
+      },
+      "elapsed_sec": 0.006
+    },
+    {
+      "idx": 46,
+      "question_id": 537,
+      "source_idx": 537,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "How many posts does the user csgillespie own?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT COUNT(T1.id) FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          121
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "How many posts does the user csgillespie own?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "csgillespie",
+          "do",
+          "how",
+          "many",
+          "own",
+          "userdisplayname"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "csgillespie",
+          "do",
+          "how",
+          "many",
+          "own",
+          "userdisplayname"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "csgillespie",
+          "do",
+          "how",
+          "many",
+          "own",
+          "userdisplayname"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'csgillespie'.",
+          "Add or expose a governed dimension for 'do'.",
+          "Add or expose a governed dimension for 'how'.",
+          "Add or expose a governed dimension for 'many'.",
+          "Add or expose a governed dimension for 'own'.",
+          "Add or expose a governed dimension for 'userdisplayname'.",
+          "Consider mapping the request to existing term 'downvot'."
+        ]
+      },
+      "elapsed_sec": 0.004
+    },
+    {
+      "idx": 47,
+      "question_id": 538,
+      "source_idx": 538,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "Please list the titles of the posts owned by the user csgillespie?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T1.Title FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 121,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "Eliciting priors from experts"
+        ],
+        [
+          null
+        ],
+        [
+          "Examples for teaching: Correlation does not mean causation"
+        ],
+        [
+          null
+        ],
+        [
+          null
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Please list the titles of the posts owned by the user csgillespie?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "csgillespie",
+          "list",
+          "own",
+          "please",
+          "titl",
+          "userdisplayname"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "csgillespie",
+          "list",
+          "own",
+          "please",
+          "titl",
+          "userdisplayname"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "csgillespie",
+          "list",
+          "own",
+          "please",
+          "titl",
+          "userdisplayname"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'csgillespie'.",
+          "Add or expose a governed dimension for 'list'.",
+          "Add or expose a governed dimension for 'own'.",
+          "Add or expose a governed dimension for 'please'.",
+          "Add or expose a governed dimension for 'titl'.",
+          "Add or expose a governed dimension for 'userdisplayname'.",
+          "Consider mapping the request to existing term 'downvot'.",
+          "Consider mapping the request to existing term 'title'."
+        ]
+      },
+      "elapsed_sec": 0.006
+    },
+    {
+      "idx": 48,
+      "question_id": 539,
+      "source_idx": 539,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "Who is the owner of the post \"Eliciting priors from experts\"?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T2.DisplayName FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T1.Title = 'Eliciting priors from experts'",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "csgillespie"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "Who is the owner of the post \"Eliciting priors from experts\"?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "elicit",
+          "expert",
+          "is",
+          "owner",
+          "prior",
+          "who"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "elicit",
+          "expert",
+          "is",
+          "owner",
+          "prior",
+          "who"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "elicit",
+          "expert",
+          "is",
+          "owner",
+          "prior",
+          "who"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'elicit'.",
+          "Add or expose a governed dimension for 'expert'.",
+          "Add or expose a governed dimension for 'is'.",
+          "Add or expose a governed dimension for 'owner'.",
+          "Add or expose a governed dimension for 'prior'.",
+          "Add or expose a governed dimension for 'who'.",
+          "Consider mapping the request to existing term 'text'."
+        ]
+      },
+      "elapsed_sec": 0.005
+    },
+    {
+      "idx": 49,
+      "question_id": 540,
+      "source_idx": 540,
+      "db_id": "codebase_community",
+      "difficulty": "simple",
+      "question": "What is the title of the post that is owned by csgillespie and has the highest popularity?",
+      "route": "CLARIFY",
+      "route_source": "semantic_engine",
+      "match": false,
+      "sql": "",
+      "gold_sql": "SELECT T1.Title FROM posts AS T1 INNER JOIN users AS T2 ON T1.OwnerUserId = T2.Id WHERE T2.DisplayName = 'csgillespie' ORDER BY T1.ViewCount DESC LIMIT 1",
+      "execution": {
+        "ok": false,
+        "row_count": 0,
+        "error": "No SQL produced"
+      },
+      "gold_execution": {
+        "ok": true,
+        "row_count": 1,
+        "error": ""
+      },
+      "sample_predicted_rows": [],
+      "sample_gold_rows": [
+        [
+          "Examples for teaching: Correlation does not mean causation"
+        ]
+      ],
+      "requires_clarification": true,
+      "error": null,
+      "trace": [
+        "classify",
+        "extract_terms",
+        "resolve_semantics",
+        "run_semantic_engine",
+        "build_response"
+      ],
+      "guardrail_contract_present": false,
+      "gap_report": {
+        "question": "What is the title of the post that is owned by csgillespie and has the highest popularity?",
+        "route": "CLARIFY",
+        "unresolved_terms": [
+          "csgillespie",
+          "has",
+          "highest",
+          "is",
+          "own",
+          "popularity",
+          "that",
+          "what"
+        ],
+        "missing_measures": [],
+        "missing_dimensions": [
+          "csgillespie",
+          "has",
+          "highest",
+          "is",
+          "own",
+          "popularity",
+          "that",
+          "what"
+        ],
+        "missing_join_paths": [],
+        "missing_members": [
+          "csgillespie",
+          "has",
+          "highest",
+          "is",
+          "own",
+          "popularity",
+          "that",
+          "what"
+        ],
+        "suggested_model_additions": [
+          "Add or expose a governed dimension for 'csgillespie'.",
+          "Add or expose a governed dimension for 'has'.",
+          "Add or expose a governed dimension for 'highest'.",
+          "Add or expose a governed dimension for 'is'.",
+          "Add or expose a governed dimension for 'own'.",
+          "Add or expose a governed dimension for 'popularity'.",
+          "Add or expose a governed dimension for 'that'.",
+          "Add or expose a governed dimension for 'what'.",
+          "Consider mapping the request to existing term 'downvot'.",
+          "Consider mapping the request to existing term 'tag'."
+        ]
+      },
+      "elapsed_sec": 0.007
+    }
+  ],
+  "baseline": {
+    "path": "/home/teddy/enterprise-nl2sql/bird_bench/results/full_benchmarks/full_V4_Flash_few_shot_xhigh.json",
+    "recorded_total": 50,
+    "recorded_passed": 33,
+    "recorded_ex": 66.0,
+    "recorded_match_passed_for_rows": 33,
+    "recorded_match_ex_for_rows": 66.0,
+    "db_id_mismatches": 20,
+    "total": 50,
+    "passed": 0,
+    "ex": 0.0,
+    "results": [
+      {
+        "idx": 0,
+        "question_id": 0,
+        "source_idx": 0,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT T2.Phone FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T1.NumTstTakr > 0 ORDER BY CAST(T1.NumGE1500 AS REAL) / T1.NumTstTakr DESC LIMIT 3",
+        "execution": {
+          "ok": true,
+          "row_count": 3,
+          "error": ""
+        }
+      },
+      {
+        "idx": 1,
+        "question_id": 1,
+        "source_idx": 1,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT sc.NCESSchool FROM schools AS sc INNER JOIN frpm AS f ON sc.CDSCode = f.CDSCode GROUP BY sc.CDSCode, sc.NCESSchool ORDER BY MAX(f.`Enrollment (Ages 5-17)`) DESC LIMIT 5",
+        "execution": {
+          "ok": true,
+          "row_count": 5,
+          "error": ""
+        }
+      },
+      {
+        "idx": 2,
+        "question_id": 2,
+        "source_idx": 2,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT COUNT(CDSCode) FROM frpm WHERE `County Name` = 'Los Angeles' AND `Free Meal Count (K-12)` > 500 AND `FRPM Count (K-12)` < 700",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 3,
+        "question_id": 3,
+        "source_idx": 3,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT sname FROM satscores WHERE cname = 'Contra Costa' AND sname IS NOT NULL ORDER BY NumTstTakr DESC LIMIT 1",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 4,
+        "question_id": 4,
+        "source_idx": 4,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT schools.School, schools.Street AS full_street_address FROM frpm INNER JOIN schools ON frpm.CDSCode = schools.CDSCode WHERE ABS(frpm.\"Enrollment (K-12)\" - frpm.\"Enrollment (Ages 5-17)\") > 30",
+        "execution": {
+          "ok": true,
+          "row_count": 1239,
+          "error": ""
+        }
+      },
+      {
+        "idx": 5,
+        "question_id": 5,
+        "source_idx": 5,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT DISTINCT sc.School\nFROM schools sc\nWHERE sc.CDSCode IN (\n    SELECT f.CDSCode\n    FROM frpm f\n    GROUP BY f.CDSCode\n    HAVING (CAST(SUM(f.`Free Meal Count (K-12)`) AS REAL) / SUM(f.`Enrollment (K-12)`)) > 0.1\n       AND SUM(f.`Enrollment (K-12)`) > 0\n)\nAND sc.CDSCode IN (\n    SELECT sa.cds\n    FROM satscores sa\n    WHERE sa.NumGE1500 > 0\n)",
+        "execution": {
+          "ok": true,
+          "row_count": 999,
+          "error": ""
+        }
+      },
+      {
+        "idx": 6,
+        "question_id": 6,
+        "source_idx": 6,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT schools.School, satscores.AvgScrWrite, schools.Phone FROM schools INNER JOIN satscores ON schools.CDSCode = satscores.cds WHERE (schools.OpenDate > '1991-12-31' OR schools.ClosedDate < '2000-01-01')",
+        "execution": {
+          "ok": true,
+          "row_count": 749,
+          "error": ""
+        }
+      },
+      {
+        "idx": 7,
+        "question_id": 7,
+        "source_idx": 7,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT schools.Street, schools.City, schools.Zip, schools.State FROM satscores INNER JOIN schools ON satscores.cds = schools.CDSCode WHERE satscores.NumTstTakr > 0 AND satscores.NumGE1500 IS NOT NULL ORDER BY (CAST(satscores.NumGE1500 AS REAL) / NULLIF(satscores.NumTstTakr, 0)) ASC LIMIT 1",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 8,
+        "question_id": 8,
+        "source_idx": 8,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT s.Website FROM satscores AS t INNER JOIN schools AS s ON t.cds = s.CDSCode WHERE t.NumTstTakr BETWEEN 2000 AND 3000 AND s.County = 'Los Angeles'",
+        "execution": {
+          "ok": true,
+          "row_count": 3,
+          "error": ""
+        }
+      },
+      {
+        "idx": 9,
+        "question_id": 9,
+        "source_idx": 9,
+        "db_id": "california_schools",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT AVG(s.NumTstTakr) FROM satscores AS s INNER JOIN schools AS sc ON s.cds = sc.CDSCode WHERE sc.County = 'Fresno' AND strftime('%Y', sc.OpenDate) = '1980'",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 10,
+        "question_id": 89,
+        "source_idx": 89,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT School\nFROM (\n    SELECT T2.School, T1.AvgScrRead, T2.County, ROW_NUMBER() OVER (PARTITION BY T2.County ORDER BY T1.AvgScrRead DESC) AS rnk\n    FROM satscores AS T1\n    INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode\n    WHERE T2.Virtual = 'F'\n) ranked_schools\nWHERE rnk <= 5\nORDER BY County, AvgScrRead DESC\nLIMIT 10000;",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: satscores"
+        }
+      },
+      {
+        "idx": 11,
+        "question_id": 90,
+        "source_idx": 90,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT T2.School, T1.AvgScrWrite FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.AdmFName1 = 'Ricci' AND T2.AdmLName1 = 'Ulrich'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: satscores"
+        }
+      },
+      {
+        "idx": 12,
+        "question_id": 91,
+        "source_idx": 91,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT T2.MailStreet, T2.School FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T1.AvgScrRead IS NOT NULL ORDER BY T1.AvgScrRead ASC LIMIT 1",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: satscores"
+        }
+      },
+      {
+        "idx": 13,
+        "question_id": 92,
+        "source_idx": 92,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT CAST(SUM(CASE WHEN County = 'Colusa' THEN 1 ELSE 0 END) AS REAL) / SUM(CASE WHEN County = 'Humboldt' THEN 1 ELSE 0 END) FROM schools WHERE MailState = 'CA'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: schools"
+        }
+      },
+      {
+        "idx": 14,
+        "question_id": 93,
+        "source_idx": 93,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT COUNT(*) FROM schools WHERE MailCity = 'Hickman' AND CharterNum = '00D4'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: schools"
+        }
+      },
+      {
+        "idx": 15,
+        "question_id": 94,
+        "source_idx": 94,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT T2.School AS School, (T1.`FRPM Count (Ages 5-17)` * 100.0) / NULLIF(T1.`Enrollment (Ages 5-17)`, 0) AS Percent_Eligible_FRPM_Ages_5_17 FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.County = 'Los Angeles' AND T2.GSserved = 'K-9'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: frpm"
+        }
+      },
+      {
+        "idx": 16,
+        "question_id": 95,
+        "source_idx": 95,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT County, COUNT(Virtual) FROM schools WHERE (County = 'San Diego' OR County = 'Santa Barbara') AND Virtual = 'F' GROUP BY County ORDER BY COUNT(Virtual) DESC LIMIT 1",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: schools"
+        }
+      },
+      {
+        "idx": 17,
+        "question_id": 96,
+        "source_idx": 96,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT T1.`School Type`, T1.`School Name`, T2.Latitude FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T2.Latitude DESC LIMIT 1",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: frpm"
+        }
+      },
+      {
+        "idx": 18,
+        "question_id": 97,
+        "source_idx": 97,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT AdmLName1, District, County, School FROM schools WHERE CharterNum = '0040' ORDER BY CDSCode LIMIT 1",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: schools"
+        }
+      },
+      {
+        "idx": 19,
+        "question_id": 98,
+        "source_idx": 98,
+        "db_id": "financial",
+        "baseline_recorded_db_id": "california_schools",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT T2.AdmEmail1, T2.AdmEmail2 FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.County = 'San Bernardino' AND T2.City = 'San Bernardino' AND T2.DOC = '54' AND T2.SOC = '62' AND strftime('%Y', T2.OpenDate) BETWEEN '2009' AND '2010'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: frpm"
+        }
+      },
+      {
+        "idx": 20,
+        "question_id": 195,
+        "source_idx": 195,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT c.name FROM cards c WHERE EXISTS (SELECT 1 FROM foreign_data fd WHERE fd.uuid = c.uuid AND fd.language = 'Japanese') ORDER BY c.name",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 21,
+        "question_id": 196,
+        "source_idx": 196,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT DISTINCT name FROM cards WHERE artist = 'Aaron Boyd'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 22,
+        "question_id": 197,
+        "source_idx": 197,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT COUNT(id) FROM cards WHERE borderColor = 'black' AND availability = 'mtgo'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 23,
+        "question_id": 198,
+        "source_idx": 198,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT DISTINCT layout FROM cards WHERE keywords LIKE '%Flying%'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 24,
+        "question_id": 199,
+        "source_idx": 199,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT c.name, r.date\nFROM cards AS c\nINNER JOIN rulings AS r ON r.uuid = c.uuid\nWHERE c.originalType = 'Creature - Elf'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 25,
+        "question_id": 200,
+        "source_idx": 200,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT c.id, c.colors, l.format FROM cards AS c INNER JOIN legalities AS l ON c.uuid = l.uuid WHERE c.id BETWEEN 1 AND 20 ORDER BY c.id, l.format",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 26,
+        "question_id": 201,
+        "source_idx": 201,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT COUNT(DISTINCT sets.id) FROM sets INNER JOIN set_translations ON sets.code = set_translations.setCode WHERE sets.block = 'Commander' AND set_translations.language = 'Portuguese (Brasil)' AND set_translations.translation IS NOT NULL",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: sets"
+        }
+      },
+      {
+        "idx": 27,
+        "question_id": 202,
+        "source_idx": 202,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT DISTINCT cards.id FROM cards INNER JOIN legalities ON cards.uuid = legalities.uuid WHERE LOWER(cards.types) = 'creature' AND LOWER(legalities.status) = 'legal'",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 28,
+        "question_id": 203,
+        "source_idx": 203,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT name FROM cards WHERE (power IS NULL OR power LIKE '%*%') AND promoTypes = 'arenaleague' ORDER BY name LIMIT 3",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 29,
+        "question_id": 204,
+        "source_idx": 204,
+        "db_id": "toxicology",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT id, COUNT(*) OVER () AS total_count FROM cards WHERE frameEffects = 'extendedart' ORDER BY id;",
+        "execution": {
+          "ok": false,
+          "row_count": 0,
+          "error": "no such table: cards"
+        }
+      },
+      {
+        "idx": 30,
+        "question_id": 340,
+        "source_idx": 340,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT name FROM cards WHERE borderColor = 'black' AND isFullArt = 1",
+        "execution": {
+          "ok": true,
+          "row_count": 471,
+          "error": ""
+        }
+      },
+      {
+        "idx": 31,
+        "question_id": 341,
+        "source_idx": 341,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT code FROM sets WHERE releaseDate = '2007-07-13'",
+        "execution": {
+          "ok": true,
+          "row_count": 2,
+          "error": ""
+        }
+      },
+      {
+        "idx": 32,
+        "question_id": 342,
+        "source_idx": 342,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT DISTINCT code FROM sets WHERE type = 'commander';",
+        "execution": {
+          "ok": true,
+          "row_count": 14,
+          "error": ""
+        }
+      },
+      {
+        "idx": 33,
+        "question_id": 343,
+        "source_idx": 343,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT DISTINCT purchaseUrls FROM cards WHERE promoTypes = 'bundle'",
+        "execution": {
+          "ok": true,
+          "row_count": 12,
+          "error": ""
+        }
+      },
+      {
+        "idx": 34,
+        "question_id": 344,
+        "source_idx": 344,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT COUNT(DISTINCT artist) FROM cards WHERE borderColor = 'black' AND availability LIKE '%arena,mtgo%'",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 35,
+        "question_id": 345,
+        "source_idx": 345,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT DISTINCT c.name FROM cards c INNER JOIN set_translations st ON c.setCode = st.setCode WHERE st.translation = 'Hauptset Zehnte Edition'",
+        "execution": {
+          "ok": true,
+          "row_count": 368,
+          "error": ""
+        }
+      },
+      {
+        "idx": 36,
+        "question_id": 346,
+        "source_idx": 346,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT keyruneCode FROM sets WHERE code = 'PKHC'",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 37,
+        "question_id": 347,
+        "source_idx": 347,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT T2.translation FROM cards AS T1 INNER JOIN set_translations AS T2 ON T2.setCode = T1.setCode WHERE T1.name = 'Fellwar Stone' AND T2.language = 'Japanese' AND T2.translation IS NOT NULL",
+        "execution": {
+          "ok": true,
+          "row_count": 5,
+          "error": ""
+        }
+      },
+      {
+        "idx": 38,
+        "question_id": 348,
+        "source_idx": 348,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT DISTINCT c.name, l.format FROM cards c INNER JOIN legalities l ON c.uuid = l.uuid AND l.status = 'Legal' WHERE c.setCode IN (SELECT code FROM sets WHERE name = 'Hour of Devastation')",
+        "execution": {
+          "ok": true,
+          "row_count": 1664,
+          "error": ""
+        }
+      },
+      {
+        "idx": 39,
+        "question_id": 349,
+        "source_idx": 349,
+        "db_id": "card_games",
+        "baseline_recorded_db_id": "card_games",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT name FROM sets WHERE code IN (SELECT setCode FROM set_translations WHERE language = 'Korean') AND code NOT IN (SELECT setCode FROM set_translations WHERE language = 'Japanese')",
+        "execution": {
+          "ok": true,
+          "row_count": 0,
+          "error": ""
+        }
+      },
+      {
+        "idx": 40,
+        "question_id": 531,
+        "source_idx": 531,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT b.Name FROM badges AS b INNER JOIN users AS u ON b.UserId = u.Id WHERE u.DisplayName = 'csgillespie'",
+        "execution": {
+          "ok": true,
+          "row_count": 95,
+          "error": ""
+        }
+      },
+      {
+        "idx": 41,
+        "question_id": 532,
+        "source_idx": 532,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT COUNT(Id) FROM votes WHERE UserId = 58 AND CreationDate = '2010-07-19'",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 42,
+        "question_id": 533,
+        "source_idx": 533,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT p.Title FROM posts p JOIN comments c ON p.Id = c.PostId ORDER BY c.Score DESC LIMIT 1",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 43,
+        "question_id": 534,
+        "source_idx": 534,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT ViewCount FROM posts WHERE Title = 'Integration of Weka and/or RapidMiner into Informatica PowerCenter/Developer'",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 44,
+        "question_id": 535,
+        "source_idx": 535,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT Id FROM users ORDER BY Views ASC LIMIT 1;",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 45,
+        "question_id": 536,
+        "source_idx": 536,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT T1.PostHistoryTypeId, (SELECT COUNT(DISTINCT UserId) FROM comments WHERE PostId = 3720) AS NumberOfUsers FROM postHistory AS T1 WHERE T1.PostId = 3720",
+        "execution": {
+          "ok": true,
+          "row_count": 7,
+          "error": ""
+        }
+      },
+      {
+        "idx": 46,
+        "question_id": 537,
+        "source_idx": 537,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": false,
+        "match": false,
+        "sql": "SELECT Text FROM comments WHERE CreationDate = '2010-07-19 19:25:47.0'",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 47,
+        "question_id": 538,
+        "source_idx": 538,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT CAST(COUNT(DISTINCT CASE WHEN u.Age BETWEEN 13 AND 18 THEN b.UserId END) AS REAL) / COUNT(DISTINCT b.UserId) * 100 AS percentage FROM badges b INNER JOIN users u ON b.UserId = u.Id WHERE b.Name = 'Organizer'",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 48,
+        "question_id": 539,
+        "source_idx": 539,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT c.Score FROM comments c INNER JOIN posts p ON c.PostId = p.Id WHERE c.CreationDate = '2010-07-19 19:19:56.0'",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      },
+      {
+        "idx": 49,
+        "question_id": 540,
+        "source_idx": 540,
+        "db_id": "codebase_community",
+        "baseline_recorded_db_id": "codebase_community",
+        "baseline_recorded_match": true,
+        "match": false,
+        "sql": "SELECT CAST(SUM(IIF(STRFTIME('%Y', CreationDate) = '2010', 1, 0)) AS REAL) / SUM(IIF(STRFTIME('%Y', CreationDate) = '2011', 1, 0)) AS ratio FROM votes",
+        "execution": {
+          "ok": true,
+          "row_count": 1,
+          "error": ""
+        }
+      }
+    ]
+  }
+}
