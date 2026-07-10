@@ -1,0 +1,2264 @@
+version: 1
+domain: "financial"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "account"
+    title: "Account"
+    description: "BIRD table account in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "account"
+      dialect: "sqlite"
+      grain:
+        - "account_id"
+    identifiers:
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: true
+      - name: "district_id"
+        expr: "district_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from account."
+        expr: "date"
+        type: "date"
+        default: true
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "frequency"
+        title: "Frequency"
+        expr: "frequency"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_account_id"
+        title: "Count Account Id"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters:
+          - member: "frequency"
+            operator: "equals"
+            values:
+              - "POPLATEK PO OBRATU"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.A3 = 'east Bohemia' AND T2.frequency = 'POPLATEK PO OBRATU'"
+      - name: "count_account_id_2"
+        title: "Count Account Id 2"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.A3 = 'Prague'"
+      - name: "count_account_id_3"
+        title: "Count Account Id 3"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters:
+          - member: "frequency"
+            operator: "equals"
+            values:
+              - "POPLATEK TYDNE"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.type = 'OWNER' AND T1.frequency = 'POPLATEK TYDNE'"
+      - name: "count_account_id_4"
+        title: "Count Account Id 4"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T2.date) = '1996' AND T1.A2 = 'Litomerice'"
+      - name: "count_account_id_5"
+        title: "Count Account Id 5"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions:
+          - "district.a16"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_account_id_6"
+        title: "Count Account Id 6"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters:
+          - member: "frequency"
+            operator: "equals"
+            values:
+              - "POPLATEK MESICNE"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.date BETWEEN '1995-01-01' AND '1997-12-31' AND T1.frequency = 'POPLATEK MESICNE' AND T2.amount >= 250000"
+      - name: "count_account_id_7"
+        title: "Count Account Id 7"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.district_id = 1 AND (T3.status = 'C' OR T3.status = 'D')"
+      - name: "count_account_id_8"
+        title: "Count Account Id 8"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.A2 = 'Pisek'"
+      - name: "count_account_id_9"
+        title: "Count Account Id 9"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.bank = 'AB' AND T1.A3 = 'north Bohemia'"
+      - name: "count_account_id_10"
+        title: "Count Account Id 10"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.status = 'A'"
+      - name: "count_account_id_11"
+        title: "Count Account Id 11"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.A2 = 'Jesenik'"
+      - name: "count_account_id_12"
+        title: "Count Account Id 12"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters:
+          - member: "frequency"
+            operator: "equals"
+            values:
+              - "POPLATEK PO OBRATU"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.type = 'OWNER' AND T1.frequency = 'POPLATEK PO OBRATU'"
+    segments: []
+  - name: "card"
+    title: "Card"
+    description: "BIRD table card in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "card"
+      dialect: "sqlite"
+      grain:
+        - "card_id"
+    identifiers:
+      - name: "card_id"
+        expr: "card_id"
+        type: "number"
+        primary_key: true
+      - name: "disp_id"
+        expr: "disp_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "issued"
+        title: "Issued"
+        description: "Time column issued from card."
+        expr: "issued"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_card_id"
+        title: "Count Card Id"
+        description: "COUNT over card_id extracted from repeated BIRD gold SQL patterns."
+        expr: "card_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "card id"
+        allowed_dimensions: []
+        filters:
+          - member: "type"
+            operator: "equals"
+            values:
+              - "OWNER"
+          - member: "type"
+            operator: "equals"
+            values:
+              - "gold"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.type = 'gold' AND T2.type = 'OWNER'"
+      - name: "count_card_id_2"
+        title: "Count Card Id 2"
+        description: "COUNT over card_id extracted from repeated BIRD gold SQL patterns."
+        expr: "card_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "card id"
+        allowed_dimensions: []
+        filters:
+          - member: "type"
+            operator: "equals"
+            values:
+              - "OWNER"
+          - member: "type"
+            operator: "equals"
+            values:
+              - "classic"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.type = 'classic' AND T2.type = 'OWNER'"
+      - name: "count_card_id_3"
+        title: "Count Card Id 3"
+        description: "COUNT over card_id extracted from repeated BIRD gold SQL patterns."
+        expr: "card_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "card id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+  - name: "client"
+    title: "Client"
+    description: "BIRD table client in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "client"
+      dialect: "sqlite"
+      grain:
+        - "client_id"
+    identifiers:
+      - name: "client_id"
+        expr: "client_id"
+        type: "number"
+        primary_key: true
+      - name: "district_id"
+        expr: "district_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "birth_date"
+        title: "Birth Date"
+        description: "Time column birth_date from client."
+        expr: "birth_date"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "gender"
+        title: "Gender"
+        expr: "gender"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_client_id"
+        title: "Count Client Id"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.gender = 'M' AND T2.A3 = 'north Bohemia' AND T2.A11 > 8000"
+      - name: "count_client_id_2"
+        title: "Count Client Id 2"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.gender = 'F' AND STRFTIME('%Y', T2.birth_date) < '1950' AND T1.A2 = 'Sokolov'"
+      - name: "count_client_id_3"
+        title: "Count Client Id 3"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.gender = 'F' AND T2.A2 = 'Jesenik'"
+      - name: "count_client_id_4"
+        title: "Count Client Id 4"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions:
+          - "district.a4"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.A3 = 'south Bohemia'"
+      - name: "count_client_id_5"
+        title: "Count Client Id 5"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions:
+          - "district.a2"
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.gender = 'F'"
+      - name: "count_client_id_6"
+        title: "Count Client Id 6"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.gender = 'M' AND T2.A15 = (SELECT T3.A15 FROM district AS T3 ORDER BY T3.A15 DESC LIMIT 1 OFFSET 1)"
+      - name: "count_client_id_7"
+        title: "Count Client Id 7"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.gender = 'F' AND T2.A3 = 'south Bohemia'"
+      - name: "count_client_id_8"
+        title: "Count Client Id 8"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.gender = 'M' AND T2.A2 = 'Hl.m. Praha'"
+      - name: "count_client_id_9"
+        title: "Count Client Id 9"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.A11 > 10000"
+      - name: "count_client_id_10"
+        title: "Count Client Id 10"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.gender = 'F' AND T3.type = 'junior'"
+      - name: "count_client_id_11"
+        title: "Count Client Id 11"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.A3 = 'Prague'"
+      - name: "count_client_id_12"
+        title: "Count Client Id 12"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.frequency = 'POPLATEK TYDNE'"
+      - name: "count_client_id_13"
+        title: "Count Client Id 13"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "client id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T1.birth_date) = '1920' AND T2.A3 = 'east Bohemia'"
+      - name: "sum_gender"
+        title: "Sum Gender"
+        description: "SUM over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "gender"
+        allowed_dimensions:
+          - "district.a4"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.A3 = 'south Bohemia'"
+      - name: "sum_gender_2"
+        title: "Sum Gender 2"
+        description: "SUM over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "gender"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.A11 > 10000"
+      - name: "sum_gender_3"
+        title: "Sum Gender 3"
+        description: "SUM over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "gender"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.A3 = 'Prague'"
+      - name: "sum_gender_4"
+        title: "Sum Gender 4"
+        description: "SUM over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "gender"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.frequency = 'POPLATEK TYDNE'"
+    segments: []
+  - name: "disp"
+    title: "Disp"
+    description: "BIRD table disp in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "disp"
+      dialect: "sqlite"
+      grain:
+        - "disp_id"
+    identifiers:
+      - name: "disp_id"
+        expr: "disp_id"
+        type: "number"
+        primary_key: true
+      - name: "client_id"
+        expr: "client_id"
+        type: "number"
+        primary_key: false
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_account_id"
+        title: "Count Account Id"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.A3 = 'south Bohemia' AND T3.type <> 'OWNER'"
+      - name: "count_account_id_2"
+        title: "Count Account Id 2"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters:
+          - member: "type"
+            operator: "equals"
+            values:
+              - "OWNER"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.frequency = 'POPLATEK TYDNE' AND T2.type = 'OWNER'"
+    segments: []
+  - name: "district"
+    title: "District"
+    description: "BIRD table district in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "district"
+      dialect: "sqlite"
+      grain:
+        - "district_id"
+    identifiers:
+      - name: "district_id"
+        expr: "district_id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "a2"
+        title: "A2"
+        expr: "A2"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a3"
+        title: "A3"
+        expr: "A3"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a4"
+        title: "A4"
+        expr: "A4"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a6"
+        title: "A6"
+        expr: "A6"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a7"
+        title: "A7"
+        expr: "A7"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a11"
+        title: "A11"
+        expr: "A11"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a12"
+        title: "A12"
+        expr: "A12"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a13"
+        title: "A13"
+        expr: "A13"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a15"
+        title: "A15"
+        expr: "A15"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "a16"
+        title: "A16"
+        expr: "A16"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_a12"
+        title: "Avg A12"
+        description: "AVG over A12 extracted from repeated BIRD gold SQL patterns."
+        expr: "A12"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "a12"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "avg_a13"
+        title: "Avg A13"
+        description: "AVG over A13 extracted from repeated BIRD gold SQL patterns."
+        expr: "A13"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "a13"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "avg_a15"
+        title: "Avg A15"
+        description: "AVG over A15 extracted from repeated BIRD gold SQL patterns."
+        expr: "A15"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "a15"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T2.date) >= '1997' AND T1.A15 > 4000"
+      - name: "distinct_district_id_count"
+        title: "Distinct District Id Count"
+        description: "COUNT over district_id extracted from repeated BIRD gold SQL patterns."
+        expr: "district_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "district id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.gender = 'F' AND T2.A11 BETWEEN 6000 AND 10000"
+      - name: "max_a11"
+        title: "Max A11"
+        description: "MAX over A11 extracted from repeated BIRD gold SQL patterns."
+        expr: "A11"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "a11"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.district_id = (SELECT district_id FROM client WHERE gender = 'F' ORDER BY birth_date ASC LIMIT 1)"
+      - name: "min_a11"
+        title: "Min A11"
+        description: "MIN over A11 extracted from repeated BIRD gold SQL patterns."
+        expr: "A11"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "a11"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.district_id = (SELECT district_id FROM client WHERE gender = 'F' ORDER BY birth_date ASC LIMIT 1)"
+      - name: "sum_a16"
+        title: "Sum A16"
+        description: "SUM over A16 extracted from repeated BIRD gold SQL patterns."
+        expr: "A16"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "a16"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_a2"
+        title: "Sum A2"
+        description: "SUM over A2 extracted from repeated BIRD gold SQL patterns."
+        expr: "A2"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "a2"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T2.date) = '1993'"
+    segments: []
+  - name: "loan"
+    title: "Loan"
+    description: "BIRD table loan in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "loan"
+      dialect: "sqlite"
+      grain:
+        - "loan_id"
+    identifiers:
+      - name: "loan_id"
+        expr: "loan_id"
+        type: "number"
+        primary_key: true
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from loan."
+        expr: "date"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "amount"
+        title: "Amount"
+        expr: "amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "duration"
+        title: "Duration"
+        expr: "duration"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_amount"
+        title: "Avg Amount"
+        description: "AVG over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.gender = 'M'"
+      - name: "avg_amount_2"
+        title: "Avg Amount 2"
+        description: "AVG over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters:
+          - member: "status"
+            operator: "equals"
+            values:
+              - "C"
+              - "D"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.status IN ('C', 'D') AND T1.frequency = 'POPLATEK PO OBRATU'"
+      - name: "count_account_id"
+        title: "Count Account Id"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.frequency = 'POPLATEK TYDNE' AND T1.amount < 200000"
+      - name: "count_account_id_2"
+        title: "Count Account Id 2"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters:
+          - member: "duration"
+            operator: "equals"
+            values:
+              - 24
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.duration = 24 AND T1.frequency = 'POPLATEK TYDNE'"
+      - name: "sum_amount"
+        title: "Sum Amount"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions:
+          - "district.a3"
+        filters:
+          - member: "status"
+            operator: "equals"
+            values:
+              - "C"
+              - "D"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.status IN ('C', 'D')"
+      - name: "sum_amount_2"
+        title: "Sum Amount 2"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T4.gender = 'M' AND T3.type = 'OWNER'"
+      - name: "sum_status"
+        title: "Sum Status"
+        description: "SUM over status extracted from repeated BIRD gold SQL patterns."
+        expr: "status"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "status"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE amount < 100000"
+    segments: []
+  - name: "order"
+    title: "Order"
+    description: "BIRD table order in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "order"
+      dialect: "sqlite"
+      grain:
+        - "order_id"
+    identifiers:
+      - name: "order_id"
+        expr: "order_id"
+        type: "number"
+        primary_key: true
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "bank_to"
+        title: "Bank To"
+        expr: "bank_to"
+        type: "string"
+        synonyms:
+          - "bank to"
+        sensitivity: "public"
+        public: true
+      - name: "k_symbol"
+        title: "K Symbol"
+        expr: "k_symbol"
+        type: "string"
+        synonyms:
+          - "k symbol"
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+  - name: "trans"
+    title: "Trans"
+    description: "BIRD table trans in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "trans"
+      dialect: "sqlite"
+      grain:
+        - "trans_id"
+    identifiers:
+      - name: "trans_id"
+        expr: "trans_id"
+        type: "number"
+        primary_key: true
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from trans."
+        expr: "date"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "operation"
+        title: "Operation"
+        expr: "operation"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "amount"
+        title: "Amount"
+        expr: "amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "balance"
+        title: "Balance"
+        expr: "balance"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "k_symbol"
+        title: "K Symbol"
+        expr: "k_symbol"
+        type: "string"
+        synonyms:
+          - "k symbol"
+        sensitivity: "public"
+        public: true
+      - name: "bank"
+        title: "Bank"
+        expr: "bank"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_amount"
+        title: "Avg Amount"
+        description: "AVG over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters:
+          - member: "operation"
+            operator: "equals"
+            values:
+              - "VYBER KARTOU"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T4.date) = '1998' AND T4.operation = 'VYBER KARTOU'"
+      - name: "count_account_id"
+        title: "Count Account Id"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters:
+          - member: "operation"
+            operator: "equals"
+            values:
+              - "VYBER KARTOU"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.balance < 0 AND T1.operation = 'VYBER KARTOU' AND T2.frequency = 'POPLATEK MESICNE'"
+      - name: "count_account_id_2"
+        title: "Count Account Id 2"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "account id"
+        allowed_dimensions: []
+        filters:
+          - member: "k_symbol"
+            operator: "equals"
+            values:
+              - "SIPO"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T3.birth_date) BETWEEN '1974' AND '1976' AND T3.gender = 'M' AND T1.amount > 4000 AND T1.k_symbol = 'SIPO'"
+      - name: "sum_amount"
+        title: "Sum Amount"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T3.date) = '1997'"
+            - "WHERE STRFTIME('%Y', T3.date) = '1998' AND T1.client_id = 617"
+      - name: "sum_balance"
+        title: "Sum Balance"
+        description: "SUM over balance extracted from repeated BIRD gold SQL patterns."
+        expr: "balance"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "balance"
+        allowed_dimensions: []
+        filters:
+          - member: "date"
+            operator: "equals"
+            values:
+              - "1993-07-05"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.date = '1993-07-05'"
+    segments: []
+relationships:
+  - name: "account_to_disp_account_id_account_id"
+    source: "account"
+    target: "disp"
+    from: "account.account_id"
+    to: "disp.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "account_to_district_district_id_district_id"
+    source: "account"
+    target: "district"
+    from: "account.district_id"
+    to: "district.district_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "account_to_loan_account_id_account_id"
+    source: "account"
+    target: "loan"
+    from: "account.account_id"
+    to: "loan.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "account_to_trans_account_id_account_id"
+    source: "account"
+    target: "trans"
+    from: "account.account_id"
+    to: "trans.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "card_to_disp_disp_id_disp_id"
+    source: "card"
+    target: "disp"
+    from: "card.disp_id"
+    to: "disp.disp_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "client_to_disp_client_id_client_id"
+    source: "client"
+    target: "disp"
+    from: "client.client_id"
+    to: "disp.client_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "client_to_district_district_id_district_id"
+    source: "client"
+    target: "district"
+    from: "client.district_id"
+    to: "district.district_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "disp_to_account_account_id_account_id"
+    source: "disp"
+    target: "account"
+    from: "disp.account_id"
+    to: "account.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "disp_to_card_disp_id_disp_id"
+    source: "disp"
+    target: "card"
+    from: "disp.disp_id"
+    to: "card.disp_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "disp_to_client_client_id_client_id"
+    source: "disp"
+    target: "client"
+    from: "disp.client_id"
+    to: "client.client_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "disp_to_loan_account_id_account_id"
+    source: "disp"
+    target: "loan"
+    from: "disp.account_id"
+    to: "loan.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "district_to_account_district_id_district_id"
+    source: "district"
+    target: "account"
+    from: "district.district_id"
+    to: "account.district_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "district_to_client_district_id_district_id"
+    source: "district"
+    target: "client"
+    from: "district.district_id"
+    to: "client.district_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "loan_to_account_account_id_account_id"
+    source: "loan"
+    target: "account"
+    from: "loan.account_id"
+    to: "account.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "order_to_account_account_id_account_id"
+    source: "order"
+    target: "account"
+    from: "order.account_id"
+    to: "account.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "trans_to_account_account_id_account_id"
+    source: "trans"
+    target: "account"
+    from: "trans.account_id"
+    to: "account.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+views:
+  - name: "financial_all"
+    title: "Financial All"
+    description: "Governed semantic view for the BIRD financial database."
+    public: true
+    ai_context: "Banking accounts, clients, cards, loans, transactions, dispositions, districts, and orders."
+    entities:
+      - join_path: "account"
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+            - "count_account_id_3"
+            - "count_account_id_4"
+            - "count_account_id_5"
+            - "count_account_id_6"
+            - "count_account_id_7"
+            - "count_account_id_8"
+            - "count_account_id_9"
+            - "count_account_id_10"
+            - "count_account_id_11"
+            - "count_account_id_12"
+          dimensions:
+            - "frequency"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "card"
+        includes:
+          measures:
+            - "count_card_id"
+            - "count_card_id_2"
+            - "count_card_id_3"
+          dimensions:
+            - "type"
+          time_dimensions:
+            - "issued"
+          segments: []
+      - join_path: "client"
+        includes:
+          measures:
+            - "count_client_id"
+            - "count_client_id_2"
+            - "count_client_id_3"
+            - "count_client_id_4"
+            - "count_client_id_5"
+            - "count_client_id_6"
+            - "count_client_id_7"
+            - "count_client_id_8"
+            - "count_client_id_9"
+            - "count_client_id_10"
+            - "count_client_id_11"
+            - "count_client_id_12"
+            - "count_client_id_13"
+            - "sum_gender"
+            - "sum_gender_2"
+            - "sum_gender_3"
+            - "sum_gender_4"
+          dimensions:
+            - "gender"
+          time_dimensions:
+            - "birth_date"
+          segments: []
+      - join_path: "disp"
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+          dimensions:
+            - "type"
+          time_dimensions: []
+          segments: []
+      - join_path: "district"
+        includes:
+          measures:
+            - "avg_a12"
+            - "avg_a13"
+            - "avg_a15"
+            - "distinct_district_id_count"
+            - "max_a11"
+            - "min_a11"
+            - "sum_a16"
+            - "sum_a2"
+          dimensions:
+            - "a2"
+            - "a3"
+            - "a4"
+            - "a6"
+            - "a7"
+            - "a11"
+            - "a12"
+            - "a13"
+            - "a15"
+            - "a16"
+          time_dimensions: []
+          segments: []
+      - join_path: "loan"
+        includes:
+          measures:
+            - "avg_amount"
+            - "avg_amount_2"
+            - "count_account_id"
+            - "count_account_id_2"
+            - "sum_amount"
+            - "sum_amount_2"
+            - "sum_status"
+          dimensions:
+            - "amount"
+            - "duration"
+            - "status"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "order"
+        includes:
+          measures: []
+          dimensions:
+            - "bank_to"
+            - "k_symbol"
+          time_dimensions: []
+          segments: []
+      - join_path: "trans"
+        includes:
+          measures:
+            - "avg_amount"
+            - "count_account_id"
+            - "count_account_id_2"
+            - "sum_amount"
+            - "sum_balance"
+          dimensions:
+            - "type"
+            - "operation"
+            - "amount"
+            - "balance"
+            - "k_symbol"
+            - "bank"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "account.disp"
+        prefix: true
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+          dimensions:
+            - "type"
+          time_dimensions: []
+          segments: []
+      - join_path: "account.district"
+        prefix: true
+        includes:
+          measures:
+            - "avg_a12"
+            - "avg_a13"
+            - "avg_a15"
+            - "distinct_district_id_count"
+            - "max_a11"
+            - "min_a11"
+            - "sum_a16"
+            - "sum_a2"
+          dimensions:
+            - "a2"
+            - "a3"
+            - "a4"
+            - "a6"
+            - "a7"
+            - "a11"
+            - "a12"
+            - "a13"
+            - "a15"
+            - "a16"
+          time_dimensions: []
+          segments: []
+      - join_path: "account.loan"
+        prefix: true
+        includes:
+          measures:
+            - "avg_amount"
+            - "avg_amount_2"
+            - "count_account_id"
+            - "count_account_id_2"
+            - "sum_amount"
+            - "sum_amount_2"
+            - "sum_status"
+          dimensions:
+            - "amount"
+            - "duration"
+            - "status"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "account.trans"
+        prefix: true
+        includes:
+          measures:
+            - "avg_amount"
+            - "count_account_id"
+            - "count_account_id_2"
+            - "sum_amount"
+            - "sum_balance"
+          dimensions:
+            - "type"
+            - "operation"
+            - "amount"
+            - "balance"
+            - "k_symbol"
+            - "bank"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "card.disp"
+        prefix: true
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+          dimensions:
+            - "type"
+          time_dimensions: []
+          segments: []
+      - join_path: "client.disp"
+        prefix: true
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+          dimensions:
+            - "type"
+          time_dimensions: []
+          segments: []
+      - join_path: "client.district"
+        prefix: true
+        includes:
+          measures:
+            - "avg_a12"
+            - "avg_a13"
+            - "avg_a15"
+            - "distinct_district_id_count"
+            - "max_a11"
+            - "min_a11"
+            - "sum_a16"
+            - "sum_a2"
+          dimensions:
+            - "a2"
+            - "a3"
+            - "a4"
+            - "a6"
+            - "a7"
+            - "a11"
+            - "a12"
+            - "a13"
+            - "a15"
+            - "a16"
+          time_dimensions: []
+          segments: []
+      - join_path: "disp.account"
+        prefix: true
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+            - "count_account_id_3"
+            - "count_account_id_4"
+            - "count_account_id_5"
+            - "count_account_id_6"
+            - "count_account_id_7"
+            - "count_account_id_8"
+            - "count_account_id_9"
+            - "count_account_id_10"
+            - "count_account_id_11"
+            - "count_account_id_12"
+          dimensions:
+            - "frequency"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "disp.card"
+        prefix: true
+        includes:
+          measures:
+            - "count_card_id"
+            - "count_card_id_2"
+            - "count_card_id_3"
+          dimensions:
+            - "type"
+          time_dimensions:
+            - "issued"
+          segments: []
+      - join_path: "disp.client"
+        prefix: true
+        includes:
+          measures:
+            - "count_client_id"
+            - "count_client_id_2"
+            - "count_client_id_3"
+            - "count_client_id_4"
+            - "count_client_id_5"
+            - "count_client_id_6"
+            - "count_client_id_7"
+            - "count_client_id_8"
+            - "count_client_id_9"
+            - "count_client_id_10"
+            - "count_client_id_11"
+            - "count_client_id_12"
+            - "count_client_id_13"
+            - "sum_gender"
+            - "sum_gender_2"
+            - "sum_gender_3"
+            - "sum_gender_4"
+          dimensions:
+            - "gender"
+          time_dimensions:
+            - "birth_date"
+          segments: []
+      - join_path: "disp.loan"
+        prefix: true
+        includes:
+          measures:
+            - "avg_amount"
+            - "avg_amount_2"
+            - "count_account_id"
+            - "count_account_id_2"
+            - "sum_amount"
+            - "sum_amount_2"
+            - "sum_status"
+          dimensions:
+            - "amount"
+            - "duration"
+            - "status"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "district.account"
+        prefix: true
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+            - "count_account_id_3"
+            - "count_account_id_4"
+            - "count_account_id_5"
+            - "count_account_id_6"
+            - "count_account_id_7"
+            - "count_account_id_8"
+            - "count_account_id_9"
+            - "count_account_id_10"
+            - "count_account_id_11"
+            - "count_account_id_12"
+          dimensions:
+            - "frequency"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "district.client"
+        prefix: true
+        includes:
+          measures:
+            - "count_client_id"
+            - "count_client_id_2"
+            - "count_client_id_3"
+            - "count_client_id_4"
+            - "count_client_id_5"
+            - "count_client_id_6"
+            - "count_client_id_7"
+            - "count_client_id_8"
+            - "count_client_id_9"
+            - "count_client_id_10"
+            - "count_client_id_11"
+            - "count_client_id_12"
+            - "count_client_id_13"
+            - "sum_gender"
+            - "sum_gender_2"
+            - "sum_gender_3"
+            - "sum_gender_4"
+          dimensions:
+            - "gender"
+          time_dimensions:
+            - "birth_date"
+          segments: []
+      - join_path: "loan.account"
+        prefix: true
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+            - "count_account_id_3"
+            - "count_account_id_4"
+            - "count_account_id_5"
+            - "count_account_id_6"
+            - "count_account_id_7"
+            - "count_account_id_8"
+            - "count_account_id_9"
+            - "count_account_id_10"
+            - "count_account_id_11"
+            - "count_account_id_12"
+          dimensions:
+            - "frequency"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "order.account"
+        prefix: true
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+            - "count_account_id_3"
+            - "count_account_id_4"
+            - "count_account_id_5"
+            - "count_account_id_6"
+            - "count_account_id_7"
+            - "count_account_id_8"
+            - "count_account_id_9"
+            - "count_account_id_10"
+            - "count_account_id_11"
+            - "count_account_id_12"
+          dimensions:
+            - "frequency"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "trans.account"
+        prefix: true
+        includes:
+          measures:
+            - "count_account_id"
+            - "count_account_id_2"
+            - "count_account_id_3"
+            - "count_account_id_4"
+            - "count_account_id_5"
+            - "count_account_id_6"
+            - "count_account_id_7"
+            - "count_account_id_8"
+            - "count_account_id_9"
+            - "count_account_id_10"
+            - "count_account_id_11"
+            - "count_account_id_12"
+          dimensions:
+            - "frequency"
+          time_dimensions:
+            - "date"
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "account.count_account_id"
+          - "account.count_account_id_10"
+          - "account.count_account_id_11"
+          - "account.count_account_id_12"
+          - "account.count_account_id_2"
+          - "account.count_account_id_3"
+          - "account.count_account_id_4"
+          - "account.count_account_id_5"
+          - "account.count_account_id_6"
+          - "account.count_account_id_7"
+          - "account.count_account_id_8"
+          - "account.count_account_id_9"
+          - "card.count_card_id"
+          - "card.count_card_id_2"
+          - "card.count_card_id_3"
+          - "client.count_client_id"
+          - "client.count_client_id_10"
+          - "client.count_client_id_11"
+          - "client.count_client_id_12"
+          - "client.count_client_id_13"
+          - "client.count_client_id_2"
+          - "client.count_client_id_3"
+          - "client.count_client_id_4"
+          - "client.count_client_id_5"
+          - "client.count_client_id_6"
+          - "client.count_client_id_7"
+          - "client.count_client_id_8"
+          - "client.count_client_id_9"
+          - "client.sum_gender"
+          - "client.sum_gender_2"
+          - "client.sum_gender_3"
+          - "client.sum_gender_4"
+          - "disp.count_account_id"
+          - "disp.count_account_id_2"
+          - "district.avg_a12"
+          - "district.avg_a13"
+          - "district.avg_a15"
+          - "district.distinct_district_id_count"
+          - "district.max_a11"
+          - "district.min_a11"
+          - "district.sum_a16"
+          - "district.sum_a2"
+          - "loan.avg_amount"
+          - "loan.avg_amount_2"
+          - "loan.count_account_id"
+          - "loan.count_account_id_2"
+          - "loan.sum_amount"
+          - "loan.sum_amount_2"
+          - "loan.sum_status"
+          - "trans.avg_amount"
+          - "trans.count_account_id"
+          - "trans.count_account_id_2"
+          - "trans.sum_amount"
+          - "trans.sum_balance"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "district.a4"
+          - "district.a2"
+          - "district.a3"
+          - "district.a16"
+    default_time_dimension: "account.date"
+policies: []

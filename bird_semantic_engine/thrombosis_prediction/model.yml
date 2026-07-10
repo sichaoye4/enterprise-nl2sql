@@ -1,0 +1,2375 @@
+version: 1
+domain: "thrombosis_prediction"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "examination"
+    title: "Examination"
+    description: "BIRD table Examination in the thrombosis_prediction database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Examination"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "ID"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "examination_date"
+        title: "Examination Date"
+        description: "Time column Examination Date from Examination."
+        expr: "Examination Date"
+        type: "date"
+        default: true
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "acl_igg"
+        title: "ACL IgG"
+        expr: "aCL IgG"
+        type: "number"
+        synonyms:
+          - "acl igg"
+        sensitivity: "public"
+        public: true
+      - name: "acl_igm"
+        title: "ACL IgM"
+        expr: "aCL IgM"
+        type: "number"
+        synonyms:
+          - "acl igm"
+        sensitivity: "public"
+        public: true
+      - name: "ana"
+        title: "ANA"
+        expr: "ANA"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ana_pattern"
+        title: "ANA Pattern"
+        expr: "ANA Pattern"
+        type: "string"
+        synonyms:
+          - "ana pattern"
+        sensitivity: "public"
+        public: true
+      - name: "acl_iga"
+        title: "ACL IgA"
+        expr: "aCL IgA"
+        type: "number"
+        synonyms:
+          - "acl iga"
+        sensitivity: "public"
+        public: true
+      - name: "diagnosis"
+        title: "Diagnosis"
+        expr: "Diagnosis"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "kct"
+        title: "KCT"
+        expr: "KCT"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "rvvt"
+        title: "RVVT"
+        expr: "RVVT"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "lac"
+        title: "LAC"
+        expr: "LAC"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "symptoms"
+        title: "Symptoms"
+        expr: "Symptoms"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "thrombosis"
+        title: "Thrombosis"
+        expr: "Thrombosis"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_acl_igg"
+        title: "Avg Acl Igg"
+        description: "AVG over aCL IgG extracted from repeated BIRD gold SQL patterns."
+        expr: "aCL IgG"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "acl igg"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) >= 50 AND T1.Admission = '+'"
+      - name: "avg_acl_igm"
+        title: "Avg Acl Igm"
+        description: "AVG over aCL IgM extracted from repeated BIRD gold SQL patterns."
+        expr: "aCL IgM"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "acl igm"
+        allowed_dimensions: []
+        filters:
+          - member: "ana_pattern"
+            operator: "equals"
+            values:
+              - "S"
+          - member: "thrombosis"
+            operator: "equals"
+            values:
+              - 2
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Thrombosis = 2 AND \"ANA Pattern\" = 'S' AND \"aCL IgM\" > (SELECT AVG(\"aCL IgM\") * 1.2 FROM Examination WHERE Thrombosis = 2 AND \"ANA Pattern\" = 'S')"
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "thrombosis"
+            operator: "equals"
+            values:
+              - 0
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.RF < 20 AND T1.Thrombosis = 0"
+      - name: "distinct_id_count_2"
+        title: "Distinct Id Count 2"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "ana_pattern"
+            operator: "equals"
+            values:
+              - "P"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.C3 > 35 AND T1.\"ANA Pattern\" = 'P'"
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "thrombosis"
+            operator: "equals"
+            values:
+              - 0
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.SM IN ('negative', '0') AND T1.Thrombosis = 0"
+      - name: "distinct_id_count_3"
+        title: "Distinct Id Count 3"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.SSB = 'negative' OR '0' AND NOT T1.Symptoms IS NULL"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.TG < 200 AND NOT T1.Symptoms IS NULL"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "ana_pattern"
+            operator: "equals"
+            values:
+              - "S"
+          - member: "thrombosis"
+            operator: "equals"
+            values:
+              - 2
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Thrombosis = 2 AND \"ANA Pattern\" = 'S' AND \"aCL IgM\" > (SELECT AVG(\"aCL IgM\") * 1.2 FROM Examination WHERE Thrombosis = 2 AND \"ANA Pattern\" = 'S')"
+      - name: "count_symptoms"
+        title: "Count Symptoms"
+        description: "COUNT over Symptoms extracted from repeated BIRD gold SQL patterns."
+        expr: "Symptoms"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "symptoms"
+        allowed_dimensions:
+          - "examination.symptoms"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Diagnosis = 'SLE'"
+    segments: []
+  - name: "patient"
+    title: "Patient"
+    description: "BIRD table Patient in the thrombosis_prediction database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Patient"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "ID"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "birthday"
+        title: "Birthday"
+        description: "Time column Birthday from Patient."
+        expr: "Birthday"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "description"
+        title: "Description"
+        description: "Time column Description from Patient."
+        expr: "Description"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "first_date"
+        title: "First Date"
+        description: "Time column First Date from Patient."
+        expr: "First Date"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "sex"
+        title: "SEX"
+        expr: "SEX"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admission"
+        title: "Admission"
+        expr: "Admission"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "diagnosis"
+        title: "Diagnosis"
+        expr: "Diagnosis"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_birthday"
+        title: "Avg Birthday"
+        description: "AVG over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "birthday"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Date BETWEEN '1991-10-01' AND '1991-10-30'"
+      - name: "avg_birthday_2"
+        title: "Avg Birthday 2"
+        description: "AVG over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "birthday"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.\"T-CHO\" >= 250 AND T1.SEX = 'M'"
+      - name: "count_diagnosis"
+        title: "Count Diagnosis"
+        description: "COUNT over Diagnosis extracted from repeated BIRD gold SQL patterns."
+        expr: "Diagnosis"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "diagnosis"
+        allowed_dimensions:
+          - "patient.diagnosis"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T1.\"Examination Date\" BETWEEN '1985-01-01' AND '1995-12-31'"
+            - "WHERE NOT T2.IGM BETWEEN 40 AND 400"
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 5
+          distinct: false
+          where_examples:
+            - "WHERE T2.GOT < 60 AND T1.SEX = 'M'"
+            - "WHERE STRFTIME('%Y', T2.Date) = '1998' AND T1.SEX = 'M'"
+            - "WHERE T2.CRE >= 1.5 AND T1.SEX = 'M'"
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values:
+              - "+"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.Admission = '+' AND STRFTIME('%Y', T2.\"Examination Date\") - STRFTIME('%Y', T1.\"First Date\") >= 1"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 8
+          distinct: false
+          where_examples:
+            - "WHERE T2.\"GOT\" >= 60"
+            - "WHERE STRFTIME('%Y', T2.\"Examination Date\") BETWEEN '1990' AND '1993' AND STRFTIME('%Y', T2.\"Examination Date\") - STRFTIME('%Y', T1.Birthday) < 18"
+            - "WHERE T2.Date > '1997-01-01' AND T2.APTT >= 45"
+      - name: "distinct_id_count_2"
+        title: "Distinct Id Count 2"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: true
+          where_examples:
+            - "WHERE T2.\"T-BIL\" >= 2.0 AND T1.SEX = 'M'"
+            - "WHERE STRFTIME('%Y', T1.Birthday) BETWEEN '1936' AND '1956' AND T1.SEX = 'M' AND T2.CPK >= 250"
+            - "WHERE T2.FG <= 150 OR T2.FG >= 450 AND T2.WBC > 3.5 AND T2.WBC < 9.0 AND T1.SEX = 'M'"
+      - name: "distinct_id_count_3"
+        title: "Distinct Id Count 3"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.\"ANA Pattern\" <> 'P' AND STRFTIME('%Y', T1.Birthday) BETWEEN '1980' AND '1989' AND T1.SEX = 'F'"
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values:
+              - "-"
+          - member: "diagnosis"
+            operator: "equals"
+            values:
+              - "Behcet"
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.Diagnosis = 'Behcet' AND T1.SEX = 'M' AND STRFTIME('%Y', T2.\"Examination Date\") BETWEEN '1995' AND '1997' AND T1.Admission = '-'"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.WBC < 3.5 AND T1.SEX = 'F'"
+            - "WHERE T1.SEX = 'F'"
+      - name: "distinct_id_count_4"
+        title: "Distinct Id Count 4"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 5
+          distinct: true
+          where_examples:
+            - "WHERE T2.TG >= 200 AND STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) > 50"
+            - "WHERE T2.FG <= 150 OR T2.FG >= 450 AND T1.Birthday > '1980-01-01'"
+            - "WHERE T2.IGG >= 2000"
+      - name: "distinct_id_count_5"
+        title: "Distinct Id Count 5"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T3.Thrombosis = 0 AND T2.APTT > 45"
+      - name: "count_id_5"
+        title: "Count Id 5"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE (T2.CRP = '+') AND T1.Description IS NULL"
+      - name: "distinct_id_count_6"
+        title: "Distinct Id Count 6"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE (T2.RA = '-' OR T2.RA = '+-') AND T3.KCT = '+'"
+      - name: "distinct_id_count_7"
+        title: "Distinct Id Count 7"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "diagnosis"
+            operator: "equals"
+            values:
+              - "APS"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.C4 > 10 AND T1.Diagnosis = 'APS'"
+      - name: "distinct_id_count_8"
+        title: "Distinct Id Count 8"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values:
+              - "+"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.RNP = 'negative' OR T2.RNP = '0' AND T1.Admission = '+'"
+      - name: "distinct_id_count_9"
+        title: "Distinct Id Count 9"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE (T2.SC170 = 'negative' OR T2.SC170 = '0') AND T1.SEX = 'F' AND T3.Symptoms IS NULL"
+      - name: "distinct_id_count_10"
+        title: "Distinct Id Count 10"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.SSA IN ('negative', '0') AND STRFTIME('%Y', T2.Date) < '2000'"
+      - name: "distinct_id_count_11"
+        title: "Distinct Id Count 11"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "diagnosis"
+            operator: "equals"
+            values:
+              - "SLE"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.SSB = 'negative' OR '0' AND T1.Diagnosis = 'SLE'"
+      - name: "distinct_id_count_12"
+        title: "Distinct Id Count 12"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.CENTROMEA IN ('negative', '0') AND T2.SSB IN ('negative', '0') AND T1.SEX = 'M'"
+      - name: "count_id_6"
+        title: "Count Id 6"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values:
+              - "+"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples:
+            - "WHERE T2.IGG > 900 AND T2.IGG < 2000 AND T1.Admission = '+'"
+            - "WHERE T2.ALP >= 300 AND T1.Admission = '+'"
+            - "WHERE T2.WBC BETWEEN 3.5 AND 9 AND T1.Admission = '+'"
+      - name: "count_id_7"
+        title: "Count Id 7"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values:
+              - "-"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.ALP < 300 AND T1.Admission = '-'"
+      - name: "count_id_8"
+        title: "Count Id 8"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "diagnosis"
+            operator: "equals"
+            values:
+              - "SJS"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Diagnosis = 'SJS' AND T2.TP > 6.0 AND T2.TP < 8.5"
+      - name: "count_id_9"
+        title: "Count Id 9"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.\"T-CHO\" >= 250 AND T3.KCT = '-'"
+      - name: "count_id_10"
+        title: "Count Id 10"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.\"ANA Pattern\" = 'P' AND T2.\"T-CHO\" < 250"
+      - name: "count_id_11"
+        title: "Count Id 11"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.CPK < 250 AND (T3.KCT = '+' OR T3.RVVT = '+' OR T3.LAC = '+')"
+      - name: "count_id_12"
+        title: "Count Id 12"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.GLU < 180 AND T3.Thrombosis = 0"
+      - name: "count_id_13"
+        title: "Count Id 13"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "diagnosis"
+            operator: "equals"
+            values:
+              - "SLE"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Diagnosis = 'SLE' AND T2.WBC BETWEEN 3.5 AND 9"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE SEX = 'F'"
+            - "WHERE T1.SEX = 'F'"
+      - name: "count_row_count_2"
+        title: "Count Row Count 2"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', Birthday) BETWEEN '1930' AND '1940'"
+            - "WHERE STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) > 55"
+      - name: "count_row_count_3"
+        title: "Count Row Count 3"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values:
+              - "-"
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', Description) = '1997' AND SEX = 'F' AND Admission = '-'"
+      - name: "count_row_count_4"
+        title: "Count Row Count 4"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.SEX = 'F' AND STRFTIME('%Y', T2.\"Examination Date\") = '1997' AND T2.Thrombosis = 1"
+      - name: "max_birthday"
+        title: "Max Birthday"
+        description: "MAX over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "birthday"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.TG >= 200"
+      - name: "min_birthday"
+        title: "Min Birthday"
+        description: "MIN over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "birthday"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.TG >= 200"
+      - name: "min_first_date"
+        title: "Min First Date"
+        description: "MIN over First Date extracted from repeated BIRD gold SQL patterns."
+        expr: "First Date"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "first date"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_admission"
+        title: "Sum Admission"
+        description: "SUM over Admission extracted from repeated BIRD gold SQL patterns."
+        expr: "Admission"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "admission"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "M"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE SEX = 'M'"
+      - name: "sum_admission_2"
+        title: "Sum Admission 2"
+        description: "SUM over Admission extracted from repeated BIRD gold SQL patterns."
+        expr: "Admission"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "admission"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE Diagnosis = 'SLE'"
+            - "WHERE STRFTIME('%Y', Birthday) BETWEEN '1930' AND '1940'"
+      - name: "sum_birthday"
+        title: "Sum Birthday"
+        description: "SUM over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "birthday"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE SEX = 'F'"
+      - name: "sum_sex"
+        title: "Sum Sex"
+        description: "SUM over SEX extracted from repeated BIRD gold SQL patterns."
+        expr: "SEX"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "sex"
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.SEX = 'F'"
+      - name: "sum_sex_2"
+        title: "Sum Sex 2"
+        description: "SUM over SEX extracted from repeated BIRD gold SQL patterns."
+        expr: "SEX"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "sex"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.CRE >= 1.5"
+            - "WHERE Diagnosis = 'RA' AND STRFTIME('%Y', Birthday) = '1980'"
+    segments: []
+  - name: "laboratory"
+    title: "Laboratory"
+    description: "BIRD table Laboratory in the thrombosis_prediction database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Laboratory"
+      dialect: "sqlite"
+      grain:
+        - "id"
+        - "date"
+    identifiers:
+      - name: "id"
+        expr: "ID"
+        type: "number"
+        primary_key: true
+      - name: "date"
+        expr: "Date"
+        type: "date"
+        primary_key: true
+    time_dimensions:
+      - name: "time_date"
+        title: "Date"
+        description: "Time column Date from Laboratory."
+        expr: "Date"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "got"
+        title: "GOT"
+        expr: "GOT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "gpt"
+        title: "GPT"
+        expr: "GPT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ldh"
+        title: "LDH"
+        expr: "LDH"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "alp"
+        title: "ALP"
+        expr: "ALP"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "tp"
+        title: "TP"
+        expr: "TP"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "alb"
+        title: "ALB"
+        expr: "ALB"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ua"
+        title: "UA"
+        expr: "UA"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "un"
+        title: "UN"
+        expr: "UN"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "cre"
+        title: "CRE"
+        expr: "CRE"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "t_bil"
+        title: "T BIL"
+        expr: "T-BIL"
+        type: "number"
+        synonyms:
+          - "t bil"
+        sensitivity: "public"
+        public: true
+      - name: "t_cho"
+        title: "T CHO"
+        expr: "T-CHO"
+        type: "number"
+        synonyms:
+          - "t cho"
+        sensitivity: "public"
+        public: true
+      - name: "tg"
+        title: "TG"
+        expr: "TG"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "cpk"
+        title: "CPK"
+        expr: "CPK"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "glu"
+        title: "GLU"
+        expr: "GLU"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "wbc"
+        title: "WBC"
+        expr: "WBC"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "rbc"
+        title: "RBC"
+        expr: "RBC"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "hgb"
+        title: "HGB"
+        expr: "HGB"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "hct"
+        title: "HCT"
+        expr: "HCT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "plt"
+        title: "PLT"
+        expr: "PLT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "pt"
+        title: "PT"
+        expr: "PT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "aptt"
+        title: "APTT"
+        expr: "APTT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "fg"
+        title: "FG"
+        expr: "FG"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "u_pro"
+        title: "U PRO"
+        expr: "U-PRO"
+        type: "string"
+        synonyms:
+          - "u pro"
+        sensitivity: "public"
+        public: true
+      - name: "igg"
+        title: "IGG"
+        expr: "IGG"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "iga"
+        title: "IGA"
+        expr: "IGA"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "igm"
+        title: "IGM"
+        expr: "IGM"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "crp"
+        title: "CRP"
+        expr: "CRP"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ra"
+        title: "RA"
+        expr: "RA"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "rf"
+        title: "RF"
+        expr: "RF"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "c3"
+        title: "C3"
+        expr: "C3"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "c4"
+        title: "C4"
+        expr: "C4"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "rnp"
+        title: "RNP"
+        expr: "RNP"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "sm"
+        title: "SM"
+        expr: "SM"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "sc170"
+        title: "SC170"
+        expr: "SC170"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ssa"
+        title: "SSA"
+        expr: "SSA"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ssb"
+        title: "SSB"
+        expr: "SSB"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "centromea"
+        title: "CENTROMEA"
+        expr: "CENTROMEA"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "dna"
+        title: "DNA"
+        expr: "DNA"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_alb"
+        title: "Avg Alb"
+        description: "AVG over ALB extracted from repeated BIRD gold SQL patterns."
+        expr: "ALB"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "alb"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.PLT > 400 AND T1.Diagnosis = 'SLE' AND T1.SEX = 'F'"
+      - name: "avg_hct"
+        title: "Avg Hct"
+        description: "AVG over HCT extracted from repeated BIRD gold SQL patterns."
+        expr: "HCT"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "hct"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.HCT < 29 AND STRFTIME('%Y', T2.Date) = '1991'"
+      - name: "avg_ldh"
+        title: "Avg Ldh"
+        description: "AVG over LDH extracted from repeated BIRD gold SQL patterns."
+        expr: "LDH"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "ldh"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE LDH < 500"
+      - name: "avg_pt"
+        title: "Avg Pt"
+        description: "AVG over PT extracted from repeated BIRD gold SQL patterns."
+        expr: "PT"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "pt"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.PT < 14 AND T1.SEX = 'M'"
+      - name: "avg_ua"
+        title: "Avg Ua"
+        description: "AVG over UA extracted from repeated BIRD gold SQL patterns."
+        expr: "UA"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "ua"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE (T2.UA < 6.5 AND T1.SEX = 'F') OR (T2.UA < 8.0 AND T1.SEX = 'M') AND T2.Date = (SELECT MAX(Date) FROM Laboratory)"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE ID = (SELECT ID FROM Patient WHERE \"First Date\" = '1991-06-13' AND Diagnosis = 'SJS') AND STRFTIME('%Y', Date) = '1995'"
+      - name: "max_date"
+        title: "Max Date"
+        description: "MAX over Date extracted from repeated BIRD gold SQL patterns."
+        expr: "Date"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "date"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE (T2.UA < 6.5 AND T1.SEX = 'F') OR (T2.UA < 8.0 AND T1.SEX = 'M') AND T2.Date = (SELECT MAX(Date) FROM Laboratory)"
+      - name: "sum_plt"
+        title: "Sum Plt"
+        description: "SUM over PLT extracted from repeated BIRD gold SQL patterns."
+        expr: "PLT"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "plt"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_pt"
+        title: "Sum Pt"
+        description: "SUM over PT extracted from repeated BIRD gold SQL patterns."
+        expr: "PT"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "pt"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) > 55"
+      - name: "sum_t_cho"
+        title: "Sum T Cho"
+        description: "SUM over T-CHO extracted from repeated BIRD gold SQL patterns."
+        expr: "T-CHO"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "t cho"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Birthday = '1959-02-18'"
+      - name: "sum_ua"
+        title: "Sum Ua"
+        description: "SUM over UA extracted from repeated BIRD gold SQL patterns."
+        expr: "UA"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "ua"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE \"U-PRO\" > 0 AND \"U-PRO\" < 30"
+      - name: "sum_ua_2"
+        title: "Sum Ua 2"
+        description: "SUM over UA extracted from repeated BIRD gold SQL patterns."
+        expr: "UA"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "ua"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.SEX = 'F'"
+    segments: []
+relationships:
+  - name: "examination_to_laboratory_id_id"
+    source: "examination"
+    target: "laboratory"
+    from: "examination.id"
+    to: "laboratory.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "examination_to_patient_id_id"
+    source: "examination"
+    target: "patient"
+    from: "examination.id"
+    to: "patient.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "laboratory_to_examination_id_id"
+    source: "laboratory"
+    target: "examination"
+    from: "laboratory.id"
+    to: "examination.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "laboratory_to_patient_id_id"
+    source: "laboratory"
+    target: "patient"
+    from: "laboratory.id"
+    to: "patient.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "patient_to_examination_id_id"
+    source: "patient"
+    target: "examination"
+    from: "patient.id"
+    to: "examination.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "patient_to_laboratory_id_id"
+    source: "patient"
+    target: "laboratory"
+    from: "patient.id"
+    to: "laboratory.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+views:
+  - name: "thrombosis_prediction_all"
+    title: "Thrombosis Prediction All"
+    description: "Governed semantic view for the BIRD thrombosis_prediction database."
+    public: true
+    ai_context: "Patient demographics, diagnoses, examinations, admissions, and laboratory measurements for thrombosis prediction."
+    entities:
+      - join_path: "examination"
+        includes:
+          measures:
+            - "avg_acl_igg"
+            - "avg_acl_igm"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id"
+            - "distinct_id_count_3"
+            - "count_id_2"
+            - "count_row_count"
+            - "count_symptoms"
+          dimensions:
+            - "acl_igg"
+            - "acl_igm"
+            - "ana"
+            - "ana_pattern"
+            - "acl_iga"
+            - "diagnosis"
+            - "kct"
+            - "rvvt"
+            - "lac"
+            - "symptoms"
+            - "thrombosis"
+          time_dimensions:
+            - "examination_date"
+          segments: []
+      - join_path: "patient"
+        includes:
+          measures:
+            - "avg_birthday"
+            - "avg_birthday_2"
+            - "count_diagnosis"
+            - "count_id"
+            - "distinct_id_count"
+            - "count_id_2"
+            - "distinct_id_count_2"
+            - "distinct_id_count_3"
+            - "count_id_3"
+            - "count_id_4"
+            - "distinct_id_count_4"
+            - "distinct_id_count_5"
+            - "count_id_5"
+            - "distinct_id_count_6"
+            - "distinct_id_count_7"
+            - "distinct_id_count_8"
+            - "distinct_id_count_9"
+            - "distinct_id_count_10"
+            - "distinct_id_count_11"
+            - "distinct_id_count_12"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "count_row_count_4"
+            - "max_birthday"
+            - "min_birthday"
+            - "min_first_date"
+            - "sum_admission"
+            - "sum_admission_2"
+            - "sum_birthday"
+            - "sum_sex"
+            - "sum_sex_2"
+          dimensions:
+            - "sex"
+            - "admission"
+            - "diagnosis"
+          time_dimensions:
+            - "birthday"
+            - "description"
+            - "first_date"
+          segments: []
+      - join_path: "laboratory"
+        includes:
+          measures:
+            - "avg_alb"
+            - "avg_hct"
+            - "avg_ldh"
+            - "avg_pt"
+            - "avg_ua"
+            - "count_row_count"
+            - "max_date"
+            - "sum_plt"
+            - "sum_pt"
+            - "sum_t_cho"
+            - "sum_ua"
+            - "sum_ua_2"
+          dimensions:
+            - "got"
+            - "gpt"
+            - "ldh"
+            - "alp"
+            - "tp"
+            - "alb"
+            - "ua"
+            - "un"
+            - "cre"
+            - "t_bil"
+            - "t_cho"
+            - "tg"
+            - "cpk"
+            - "glu"
+            - "wbc"
+            - "rbc"
+            - "hgb"
+            - "hct"
+            - "plt"
+            - "pt"
+            - "aptt"
+            - "fg"
+            - "u_pro"
+            - "igg"
+            - "iga"
+            - "igm"
+            - "crp"
+            - "ra"
+            - "rf"
+            - "c3"
+            - "c4"
+            - "rnp"
+            - "sm"
+            - "sc170"
+            - "ssa"
+            - "ssb"
+            - "centromea"
+            - "dna"
+          time_dimensions:
+            - "time_date"
+          segments: []
+      - join_path: "examination.laboratory"
+        prefix: true
+        includes:
+          measures:
+            - "avg_alb"
+            - "avg_hct"
+            - "avg_ldh"
+            - "avg_pt"
+            - "avg_ua"
+            - "count_row_count"
+            - "max_date"
+            - "sum_plt"
+            - "sum_pt"
+            - "sum_t_cho"
+            - "sum_ua"
+            - "sum_ua_2"
+          dimensions:
+            - "got"
+            - "gpt"
+            - "ldh"
+            - "alp"
+            - "tp"
+            - "alb"
+            - "ua"
+            - "un"
+            - "cre"
+            - "t_bil"
+            - "t_cho"
+            - "tg"
+            - "cpk"
+            - "glu"
+            - "wbc"
+            - "rbc"
+            - "hgb"
+            - "hct"
+            - "plt"
+            - "pt"
+            - "aptt"
+            - "fg"
+            - "u_pro"
+            - "igg"
+            - "iga"
+            - "igm"
+            - "crp"
+            - "ra"
+            - "rf"
+            - "c3"
+            - "c4"
+            - "rnp"
+            - "sm"
+            - "sc170"
+            - "ssa"
+            - "ssb"
+            - "centromea"
+            - "dna"
+          time_dimensions:
+            - "time_date"
+          segments: []
+      - join_path: "examination.patient"
+        prefix: true
+        includes:
+          measures:
+            - "avg_birthday"
+            - "avg_birthday_2"
+            - "count_diagnosis"
+            - "count_id"
+            - "distinct_id_count"
+            - "count_id_2"
+            - "distinct_id_count_2"
+            - "distinct_id_count_3"
+            - "count_id_3"
+            - "count_id_4"
+            - "distinct_id_count_4"
+            - "distinct_id_count_5"
+            - "count_id_5"
+            - "distinct_id_count_6"
+            - "distinct_id_count_7"
+            - "distinct_id_count_8"
+            - "distinct_id_count_9"
+            - "distinct_id_count_10"
+            - "distinct_id_count_11"
+            - "distinct_id_count_12"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "count_row_count_4"
+            - "max_birthday"
+            - "min_birthday"
+            - "min_first_date"
+            - "sum_admission"
+            - "sum_admission_2"
+            - "sum_birthday"
+            - "sum_sex"
+            - "sum_sex_2"
+          dimensions:
+            - "sex"
+            - "admission"
+            - "diagnosis"
+          time_dimensions:
+            - "birthday"
+            - "description"
+            - "first_date"
+          segments: []
+      - join_path: "laboratory.examination"
+        prefix: true
+        includes:
+          measures:
+            - "avg_acl_igg"
+            - "avg_acl_igm"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id"
+            - "distinct_id_count_3"
+            - "count_id_2"
+            - "count_row_count"
+            - "count_symptoms"
+          dimensions:
+            - "acl_igg"
+            - "acl_igm"
+            - "ana"
+            - "ana_pattern"
+            - "acl_iga"
+            - "diagnosis"
+            - "kct"
+            - "rvvt"
+            - "lac"
+            - "symptoms"
+            - "thrombosis"
+          time_dimensions:
+            - "examination_date"
+          segments: []
+      - join_path: "laboratory.patient"
+        prefix: true
+        includes:
+          measures:
+            - "avg_birthday"
+            - "avg_birthday_2"
+            - "count_diagnosis"
+            - "count_id"
+            - "distinct_id_count"
+            - "count_id_2"
+            - "distinct_id_count_2"
+            - "distinct_id_count_3"
+            - "count_id_3"
+            - "count_id_4"
+            - "distinct_id_count_4"
+            - "distinct_id_count_5"
+            - "count_id_5"
+            - "distinct_id_count_6"
+            - "distinct_id_count_7"
+            - "distinct_id_count_8"
+            - "distinct_id_count_9"
+            - "distinct_id_count_10"
+            - "distinct_id_count_11"
+            - "distinct_id_count_12"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "count_row_count_4"
+            - "max_birthday"
+            - "min_birthday"
+            - "min_first_date"
+            - "sum_admission"
+            - "sum_admission_2"
+            - "sum_birthday"
+            - "sum_sex"
+            - "sum_sex_2"
+          dimensions:
+            - "sex"
+            - "admission"
+            - "diagnosis"
+          time_dimensions:
+            - "birthday"
+            - "description"
+            - "first_date"
+          segments: []
+      - join_path: "patient.examination"
+        prefix: true
+        includes:
+          measures:
+            - "avg_acl_igg"
+            - "avg_acl_igm"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id"
+            - "distinct_id_count_3"
+            - "count_id_2"
+            - "count_row_count"
+            - "count_symptoms"
+          dimensions:
+            - "acl_igg"
+            - "acl_igm"
+            - "ana"
+            - "ana_pattern"
+            - "acl_iga"
+            - "diagnosis"
+            - "kct"
+            - "rvvt"
+            - "lac"
+            - "symptoms"
+            - "thrombosis"
+          time_dimensions:
+            - "examination_date"
+          segments: []
+      - join_path: "patient.laboratory"
+        prefix: true
+        includes:
+          measures:
+            - "avg_alb"
+            - "avg_hct"
+            - "avg_ldh"
+            - "avg_pt"
+            - "avg_ua"
+            - "count_row_count"
+            - "max_date"
+            - "sum_plt"
+            - "sum_pt"
+            - "sum_t_cho"
+            - "sum_ua"
+            - "sum_ua_2"
+          dimensions:
+            - "got"
+            - "gpt"
+            - "ldh"
+            - "alp"
+            - "tp"
+            - "alb"
+            - "ua"
+            - "un"
+            - "cre"
+            - "t_bil"
+            - "t_cho"
+            - "tg"
+            - "cpk"
+            - "glu"
+            - "wbc"
+            - "rbc"
+            - "hgb"
+            - "hct"
+            - "plt"
+            - "pt"
+            - "aptt"
+            - "fg"
+            - "u_pro"
+            - "igg"
+            - "iga"
+            - "igm"
+            - "crp"
+            - "ra"
+            - "rf"
+            - "c3"
+            - "c4"
+            - "rnp"
+            - "sm"
+            - "sc170"
+            - "ssa"
+            - "ssb"
+            - "centromea"
+            - "dna"
+          time_dimensions:
+            - "time_date"
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "examination.avg_acl_igg"
+          - "examination.avg_acl_igm"
+          - "examination.count_id"
+          - "examination.count_id_2"
+          - "examination.count_row_count"
+          - "examination.count_symptoms"
+          - "examination.distinct_id_count"
+          - "examination.distinct_id_count_2"
+          - "examination.distinct_id_count_3"
+          - "laboratory.avg_alb"
+          - "laboratory.avg_hct"
+          - "laboratory.avg_ldh"
+          - "laboratory.avg_pt"
+          - "laboratory.avg_ua"
+          - "laboratory.count_row_count"
+          - "laboratory.max_date"
+          - "laboratory.sum_plt"
+          - "laboratory.sum_pt"
+          - "laboratory.sum_t_cho"
+          - "laboratory.sum_ua"
+          - "laboratory.sum_ua_2"
+          - "patient.avg_birthday"
+          - "patient.avg_birthday_2"
+          - "patient.count_diagnosis"
+          - "patient.count_id"
+          - "patient.count_id_10"
+          - "patient.count_id_11"
+          - "patient.count_id_12"
+          - "patient.count_id_13"
+          - "patient.count_id_2"
+          - "patient.count_id_3"
+          - "patient.count_id_4"
+          - "patient.count_id_5"
+          - "patient.count_id_6"
+          - "patient.count_id_7"
+          - "patient.count_id_8"
+          - "patient.count_id_9"
+          - "patient.count_row_count"
+          - "patient.count_row_count_2"
+          - "patient.count_row_count_3"
+          - "patient.count_row_count_4"
+          - "patient.distinct_id_count"
+          - "patient.distinct_id_count_10"
+          - "patient.distinct_id_count_11"
+          - "patient.distinct_id_count_12"
+          - "patient.distinct_id_count_2"
+          - "patient.distinct_id_count_3"
+          - "patient.distinct_id_count_4"
+          - "patient.distinct_id_count_5"
+          - "patient.distinct_id_count_6"
+          - "patient.distinct_id_count_7"
+          - "patient.distinct_id_count_8"
+          - "patient.distinct_id_count_9"
+          - "patient.max_birthday"
+          - "patient.min_birthday"
+          - "patient.min_first_date"
+          - "patient.sum_admission"
+          - "patient.sum_admission_2"
+          - "patient.sum_birthday"
+          - "patient.sum_sex"
+          - "patient.sum_sex_2"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "patient.diagnosis"
+          - "examination.symptoms"
+    default_time_dimension: "examination.examination_date"
+policies: []

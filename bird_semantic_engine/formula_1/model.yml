@@ -1,0 +1,2746 @@
+version: 1
+domain: "formula_1"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "circuits"
+    title: "Circuits"
+    description: "BIRD table circuits in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "circuits"
+      dialect: "sqlite"
+      grain:
+        - "circuitid"
+    identifiers:
+      - name: "circuitid"
+        expr: "circuitId"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "circuitref"
+        title: "CircuitRef"
+        expr: "circuitRef"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "location"
+        title: "Location"
+        expr: "location"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "country"
+        title: "Country"
+        expr: "country"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "lat"
+        title: "Lat"
+        expr: "lat"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "lng"
+        title: "Lng"
+        expr: "lng"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "alt"
+        title: "Alt"
+        expr: "alt"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "url"
+        title: "Url"
+        expr: "url"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+  - name: "constructors"
+    title: "Constructors"
+    description: "BIRD table constructors in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "constructors"
+      dialect: "sqlite"
+      grain:
+        - "constructorid"
+    identifiers:
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "constructorref"
+        title: "ConstructorRef"
+        expr: "constructorRef"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "nationality"
+        title: "Nationality"
+        expr: "nationality"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "url"
+        title: "Url"
+        expr: "url"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "distinct_constructorid_count"
+        title: "Distinct Constructorid Count"
+        description: "COUNT over constructorId extracted from repeated BIRD gold SQL patterns."
+        expr: "constructorId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "constructorid"
+        allowed_dimensions: []
+        filters:
+          - member: "nationality"
+            operator: "equals"
+            values:
+              - "French"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.laps > 50 AND T2.nationality = 'French'"
+    segments: []
+  - name: "drivers"
+    title: "Drivers"
+    description: "BIRD table drivers in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "drivers"
+      dialect: "sqlite"
+      grain:
+        - "driverid"
+    identifiers:
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "dob"
+        title: "Dob"
+        description: "Time column dob from drivers."
+        expr: "dob"
+        type: "date"
+        default: true
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "driverref"
+        title: "DriverRef"
+        expr: "driverRef"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "number"
+        title: "Number"
+        expr: "number"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "code"
+        title: "Code"
+        expr: "code"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "forename"
+        title: "Forename"
+        expr: "forename"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "surname"
+        title: "Surname"
+        expr: "surname"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "nationality"
+        title: "Nationality"
+        expr: "nationality"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "url"
+        title: "Url"
+        expr: "url"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_code"
+        title: "Count Code"
+        description: "COUNT over code extracted from repeated BIRD gold SQL patterns."
+        expr: "code"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "code"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_driverid"
+        title: "Count Driverid"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.year = 2007 AND T1.name = 'Bahrain Grand Prix' AND T2.time IS NULL"
+      - name: "count_driverid_2"
+        title: "Count Driverid 2"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverid"
+        allowed_dimensions: []
+        filters:
+          - member: "nationality"
+            operator: "equals"
+            values:
+              - "French"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.nationality = 'French' AND (CAST(SUBSTRING(T2.time, 1, 2) AS INTEGER) * 60 + CAST(SUBSTRING(T2.time, 4, 2) AS INTEGER) + CAST(SUBSTRING(T2.time, 7, 2) AS REAL) / 1000) < 120"
+      - name: "count_driverid_3"
+        title: "Count Driverid 3"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverid"
+        allowed_dimensions: []
+        filters:
+          - member: "nationality"
+            operator: "equals"
+            values:
+              - "American"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.status = 'Puncture' AND T1.nationality = 'American'"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "nationality"
+            operator: "equals"
+            values:
+              - "British"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.name = 'Australian Grand Prix' AND T1.nationality = 'British' AND T3.year = 2008"
+      - name: "count_row_count_2"
+        title: "Count Row Count 2"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.nationality = 'Dutch'"
+    segments: []
+  - name: "seasons"
+    title: "Seasons"
+    description: "BIRD table seasons in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "seasons"
+      dialect: "sqlite"
+      grain:
+        - "year"
+    identifiers:
+      - name: "year"
+        expr: "year"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "url"
+        title: "Url"
+        expr: "url"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+  - name: "races"
+    title: "Races"
+    description: "BIRD table races in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "races"
+      dialect: "sqlite"
+      grain:
+        - "raceid"
+    identifiers:
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: true
+      - name: "year"
+        expr: "year"
+        type: "number"
+        primary_key: false
+      - name: "circuitid"
+        expr: "circuitId"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from races."
+        expr: "date"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "round"
+        title: "Round"
+        expr: "round"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "time"
+        title: "Time"
+        expr: "time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_circuitid"
+        title: "Count Circuitid"
+        description: "COUNT over circuitId extracted from repeated BIRD gold SQL patterns."
+        expr: "circuitId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "circuitid"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "British Grand Prix"
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Silverstone Circuit"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.name = 'Silverstone Circuit' AND T2.name = 'British Grand Prix'"
+      - name: "count_circuitid_2"
+        title: "Count Circuitid 2"
+        description: "COUNT over circuitId extracted from repeated BIRD gold SQL patterns."
+        expr: "circuitId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "circuitid"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "European Grand Prix"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.name = 'European Grand Prix'"
+      - name: "count_circuitid_3"
+        title: "Count Circuitid 3"
+        description: "COUNT over circuitId extracted from repeated BIRD gold SQL patterns."
+        expr: "circuitId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "circuitid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.country = 'Italy'"
+      - name: "count_raceid"
+        title: "Count Raceid"
+        description: "COUNT over raceId extracted from repeated BIRD gold SQL patterns."
+        expr: "raceId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "raceid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE NOT T1.country IN ('Bahrain', 'China', 'Singapore', 'Japan', 'Korea', 'Turkey', 'UAE', 'Malaysia', 'Spain', 'Monaco', 'Azerbaijan', 'Austria', 'Belgium', 'France', 'Germany', 'Hungary', 'Italy', 'UK') AND T3.year = 2010"
+      - name: "count_raceid_2"
+        title: "Count Raceid 2"
+        description: "COUNT over raceId extracted from repeated BIRD gold SQL patterns."
+        expr: "raceId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "raceid"
+        allowed_dimensions:
+          - "circuits.name"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T2.date) BETWEEN '1990' AND '2000'"
+      - name: "count_round"
+        title: "Count Round"
+        description: "COUNT over round extracted from repeated BIRD gold SQL patterns."
+        expr: "round"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "round"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+  - name: "constructorresults"
+    title: "ConstructorResults"
+    description: "BIRD table constructorResults in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "constructorResults"
+      dialect: "sqlite"
+      grain:
+        - "constructorresultsid"
+    identifiers:
+      - name: "constructorresultsid"
+        expr: "constructorResultsId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "points"
+        title: "Points"
+        expr: "points"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "sum_points"
+        title: "Sum Points"
+        description: "SUM over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "points"
+        allowed_dimensions:
+          - "constructors.name"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.name = 'Monaco Grand Prix' AND T3.year BETWEEN 1980 AND 2010"
+    segments: []
+  - name: "constructorstandings"
+    title: "ConstructorStandings"
+    description: "BIRD table constructorStandings in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "constructorStandings"
+      dialect: "sqlite"
+      grain:
+        - "constructorstandingsid"
+    identifiers:
+      - name: "constructorstandingsid"
+        expr: "constructorStandingsId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "points"
+        title: "Points"
+        expr: "points"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "positiontext"
+        title: "PositionText"
+        expr: "positionText"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "wins"
+        title: "Wins"
+        expr: "wins"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_raceid"
+        title: "Count Raceid"
+        description: "COUNT over raceId extracted from repeated BIRD gold SQL patterns."
+        expr: "raceId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "raceid"
+        allowed_dimensions: []
+        filters:
+          - member: "points"
+            operator: "equals"
+            values:
+              - 0
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.points = 0 AND T2.nationality = 'Japanese'"
+      - name: "max_points"
+        title: "Max Points"
+        description: "MAX over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "points"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.nationality = 'British'"
+    segments: []
+  - name: "driverstandings"
+    title: "DriverStandings"
+    description: "BIRD table driverStandings in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "driverStandings"
+      dialect: "sqlite"
+      grain:
+        - "driverstandingsid"
+    identifiers:
+      - name: "driverstandingsid"
+        expr: "driverStandingsId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "points"
+        title: "Points"
+        expr: "points"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "positiontext"
+        title: "PositionText"
+        expr: "positionText"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "wins"
+        title: "Wins"
+        expr: "wins"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_points"
+        title: "Avg Points"
+        description: "AVG over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "points"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.forename = 'Eddie' AND T1.surname = 'Irvine' AND T3.year = 2000"
+      - name: "avg_points_2"
+        title: "Avg Points 2"
+        description: "AVG over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "points"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.forename = 'Lewis' AND T1.surname = 'Hamilton' AND T3.name = 'Turkish Grand Prix'"
+      - name: "count_driverstandingsid"
+        title: "Count Driverstandingsid"
+        description: "COUNT over driverStandingsId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverStandingsId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverstandingsid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.surname = 'Hamilton' AND T1.year >= 2010"
+      - name: "count_position"
+        title: "Count Position"
+        description: "COUNT over position extracted from repeated BIRD gold SQL patterns."
+        expr: "position"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "position"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.surname = 'Hamilton' AND T1.year >= 2010"
+      - name: "count_wins"
+        title: "Count Wins"
+        description: "COUNT over wins extracted from repeated BIRD gold SQL patterns."
+        expr: "wins"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "wins"
+        allowed_dimensions:
+          - "drivers.forename"
+          - "drivers.nationality"
+          - "drivers.surname"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.wins >= 1"
+      - name: "max_points"
+        title: "Max Points"
+        description: "MAX over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "points"
+        allowed_dimensions:
+          - "drivers.forename"
+          - "drivers.nationality"
+          - "drivers.surname"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.wins >= 1"
+      - name: "sum_wins"
+        title: "Sum Wins"
+        description: "SUM over wins extracted from repeated BIRD gold SQL patterns."
+        expr: "wins"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "wins"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.forename = 'Michael' AND T1.surname = 'Schumacher' AND T4.name = 'Sepang International Circuit'"
+      - name: "sum_wins_2"
+        title: "Sum Wins 2"
+        description: "SUM over wins extracted from repeated BIRD gold SQL patterns."
+        expr: "wins"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "wins"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+  - name: "laptimes"
+    title: "LapTimes"
+    description: "BIRD table lapTimes in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "lapTimes"
+      dialect: "sqlite"
+      grain:
+        - "raceid"
+        - "driverid"
+        - "lap"
+    identifiers:
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: true
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: true
+      - name: "lap"
+        expr: "lap"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "time"
+        title: "Time"
+        expr: "time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "milliseconds"
+        title: "Milliseconds"
+        expr: "milliseconds"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_milliseconds"
+        title: "Avg Milliseconds"
+        description: "AVG over milliseconds extracted from repeated BIRD gold SQL patterns."
+        expr: "milliseconds"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "milliseconds"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.forename = 'Lewis' AND T3.surname = 'Hamilton' AND T1.year = 2009 AND T1.name = 'Malaysian Grand Prix'"
+      - name: "count_lap"
+        title: "Count Lap"
+        description: "COUNT over lap extracted from repeated BIRD gold SQL patterns."
+        expr: "lap"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "lap"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.country = 'Italy'"
+      - name: "sum_milliseconds"
+        title: "Sum Milliseconds"
+        description: "SUM over milliseconds extracted from repeated BIRD gold SQL patterns."
+        expr: "milliseconds"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "milliseconds"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.country = 'Italy'"
+    segments: []
+  - name: "pitstops"
+    title: "PitStops"
+    description: "BIRD table pitStops in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "pitStops"
+      dialect: "sqlite"
+      grain:
+        - "raceid"
+        - "driverid"
+        - "stop"
+    identifiers:
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: true
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: true
+      - name: "stop"
+        expr: "stop"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "lap"
+        title: "Lap"
+        expr: "lap"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "time"
+        title: "Time"
+        expr: "time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "duration"
+        title: "Duration"
+        expr: "duration"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_duration"
+        title: "Avg Duration"
+        description: "AVG over duration extracted from repeated BIRD gold SQL patterns."
+        expr: "duration"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "duration"
+        allowed_dimensions:
+          - "drivers.forename"
+          - "drivers.surname"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.nationality = 'German' AND STRFTIME('%Y', T2.dob) BETWEEN '1980' AND '1985'"
+    segments: []
+  - name: "qualifying"
+    title: "Qualifying"
+    description: "BIRD table qualifying in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "qualifying"
+      dialect: "sqlite"
+      grain:
+        - "qualifyid"
+    identifiers:
+      - name: "qualifyid"
+        expr: "qualifyId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: false
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "q1"
+        title: "Q1"
+        expr: "q1"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "q2"
+        title: "Q2"
+        expr: "q2"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "q3"
+        title: "Q3"
+        expr: "q3"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+  - name: "status"
+    title: "Status"
+    description: "BIRD table status in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "status"
+      dialect: "sqlite"
+      grain:
+        - "statusid"
+    identifiers:
+      - name: "statusid"
+        expr: "statusId"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+  - name: "results"
+    title: "Results"
+    description: "BIRD table results in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "results"
+      dialect: "sqlite"
+      grain:
+        - "resultid"
+    identifiers:
+      - name: "resultid"
+        expr: "resultId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: false
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: false
+      - name: "statusid"
+        expr: "statusId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "grid"
+        title: "Grid"
+        expr: "grid"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "positiontext"
+        title: "PositionText"
+        expr: "positionText"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "positionorder"
+        title: "PositionOrder"
+        expr: "positionOrder"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "points"
+        title: "Points"
+        expr: "points"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "laps"
+        title: "Laps"
+        expr: "laps"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "time"
+        title: "Time"
+        expr: "time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "milliseconds"
+        title: "Milliseconds"
+        expr: "milliseconds"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "fastestlap"
+        title: "FastestLap"
+        expr: "fastestLap"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "rank"
+        title: "Rank"
+        expr: "rank"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "fastestlaptime"
+        title: "FastestLapTime"
+        expr: "fastestLapTime"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "fastestlapspeed"
+        title: "FastestLapSpeed"
+        expr: "fastestLapSpeed"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_fastestlapspeed"
+        title: "Avg Fastestlapspeed"
+        description: "AVG over fastestLapSpeed extracted from repeated BIRD gold SQL patterns."
+        expr: "fastestLapSpeed"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "fastestlapspeed"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.year = 2009 AND T2.name = 'Spanish Grand Prix'"
+      - name: "avg_fastestlaptime"
+        title: "Avg Fastestlaptime"
+        description: "AVG over fastestLapTime extracted from repeated BIRD gold SQL patterns."
+        expr: "fastestLapTime"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "fastestlaptime"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.surname = 'Hamilton' AND T1.forename = 'Lewis'"
+      - name: "avg_fastestlaptime_2"
+        title: "Avg Fastestlaptime 2"
+        description: "AVG over fastestLapTime extracted from repeated BIRD gold SQL patterns."
+        expr: "fastestLapTime"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "fastestlaptime"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.rank < 11 AND T2.year = 2006 AND T2.name = 'United States Grand Prix'"
+      - name: "count_driverid"
+        title: "Count Driverid"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T1.date = '2015-11-29' AND NOT T2.time IS NULL"
+            - "WHERE T1.date = '2015-11-29' AND T2.time IS NULL"
+      - name: "count_driverid_2"
+        title: "Count Driverid 2"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.date = '1983-07-16'"
+      - name: "count_driverid_3"
+        title: "Count Driverid 3"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.name = 'Australian Grand Prix' AND T1.year = 2008 AND NOT T2.time IS NULL"
+      - name: "count_driverid_4"
+        title: "Count Driverid 4"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.nationality = 'Italian' AND T1.time IS NULL"
+      - name: "count_driverid_5"
+        title: "Count Driverid 5"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "driverid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.statusId = 3 AND T2.name = 'Canadian Grand Prix'"
+      - name: "count_raceid"
+        title: "Count Raceid"
+        description: "COUNT over raceId extracted from repeated BIRD gold SQL patterns."
+        expr: "raceId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "raceid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.nationality = 'Japanese' AND T2.year BETWEEN 2007 AND 2009"
+      - name: "count_resultid"
+        title: "Count Resultid"
+        description: "COUNT over resultId extracted from repeated BIRD gold SQL patterns."
+        expr: "resultId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "resultid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.name = 'Australian Grand Prix' AND T2.year = 2008"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.year BETWEEN 2000 AND 2005"
+      - name: "max_positionorder"
+        title: "Max Positionorder"
+        description: "MAX over positionOrder extracted from repeated BIRD gold SQL patterns."
+        expr: "positionOrder"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "positionorder"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_fastestlapspeed"
+        title: "Sum Fastestlapspeed"
+        description: "SUM over fastestLapSpeed extracted from repeated BIRD gold SQL patterns."
+        expr: "fastestLapSpeed"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "fastestlapspeed"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.forename = 'Paul' AND T1.surname = 'di Resta'"
+      - name: "sum_laps"
+        title: "Sum Laps"
+        description: "SUM over laps extracted from repeated BIRD gold SQL patterns."
+        expr: "laps"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "laps"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.year BETWEEN 2000 AND 2005"
+      - name: "sum_points"
+        title: "Sum Points"
+        description: "SUM over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "points"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.forename = 'Lewis' AND T1.surname = 'Hamilton'"
+      - name: "sum_time"
+        title: "Sum Time"
+        description: "SUM over time extracted from repeated BIRD gold SQL patterns."
+        expr: "time"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "time"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.name = 'Australian Grand Prix' AND T2.year = 2008"
+      - name: "sum_time_2"
+        title: "Sum Time 2"
+        description: "SUM over time extracted from repeated BIRD gold SQL patterns."
+        expr: "time"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "time"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.nationality = 'Japanese' AND T2.year BETWEEN 2007 AND 2009"
+    segments: []
+relationships:
+  - name: "circuits_to_races_circuitid_circuitid"
+    source: "circuits"
+    target: "races"
+    from: "circuits.circuitid"
+    to: "races.circuitid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "constructorresults_to_constructors_constructorid_constructorid"
+    source: "constructorresults"
+    target: "constructors"
+    from: "constructorresults.constructorid"
+    to: "constructors.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "constructorresults_to_races_raceid_raceid"
+    source: "constructorresults"
+    target: "races"
+    from: "constructorresults.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "constructors_to_constructorresults_constructorid_constructorid"
+    source: "constructors"
+    target: "constructorresults"
+    from: "constructors.constructorid"
+    to: "constructorresults.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "constructors_to_constructorstandings_constructorid_constructorid"
+    source: "constructors"
+    target: "constructorstandings"
+    from: "constructors.constructorid"
+    to: "constructorstandings.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "constructorstandings_to_constructors_constructorid_constructorid"
+    source: "constructorstandings"
+    target: "constructors"
+    from: "constructorstandings.constructorid"
+    to: "constructors.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "constructorstandings_to_races_raceid_raceid"
+    source: "constructorstandings"
+    target: "races"
+    from: "constructorstandings.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "drivers_to_driverstandings_driverid_driverid"
+    source: "drivers"
+    target: "driverstandings"
+    from: "drivers.driverid"
+    to: "driverstandings.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "drivers_to_laptimes_driverid_driverid"
+    source: "drivers"
+    target: "laptimes"
+    from: "drivers.driverid"
+    to: "laptimes.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "drivers_to_qualifying_driverid_driverid"
+    source: "drivers"
+    target: "qualifying"
+    from: "drivers.driverid"
+    to: "qualifying.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "drivers_to_results_driverid_driverid"
+    source: "drivers"
+    target: "results"
+    from: "drivers.driverid"
+    to: "results.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "driverstandings_to_drivers_driverid_driverid"
+    source: "driverstandings"
+    target: "drivers"
+    from: "driverstandings.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "driverstandings_to_races_raceid_raceid"
+    source: "driverstandings"
+    target: "races"
+    from: "driverstandings.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "laptimes_to_drivers_driverid_driverid"
+    source: "laptimes"
+    target: "drivers"
+    from: "laptimes.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "laptimes_to_races_raceid_raceid"
+    source: "laptimes"
+    target: "races"
+    from: "laptimes.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "pitstops_to_drivers_driverid_driverid"
+    source: "pitstops"
+    target: "drivers"
+    from: "pitstops.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "pitstops_to_races_raceid_raceid"
+    source: "pitstops"
+    target: "races"
+    from: "pitstops.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "qualifying_to_constructors_constructorid_constructorid"
+    source: "qualifying"
+    target: "constructors"
+    from: "qualifying.constructorid"
+    to: "constructors.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "qualifying_to_drivers_driverid_driverid"
+    source: "qualifying"
+    target: "drivers"
+    from: "qualifying.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "qualifying_to_races_raceid_raceid"
+    source: "qualifying"
+    target: "races"
+    from: "qualifying.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "races_to_circuits_circuitid_circuitid"
+    source: "races"
+    target: "circuits"
+    from: "races.circuitid"
+    to: "circuits.circuitid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "races_to_constructorresults_raceid_raceid"
+    source: "races"
+    target: "constructorresults"
+    from: "races.raceid"
+    to: "constructorresults.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "races_to_driverstandings_raceid_raceid"
+    source: "races"
+    target: "driverstandings"
+    from: "races.raceid"
+    to: "driverstandings.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "races_to_results_raceid_raceid"
+    source: "races"
+    target: "results"
+    from: "races.raceid"
+    to: "results.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "races_to_seasons_year_year"
+    source: "races"
+    target: "seasons"
+    from: "races.year"
+    to: "seasons.year"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "results_to_constructors_constructorid_constructorid"
+    source: "results"
+    target: "constructors"
+    from: "results.constructorid"
+    to: "constructors.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "results_to_drivers_driverid_driverid"
+    source: "results"
+    target: "drivers"
+    from: "results.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "results_to_races_raceid_raceid"
+    source: "results"
+    target: "races"
+    from: "results.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "results_to_status_statusid_statusid"
+    source: "results"
+    target: "status"
+    from: "results.statusid"
+    to: "status.statusid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "seasons_to_races_year_year"
+    source: "seasons"
+    target: "races"
+    from: "seasons.year"
+    to: "races.year"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+views:
+  - name: "formula_1_all"
+    title: "Formula 1 All"
+    description: "Governed semantic view for the BIRD formula_1 database."
+    public: true
+    ai_context: "Formula 1 circuits, races, drivers, constructors, standings, lap times, pit stops, qualifying, and results."
+    entities:
+      - join_path: "circuits"
+        includes:
+          measures: []
+          dimensions:
+            - "circuitref"
+            - "name"
+            - "location"
+            - "country"
+            - "lat"
+            - "lng"
+            - "alt"
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "constructors"
+        includes:
+          measures:
+            - "distinct_constructorid_count"
+          dimensions:
+            - "constructorref"
+            - "name"
+            - "nationality"
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "drivers"
+        includes:
+          measures:
+            - "count_code"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_row_count"
+            - "count_row_count_2"
+          dimensions:
+            - "driverref"
+            - "number"
+            - "code"
+            - "forename"
+            - "surname"
+            - "nationality"
+            - "url"
+          time_dimensions:
+            - "dob"
+          segments: []
+      - join_path: "seasons"
+        includes:
+          measures: []
+          dimensions:
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "races"
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "constructorresults"
+        includes:
+          measures:
+            - "sum_points"
+          dimensions:
+            - "points"
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "constructorstandings"
+        includes:
+          measures:
+            - "count_raceid"
+            - "max_points"
+          dimensions:
+            - "points"
+            - "position"
+            - "positiontext"
+            - "wins"
+          time_dimensions: []
+          segments: []
+      - join_path: "driverstandings"
+        includes:
+          measures:
+            - "avg_points"
+            - "avg_points_2"
+            - "count_driverstandingsid"
+            - "count_position"
+            - "count_wins"
+            - "max_points"
+            - "sum_wins"
+            - "sum_wins_2"
+          dimensions:
+            - "points"
+            - "position"
+            - "positiontext"
+            - "wins"
+          time_dimensions: []
+          segments: []
+      - join_path: "laptimes"
+        includes:
+          measures:
+            - "avg_milliseconds"
+            - "count_lap"
+            - "sum_milliseconds"
+          dimensions:
+            - "position"
+            - "time"
+            - "milliseconds"
+          time_dimensions: []
+          segments: []
+      - join_path: "pitstops"
+        includes:
+          measures:
+            - "avg_duration"
+          dimensions:
+            - "lap"
+            - "time"
+            - "duration"
+          time_dimensions: []
+          segments: []
+      - join_path: "qualifying"
+        includes:
+          measures: []
+          dimensions:
+            - "q1"
+            - "q2"
+            - "q3"
+          time_dimensions: []
+          segments: []
+      - join_path: "status"
+        includes:
+          measures: []
+          dimensions:
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "results"
+        includes:
+          measures:
+            - "avg_fastestlapspeed"
+            - "avg_fastestlaptime"
+            - "avg_fastestlaptime_2"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_driverid_4"
+            - "count_driverid_5"
+            - "count_raceid"
+            - "count_resultid"
+            - "count_row_count"
+            - "max_positionorder"
+            - "sum_fastestlapspeed"
+            - "sum_laps"
+            - "sum_points"
+            - "sum_time"
+            - "sum_time_2"
+          dimensions:
+            - "grid"
+            - "position"
+            - "positiontext"
+            - "positionorder"
+            - "points"
+            - "laps"
+            - "time"
+            - "milliseconds"
+            - "fastestlap"
+            - "rank"
+            - "fastestlaptime"
+            - "fastestlapspeed"
+          time_dimensions: []
+          segments: []
+      - join_path: "circuits.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "constructorresults.constructors"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_constructorid_count"
+          dimensions:
+            - "constructorref"
+            - "name"
+            - "nationality"
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "constructorresults.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "constructors.constructorresults"
+        prefix: true
+        includes:
+          measures:
+            - "sum_points"
+          dimensions:
+            - "points"
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "constructors.constructorstandings"
+        prefix: true
+        includes:
+          measures:
+            - "count_raceid"
+            - "max_points"
+          dimensions:
+            - "points"
+            - "position"
+            - "positiontext"
+            - "wins"
+          time_dimensions: []
+          segments: []
+      - join_path: "constructorstandings.constructors"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_constructorid_count"
+          dimensions:
+            - "constructorref"
+            - "name"
+            - "nationality"
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "constructorstandings.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "drivers.driverstandings"
+        prefix: true
+        includes:
+          measures:
+            - "avg_points"
+            - "avg_points_2"
+            - "count_driverstandingsid"
+            - "count_position"
+            - "count_wins"
+            - "max_points"
+            - "sum_wins"
+            - "sum_wins_2"
+          dimensions:
+            - "points"
+            - "position"
+            - "positiontext"
+            - "wins"
+          time_dimensions: []
+          segments: []
+      - join_path: "drivers.laptimes"
+        prefix: true
+        includes:
+          measures:
+            - "avg_milliseconds"
+            - "count_lap"
+            - "sum_milliseconds"
+          dimensions:
+            - "position"
+            - "time"
+            - "milliseconds"
+          time_dimensions: []
+          segments: []
+      - join_path: "drivers.qualifying"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "q1"
+            - "q2"
+            - "q3"
+          time_dimensions: []
+          segments: []
+      - join_path: "drivers.results"
+        prefix: true
+        includes:
+          measures:
+            - "avg_fastestlapspeed"
+            - "avg_fastestlaptime"
+            - "avg_fastestlaptime_2"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_driverid_4"
+            - "count_driverid_5"
+            - "count_raceid"
+            - "count_resultid"
+            - "count_row_count"
+            - "max_positionorder"
+            - "sum_fastestlapspeed"
+            - "sum_laps"
+            - "sum_points"
+            - "sum_time"
+            - "sum_time_2"
+          dimensions:
+            - "grid"
+            - "position"
+            - "positiontext"
+            - "positionorder"
+            - "points"
+            - "laps"
+            - "time"
+            - "milliseconds"
+            - "fastestlap"
+            - "rank"
+            - "fastestlaptime"
+            - "fastestlapspeed"
+          time_dimensions: []
+          segments: []
+      - join_path: "driverstandings.drivers"
+        prefix: true
+        includes:
+          measures:
+            - "count_code"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_row_count"
+            - "count_row_count_2"
+          dimensions:
+            - "driverref"
+            - "number"
+            - "code"
+            - "forename"
+            - "surname"
+            - "nationality"
+            - "url"
+          time_dimensions:
+            - "dob"
+          segments: []
+      - join_path: "driverstandings.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "laptimes.drivers"
+        prefix: true
+        includes:
+          measures:
+            - "count_code"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_row_count"
+            - "count_row_count_2"
+          dimensions:
+            - "driverref"
+            - "number"
+            - "code"
+            - "forename"
+            - "surname"
+            - "nationality"
+            - "url"
+          time_dimensions:
+            - "dob"
+          segments: []
+      - join_path: "laptimes.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "pitstops.drivers"
+        prefix: true
+        includes:
+          measures:
+            - "count_code"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_row_count"
+            - "count_row_count_2"
+          dimensions:
+            - "driverref"
+            - "number"
+            - "code"
+            - "forename"
+            - "surname"
+            - "nationality"
+            - "url"
+          time_dimensions:
+            - "dob"
+          segments: []
+      - join_path: "pitstops.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "qualifying.constructors"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_constructorid_count"
+          dimensions:
+            - "constructorref"
+            - "name"
+            - "nationality"
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "qualifying.drivers"
+        prefix: true
+        includes:
+          measures:
+            - "count_code"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_row_count"
+            - "count_row_count_2"
+          dimensions:
+            - "driverref"
+            - "number"
+            - "code"
+            - "forename"
+            - "surname"
+            - "nationality"
+            - "url"
+          time_dimensions:
+            - "dob"
+          segments: []
+      - join_path: "qualifying.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "races.circuits"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "circuitref"
+            - "name"
+            - "location"
+            - "country"
+            - "lat"
+            - "lng"
+            - "alt"
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "races.constructorresults"
+        prefix: true
+        includes:
+          measures:
+            - "sum_points"
+          dimensions:
+            - "points"
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "races.driverstandings"
+        prefix: true
+        includes:
+          measures:
+            - "avg_points"
+            - "avg_points_2"
+            - "count_driverstandingsid"
+            - "count_position"
+            - "count_wins"
+            - "max_points"
+            - "sum_wins"
+            - "sum_wins_2"
+          dimensions:
+            - "points"
+            - "position"
+            - "positiontext"
+            - "wins"
+          time_dimensions: []
+          segments: []
+      - join_path: "races.results"
+        prefix: true
+        includes:
+          measures:
+            - "avg_fastestlapspeed"
+            - "avg_fastestlaptime"
+            - "avg_fastestlaptime_2"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_driverid_4"
+            - "count_driverid_5"
+            - "count_raceid"
+            - "count_resultid"
+            - "count_row_count"
+            - "max_positionorder"
+            - "sum_fastestlapspeed"
+            - "sum_laps"
+            - "sum_points"
+            - "sum_time"
+            - "sum_time_2"
+          dimensions:
+            - "grid"
+            - "position"
+            - "positiontext"
+            - "positionorder"
+            - "points"
+            - "laps"
+            - "time"
+            - "milliseconds"
+            - "fastestlap"
+            - "rank"
+            - "fastestlaptime"
+            - "fastestlapspeed"
+          time_dimensions: []
+          segments: []
+      - join_path: "races.seasons"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "results.constructors"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_constructorid_count"
+          dimensions:
+            - "constructorref"
+            - "name"
+            - "nationality"
+            - "url"
+          time_dimensions: []
+          segments: []
+      - join_path: "results.drivers"
+        prefix: true
+        includes:
+          measures:
+            - "count_code"
+            - "count_driverid"
+            - "count_driverid_2"
+            - "count_driverid_3"
+            - "count_row_count"
+            - "count_row_count_2"
+          dimensions:
+            - "driverref"
+            - "number"
+            - "code"
+            - "forename"
+            - "surname"
+            - "nationality"
+            - "url"
+          time_dimensions:
+            - "dob"
+          segments: []
+      - join_path: "results.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "results.status"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "seasons.races"
+        prefix: true
+        includes:
+          measures:
+            - "count_circuitid"
+            - "count_circuitid_2"
+            - "count_circuitid_3"
+            - "count_raceid"
+            - "count_raceid_2"
+            - "count_round"
+          dimensions:
+            - "round"
+            - "name"
+            - "time"
+          time_dimensions:
+            - "date"
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "constructorresults.sum_points"
+          - "constructors.distinct_constructorid_count"
+          - "constructorstandings.count_raceid"
+          - "constructorstandings.max_points"
+          - "drivers.count_code"
+          - "drivers.count_driverid"
+          - "drivers.count_driverid_2"
+          - "drivers.count_driverid_3"
+          - "drivers.count_row_count"
+          - "drivers.count_row_count_2"
+          - "driverstandings.avg_points"
+          - "driverstandings.avg_points_2"
+          - "driverstandings.count_driverstandingsid"
+          - "driverstandings.count_position"
+          - "driverstandings.count_wins"
+          - "driverstandings.max_points"
+          - "driverstandings.sum_wins"
+          - "driverstandings.sum_wins_2"
+          - "laptimes.avg_milliseconds"
+          - "laptimes.count_lap"
+          - "laptimes.sum_milliseconds"
+          - "pitstops.avg_duration"
+          - "races.count_circuitid"
+          - "races.count_circuitid_2"
+          - "races.count_circuitid_3"
+          - "races.count_raceid"
+          - "races.count_raceid_2"
+          - "races.count_round"
+          - "results.avg_fastestlapspeed"
+          - "results.avg_fastestlaptime"
+          - "results.avg_fastestlaptime_2"
+          - "results.count_driverid"
+          - "results.count_driverid_2"
+          - "results.count_driverid_3"
+          - "results.count_driverid_4"
+          - "results.count_driverid_5"
+          - "results.count_raceid"
+          - "results.count_resultid"
+          - "results.count_row_count"
+          - "results.max_positionorder"
+          - "results.sum_fastestlapspeed"
+          - "results.sum_laps"
+          - "results.sum_points"
+          - "results.sum_time"
+          - "results.sum_time_2"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "drivers.forename"
+          - "drivers.surname"
+          - "drivers.nationality"
+          - "circuits.name"
+          - "constructors.name"
+    default_time_dimension: "drivers.dob"
+policies: []

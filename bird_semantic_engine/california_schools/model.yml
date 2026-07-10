@@ -1,0 +1,1836 @@
+version: 1
+domain: "california_schools"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "frpm"
+    title: "Frpm"
+    description: "BIRD table frpm in the california_schools database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "frpm"
+      dialect: "sqlite"
+      grain:
+        - "cdscode"
+    identifiers:
+      - name: "cdscode"
+        expr: "CDSCode"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "academic_year"
+        title: "Academic Year"
+        expr: "Academic Year"
+        type: "string"
+        synonyms:
+          - "academic year"
+        sensitivity: "public"
+        public: true
+      - name: "county_code"
+        title: "County Code"
+        expr: "County Code"
+        type: "string"
+        synonyms:
+          - "county code"
+        sensitivity: "public"
+        public: true
+      - name: "district_code"
+        title: "District Code"
+        expr: "District Code"
+        type: "number"
+        synonyms:
+          - "district code"
+        sensitivity: "public"
+        public: true
+      - name: "school_code"
+        title: "School Code"
+        expr: "School Code"
+        type: "string"
+        synonyms:
+          - "school code"
+        sensitivity: "public"
+        public: true
+      - name: "county_name"
+        title: "County Name"
+        expr: "County Name"
+        type: "string"
+        synonyms:
+          - "county name"
+        sensitivity: "public"
+        public: true
+      - name: "district_name"
+        title: "District Name"
+        expr: "District Name"
+        type: "string"
+        synonyms:
+          - "district name"
+        sensitivity: "public"
+        public: true
+      - name: "school_name"
+        title: "School Name"
+        expr: "School Name"
+        type: "string"
+        synonyms:
+          - "school name"
+        sensitivity: "public"
+        public: true
+      - name: "district_type"
+        title: "District Type"
+        expr: "District Type"
+        type: "string"
+        synonyms:
+          - "district type"
+        sensitivity: "public"
+        public: true
+      - name: "school_type"
+        title: "School Type"
+        expr: "School Type"
+        type: "string"
+        synonyms:
+          - "school type"
+        sensitivity: "public"
+        public: true
+      - name: "educational_option_type"
+        title: "Educational Option Type"
+        expr: "Educational Option Type"
+        type: "string"
+        synonyms:
+          - "educational option type"
+        sensitivity: "public"
+        public: true
+      - name: "nslp_provision_status"
+        title: "NSLP Provision Status"
+        expr: "NSLP Provision Status"
+        type: "string"
+        synonyms:
+          - "nslp provision status"
+        sensitivity: "public"
+        public: true
+      - name: "charter_school_y_n"
+        title: "Charter School (Y/N)"
+        expr: "Charter School (Y/N)"
+        type: "number"
+        synonyms:
+          - "charter school (y/n)"
+        sensitivity: "public"
+        public: true
+      - name: "charter_funding_type"
+        title: "Charter Funding Type"
+        expr: "Charter Funding Type"
+        type: "string"
+        synonyms:
+          - "charter funding type"
+        sensitivity: "public"
+        public: true
+      - name: "low_grade"
+        title: "Low Grade"
+        expr: "Low Grade"
+        type: "string"
+        synonyms:
+          - "low grade"
+        sensitivity: "public"
+        public: true
+      - name: "high_grade"
+        title: "High Grade"
+        expr: "High Grade"
+        type: "string"
+        synonyms:
+          - "high grade"
+        sensitivity: "public"
+        public: true
+      - name: "enrollment_k_12"
+        title: "Enrollment (K 12)"
+        expr: "Enrollment (K-12)"
+        type: "number"
+        synonyms:
+          - "enrollment (k 12)"
+        sensitivity: "public"
+        public: true
+      - name: "free_meal_count_k_12"
+        title: "Free Meal Count (K 12)"
+        expr: "Free Meal Count (K-12)"
+        type: "number"
+        synonyms:
+          - "free meal count (k 12)"
+        sensitivity: "public"
+        public: true
+      - name: "frpm_count_k_12"
+        title: "FRPM Count (K 12)"
+        expr: "FRPM Count (K-12)"
+        type: "number"
+        synonyms:
+          - "frpm count (k 12)"
+        sensitivity: "public"
+        public: true
+      - name: "enrollment_ages_5_17"
+        title: "Enrollment (Ages 5 17)"
+        expr: "Enrollment (Ages 5-17)"
+        type: "number"
+        synonyms:
+          - "enrollment (ages 5 17)"
+        sensitivity: "public"
+        public: true
+      - name: "free_meal_count_ages_5_17"
+        title: "Free Meal Count (Ages 5 17)"
+        expr: "Free Meal Count (Ages 5-17)"
+        type: "number"
+        synonyms:
+          - "free meal count (ages 5 17)"
+        sensitivity: "public"
+        public: true
+      - name: "frpm_count_ages_5_17"
+        title: "FRPM Count (Ages 5 17)"
+        expr: "FRPM Count (Ages 5-17)"
+        type: "number"
+        synonyms:
+          - "frpm count (ages 5 17)"
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_enrollment_k_12"
+        title: "Avg Enrollment K 12"
+        description: "AVG over Enrollment (K-12) extracted from repeated BIRD gold SQL patterns."
+        expr: "Enrollment (K-12)"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "enrollment (k 12)"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.FundingType = 'Locally funded' AND (T1.\"Enrollment (K-12)\" - T1.\"Enrollment (Ages 5-17)\") > (SELECT AVG(T3.\"Enrollment (K-12)\" - T3.\"Enrollment (Ages 5-17)\") FROM frpm AS T3 INNER JOIN schools AS T4 ON T3.CDSCode = T4.CDSCode WHERE T4.FundingType = 'Locally funded')"
+      - name: "count_cdscode"
+        title: "Count Cdscode"
+        description: "COUNT over CDSCode extracted from repeated BIRD gold SQL patterns."
+        expr: "CDSCode"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cdscode"
+        allowed_dimensions: []
+        filters:
+          - member: "charter_funding_type"
+            operator: "equals"
+            values:
+              - "Directly funded"
+          - member: "county_name"
+            operator: "equals"
+            values:
+              - "Fresno"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.\"Charter Funding Type\" = 'Directly funded' AND T1.\"County Name\" = 'Fresno' AND T2.NumTstTakr <= 250"
+      - name: "count_school_code"
+        title: "Count School Code"
+        description: "COUNT over School Code extracted from repeated BIRD gold SQL patterns."
+        expr: "School Code"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school code"
+        allowed_dimensions: []
+        filters:
+          - member: "charter_funding_type"
+            operator: "equals"
+            values:
+              - "Directly funded"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.AvgScrMath > 560 AND T2.\"Charter Funding Type\" = 'Directly funded'"
+      - name: "count_school_name"
+        title: "Count School Name"
+        description: "COUNT over School Name extracted from repeated BIRD gold SQL patterns."
+        expr: "School Name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school name"
+        allowed_dimensions: []
+        filters:
+          - member: "high_grade"
+            operator: "equals"
+            values:
+              - 12
+          - member: "low_grade"
+            operator: "equals"
+            values:
+              - 9
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.County = 'Amador' AND T1.\"Low Grade\" = 9 AND T1.\"High Grade\" = 12"
+      - name: "max_enrollment_ages_5_17"
+        title: "Max Enrollment Ages 5 17"
+        description: "MAX over Enrollment (Ages 5-17) extracted from repeated BIRD gold SQL patterns."
+        expr: "Enrollment (Ages 5-17)"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "enrollment (ages 5 17)"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE CAST(T2.NumGE1500 AS REAL) / T2.NumTstTakr > 0.3"
+      - name: "min_low_grade"
+        title: "Min Low Grade"
+        description: "MIN over Low Grade extracted from repeated BIRD gold SQL patterns."
+        expr: "Low Grade"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "low grade"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.NCESDist = '0613360' AND T2.EdOpsCode = 'SPECON'"
+      - name: "sum_enrollment_k_12"
+        title: "Sum Enrollment K 12"
+        description: "SUM over Enrollment (K-12) extracted from repeated BIRD gold SQL patterns."
+        expr: "Enrollment (K-12)"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "enrollment (k 12)"
+        allowed_dimensions:
+          - "schools.city"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+  - name: "satscores"
+    title: "Satscores"
+    description: "BIRD table satscores in the california_schools database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "satscores"
+      dialect: "sqlite"
+      grain:
+        - "cds"
+    identifiers:
+      - name: "cds"
+        expr: "cds"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "rtype"
+        title: "Rtype"
+        expr: "rtype"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "sname"
+        title: "Sname"
+        expr: "sname"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "cname"
+        title: "Cname"
+        expr: "cname"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "numtsttakr"
+        title: "NumTstTakr"
+        expr: "NumTstTakr"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "avgscrread"
+        title: "AvgScrRead"
+        expr: "AvgScrRead"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "avgscrmath"
+        title: "AvgScrMath"
+        expr: "AvgScrMath"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "avgscrwrite"
+        title: "AvgScrWrite"
+        expr: "AvgScrWrite"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "numge1500"
+        title: "NumGE1500"
+        expr: "NumGE1500"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_numtsttakr"
+        title: "Avg Numtsttakr"
+        description: "AVG over NumTstTakr extracted from repeated BIRD gold SQL patterns."
+        expr: "NumTstTakr"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "numtsttakr"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T2.OpenDate) = '1980' AND T2.County = 'Fresno'"
+      - name: "count_cds"
+        title: "Count Cds"
+        description: "COUNT over cds extracted from repeated BIRD gold SQL patterns."
+        expr: "cds"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cds"
+        allowed_dimensions:
+          - "frpm.charter_funding_type"
+          - "satscores.sname"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.\"District Name\" LIKE 'Riverside%'"
+      - name: "count_cds_2"
+        title: "Count Cds 2"
+        description: "COUNT over cds extracted from repeated BIRD gold SQL patterns."
+        expr: "cds"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cds"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.MailCity = 'Lakeport' AND (T1.AvgScrRead + T1.AvgScrMath + T1.AvgScrWrite) >= 1500"
+      - name: "sum_avgscrmath"
+        title: "Sum Avgscrmath"
+        description: "SUM over AvgScrMath extracted from repeated BIRD gold SQL patterns."
+        expr: "AvgScrMath"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "avgscrmath"
+        allowed_dimensions:
+          - "frpm.charter_funding_type"
+          - "satscores.sname"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.\"District Name\" LIKE 'Riverside%'"
+    segments: []
+  - name: "schools"
+    title: "Schools"
+    description: "BIRD table schools in the california_schools database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "schools"
+      dialect: "sqlite"
+      grain:
+        - "cdscode"
+    identifiers:
+      - name: "cdscode"
+        expr: "CDSCode"
+        type: "string"
+        primary_key: true
+    time_dimensions:
+      - name: "opendate"
+        title: "OpenDate"
+        description: "Time column OpenDate from schools."
+        expr: "OpenDate"
+        type: "date"
+        default: true
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "closeddate"
+        title: "ClosedDate"
+        description: "Time column ClosedDate from schools."
+        expr: "ClosedDate"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "lastupdate"
+        title: "LastUpdate"
+        description: "Time column LastUpdate from schools."
+        expr: "LastUpdate"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "ncesdist"
+        title: "NCESDist"
+        expr: "NCESDist"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ncesschool"
+        title: "NCESSchool"
+        expr: "NCESSchool"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "statustype"
+        title: "StatusType"
+        expr: "StatusType"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "county"
+        title: "County"
+        expr: "County"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "district"
+        title: "District"
+        expr: "District"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "school"
+        title: "School"
+        expr: "School"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "street"
+        title: "Street"
+        expr: "Street"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "city"
+        title: "City"
+        expr: "City"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "zip"
+        title: "Zip"
+        expr: "Zip"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "state"
+        title: "State"
+        expr: "State"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "mailstreet"
+        title: "MailStreet"
+        expr: "MailStreet"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "mailcity"
+        title: "MailCity"
+        expr: "MailCity"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "mailzip"
+        title: "MailZip"
+        expr: "MailZip"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "mailstate"
+        title: "MailState"
+        expr: "MailState"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "phone"
+        title: "Phone"
+        expr: "Phone"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ext"
+        title: "Ext"
+        expr: "Ext"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "website"
+        title: "Website"
+        expr: "Website"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "charter"
+        title: "Charter"
+        expr: "Charter"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "charternum"
+        title: "CharterNum"
+        expr: "CharterNum"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "fundingtype"
+        title: "FundingType"
+        expr: "FundingType"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "doc"
+        title: "DOC"
+        expr: "DOC"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "doctype"
+        title: "DOCType"
+        expr: "DOCType"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "soc"
+        title: "SOC"
+        expr: "SOC"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "soctype"
+        title: "SOCType"
+        expr: "SOCType"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "edopscode"
+        title: "EdOpsCode"
+        expr: "EdOpsCode"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "edopsname"
+        title: "EdOpsName"
+        expr: "EdOpsName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "eilcode"
+        title: "EILCode"
+        expr: "EILCode"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "eilname"
+        title: "EILName"
+        expr: "EILName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "gsoffered"
+        title: "GSoffered"
+        expr: "GSoffered"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "gsserved"
+        title: "GSserved"
+        expr: "GSserved"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "virtual"
+        title: "Virtual"
+        expr: "Virtual"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "magnet"
+        title: "Magnet"
+        expr: "Magnet"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "latitude"
+        title: "Latitude"
+        expr: "Latitude"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "longitude"
+        title: "Longitude"
+        expr: "Longitude"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admfname1"
+        title: "AdmFName1"
+        expr: "AdmFName1"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admlname1"
+        title: "AdmLName1"
+        expr: "AdmLName1"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admemail1"
+        title: "AdmEmail1"
+        expr: "AdmEmail1"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admfname2"
+        title: "AdmFName2"
+        expr: "AdmFName2"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admlname2"
+        title: "AdmLName2"
+        expr: "AdmLName2"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admemail2"
+        title: "AdmEmail2"
+        expr: "AdmEmail2"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admfname3"
+        title: "AdmFName3"
+        expr: "AdmFName3"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admlname3"
+        title: "AdmLName3"
+        expr: "AdmLName3"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "admemail3"
+        title: "AdmEmail3"
+        expr: "AdmEmail3"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_admfname1"
+        title: "Count Admfname1"
+        description: "COUNT over AdmFName1 extracted from repeated BIRD gold SQL patterns."
+        expr: "AdmFName1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "admfname1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_cdscode"
+        title: "Count Cdscode"
+        description: "COUNT over CDSCode extracted from repeated BIRD gold SQL patterns."
+        expr: "CDSCode"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cdscode"
+        allowed_dimensions: []
+        filters:
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Lake"
+          - member: "statustype"
+            operator: "equals"
+            values:
+              - "Merged"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.StatusType = 'Merged' AND T2.NumTstTakr < 100 AND T1.County = 'Lake'"
+      - name: "count_cdscode_2"
+        title: "Count Cdscode 2"
+        description: "COUNT over CDSCode extracted from repeated BIRD gold SQL patterns."
+        expr: "CDSCode"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cdscode"
+        allowed_dimensions:
+          - "schools.city"
+        filters:
+          - member: "gsoffered"
+            operator: "equals"
+            values:
+              - "K-8"
+          - member: "magnet"
+            operator: "equals"
+            values:
+              - 1
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.Magnet = 1 AND T2.GSoffered = 'K-8' AND T1.\"NSLP Provision Status\" = 'Multiple Provision Types'"
+      - name: "count_gsserved"
+        title: "Count Gsserved"
+        description: "COUNT over GSserved extracted from repeated BIRD gold SQL patterns."
+        expr: "GSserved"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "gsserved"
+        allowed_dimensions:
+          - "schools.gsserved"
+        filters:
+          - member: "city"
+            operator: "equals"
+            values:
+              - "Adelanto"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE City = 'Adelanto'"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "charternum"
+            operator: "equals"
+            values:
+              - "00D4"
+          - member: "mailcity"
+            operator: "equals"
+            values:
+              - "Hickman"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE CharterNum = '00D4' AND MailCity = 'Hickman'"
+      - name: "distinct_school_count"
+        title: "Distinct School Count"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions: []
+        filters:
+          - member: "virtual"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.Virtual = 'F' AND T1.AvgScrMath > 400"
+      - name: "count_school"
+        title: "Count School"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions: []
+        filters:
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Alameda"
+          - member: "doc"
+            operator: "equals"
+            values:
+              - 52
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE DOC = 52 AND County = 'Alameda' AND STRFTIME('%Y', OpenDate) = '1980'"
+      - name: "count_school_2"
+        title: "Count School 2"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions: []
+        filters:
+          - member: "statustype"
+            operator: "equals"
+            values:
+              - "Closed"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE County = (SELECT County FROM schools WHERE StatusType = 'Closed' GROUP BY County ORDER BY COUNT(School) DESC LIMIT 1) AND StatusType = 'Closed' AND NOT school IS NULL"
+      - name: "count_school_3"
+        title: "Count School 3"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions: []
+        filters:
+          - member: "charter"
+            operator: "equals"
+            values:
+              - 1
+          - member: "city"
+            operator: "equals"
+            values:
+              - "Hickman"
+          - member: "doc"
+            operator: "equals"
+            values:
+              - 52
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE DOC = 52 AND Charter = 1 AND City = 'Hickman'"
+      - name: "count_school_4"
+        title: "Count School 4"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions: []
+        filters:
+          - member: "charter"
+            operator: "equals"
+            values:
+              - 0
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Los Angeles"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.County = 'Los Angeles' AND T2.Charter = 0 AND CAST(T1.\"Free Meal Count (K-12)\" AS REAL) * 100 / T1.\"Enrollment (K-12)\" < 0.18"
+      - name: "count_school_5"
+        title: "Count School 5"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions: []
+        filters:
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Stanislaus"
+          - member: "fundingtype"
+            operator: "equals"
+            values:
+              - "Directly funded"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', OpenDate) BETWEEN '2000' AND '2005' AND County = 'Stanislaus' AND FundingType = 'Directly funded'"
+      - name: "count_school_6"
+        title: "Count School 6"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions: []
+        filters:
+          - member: "city"
+            operator: "equals"
+            values:
+              - "San Francisco"
+          - member: "doctype"
+            operator: "equals"
+            values:
+              - "Community College District"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', ClosedDate) = '1989' AND City = 'San Francisco' AND DOCType = 'Community College District'"
+      - name: "count_school_7"
+        title: "Count School 7"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions:
+          - "schools.county"
+        filters:
+          - member: "soc"
+            operator: "equals"
+            values:
+              - 11
+          - member: "statustype"
+            operator: "equals"
+            values:
+              - "Closed"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', ClosedDate) BETWEEN '1980' AND '1989' AND StatusType = 'Closed' AND SOC = 11"
+      - name: "count_school_8"
+        title: "Count School 8"
+        description: "COUNT over School extracted from repeated BIRD gold SQL patterns."
+        expr: "School"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "school"
+        allowed_dimensions: []
+        filters:
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Alpine"
+          - member: "soc"
+            operator: "equals"
+            values:
+              - 69
+          - member: "statustype"
+            operator: "equals"
+            values:
+              - "Active"
+          - member: "statustype"
+            operator: "equals"
+            values:
+              - "Closed"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE (StatusType = 'Closed' OR StatusType = 'Active') AND SOC = 69 AND County = 'Alpine'"
+      - name: "count_virtual"
+        title: "Count Virtual"
+        description: "COUNT over Virtual extracted from repeated BIRD gold SQL patterns."
+        expr: "Virtual"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "virtual"
+        allowed_dimensions:
+          - "schools.county"
+        filters:
+          - member: "county"
+            operator: "equals"
+            values:
+              - "San Diego"
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Santa Barbara"
+          - member: "virtual"
+            operator: "equals"
+            values:
+              - "F"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE (County = 'San Diego' OR County = 'Santa Barbara') AND Virtual = 'F'"
+      - name: "sum_county"
+        title: "Sum County"
+        description: "SUM over County extracted from repeated BIRD gold SQL patterns."
+        expr: "County"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "county"
+        allowed_dimensions: []
+        filters:
+          - member: "mailstate"
+            operator: "equals"
+            values:
+              - "CA"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE MailState = 'CA'"
+      - name: "sum_doc"
+        title: "Sum Doc"
+        description: "SUM over DOC extracted from repeated BIRD gold SQL patterns."
+        expr: "DOC"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "doc"
+        allowed_dimensions: []
+        filters:
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Orange"
+          - member: "statustype"
+            operator: "equals"
+            values:
+              - "Merged"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE StatusType = 'Merged' AND County = 'Orange'"
+      - name: "sum_fundingtype"
+        title: "Sum Fundingtype"
+        description: "SUM over FundingType extracted from repeated BIRD gold SQL patterns."
+        expr: "FundingType"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "fundingtype"
+        allowed_dimensions: []
+        filters:
+          - member: "charter"
+            operator: "equals"
+            values:
+              - 1
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Santa Clara"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE County = 'Santa Clara' AND Charter = 1"
+    segments: []
+relationships:
+  - name: "frpm_to_satscores_cdscode_cds"
+    source: "frpm"
+    target: "satscores"
+    from: "frpm.cdscode"
+    to: "satscores.cds"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "frpm_to_schools_cdscode_cdscode"
+    source: "frpm"
+    target: "schools"
+    from: "frpm.cdscode"
+    to: "schools.cdscode"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "satscores_to_frpm_cds_cdscode"
+    source: "satscores"
+    target: "frpm"
+    from: "satscores.cds"
+    to: "frpm.cdscode"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "satscores_to_schools_cds_cdscode"
+    source: "satscores"
+    target: "schools"
+    from: "satscores.cds"
+    to: "schools.cdscode"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "schools_to_frpm_cdscode_cdscode"
+    source: "schools"
+    target: "frpm"
+    from: "schools.cdscode"
+    to: "frpm.cdscode"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "schools_to_satscores_cdscode_cds"
+    source: "schools"
+    target: "satscores"
+    from: "schools.cdscode"
+    to: "satscores.cds"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+views:
+  - name: "california_schools_all"
+    title: "California Schools All"
+    description: "Governed semantic view for the BIRD california_schools database."
+    public: true
+    ai_context: "California school enrollment, FRPM eligibility, SAT scores, districts, counties, and charter attributes."
+    entities:
+      - join_path: "frpm"
+        includes:
+          measures:
+            - "avg_enrollment_k_12"
+            - "count_cdscode"
+            - "count_school_code"
+            - "count_school_name"
+            - "max_enrollment_ages_5_17"
+            - "min_low_grade"
+            - "sum_enrollment_k_12"
+          dimensions:
+            - "academic_year"
+            - "county_code"
+            - "district_code"
+            - "school_code"
+            - "county_name"
+            - "district_name"
+            - "school_name"
+            - "district_type"
+            - "school_type"
+            - "educational_option_type"
+            - "nslp_provision_status"
+            - "charter_school_y_n"
+            - "charter_funding_type"
+            - "low_grade"
+            - "high_grade"
+            - "enrollment_k_12"
+            - "free_meal_count_k_12"
+            - "frpm_count_k_12"
+            - "enrollment_ages_5_17"
+            - "free_meal_count_ages_5_17"
+            - "frpm_count_ages_5_17"
+          time_dimensions: []
+          segments: []
+      - join_path: "satscores"
+        includes:
+          measures:
+            - "avg_numtsttakr"
+            - "count_cds"
+            - "count_cds_2"
+            - "sum_avgscrmath"
+          dimensions:
+            - "rtype"
+            - "sname"
+            - "cname"
+            - "numtsttakr"
+            - "avgscrread"
+            - "avgscrmath"
+            - "avgscrwrite"
+            - "numge1500"
+          time_dimensions: []
+          segments: []
+      - join_path: "schools"
+        includes:
+          measures:
+            - "count_admfname1"
+            - "count_cdscode"
+            - "count_cdscode_2"
+            - "count_gsserved"
+            - "count_row_count"
+            - "distinct_school_count"
+            - "count_school"
+            - "count_school_2"
+            - "count_school_3"
+            - "count_school_4"
+            - "count_school_5"
+            - "count_school_6"
+            - "count_school_7"
+            - "count_school_8"
+            - "count_virtual"
+            - "sum_county"
+            - "sum_doc"
+            - "sum_fundingtype"
+          dimensions:
+            - "ncesdist"
+            - "ncesschool"
+            - "statustype"
+            - "county"
+            - "district"
+            - "school"
+            - "street"
+            - "city"
+            - "zip"
+            - "state"
+            - "mailstreet"
+            - "mailcity"
+            - "mailzip"
+            - "mailstate"
+            - "phone"
+            - "ext"
+            - "website"
+            - "charter"
+            - "charternum"
+            - "fundingtype"
+            - "doc"
+            - "doctype"
+            - "soc"
+            - "soctype"
+            - "edopscode"
+            - "edopsname"
+            - "eilcode"
+            - "eilname"
+            - "gsoffered"
+            - "gsserved"
+            - "virtual"
+            - "magnet"
+            - "latitude"
+            - "longitude"
+            - "admfname1"
+            - "admlname1"
+            - "admemail1"
+            - "admfname2"
+            - "admlname2"
+            - "admemail2"
+            - "admfname3"
+            - "admlname3"
+            - "admemail3"
+          time_dimensions:
+            - "opendate"
+            - "closeddate"
+            - "lastupdate"
+          segments: []
+      - join_path: "frpm.satscores"
+        prefix: true
+        includes:
+          measures:
+            - "avg_numtsttakr"
+            - "count_cds"
+            - "count_cds_2"
+            - "sum_avgscrmath"
+          dimensions:
+            - "rtype"
+            - "sname"
+            - "cname"
+            - "numtsttakr"
+            - "avgscrread"
+            - "avgscrmath"
+            - "avgscrwrite"
+            - "numge1500"
+          time_dimensions: []
+          segments: []
+      - join_path: "frpm.schools"
+        prefix: true
+        includes:
+          measures:
+            - "count_admfname1"
+            - "count_cdscode"
+            - "count_cdscode_2"
+            - "count_gsserved"
+            - "count_row_count"
+            - "distinct_school_count"
+            - "count_school"
+            - "count_school_2"
+            - "count_school_3"
+            - "count_school_4"
+            - "count_school_5"
+            - "count_school_6"
+            - "count_school_7"
+            - "count_school_8"
+            - "count_virtual"
+            - "sum_county"
+            - "sum_doc"
+            - "sum_fundingtype"
+          dimensions:
+            - "ncesdist"
+            - "ncesschool"
+            - "statustype"
+            - "county"
+            - "district"
+            - "school"
+            - "street"
+            - "city"
+            - "zip"
+            - "state"
+            - "mailstreet"
+            - "mailcity"
+            - "mailzip"
+            - "mailstate"
+            - "phone"
+            - "ext"
+            - "website"
+            - "charter"
+            - "charternum"
+            - "fundingtype"
+            - "doc"
+            - "doctype"
+            - "soc"
+            - "soctype"
+            - "edopscode"
+            - "edopsname"
+            - "eilcode"
+            - "eilname"
+            - "gsoffered"
+            - "gsserved"
+            - "virtual"
+            - "magnet"
+            - "latitude"
+            - "longitude"
+            - "admfname1"
+            - "admlname1"
+            - "admemail1"
+            - "admfname2"
+            - "admlname2"
+            - "admemail2"
+            - "admfname3"
+            - "admlname3"
+            - "admemail3"
+          time_dimensions:
+            - "opendate"
+            - "closeddate"
+            - "lastupdate"
+          segments: []
+      - join_path: "satscores.frpm"
+        prefix: true
+        includes:
+          measures:
+            - "avg_enrollment_k_12"
+            - "count_cdscode"
+            - "count_school_code"
+            - "count_school_name"
+            - "max_enrollment_ages_5_17"
+            - "min_low_grade"
+            - "sum_enrollment_k_12"
+          dimensions:
+            - "academic_year"
+            - "county_code"
+            - "district_code"
+            - "school_code"
+            - "county_name"
+            - "district_name"
+            - "school_name"
+            - "district_type"
+            - "school_type"
+            - "educational_option_type"
+            - "nslp_provision_status"
+            - "charter_school_y_n"
+            - "charter_funding_type"
+            - "low_grade"
+            - "high_grade"
+            - "enrollment_k_12"
+            - "free_meal_count_k_12"
+            - "frpm_count_k_12"
+            - "enrollment_ages_5_17"
+            - "free_meal_count_ages_5_17"
+            - "frpm_count_ages_5_17"
+          time_dimensions: []
+          segments: []
+      - join_path: "satscores.schools"
+        prefix: true
+        includes:
+          measures:
+            - "count_admfname1"
+            - "count_cdscode"
+            - "count_cdscode_2"
+            - "count_gsserved"
+            - "count_row_count"
+            - "distinct_school_count"
+            - "count_school"
+            - "count_school_2"
+            - "count_school_3"
+            - "count_school_4"
+            - "count_school_5"
+            - "count_school_6"
+            - "count_school_7"
+            - "count_school_8"
+            - "count_virtual"
+            - "sum_county"
+            - "sum_doc"
+            - "sum_fundingtype"
+          dimensions:
+            - "ncesdist"
+            - "ncesschool"
+            - "statustype"
+            - "county"
+            - "district"
+            - "school"
+            - "street"
+            - "city"
+            - "zip"
+            - "state"
+            - "mailstreet"
+            - "mailcity"
+            - "mailzip"
+            - "mailstate"
+            - "phone"
+            - "ext"
+            - "website"
+            - "charter"
+            - "charternum"
+            - "fundingtype"
+            - "doc"
+            - "doctype"
+            - "soc"
+            - "soctype"
+            - "edopscode"
+            - "edopsname"
+            - "eilcode"
+            - "eilname"
+            - "gsoffered"
+            - "gsserved"
+            - "virtual"
+            - "magnet"
+            - "latitude"
+            - "longitude"
+            - "admfname1"
+            - "admlname1"
+            - "admemail1"
+            - "admfname2"
+            - "admlname2"
+            - "admemail2"
+            - "admfname3"
+            - "admlname3"
+            - "admemail3"
+          time_dimensions:
+            - "opendate"
+            - "closeddate"
+            - "lastupdate"
+          segments: []
+      - join_path: "schools.frpm"
+        prefix: true
+        includes:
+          measures:
+            - "avg_enrollment_k_12"
+            - "count_cdscode"
+            - "count_school_code"
+            - "count_school_name"
+            - "max_enrollment_ages_5_17"
+            - "min_low_grade"
+            - "sum_enrollment_k_12"
+          dimensions:
+            - "academic_year"
+            - "county_code"
+            - "district_code"
+            - "school_code"
+            - "county_name"
+            - "district_name"
+            - "school_name"
+            - "district_type"
+            - "school_type"
+            - "educational_option_type"
+            - "nslp_provision_status"
+            - "charter_school_y_n"
+            - "charter_funding_type"
+            - "low_grade"
+            - "high_grade"
+            - "enrollment_k_12"
+            - "free_meal_count_k_12"
+            - "frpm_count_k_12"
+            - "enrollment_ages_5_17"
+            - "free_meal_count_ages_5_17"
+            - "frpm_count_ages_5_17"
+          time_dimensions: []
+          segments: []
+      - join_path: "schools.satscores"
+        prefix: true
+        includes:
+          measures:
+            - "avg_numtsttakr"
+            - "count_cds"
+            - "count_cds_2"
+            - "sum_avgscrmath"
+          dimensions:
+            - "rtype"
+            - "sname"
+            - "cname"
+            - "numtsttakr"
+            - "avgscrread"
+            - "avgscrmath"
+            - "avgscrwrite"
+            - "numge1500"
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "frpm.avg_enrollment_k_12"
+          - "frpm.count_cdscode"
+          - "frpm.count_school_code"
+          - "frpm.count_school_name"
+          - "frpm.max_enrollment_ages_5_17"
+          - "frpm.min_low_grade"
+          - "frpm.sum_enrollment_k_12"
+          - "satscores.avg_numtsttakr"
+          - "satscores.count_cds"
+          - "satscores.count_cds_2"
+          - "satscores.sum_avgscrmath"
+          - "schools.count_admfname1"
+          - "schools.count_cdscode"
+          - "schools.count_cdscode_2"
+          - "schools.count_gsserved"
+          - "schools.count_row_count"
+          - "schools.count_school"
+          - "schools.count_school_2"
+          - "schools.count_school_3"
+          - "schools.count_school_4"
+          - "schools.count_school_5"
+          - "schools.count_school_6"
+          - "schools.count_school_7"
+          - "schools.count_school_8"
+          - "schools.count_virtual"
+          - "schools.distinct_school_count"
+          - "schools.sum_county"
+          - "schools.sum_doc"
+          - "schools.sum_fundingtype"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "satscores.sname"
+          - "frpm.charter_funding_type"
+          - "schools.city"
+          - "schools.county"
+          - "schools.gsserved"
+    default_time_dimension: "schools.opendate"
+policies: []

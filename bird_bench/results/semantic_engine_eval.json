@@ -1,0 +1,523 @@
+{
+  "mode": "semantic_only",
+  "total": 50,
+  "passed": 0,
+  "ex": 0.0,
+  "route_counts": {
+    "CLARIFY": 50
+  },
+  "baseline": {
+    "path": "bird_bench/results/full_benchmarks/full_V4_Flash_few_shot_xhigh.json",
+    "total": 50,
+    "passed": 33,
+    "ex": 66.0,
+    "config": {
+      "name": "V4 Flash · few_shot · xhigh",
+      "model": "deepseek-v4-flash",
+      "reasoning": "xhigh",
+      "few_shot": true
+    }
+  },
+  "results": [
+    {
+      "idx": 0,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT `Free Meal Count (K-12)` / `Enrollment (K-12)` FROM frpm WHERE `County Name` = 'Alameda' ORDER BY (CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)`) DESC LIMIT 1"
+    },
+    {
+      "idx": 1,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` FROM frpm WHERE `Educational Option Type` = 'Continuation School' AND `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` IS NOT NULL ORDER BY `Free Meal Count (Ages 5-17)` / `Enrollment (Ages 5-17)` ASC LIMIT 3"
+    },
+    {
+      "idx": 2,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`District Name` = 'Fresno County Office of Education' AND T1.`Charter School (Y/N)` = 1"
+    },
+    {
+      "idx": 3,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.MailStreet FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`FRPM Count (K-12)` DESC LIMIT 1"
+    },
+    {
+      "idx": 4,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.Phone FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Charter Funding Type` = 'Directly funded' AND T1.`Charter School (Y/N)` = 1 AND T2.OpenDate > '2000-01-01'"
+    },
+    {
+      "idx": 5,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT COUNT(DISTINCT T2.School) FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Virtual = 'F' AND T1.AvgScrMath > 400"
+    },
+    {
+      "idx": 6,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.School FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Magnet = 1 AND T1.NumTstTakr > 500"
+    },
+    {
+      "idx": 7,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.Phone FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode ORDER BY T1.NumGE1500 DESC LIMIT 1"
+    },
+    {
+      "idx": 8,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT NumTstTakr FROM satscores WHERE cds = ( SELECT CDSCode FROM frpm ORDER BY `FRPM Count (K-12)` DESC LIMIT 1 )"
+    },
+    {
+      "idx": 9,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT COUNT(T2.`School Code`) FROM satscores AS T1 INNER JOIN frpm AS T2 ON T1.cds = T2.CDSCode WHERE T1.AvgScrMath > 560 AND T2.`Charter Funding Type` = 'Directly funded'"
+    },
+    {
+      "idx": 10,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.`FRPM Count (Ages 5-17)` FROM satscores AS T1 INNER JOIN frpm AS T2 ON T1.cds = T2.CDSCode ORDER BY T1.AvgScrRead DESC LIMIT 1"
+    },
+    {
+      "idx": 11,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.CDSCode FROM schools AS T1 INNER JOIN frpm AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.`Enrollment (K-12)` + T2.`Enrollment (Ages 5-17)` > 500"
+    },
+    {
+      "idx": 12,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT MAX(CAST(T1.`Free Meal Count (Ages 5-17)` AS REAL) / T1.`Enrollment (Ages 5-17)`) FROM frpm AS T1 INNER JOIN satscores AS T2 ON T1.CDSCode = T2.cds WHERE CAST(T2.NumGE1500 AS REAL) / T2.NumTstTakr > 0.3"
+    },
+    {
+      "idx": 13,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.Phone FROM schools AS T1 INNER JOIN satscores AS T2 ON T1.CDSCode = T2.cds ORDER BY CAST(T2.NumGE1500 AS REAL) / T2.NumTstTakr DESC LIMIT 3"
+    },
+    {
+      "idx": 14,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.NCESSchool FROM schools AS T1 INNER JOIN frpm AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T2.`Enrollment (Ages 5-17)` DESC LIMIT 5"
+    },
+    {
+      "idx": 15,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.District FROM schools AS T1 INNER JOIN satscores AS T2 ON T1.CDSCode = T2.cds WHERE T1.StatusType = 'Active' ORDER BY T2.AvgScrRead DESC LIMIT 1"
+    },
+    {
+      "idx": 16,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT COUNT(T1.CDSCode) FROM schools AS T1 INNER JOIN satscores AS T2 ON T1.CDSCode = T2.cds WHERE T1.StatusType = 'Merged' AND T2.NumTstTakr < 100 AND T1.County = 'Lake'"
+    },
+    {
+      "idx": 17,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT CharterNum, AvgScrWrite, RANK() OVER (ORDER BY AvgScrWrite DESC) AS WritingScoreRank FROM schools AS T1  INNER JOIN satscores AS T2 ON T1.CDSCode = T2.cds WHERE T2.AvgScrWrite > 499 AND CharterNum is not null"
+    },
+    {
+      "idx": 18,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT COUNT(T1.CDSCode) FROM frpm AS T1 INNER JOIN satscores AS T2 ON T1.CDSCode = T2.cds WHERE T1.`Charter Funding Type` = 'Directly funded' AND T1.`County Name` = 'Fresno' AND T2.NumTstTakr <= 250"
+    },
+    {
+      "idx": 19,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.Phone FROM schools AS T1 INNER JOIN satscores AS T2 ON T1.CDSCode = T2.cds ORDER BY T2.AvgScrMath DESC LIMIT 1"
+    },
+    {
+      "idx": 20,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT COUNT(T1.`School Name`) FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.County = 'Amador' AND T1.`Low Grade` = 9 AND T1.`High Grade` = 12"
+    },
+    {
+      "idx": 21,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT COUNT(CDSCode) FROM frpm WHERE `County Name` = 'Los Angeles' AND `Free Meal Count (K-12)` > 500 AND `FRPM Count (K-12)`< 700"
+    },
+    {
+      "idx": 22,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT sname FROM satscores WHERE cname = 'Contra Costa' AND sname IS NOT NULL ORDER BY NumTstTakr DESC LIMIT 1"
+    },
+    {
+      "idx": 23,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.School, T1.Street FROM schools AS T1 INNER JOIN frpm AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.`Enrollment (K-12)` - T2.`Enrollment (Ages 5-17)` > 30"
+    },
+    {
+      "idx": 24,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.`School Name` FROM satscores AS T1 INNER JOIN frpm AS T2 ON T1.cds = T2.CDSCode WHERE CAST(T2.`Free Meal Count (K-12)` AS REAL) / T2.`Enrollment (K-12)` > 0.1 AND T1.NumGE1500 > 0"
+    },
+    {
+      "idx": 25,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.sname, T2.`Charter Funding Type` FROM satscores AS T1 INNER JOIN frpm AS T2 ON T1.cds = T2.CDSCode WHERE T2.`District Name` LIKE 'Riverside%' GROUP BY T1.sname, T2.`Charter Funding Type` HAVING CAST(SUM(T1.AvgScrMath) AS REAL) / COUNT(T1.cds) > 400"
+    },
+    {
+      "idx": 26,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.`School Name`, T2.Street, T2.City, T2.State, T2.Zip FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.County = 'Monterey' AND T1.`Free Meal Count (Ages 5-17)` > 800 AND T1.`School Type` = 'High Schools (Public)'"
+    },
+    {
+      "idx": 27,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.School, T1.AvgScrWrite, T2.Phone FROM schools AS T2 LEFT JOIN satscores AS T1 ON T2.CDSCode = T1.cds WHERE strftime('%Y', T2.OpenDate) > '1991' OR strftime('%Y', T2.ClosedDate) < '2000'"
+    },
+    {
+      "idx": 28,
+      "db_id": "california_schools",
+      "difficulty": "challenging",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.School, T2.DOC FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.FundingType = 'Locally funded' AND (T1.`Enrollment (K-12)` - T1.`Enrollment (Ages 5-17)`) > (SELECT AVG(T3.`Enrollment (K-12)` - T3.`Enrollment (Ages 5-17)`) FROM frpm AS T3 INNER JOIN schools AS T4 ON T3.CDSCode = T4.CDSCode WHERE T4.FundingType = 'Locally funded')"
+    },
+    {
+      "idx": 29,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.OpenDate FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode ORDER BY T1.`Enrollment (K-12)` DESC LIMIT 1"
+    },
+    {
+      "idx": 30,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.City FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode GROUP BY T2.City ORDER BY SUM(T1.`Enrollment (K-12)`) ASC LIMIT 5"
+    },
+    {
+      "idx": 31,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT CAST(`Free Meal Count (K-12)` AS REAL) / `Enrollment (K-12)` FROM frpm ORDER BY `Enrollment (K-12)` DESC LIMIT 9, 2"
+    },
+    {
+      "idx": 32,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT CAST(T1.`FRPM Count (K-12)` AS REAL) / T1.`Enrollment (K-12)` FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.SOC = 66 ORDER BY T1.`FRPM Count (K-12)` DESC LIMIT 5"
+    },
+    {
+      "idx": 33,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.Website, T1.`School Name` FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Free Meal Count (Ages 5-17)` BETWEEN 1900 AND 2000 AND T2.Website IS NOT NULL"
+    },
+    {
+      "idx": 34,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT CAST(T2.`Free Meal Count (Ages 5-17)` AS REAL) / T2.`Enrollment (Ages 5-17)` FROM schools AS T1 INNER JOIN frpm AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.AdmFName1 = 'Kacey' AND T1.AdmLName1 = 'Gibson'"
+    },
+    {
+      "idx": 35,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.AdmEmail1 FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T1.`Charter School (Y/N)` = 1 ORDER BY T1.`Enrollment (K-12)` ASC LIMIT 1"
+    },
+    {
+      "idx": 36,
+      "db_id": "california_schools",
+      "difficulty": "challenging",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.AdmFName1, T2.AdmLName1, T2.AdmFName2, T2.AdmLName2, T2.AdmFName3, T2.AdmLName3 FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode ORDER BY T1.NumGE1500 DESC LIMIT 1"
+    },
+    {
+      "idx": 37,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.Street, T2.City, T2.State, T2.Zip FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode ORDER BY CAST(T1.NumGE1500 AS REAL) / T1.NumTstTakr ASC LIMIT 1"
+    },
+    {
+      "idx": 38,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.Website FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T1.NumTstTakr BETWEEN 2000 AND 3000 AND T2.County = 'Los Angeles'"
+    },
+    {
+      "idx": 39,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT AVG(T1.NumTstTakr) FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE strftime('%Y', T2.OpenDate) = '1980' AND T2.County = 'Fresno'"
+    },
+    {
+      "idx": 40,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.Phone FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.District = 'Fresno Unified' AND T1.AvgScrRead IS NOT NULL ORDER BY T1.AvgScrRead ASC LIMIT 1"
+    },
+    {
+      "idx": 41,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT School FROM (SELECT T2.School,T1.AvgScrRead, RANK() OVER (PARTITION BY T2.County ORDER BY T1.AvgScrRead DESC) AS rnk FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.Virtual = 'F' ) ranked_schools WHERE rnk <= 5"
+    },
+    {
+      "idx": 42,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.EdOpsName FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode ORDER BY T1.AvgScrMath DESC LIMIT 1"
+    },
+    {
+      "idx": 43,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.AvgScrMath, T2.County FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T1.AvgScrMath IS NOT NULL ORDER BY T1.AvgScrMath + T1.AvgScrRead + T1.AvgScrWrite ASC LIMIT 1"
+    },
+    {
+      "idx": 44,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T1.AvgScrWrite, T2.City FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode ORDER BY T1.NumGE1500 DESC LIMIT 1"
+    },
+    {
+      "idx": 45,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.School, T1.AvgScrWrite FROM satscores AS T1 INNER JOIN schools AS T2 ON T1.cds = T2.CDSCode WHERE T2.AdmFName1 = 'Ricci' AND T2.AdmLName1 = 'Ulrich'"
+    },
+    {
+      "idx": 46,
+      "db_id": "california_schools",
+      "difficulty": "simple",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT T2.School FROM frpm AS T1 INNER JOIN schools AS T2 ON T1.CDSCode = T2.CDSCode WHERE T2.DOC = 31 ORDER BY T1.`Enrollment (K-12)` DESC LIMIT 1"
+    },
+    {
+      "idx": 47,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT CAST(COUNT(School) AS REAL) / 12 FROM schools WHERE DOC = 52 AND County = 'Alameda' AND strftime('%Y', OpenDate) = '1980'"
+    },
+    {
+      "idx": 48,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT CAST(SUM(CASE WHEN DOC = 54 THEN 1 ELSE 0 END) AS REAL) / SUM(CASE WHEN DOC = 52 THEN 1 ELSE 0 END) FROM schools WHERE StatusType = 'Merged' AND County = 'Orange'"
+    },
+    {
+      "idx": 49,
+      "db_id": "california_schools",
+      "difficulty": "moderate",
+      "route": "CLARIFY",
+      "match": false,
+      "sql": "",
+      "error": "No deterministic SQL",
+      "gold_sql": "SELECT DISTINCT County, School, ClosedDate FROM schools WHERE County = ( SELECT County FROM schools WHERE StatusType = 'Closed' GROUP BY County ORDER BY COUNT(School) DESC LIMIT 1 ) AND StatusType = 'Closed' AND school IS NOT NULL"
+    }
+  ]
+}

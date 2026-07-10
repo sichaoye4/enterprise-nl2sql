@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import uuid
+import json
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -50,6 +52,10 @@ class PipelineContext(BaseModel):
     requires_clarification: bool = False
     clarification: ClarificationResponse | None = None
     error: str | None = None
+    semantic_route: str | None = None
+    semantic_compiled_sql: str | None = None
+    guardrail_contract: dict[str, Any] | None = None
+    gap_report: dict[str, Any] | None = None
     trace: list[str] = Field(default_factory=list)
 
 
@@ -214,6 +220,8 @@ class NL2SQLPipeline:
         selector: CandidateSelector | None = None,
         explainer: SQLExplainer | None = None,
         response_builder: ResponseBuilder | None = None,
+        semantic_engine: Any | None = None,
+        semantic_model_path: str | Path | None = None,
     ) -> None:
         self.registry_data = registry_data or load_semantic_registry(semantic_dir or get_settings().semantic_dir)
         self.metadata_provider = metadata_provider or RegistryMetadataProvider(self.registry_data)
@@ -232,6 +240,9 @@ class NL2SQLPipeline:
         self.explainer = explainer or SQLExplainer()
         self.response_builder = response_builder or ResponseBuilder()
         self.clarification_builder = ClarificationBuilder()
+        self.semantic_model_path = Path(semantic_model_path) if semantic_model_path else self._default_semantic_model_path()
+        self.semantic_engine = semantic_engine
+        self._semantic_engine_cache: dict[Path, Any] = {}
 
     def run(self, question: str, domain: str | None = None, user: str | None = None) -> PipelineContext:
         context = PipelineContext(question=question, domain=domain, user=user)
@@ -246,6 +257,7 @@ class NL2SQLPipeline:
             self.classify,
             self.extract_terms,
             self.resolve_semantics,
+            self.run_semantic_engine,
             self.retrieve_metadata,
             self.build_context,
             self.generate_candidates,
@@ -256,6 +268,8 @@ class NL2SQLPipeline:
             self.build_response,
         ]
         for stage in stages:
+            if self._should_skip_stage(stage.__name__, context):
+                continue
             context = stage(context)
             if stage.__name__ == "build_response":
                 continue
@@ -263,6 +277,11 @@ class NL2SQLPipeline:
                 context = self.build_response(context)
                 break
         return context
+
+    def _should_skip_stage(self, stage_name: str, context: PipelineContext) -> bool:
+        if context.semantic_route == "SEMANTIC_SQL" and stage_name in {"generate_candidates", "validate", "repair"}:
+            return True
+        return False
 
     def classify(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("classify")
@@ -297,6 +316,40 @@ class NL2SQLPipeline:
             context.clarification = self._clarification(context)
         return context
 
+    def run_semantic_engine(self, context: PipelineContext) -> PipelineContext:
+        context.trace.append("run_semantic_engine")
+        try:
+            result = self._semantic_pipeline(context.domain).process(context.question)
+        except Exception as exc:
+            context.error = f"Semantic engine failed: {exc}"
+            return context
+
+        route = self._result_value(result, "route")
+        context.semantic_route = str(route) if route else None
+        context.gap_report = self._model_dump(self._result_value(result, "gap_report"))
+
+        if context.semantic_route == "SEMANTIC_SQL":
+            compiled_query = self._result_value(result, "compiled_query")
+            compiled_sql = self._result_value(compiled_query, "sql")
+            if not compiled_sql:
+                context.error = "Semantic engine selected SEMANTIC_SQL but returned no compiled SQL."
+                return context
+            context.semantic_compiled_sql = str(compiled_sql)
+            candidate = self._semantic_sql_candidate(str(compiled_sql), compiled_query)
+            context.sql_candidates = [candidate]
+            context.selected_sql = candidate
+        elif context.semantic_route == "GUARDED_LLM_SQL":
+            contract = self._result_value(result, "guardrail_contract")
+            context.guardrail_contract = self._model_dump(contract)
+        elif context.semantic_route == "CLARIFY":
+            context.requires_clarification = True
+            context.clarification = self._semantic_clarification(context)
+        elif context.semantic_route == "BLOCKED":
+            context.error = self._semantic_gap_message("Semantic engine blocked this question.", context.gap_report)
+        elif context.semantic_route:
+            context.error = f"Semantic engine returned unsupported route: {context.semantic_route}"
+        return context
+
     def _can_continue_through_dimension_term_ambiguity(
         self,
         context: PipelineContext,
@@ -322,6 +375,8 @@ class NL2SQLPipeline:
             context.error = "Cannot build context without semantic plan and retrieved metadata."
             return context
         context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
+        if context.semantic_route == "GUARDED_LLM_SQL" and context.guardrail_contract:
+            context.context_prompt = self._inject_guardrail_contract(context.context_prompt, context.guardrail_contract)
         return context
 
     def generate_candidates(self, context: PipelineContext) -> PipelineContext:
@@ -417,6 +472,125 @@ class NL2SQLPipeline:
             message=question or "Can you clarify the metric, dimension, or business domain?",
             options=[],
         )
+
+    def _semantic_pipeline(self, domain: str | None = None) -> Any:
+        if self.semantic_engine is not None:
+            return self.semantic_engine
+        try:
+            from semantic_engine.pipeline import SemanticPipeline
+        except ModuleNotFoundError:
+            source_path = Path.home() / "semantic_modeling" / "src"
+            if str(source_path) not in sys.path:
+                sys.path.insert(0, str(source_path))
+            from semantic_engine.pipeline import SemanticPipeline
+
+        model_path = self._semantic_model_path_for_domain(domain)
+        if model_path not in self._semantic_engine_cache:
+            self._semantic_engine_cache[model_path] = SemanticPipeline(model_path)
+        return self._semantic_engine_cache[model_path]
+
+    def _semantic_model_path_for_domain(self, domain: str | None = None) -> Path:
+        if not domain or self.semantic_model_path.is_file():
+            return self.semantic_model_path
+        model_file = self.semantic_model_path / domain / "model.yml"
+        if model_file.exists():
+            return model_file
+        domain_dir = self.semantic_model_path / domain
+        if domain_dir.exists():
+            return domain_dir
+        return self.semantic_model_path
+
+    def _default_semantic_model_path(self) -> Path:
+        root = Path.home() / "semantic_modeling" / "semantic_models"
+        commerce = root / "commerce"
+        return commerce if commerce.exists() else root
+
+    def _semantic_sql_candidate(self, sql: str, compiled_query: Any) -> SQLCandidate:
+        lineage = self._model_dump(self._result_value(compiled_query, "lineage")) or {}
+        columns = self._lineage_columns(lineage)
+        return SQLCandidate(
+            candidate_id="semantic_engine",
+            sql=sql,
+            generation_strategy="semantic_engine",
+            assumptions=["Compiled deterministically by the governed semantic engine."],
+            tables_used=list(lineage.get("tables") or []),
+            columns_used=columns,
+            confidence="high",
+            reasoning_summary="Semantic engine compiled SQL from fully governed semantic coverage.",
+            parse_success=True,
+            validation_errors=[],
+        )
+
+    def _lineage_columns(self, lineage: dict[str, Any]) -> list[str]:
+        columns: list[str] = []
+        for key in ("measures", "filters"):
+            value = lineage.get(key)
+            if isinstance(value, dict):
+                for item in value.values():
+                    if isinstance(item, dict):
+                        column = item.get("column") or item.get("expr") or item.get("expression")
+                        if isinstance(column, str):
+                            columns.append(column)
+            elif isinstance(value, list):
+                for item in value:
+                    if isinstance(item, dict):
+                        column = item.get("column") or item.get("expr") or item.get("expression")
+                        if isinstance(column, str):
+                            columns.append(column)
+        return list(dict.fromkeys(columns))
+
+    def _inject_guardrail_contract(self, prompt: str, contract: dict[str, Any]) -> str:
+        contract_text = json.dumps(contract, sort_keys=True)
+        return "\n\n".join(
+            [
+                prompt,
+                "GuardrailContract:",
+                "The SQL must use only the tables, columns, measures, dimensions, time dimensions, joins, segments, and invariants in this contract.",
+                "<guardrail_contract>\n" + contract_text + "\n</guardrail_contract>",
+            ]
+        )
+
+    def _semantic_clarification(self, context: PipelineContext) -> ClarificationResponse:
+        message = self._semantic_gap_message("Can you clarify the governed semantic intent?", context.gap_report)
+        return ClarificationResponse(needs_clarification=True, message=message, options=[])
+
+    def _semantic_gap_message(self, fallback: str, gap_report: dict[str, Any] | None) -> str:
+        if not gap_report:
+            return fallback
+        parts: list[str] = []
+        unresolved = gap_report.get("unresolved_terms") or []
+        missing = gap_report.get("missing_members") or []
+        missing_measures = gap_report.get("missing_measures") or []
+        missing_dimensions = gap_report.get("missing_dimensions") or []
+        if unresolved:
+            parts.append("unresolved terms: " + ", ".join(str(item) for item in unresolved))
+        if missing_measures:
+            parts.append("missing measures: " + ", ".join(str(item) for item in missing_measures))
+        if missing_dimensions:
+            parts.append("missing dimensions: " + ", ".join(str(item) for item in missing_dimensions))
+        if missing:
+            parts.append("missing members: " + ", ".join(str(item) for item in missing))
+        if not parts:
+            suggestions = gap_report.get("suggested_model_additions") or []
+            if suggestions:
+                parts.append("suggested additions: " + ", ".join(str(item) for item in suggestions))
+        return f"{fallback} " + "; ".join(parts) if parts else fallback
+
+    def _model_dump(self, value: Any) -> dict[str, Any] | None:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value
+        if hasattr(value, "model_dump"):
+            return value.model_dump(mode="json", exclude_none=True)
+        return None
+
+    def _result_value(self, value: Any, key: str) -> Any:
+        if value is None:
+            return None
+        if isinstance(value, dict):
+            return value.get(key)
+        return getattr(value, key, None)
 
 
 __all__ = ["NL2SQLPipeline", "PipelineContext", "RegistryMetadataProvider"]

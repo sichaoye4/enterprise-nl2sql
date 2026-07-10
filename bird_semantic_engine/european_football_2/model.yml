@@ -1,0 +1,2917 @@
+version: 1
+domain: "european_football_2"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "player_attributes"
+    title: "Player Attributes"
+    description: "BIRD table Player_Attributes in the european_football_2 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Player_Attributes"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "player_fifa_api_id"
+        expr: "player_fifa_api_id"
+        type: "number"
+        primary_key: false
+      - name: "player_api_id"
+        expr: "player_api_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "date"
+        title: "Date"
+        expr: "date"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "overall_rating"
+        title: "Overall Rating"
+        expr: "overall_rating"
+        type: "number"
+        synonyms:
+          - "overall rating"
+        sensitivity: "public"
+        public: true
+      - name: "potential"
+        title: "Potential"
+        expr: "potential"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "preferred_foot"
+        title: "Preferred Foot"
+        expr: "preferred_foot"
+        type: "string"
+        synonyms:
+          - "preferred foot"
+        sensitivity: "public"
+        public: true
+      - name: "attacking_work_rate"
+        title: "Attacking Work Rate"
+        expr: "attacking_work_rate"
+        type: "string"
+        synonyms:
+          - "attacking work rate"
+        sensitivity: "public"
+        public: true
+      - name: "defensive_work_rate"
+        title: "Defensive Work Rate"
+        expr: "defensive_work_rate"
+        type: "string"
+        synonyms:
+          - "defensive work rate"
+        sensitivity: "public"
+        public: true
+      - name: "crossing"
+        title: "Crossing"
+        expr: "crossing"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "finishing"
+        title: "Finishing"
+        expr: "finishing"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "heading_accuracy"
+        title: "Heading Accuracy"
+        expr: "heading_accuracy"
+        type: "number"
+        synonyms:
+          - "heading accuracy"
+        sensitivity: "public"
+        public: true
+      - name: "volleys"
+        title: "Volleys"
+        expr: "volleys"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "dribbling"
+        title: "Dribbling"
+        expr: "dribbling"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "curve"
+        title: "Curve"
+        expr: "curve"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "long_passing"
+        title: "Long Passing"
+        expr: "long_passing"
+        type: "number"
+        synonyms:
+          - "long passing"
+        sensitivity: "public"
+        public: true
+      - name: "ball_control"
+        title: "Ball Control"
+        expr: "ball_control"
+        type: "number"
+        synonyms:
+          - "ball control"
+        sensitivity: "public"
+        public: true
+      - name: "acceleration"
+        title: "Acceleration"
+        expr: "acceleration"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "sprint_speed"
+        title: "Sprint Speed"
+        expr: "sprint_speed"
+        type: "number"
+        synonyms:
+          - "sprint speed"
+        sensitivity: "public"
+        public: true
+      - name: "agility"
+        title: "Agility"
+        expr: "agility"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "balance"
+        title: "Balance"
+        expr: "balance"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "jumping"
+        title: "Jumping"
+        expr: "jumping"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "stamina"
+        title: "Stamina"
+        expr: "stamina"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "strength"
+        title: "Strength"
+        expr: "strength"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "long_shots"
+        title: "Long Shots"
+        expr: "long_shots"
+        type: "number"
+        synonyms:
+          - "long shots"
+        sensitivity: "public"
+        public: true
+      - name: "vision"
+        title: "Vision"
+        expr: "vision"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "penalties"
+        title: "Penalties"
+        expr: "penalties"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_finishing"
+        title: "Avg Finishing"
+        description: "AVG over finishing extracted from repeated BIRD gold SQL patterns."
+        expr: "finishing"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "finishing"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_date"
+        title: "Count Date"
+        description: "COUNT over date extracted from repeated BIRD gold SQL patterns."
+        expr: "date"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "date"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Ahmed Samir Farag'"
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE t1.height > 170 AND STRFTIME('%Y', t2.\"date\") >= '2010' AND STRFTIME('%Y', t2.\"date\") <= '2015'"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Aaron Doran'"
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Pietro Marino'"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Marko Arnautovic' AND SUBSTRING(t2.\"date\", 1, 10) BETWEEN '2007-02-22' AND '2016-04-21'"
+      - name: "count_id_5"
+        title: "Count Id 5"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "preferred_foot"
+            operator: "equals"
+            values:
+              - "left"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.preferred_foot = 'left' AND t1.crossing = (SELECT MAX(crossing) FROM Player_Attributes)"
+      - name: "count_player_fifa_api_id"
+        title: "Count Player Fifa Api Id"
+        description: "COUNT over player_fifa_api_id extracted from repeated BIRD gold SQL patterns."
+        expr: "player_fifa_api_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "player fifa api id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.height > 180"
+      - name: "max_crossing"
+        title: "Max Crossing"
+        description: "MAX over crossing extracted from repeated BIRD gold SQL patterns."
+        expr: "crossing"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "crossing"
+        allowed_dimensions: []
+        filters:
+          - member: "preferred_foot"
+            operator: "equals"
+            values:
+              - "left"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.preferred_foot = 'left' AND t1.crossing = (SELECT MAX(crossing) FROM Player_Attributes)"
+      - name: "max_overall_rating"
+        title: "Max Overall Rating"
+        description: "MAX over overall_rating extracted from repeated BIRD gold SQL patterns."
+        expr: "overall_rating"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "overall rating"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Dorlan Pabon'"
+      - name: "max_overall_rating_2"
+        title: "Max Overall Rating 2"
+        description: "MAX over overall_rating extracted from repeated BIRD gold SQL patterns."
+        expr: "overall_rating"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "overall rating"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE t2.overall_rating = (SELECT MAX(overall_rating) FROM Player_Attributes)"
+      - name: "max_potential"
+        title: "Max Potential"
+        description: "MAX over potential extracted from repeated BIRD gold SQL patterns."
+        expr: "potential"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "potential"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t2.potential = (SELECT MAX(potential) FROM Player_Attributes)"
+      - name: "sum_ball_control"
+        title: "Sum Ball Control"
+        description: "SUM over ball_control extracted from repeated BIRD gold SQL patterns."
+        expr: "ball_control"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "ball control"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_crossing"
+        title: "Sum Crossing"
+        description: "SUM over crossing extracted from repeated BIRD gold SQL patterns."
+        expr: "crossing"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "crossing"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Aaron Lennox'"
+      - name: "sum_heading_accuracy"
+        title: "Sum Heading Accuracy"
+        description: "SUM over heading_accuracy extracted from repeated BIRD gold SQL patterns."
+        expr: "heading_accuracy"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "heading accuracy"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.height > 180"
+      - name: "sum_jumping"
+        title: "Sum Jumping"
+        description: "SUM over jumping extracted from repeated BIRD gold SQL patterns."
+        expr: "jumping"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "jumping"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_long_shots"
+        title: "Sum Long Shots"
+        description: "SUM over long_shots extracted from repeated BIRD gold SQL patterns."
+        expr: "long_shots"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "long shots"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Ahmed Samir Farag'"
+      - name: "sum_overall_rating"
+        title: "Sum Overall Rating"
+        description: "SUM over overall_rating extracted from repeated BIRD gold SQL patterns."
+        expr: "overall_rating"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "overall rating"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(t2.\"date\", 1, 10) = '2013-07-12'"
+            - "WHERE t1.height > 170 AND STRFTIME('%Y', t2.\"date\") >= '2010' AND STRFTIME('%Y', t2.\"date\") <= '2015'"
+            - "WHERE SUBSTRING(t1.birthday, 1, 4) < '1986'"
+      - name: "sum_overall_rating_2"
+        title: "Sum Overall Rating 2"
+        description: "SUM over overall_rating extracted from repeated BIRD gold SQL patterns."
+        expr: "overall_rating"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "overall rating"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Aaron Doran'"
+      - name: "sum_overall_rating_3"
+        title: "Sum Overall Rating 3"
+        description: "SUM over overall_rating extracted from repeated BIRD gold SQL patterns."
+        expr: "overall_rating"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "overall rating"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Pietro Marino'"
+      - name: "sum_overall_rating_4"
+        title: "Sum Overall Rating 4"
+        description: "SUM over overall_rating extracted from repeated BIRD gold SQL patterns."
+        expr: "overall_rating"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "overall rating"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Marko Arnautovic' AND SUBSTRING(t2.\"date\", 1, 10) BETWEEN '2007-02-22' AND '2016-04-21'"
+    segments: []
+  - name: "player"
+    title: "Player"
+    description: "BIRD table Player in the european_football_2 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Player"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "player_api_id"
+        expr: "player_api_id"
+        type: "number"
+        primary_key: false
+      - name: "player_fifa_api_id"
+        expr: "player_fifa_api_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "player_name"
+        title: "Player Name"
+        expr: "player_name"
+        type: "string"
+        synonyms:
+          - "player name"
+        sensitivity: "public"
+        public: true
+      - name: "birthday"
+        title: "Birthday"
+        expr: "birthday"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "height"
+        title: "Height"
+        expr: "height"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "weight"
+        title: "Weight"
+        expr: "weight"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_weight"
+        title: "Avg Weight"
+        description: "AVG over weight extracted from repeated BIRD gold SQL patterns."
+        expr: "weight"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "weight"
+        allowed_dimensions:
+          - "country.name"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(t1.birthday, 1, 4) BETWEEN '1987' AND '1992'"
+            - "WHERE t1.height < 180"
+            - "WHERE SUBSTRING(t1.birthday, 1, 4) < '1986'"
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE t1.weight < 130 AND t2.preferred_foot = 'left'"
+      - name: "distinct_id_count_2"
+        title: "Distinct Id Count 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE t1.height > 180 AND t2.volleys > 70"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.NAME = 'Italy'"
+      - name: "distinct_player_name_count"
+        title: "Distinct Player Name Count"
+        description: "COUNT over player_name extracted from repeated BIRD gold SQL patterns."
+        expr: "player_name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "player name"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE STRFTIME('%Y', t1.birthday) < '1986' AND t2.defensive_work_rate = 'high'"
+      - name: "max_height"
+        title: "Max Height"
+        description: "MAX over height extracted from repeated BIRD gold SQL patterns."
+        expr: "height"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "height"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "min_height"
+        title: "Min Height"
+        description: "MIN over height extracted from repeated BIRD gold SQL patterns."
+        expr: "height"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "height"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_height"
+        title: "Sum Height"
+        description: "SUM over height extracted from repeated BIRD gold SQL patterns."
+        expr: "height"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "height"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(birthday, 1, 4) BETWEEN '1990' AND '1995'"
+      - name: "sum_height_2"
+        title: "Sum Height 2"
+        description: "SUM over height extracted from repeated BIRD gold SQL patterns."
+        expr: "height"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "height"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.NAME = 'Italy'"
+    segments: []
+  - name: "league"
+    title: "League"
+    description: "BIRD table League in the european_football_2 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "League"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "country_id"
+        expr: "country_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Scotland Premier League"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE leagueData.name = 'Scotland Premier League' AND matchData.season = '2009/2010' AND matchData.away_team_goal - matchData.home_team_goal > 0"
+    segments: []
+  - name: "country"
+    title: "Country"
+    description: "BIRD table Country in the european_football_2 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Country"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+  - name: "team"
+    title: "Team"
+    description: "BIRD table Team in the european_football_2 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Team"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "team_api_id"
+        expr: "team_api_id"
+        type: "number"
+        primary_key: false
+      - name: "team_fifa_api_id"
+        expr: "team_fifa_api_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "team_long_name"
+        title: "Team Long Name"
+        expr: "team_long_name"
+        type: "string"
+        synonyms:
+          - "team long name"
+        sensitivity: "public"
+        public: true
+      - name: "team_short_name"
+        title: "Team Short Name"
+        expr: "team_short_name"
+        type: "string"
+        synonyms:
+          - "team short name"
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(t3.\"date\", 1, 4) = '2012' AND t3.buildUpPlayPassing > (SELECT CAST(SUM(t2.buildUpPlayPassing) AS REAL) / COUNT(t1.id) FROM Team AS t1 INNER JOIN Team_Attributes AS t2 ON t1.team_api_id = t2.team_api_id WHERE STRFTIME('%Y', t2.\"date\") = '2012')"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t4.buildUpPlayDribblingClass = 'Normal' AND t4.chanceCreationPassing < (SELECT CAST(SUM(t2.chanceCreationPassing) AS REAL) / COUNT(t1.id) FROM Team AS t1 INNER JOIN Team_Attributes AS t2 ON t1.team_api_id = t2.team_api_id WHERE t2.buildUpPlayDribblingClass = 'Normal' AND SUBSTRING(t2.\"date\", 1, 4) = '2014')"
+    segments: []
+  - name: "team_attributes"
+    title: "Team Attributes"
+    description: "BIRD table Team_Attributes in the european_football_2 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Team_Attributes"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "team_fifa_api_id"
+        expr: "team_fifa_api_id"
+        type: "number"
+        primary_key: false
+      - name: "team_api_id"
+        expr: "team_api_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "date"
+        title: "Date"
+        expr: "date"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "buildupplayspeed"
+        title: "BuildUpPlaySpeed"
+        expr: "buildUpPlaySpeed"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "buildupplayspeedclass"
+        title: "BuildUpPlaySpeedClass"
+        expr: "buildUpPlaySpeedClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "buildupplaydribbling"
+        title: "BuildUpPlayDribbling"
+        expr: "buildUpPlayDribbling"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "buildupplaydribblingclass"
+        title: "BuildUpPlayDribblingClass"
+        expr: "buildUpPlayDribblingClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "buildupplaypassing"
+        title: "BuildUpPlayPassing"
+        expr: "buildUpPlayPassing"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "buildupplaypassingclass"
+        title: "BuildUpPlayPassingClass"
+        expr: "buildUpPlayPassingClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "buildupplaypositioningclass"
+        title: "BuildUpPlayPositioningClass"
+        expr: "buildUpPlayPositioningClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "chancecreationpassing"
+        title: "ChanceCreationPassing"
+        expr: "chanceCreationPassing"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "chancecreationpassingclass"
+        title: "ChanceCreationPassingClass"
+        expr: "chanceCreationPassingClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "chancecreationcrossingclass"
+        title: "ChanceCreationCrossingClass"
+        expr: "chanceCreationCrossingClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "chancecreationshootingclass"
+        title: "ChanceCreationShootingClass"
+        expr: "chanceCreationShootingClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "chancecreationpositioningclass"
+        title: "ChanceCreationPositioningClass"
+        expr: "chanceCreationPositioningClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "defencepressureclass"
+        title: "DefencePressureClass"
+        expr: "defencePressureClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "defenceaggressionclass"
+        title: "DefenceAggressionClass"
+        expr: "defenceAggressionClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "defenceteamwidthclass"
+        title: "DefenceTeamWidthClass"
+        expr: "defenceTeamWidthClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "defencedefenderlineclass"
+        title: "DefenceDefenderLineClass"
+        expr: "defenceDefenderLineClass"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.team_long_name = 'Heart of Midlothian'"
+      - name: "sum_buildupplaypassing"
+        title: "Sum Buildupplaypassing"
+        description: "SUM over buildUpPlayPassing extracted from repeated BIRD gold SQL patterns."
+        expr: "buildUpPlayPassing"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "buildupplaypassing"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(t3.\"date\", 1, 4) = '2012' AND t3.buildUpPlayPassing > (SELECT CAST(SUM(t2.buildUpPlayPassing) AS REAL) / COUNT(t1.id) FROM Team AS t1 INNER JOIN Team_Attributes AS t2 ON t1.team_api_id = t2.team_api_id WHERE STRFTIME('%Y', t2.\"date\") = '2012')"
+      - name: "sum_buildupplayspeed"
+        title: "Sum Buildupplayspeed"
+        description: "SUM over buildUpPlaySpeed extracted from repeated BIRD gold SQL patterns."
+        expr: "buildUpPlaySpeed"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "buildupplayspeed"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.team_long_name = 'Heart of Midlothian'"
+      - name: "sum_chancecreationpassing"
+        title: "Sum Chancecreationpassing"
+        description: "SUM over chanceCreationPassing extracted from repeated BIRD gold SQL patterns."
+        expr: "chanceCreationPassing"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "chancecreationpassing"
+        allowed_dimensions: []
+        filters:
+          - member: "buildupplaydribblingclass"
+            operator: "equals"
+            values:
+              - "Normal"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t4.buildUpPlayDribblingClass = 'Normal' AND t4.chanceCreationPassing < (SELECT CAST(SUM(t2.chanceCreationPassing) AS REAL) / COUNT(t1.id) FROM Team AS t1 INNER JOIN Team_Attributes AS t2 ON t1.team_api_id = t2.team_api_id WHERE t2.buildUpPlayDribblingClass = 'Normal' AND SUBSTRING(t2.\"date\", 1, 4) = '2014')"
+    segments: []
+  - name: "match"
+    title: "Match"
+    description: "BIRD table Match in the european_football_2 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Match"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "home_team_api_id"
+        expr: "home_team_api_id"
+        type: "number"
+        primary_key: false
+      - name: "away_team_api_id"
+        expr: "away_team_api_id"
+        type: "number"
+        primary_key: false
+      - name: "home_player_1"
+        expr: "home_player_1"
+        type: "number"
+        primary_key: false
+      - name: "home_player_2"
+        expr: "home_player_2"
+        type: "number"
+        primary_key: false
+      - name: "home_player_3"
+        expr: "home_player_3"
+        type: "number"
+        primary_key: false
+      - name: "home_player_4"
+        expr: "home_player_4"
+        type: "number"
+        primary_key: false
+      - name: "home_player_5"
+        expr: "home_player_5"
+        type: "number"
+        primary_key: false
+      - name: "home_player_6"
+        expr: "home_player_6"
+        type: "number"
+        primary_key: false
+      - name: "home_player_7"
+        expr: "home_player_7"
+        type: "number"
+        primary_key: false
+      - name: "home_player_8"
+        expr: "home_player_8"
+        type: "number"
+        primary_key: false
+      - name: "home_player_9"
+        expr: "home_player_9"
+        type: "number"
+        primary_key: false
+      - name: "home_player_10"
+        expr: "home_player_10"
+        type: "number"
+        primary_key: false
+      - name: "home_player_11"
+        expr: "home_player_11"
+        type: "number"
+        primary_key: false
+      - name: "away_player_1"
+        expr: "away_player_1"
+        type: "number"
+        primary_key: false
+      - name: "away_player_2"
+        expr: "away_player_2"
+        type: "number"
+        primary_key: false
+      - name: "away_player_3"
+        expr: "away_player_3"
+        type: "number"
+        primary_key: false
+      - name: "away_player_4"
+        expr: "away_player_4"
+        type: "number"
+        primary_key: false
+      - name: "away_player_5"
+        expr: "away_player_5"
+        type: "number"
+        primary_key: false
+      - name: "away_player_6"
+        expr: "away_player_6"
+        type: "number"
+        primary_key: false
+      - name: "away_player_7"
+        expr: "away_player_7"
+        type: "number"
+        primary_key: false
+      - name: "away_player_8"
+        expr: "away_player_8"
+        type: "number"
+        primary_key: false
+      - name: "away_player_9"
+        expr: "away_player_9"
+        type: "number"
+        primary_key: false
+      - name: "away_player_10"
+        expr: "away_player_10"
+        type: "number"
+        primary_key: false
+      - name: "away_player_11"
+        expr: "away_player_11"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "country_id"
+        title: "Country Id"
+        expr: "country_id"
+        type: "number"
+        synonyms:
+          - "country id"
+        sensitivity: "public"
+        public: true
+      - name: "league_id"
+        title: "League Id"
+        expr: "league_id"
+        type: "number"
+        synonyms:
+          - "league id"
+        sensitivity: "public"
+        public: true
+      - name: "season"
+        title: "Season"
+        expr: "season"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "date"
+        title: "Date"
+        expr: "date"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "home_team_goal"
+        title: "Home Team Goal"
+        expr: "home_team_goal"
+        type: "number"
+        synonyms:
+          - "home team goal"
+        sensitivity: "public"
+        public: true
+      - name: "away_team_goal"
+        title: "Away Team Goal"
+        expr: "away_team_goal"
+        type: "number"
+        synonyms:
+          - "away team goal"
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions:
+          - "league.name"
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2015/2016"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE t1.season = '2015/2016' AND t1.home_team_goal = t1.away_team_goal"
+            - "WHERE t2.season = '2015/2016'"
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions:
+          - "league.name"
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2009/2010"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE t2.season = '2009/2010'"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2015/2016"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t2.season = '2015/2016' AND t1.name = 'Scotland Premier League'"
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2010/2011"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.name = 'Poland' AND t2.season = '2010/2011'"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.name = 'Germany 1. Bundesliga' AND SUBSTRING(t2.\"date\", 1, 7) BETWEEN '2008-08' AND '2008-10'"
+      - name: "count_id_5"
+        title: "Count Id 5"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2008/2009"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.name = 'Belgium' AND t2.season = '2008/2009'"
+      - name: "count_id_6"
+        title: "Count Id 6"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.name = 'Belgium Jupiler League' AND SUBSTRING(t2.\"date\", 1, 7) = '2009-04'"
+      - name: "count_id_7"
+        title: "Count Id 7"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions:
+          - "league.name"
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2008/2009"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t2.season = '2008/2009'"
+      - name: "count_id_8"
+        title: "Count Id 8"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.team_long_name = 'Parma' AND T3.name = 'Italy'"
+      - name: "count_id_9"
+        title: "Count Id 9"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2015/2016"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.name = 'Italy Serie A' AND t2.season = '2015/2016'"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2015/2016"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE matchData.season = '2015/2016' AND matchData.home_team_goal - matchData.away_team_goal < 0"
+      - name: "max_home_team_goal"
+        title: "Max Home Team Goal"
+        description: "MAX over home_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "home_team_goal"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "home team goal"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.name = 'Netherlands Eredivisie'"
+      - name: "sum_away_team_goal"
+        title: "Sum Away Team Goal"
+        description: "SUM over away_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "away_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "away team goal"
+        allowed_dimensions:
+          - "league.name"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_away_team_goal_2"
+        title: "Sum Away Team Goal 2"
+        description: "SUM over away_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "away_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "away team goal"
+        allowed_dimensions:
+          - "league.name"
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2009/2010"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t2.season = '2009/2010'"
+      - name: "sum_away_team_goal_3"
+        title: "Sum Away Team Goal 3"
+        description: "SUM over away_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "away_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "away team goal"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.team_long_name = 'Parma' AND T3.name = 'Italy'"
+      - name: "sum_away_team_goal_4"
+        title: "Sum Away Team Goal 4"
+        description: "SUM over away_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "away_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "away team goal"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name IN ('Daan Smith', 'Filipe Ferreira')"
+      - name: "sum_home_team_goal"
+        title: "Sum Home Team Goal"
+        description: "SUM over home_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "home_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "home team goal"
+        allowed_dimensions:
+          - "league.name"
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2015/2016"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.season = '2015/2016'"
+      - name: "sum_home_team_goal_2"
+        title: "Sum Home Team Goal 2"
+        description: "SUM over home_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "home_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "home team goal"
+        allowed_dimensions:
+          - "league.name"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE DATETIME(CURRENT_TIMESTAMP, 'localtime') - DATETIME(T1.birthday) < 31"
+      - name: "sum_home_team_goal_3"
+        title: "Sum Home Team Goal 3"
+        description: "SUM over home_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "home_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "home team goal"
+        allowed_dimensions:
+          - "league.name"
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2009/2010"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t2.season = '2009/2010'"
+      - name: "sum_home_team_goal_4"
+        title: "Sum Home Team Goal 4"
+        description: "SUM over home_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "home_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "home team goal"
+        allowed_dimensions: []
+        filters:
+          - member: "season"
+            operator: "equals"
+            values:
+              - "2010/2011"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.name = 'Poland' AND t2.season = '2010/2011'"
+      - name: "sum_home_team_goal_5"
+        title: "Sum Home Team Goal 5"
+        description: "SUM over home_team_goal extracted from repeated BIRD gold SQL patterns."
+        expr: "home_team_goal"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "home team goal"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE t1.player_name = 'Aaron Lennon'"
+    segments: []
+relationships:
+  - name: "country_to_league_id_country_id"
+    source: "country"
+    target: "league"
+    from: "country.id"
+    to: "league.country_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "country_to_match_id_country_id"
+    source: "country"
+    target: "match"
+    from: "country.id"
+    to: "match.country_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "league_to_country_country_id_id"
+    source: "league"
+    target: "country"
+    from: "league.country_id"
+    to: "country.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "league_to_match_id_league_id"
+    source: "league"
+    target: "match"
+    from: "league.id"
+    to: "match.league_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "match_to_country_country_id_id"
+    source: "match"
+    target: "country"
+    from: "match.country_id"
+    to: "country.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "match_to_league_league_id_id"
+    source: "match"
+    target: "league"
+    from: "match.league_id"
+    to: "league.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "match_to_player_away_player_10_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_10"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_11_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_11"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_1_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_1"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_2_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_2"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_3_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_3"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_4_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_4"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_5_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_5"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_6_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_6"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_7_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_7"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_8_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_8"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_away_player_9_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.away_player_9"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_10_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_10"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_11_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_11"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_1_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_1"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "match_to_player_home_player_2_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_2"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_3_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_3"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_4_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_4"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_5_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_5"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_6_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_6"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_7_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_7"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_8_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_8"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_player_home_player_9_player_api_id"
+    source: "match"
+    target: "player"
+    from: "match.home_player_9"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "match_to_team_away_team_api_id_team_api_id"
+    source: "match"
+    target: "team"
+    from: "match.away_team_api_id"
+    to: "team.team_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "match_to_team_home_team_api_id_team_api_id"
+    source: "match"
+    target: "team"
+    from: "match.home_team_api_id"
+    to: "team.team_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "player_attributes_to_player_id_id"
+    source: "player_attributes"
+    target: "player"
+    from: "player_attributes.id"
+    to: "player.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "player_attributes_to_player_player_api_id_player_api_id"
+    source: "player_attributes"
+    target: "player"
+    from: "player_attributes.player_api_id"
+    to: "player.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "player_attributes_to_player_player_fifa_api_id_player_fifa_api_id"
+    source: "player_attributes"
+    target: "player"
+    from: "player_attributes.player_fifa_api_id"
+    to: "player.player_fifa_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "player_to_match_id_id"
+    source: "player"
+    target: "match"
+    from: "player.id"
+    to: "match.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "player_to_match_player_api_id_away_player_1"
+    source: "player"
+    target: "match"
+    from: "player.player_api_id"
+    to: "match.away_player_1"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "player_to_match_player_api_id_away_player_5"
+    source: "player"
+    target: "match"
+    from: "player.player_api_id"
+    to: "match.away_player_5"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "player_to_match_player_api_id_away_player_9"
+    source: "player"
+    target: "match"
+    from: "player.player_api_id"
+    to: "match.away_player_9"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "player_to_match_player_api_id_home_player_8"
+    source: "player"
+    target: "match"
+    from: "player.player_api_id"
+    to: "match.home_player_8"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "player_to_player_attributes_player_api_id_player_api_id"
+    source: "player"
+    target: "player_attributes"
+    from: "player.player_api_id"
+    to: "player_attributes.player_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "player_to_player_attributes_player_fifa_api_id_player_fifa_api_id"
+    source: "player"
+    target: "player_attributes"
+    from: "player.player_fifa_api_id"
+    to: "player_attributes.player_fifa_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "team_attributes_to_team_team_api_id_team_api_id"
+    source: "team_attributes"
+    target: "team"
+    from: "team_attributes.team_api_id"
+    to: "team.team_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "team_attributes_to_team_team_fifa_api_id_team_fifa_api_id"
+    source: "team_attributes"
+    target: "team"
+    from: "team_attributes.team_fifa_api_id"
+    to: "team.team_fifa_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "team_to_match_team_api_id_home_team_api_id"
+    source: "team"
+    target: "match"
+    from: "team.team_api_id"
+    to: "match.home_team_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "team_to_team_attributes_team_api_id_team_api_id"
+    source: "team"
+    target: "team_attributes"
+    from: "team.team_api_id"
+    to: "team_attributes.team_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "team_to_team_attributes_team_fifa_api_id_team_fifa_api_id"
+    source: "team"
+    target: "team_attributes"
+    from: "team.team_fifa_api_id"
+    to: "team_attributes.team_fifa_api_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+views:
+  - name: "european_football_2_all"
+    title: "European Football 2 All"
+    description: "Governed semantic view for the BIRD european_football_2 database."
+    public: true
+    ai_context: "European football matches, teams, leagues, countries, players, and player/team attributes."
+    entities:
+      - join_path: "player_attributes"
+        includes:
+          measures:
+            - "avg_finishing"
+            - "count_date"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_player_fifa_api_id"
+            - "max_crossing"
+            - "max_overall_rating"
+            - "max_overall_rating_2"
+            - "max_potential"
+            - "sum_ball_control"
+            - "sum_crossing"
+            - "sum_heading_accuracy"
+            - "sum_jumping"
+            - "sum_long_shots"
+            - "sum_overall_rating"
+            - "sum_overall_rating_2"
+            - "sum_overall_rating_3"
+            - "sum_overall_rating_4"
+          dimensions:
+            - "date"
+            - "overall_rating"
+            - "potential"
+            - "preferred_foot"
+            - "attacking_work_rate"
+            - "defensive_work_rate"
+            - "crossing"
+            - "finishing"
+            - "heading_accuracy"
+            - "volleys"
+            - "dribbling"
+            - "curve"
+            - "long_passing"
+            - "ball_control"
+            - "acceleration"
+            - "sprint_speed"
+            - "agility"
+            - "balance"
+            - "jumping"
+            - "stamina"
+            - "strength"
+            - "long_shots"
+            - "vision"
+            - "penalties"
+          time_dimensions: []
+          segments: []
+      - join_path: "player"
+        includes:
+          measures:
+            - "avg_weight"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "distinct_player_name_count"
+            - "max_height"
+            - "min_height"
+            - "sum_height"
+            - "sum_height_2"
+          dimensions:
+            - "player_name"
+            - "birthday"
+            - "height"
+            - "weight"
+          time_dimensions: []
+          segments: []
+      - join_path: "league"
+        includes:
+          measures:
+            - "count_row_count"
+          dimensions:
+            - "name"
+          time_dimensions: []
+          segments: []
+      - join_path: "country"
+        includes:
+          measures: []
+          dimensions:
+            - "name"
+          time_dimensions: []
+          segments: []
+      - join_path: "team"
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+          dimensions:
+            - "team_long_name"
+            - "team_short_name"
+          time_dimensions: []
+          segments: []
+      - join_path: "team_attributes"
+        includes:
+          measures:
+            - "count_id"
+            - "sum_buildupplaypassing"
+            - "sum_buildupplayspeed"
+            - "sum_chancecreationpassing"
+          dimensions:
+            - "date"
+            - "buildupplayspeed"
+            - "buildupplayspeedclass"
+            - "buildupplaydribbling"
+            - "buildupplaydribblingclass"
+            - "buildupplaypassing"
+            - "buildupplaypassingclass"
+            - "buildupplaypositioningclass"
+            - "chancecreationpassing"
+            - "chancecreationpassingclass"
+            - "chancecreationcrossingclass"
+            - "chancecreationshootingclass"
+            - "chancecreationpositioningclass"
+            - "defencepressureclass"
+            - "defenceaggressionclass"
+            - "defenceteamwidthclass"
+            - "defencedefenderlineclass"
+          time_dimensions: []
+          segments: []
+      - join_path: "match"
+        includes:
+          measures:
+            - "count_id"
+            - "distinct_id_count"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_row_count"
+            - "max_home_team_goal"
+            - "sum_away_team_goal"
+            - "sum_away_team_goal_2"
+            - "sum_away_team_goal_3"
+            - "sum_away_team_goal_4"
+            - "sum_home_team_goal"
+            - "sum_home_team_goal_2"
+            - "sum_home_team_goal_3"
+            - "sum_home_team_goal_4"
+            - "sum_home_team_goal_5"
+          dimensions:
+            - "country_id"
+            - "league_id"
+            - "season"
+            - "date"
+            - "home_team_goal"
+            - "away_team_goal"
+          time_dimensions: []
+          segments: []
+      - join_path: "country.league"
+        prefix: true
+        includes:
+          measures:
+            - "count_row_count"
+          dimensions:
+            - "name"
+          time_dimensions: []
+          segments: []
+      - join_path: "country.match"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "distinct_id_count"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_row_count"
+            - "max_home_team_goal"
+            - "sum_away_team_goal"
+            - "sum_away_team_goal_2"
+            - "sum_away_team_goal_3"
+            - "sum_away_team_goal_4"
+            - "sum_home_team_goal"
+            - "sum_home_team_goal_2"
+            - "sum_home_team_goal_3"
+            - "sum_home_team_goal_4"
+            - "sum_home_team_goal_5"
+          dimensions:
+            - "country_id"
+            - "league_id"
+            - "season"
+            - "date"
+            - "home_team_goal"
+            - "away_team_goal"
+          time_dimensions: []
+          segments: []
+      - join_path: "league.country"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "name"
+          time_dimensions: []
+          segments: []
+      - join_path: "league.match"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "distinct_id_count"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_row_count"
+            - "max_home_team_goal"
+            - "sum_away_team_goal"
+            - "sum_away_team_goal_2"
+            - "sum_away_team_goal_3"
+            - "sum_away_team_goal_4"
+            - "sum_home_team_goal"
+            - "sum_home_team_goal_2"
+            - "sum_home_team_goal_3"
+            - "sum_home_team_goal_4"
+            - "sum_home_team_goal_5"
+          dimensions:
+            - "country_id"
+            - "league_id"
+            - "season"
+            - "date"
+            - "home_team_goal"
+            - "away_team_goal"
+          time_dimensions: []
+          segments: []
+      - join_path: "match.country"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "name"
+          time_dimensions: []
+          segments: []
+      - join_path: "match.league"
+        prefix: true
+        includes:
+          measures:
+            - "count_row_count"
+          dimensions:
+            - "name"
+          time_dimensions: []
+          segments: []
+      - join_path: "match.player"
+        prefix: true
+        includes:
+          measures:
+            - "avg_weight"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "distinct_player_name_count"
+            - "max_height"
+            - "min_height"
+            - "sum_height"
+            - "sum_height_2"
+          dimensions:
+            - "player_name"
+            - "birthday"
+            - "height"
+            - "weight"
+          time_dimensions: []
+          segments: []
+      - join_path: "match.team"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+          dimensions:
+            - "team_long_name"
+            - "team_short_name"
+          time_dimensions: []
+          segments: []
+      - join_path: "player_attributes.player"
+        prefix: true
+        includes:
+          measures:
+            - "avg_weight"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "distinct_player_name_count"
+            - "max_height"
+            - "min_height"
+            - "sum_height"
+            - "sum_height_2"
+          dimensions:
+            - "player_name"
+            - "birthday"
+            - "height"
+            - "weight"
+          time_dimensions: []
+          segments: []
+      - join_path: "player.match"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "distinct_id_count"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_row_count"
+            - "max_home_team_goal"
+            - "sum_away_team_goal"
+            - "sum_away_team_goal_2"
+            - "sum_away_team_goal_3"
+            - "sum_away_team_goal_4"
+            - "sum_home_team_goal"
+            - "sum_home_team_goal_2"
+            - "sum_home_team_goal_3"
+            - "sum_home_team_goal_4"
+            - "sum_home_team_goal_5"
+          dimensions:
+            - "country_id"
+            - "league_id"
+            - "season"
+            - "date"
+            - "home_team_goal"
+            - "away_team_goal"
+          time_dimensions: []
+          segments: []
+      - join_path: "player.player_attributes"
+        prefix: true
+        includes:
+          measures:
+            - "avg_finishing"
+            - "count_date"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_player_fifa_api_id"
+            - "max_crossing"
+            - "max_overall_rating"
+            - "max_overall_rating_2"
+            - "max_potential"
+            - "sum_ball_control"
+            - "sum_crossing"
+            - "sum_heading_accuracy"
+            - "sum_jumping"
+            - "sum_long_shots"
+            - "sum_overall_rating"
+            - "sum_overall_rating_2"
+            - "sum_overall_rating_3"
+            - "sum_overall_rating_4"
+          dimensions:
+            - "date"
+            - "overall_rating"
+            - "potential"
+            - "preferred_foot"
+            - "attacking_work_rate"
+            - "defensive_work_rate"
+            - "crossing"
+            - "finishing"
+            - "heading_accuracy"
+            - "volleys"
+            - "dribbling"
+            - "curve"
+            - "long_passing"
+            - "ball_control"
+            - "acceleration"
+            - "sprint_speed"
+            - "agility"
+            - "balance"
+            - "jumping"
+            - "stamina"
+            - "strength"
+            - "long_shots"
+            - "vision"
+            - "penalties"
+          time_dimensions: []
+          segments: []
+      - join_path: "team_attributes.team"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+          dimensions:
+            - "team_long_name"
+            - "team_short_name"
+          time_dimensions: []
+          segments: []
+      - join_path: "team.match"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "distinct_id_count"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_row_count"
+            - "max_home_team_goal"
+            - "sum_away_team_goal"
+            - "sum_away_team_goal_2"
+            - "sum_away_team_goal_3"
+            - "sum_away_team_goal_4"
+            - "sum_home_team_goal"
+            - "sum_home_team_goal_2"
+            - "sum_home_team_goal_3"
+            - "sum_home_team_goal_4"
+            - "sum_home_team_goal_5"
+          dimensions:
+            - "country_id"
+            - "league_id"
+            - "season"
+            - "date"
+            - "home_team_goal"
+            - "away_team_goal"
+          time_dimensions: []
+          segments: []
+      - join_path: "team.team_attributes"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "sum_buildupplaypassing"
+            - "sum_buildupplayspeed"
+            - "sum_chancecreationpassing"
+          dimensions:
+            - "date"
+            - "buildupplayspeed"
+            - "buildupplayspeedclass"
+            - "buildupplaydribbling"
+            - "buildupplaydribblingclass"
+            - "buildupplaypassing"
+            - "buildupplaypassingclass"
+            - "buildupplaypositioningclass"
+            - "chancecreationpassing"
+            - "chancecreationpassingclass"
+            - "chancecreationcrossingclass"
+            - "chancecreationshootingclass"
+            - "chancecreationpositioningclass"
+            - "defencepressureclass"
+            - "defenceaggressionclass"
+            - "defenceteamwidthclass"
+            - "defencedefenderlineclass"
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "league.count_row_count"
+          - "match.count_id"
+          - "match.count_id_2"
+          - "match.count_id_3"
+          - "match.count_id_4"
+          - "match.count_id_5"
+          - "match.count_id_6"
+          - "match.count_id_7"
+          - "match.count_id_8"
+          - "match.count_id_9"
+          - "match.count_row_count"
+          - "match.distinct_id_count"
+          - "match.max_home_team_goal"
+          - "match.sum_away_team_goal"
+          - "match.sum_away_team_goal_2"
+          - "match.sum_away_team_goal_3"
+          - "match.sum_away_team_goal_4"
+          - "match.sum_home_team_goal"
+          - "match.sum_home_team_goal_2"
+          - "match.sum_home_team_goal_3"
+          - "match.sum_home_team_goal_4"
+          - "match.sum_home_team_goal_5"
+          - "player.avg_weight"
+          - "player.count_id"
+          - "player.count_id_2"
+          - "player.distinct_id_count"
+          - "player.distinct_id_count_2"
+          - "player.distinct_player_name_count"
+          - "player.max_height"
+          - "player.min_height"
+          - "player.sum_height"
+          - "player.sum_height_2"
+          - "player_attributes.avg_finishing"
+          - "player_attributes.count_date"
+          - "player_attributes.count_id"
+          - "player_attributes.count_id_2"
+          - "player_attributes.count_id_3"
+          - "player_attributes.count_id_4"
+          - "player_attributes.count_id_5"
+          - "player_attributes.count_player_fifa_api_id"
+          - "player_attributes.max_crossing"
+          - "player_attributes.max_overall_rating"
+          - "player_attributes.max_overall_rating_2"
+          - "player_attributes.max_potential"
+          - "player_attributes.sum_ball_control"
+          - "player_attributes.sum_crossing"
+          - "player_attributes.sum_heading_accuracy"
+          - "player_attributes.sum_jumping"
+          - "player_attributes.sum_long_shots"
+          - "player_attributes.sum_overall_rating"
+          - "player_attributes.sum_overall_rating_2"
+          - "player_attributes.sum_overall_rating_3"
+          - "player_attributes.sum_overall_rating_4"
+          - "team.count_id"
+          - "team.count_id_2"
+          - "team_attributes.count_id"
+          - "team_attributes.sum_buildupplaypassing"
+          - "team_attributes.sum_buildupplayspeed"
+          - "team_attributes.sum_chancecreationpassing"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "league.name"
+          - "country.name"
+    default_time_dimension: null
+policies: []

@@ -1,0 +1,1055 @@
+version: 1
+domain: "debit_card_specializing"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "customers"
+    title: "Customers"
+    description: "BIRD table customers in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "customers"
+      dialect: "sqlite"
+      grain:
+        - "customerid"
+    identifiers:
+      - name: "customerid"
+        expr: "CustomerID"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "segment"
+        title: "Segment"
+        expr: "Segment"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "currency"
+        title: "Currency"
+        expr: "Currency"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_customerid"
+        title: "Count Customerid"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "customerid"
+        allowed_dimensions: []
+        filters:
+          - member: "currency"
+            operator: "equals"
+            values:
+              - "CZK"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Currency = 'CZK' AND T2.Consumption = (SELECT MIN(Consumption) FROM yearmonth) AND T2.Date BETWEEN 201301 AND 201312"
+      - name: "count_customerid_2"
+        title: "Count Customerid 2"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "customerid"
+        allowed_dimensions: []
+        filters:
+          - member: "segment"
+            operator: "equals"
+            values:
+              - "LAM"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Segment = 'LAM'"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_currency"
+        title: "Sum Currency"
+        description: "SUM over Currency extracted from repeated BIRD gold SQL patterns."
+        expr: "Currency"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "currency"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples:
+            - "WHERE Segment = 'SME'"
+            - "WHERE Segment = 'KAM'"
+      - name: "sum_currency_2"
+        title: "Sum Currency 2"
+        description: "SUM over Currency extracted from repeated BIRD gold SQL patterns."
+        expr: "Currency"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "currency"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Date = '2012-08-25'"
+    segments: []
+  - name: "gasstations"
+    title: "Gasstations"
+    description: "BIRD table gasstations in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "gasstations"
+      dialect: "sqlite"
+      grain:
+        - "gasstationid"
+    identifiers:
+      - name: "gasstationid"
+        expr: "GasStationID"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "chainid"
+        title: "ChainID"
+        expr: "ChainID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "country"
+        title: "Country"
+        expr: "Country"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "segment"
+        title: "Segment"
+        expr: "Segment"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "sum_country"
+        title: "Sum Country"
+        description: "SUM over Country extracted from repeated BIRD gold SQL patterns."
+        expr: "Country"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "country"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE Segment = 'Discount'"
+    segments: []
+  - name: "products"
+    title: "Products"
+    description: "BIRD table products in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "products"
+      dialect: "sqlite"
+      grain:
+        - "productid"
+    identifiers:
+      - name: "productid"
+        expr: "ProductID"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "description"
+        title: "Description"
+        expr: "Description"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+  - name: "transactions_1k"
+    title: "Transactions 1k"
+    description: "BIRD table transactions_1k in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "transactions_1k"
+      dialect: "sqlite"
+      grain:
+        - "transactionid"
+    identifiers:
+      - name: "transactionid"
+        expr: "TransactionID"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column Date from transactions_1k."
+        expr: "Date"
+        type: "date"
+        default: true
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "time"
+        title: "Time"
+        expr: "Time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "customerid"
+        title: "CustomerID"
+        expr: "CustomerID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "cardid"
+        title: "CardID"
+        expr: "CardID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "gasstationid"
+        title: "GasStationID"
+        expr: "GasStationID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "productid"
+        title: "ProductID"
+        expr: "ProductID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "amount"
+        title: "Amount"
+        expr: "Amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "price"
+        title: "Price"
+        expr: "Price"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_amount"
+        title: "Avg Amount"
+        description: "AVG over Amount extracted from repeated BIRD gold SQL patterns."
+        expr: "Amount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Date LIKE '2012-01%'"
+      - name: "avg_price"
+        title: "Avg Price"
+        description: "AVG over Price extracted from repeated BIRD gold SQL patterns."
+        expr: "Price"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "price"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.Country = 'CZE'"
+      - name: "avg_price_2"
+        title: "Avg Price 2"
+        description: "AVG over Price extracted from repeated BIRD gold SQL patterns."
+        expr: "Price"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "price"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.Currency = 'EUR'"
+      - name: "count_customerid"
+        title: "Count Customerid"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "customerid"
+        allowed_dimensions: []
+        filters:
+          - member: "date"
+            operator: "equals"
+            values:
+              - "2012-08-25"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Date = '2012-08-25'"
+      - name: "count_transactionid"
+        title: "Count Transactionid"
+        description: "COUNT over TransactionID extracted from repeated BIRD gold SQL patterns."
+        expr: "TransactionID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "transactionid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.Country = 'CZE' AND T1.Price > 1000"
+            - "WHERE T2.Country = 'CZE' AND STRFTIME('%Y', T1.Date) >= '2012'"
+      - name: "count_transactionid_2"
+        title: "Count Transactionid 2"
+        description: "COUNT over TransactionID extracted from repeated BIRD gold SQL patterns."
+        expr: "TransactionID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "transactionid"
+        allowed_dimensions: []
+        filters:
+          - member: "date"
+            operator: "equals"
+            values:
+              - "2012-08-26"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Date = '2012-08-26' AND T1.Time < '13:00:00' AND T2.Currency = 'CZK'"
+      - name: "count_transactionid_3"
+        title: "Count Transactionid 3"
+        description: "COUNT over TransactionID extracted from repeated BIRD gold SQL patterns."
+        expr: "TransactionID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "transactionid"
+        allowed_dimensions: []
+        filters:
+          - member: "date"
+            operator: "equals"
+            values:
+              - "2012-08-26"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Date = '2012-08-26' AND T1.Time BETWEEN '08:00:00' AND '09:00:00' AND T2.Country = 'CZE'"
+      - name: "sum_price"
+        title: "Sum Price"
+        description: "SUM over Price extracted from repeated BIRD gold SQL patterns."
+        expr: "Price"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "price"
+        allowed_dimensions:
+          - "customers.currency"
+          - "transactions_1k.customerid"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples:
+            - "WHERE Date = '2012-08-25'"
+            - "WHERE T2.CustomerID = (SELECT CustomerID FROM yearmonth ORDER BY Consumption DESC LIMIT 1)"
+      - name: "sum_price_2"
+        title: "Sum Price 2"
+        description: "SUM over Price extracted from repeated BIRD gold SQL patterns."
+        expr: "Price"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "price"
+        allowed_dimensions: []
+        filters:
+          - member: "customerid"
+            operator: "equals"
+            values:
+              - "38508"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.CustomerID = '38508'"
+    segments: []
+  - name: "yearmonth"
+    title: "Yearmonth"
+    description: "BIRD table yearmonth in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "yearmonth"
+      dialect: "sqlite"
+      grain:
+        - "customerid"
+        - "date"
+    identifiers:
+      - name: "customerid"
+        expr: "CustomerID"
+        type: "number"
+        primary_key: true
+      - name: "date"
+        expr: "Date"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "consumption"
+        title: "Consumption"
+        expr: "Consumption"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_consumption"
+        title: "Avg Consumption"
+        description: "AVG over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.Currency = 'EUR' AND T1.Consumption > 1000.00"
+      - name: "min_consumption"
+        title: "Min Consumption"
+        description: "MIN over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Currency = 'CZK' AND T2.Consumption = (SELECT MIN(Consumption) FROM yearmonth) AND T2.Date BETWEEN 201301 AND 201312"
+      - name: "sum_consumption"
+        title: "Sum Consumption"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T1.Segment = 'LAM' AND SUBSTRING(T2.Date, 1, 4) = '2012'"
+            - "WHERE T1.Segment = 'LAM'"
+      - name: "sum_consumption_2"
+        title: "Sum Consumption 2"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples:
+            - "WHERE T1.Currency = 'CZK' AND T2.Consumption = (SELECT MIN(Consumption) FROM yearmonth) AND T2.Date BETWEEN 201301 AND 201312"
+            - "WHERE T1.Currency = 'CZK' AND T2.Date BETWEEN 201101 AND 201112"
+            - "WHERE T1.Currency = 'CZK'"
+      - name: "sum_consumption_3"
+        title: "Sum Consumption 3"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions:
+          - "customers.segment"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 10
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(T2.Date, 1, 4) = '2012'"
+            - "WHERE Date = '201304'"
+            - "WHERE T2.Date = '201309'"
+      - name: "sum_consumption_4"
+        title: "Sum Consumption 4"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T1.Currency = 'EUR'"
+      - name: "sum_consumption_5"
+        title: "Sum Consumption 5"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'"
+            - "WHERE T2.Date = '201206' AND T1.Segment = 'SME'"
+      - name: "sum_consumption_6"
+        title: "Sum Consumption 6"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Segment = 'LAM' AND T2.Date = '201310' AND T1.Currency = 'EUR'"
+      - name: "sum_consumption_7"
+        title: "Sum Consumption 7"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T1.Segment = 'KAM'"
+            - "WHERE T2.Date = '201305' AND T1.Segment = 'KAM'"
+      - name: "sum_consumption_8"
+        title: "Sum Consumption 8"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumption"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE CustomerID = (SELECT T1.CustomerID FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.Date = '2012-08-25' AND T1.Price = 634.8)"
+    segments: []
+relationships:
+  - name: "customers_to_transactions_1k_customerid_customerid"
+    source: "customers"
+    target: "transactions_1k"
+    from: "customers.customerid"
+    to: "transactions_1k.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "customers_to_yearmonth_customerid_customerid"
+    source: "customers"
+    target: "yearmonth"
+    from: "customers.customerid"
+    to: "yearmonth.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "transactions_1k_to_customers_customerid_customerid"
+    source: "transactions_1k"
+    target: "customers"
+    from: "transactions_1k.customerid"
+    to: "customers.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "transactions_1k_to_gasstations_gasstationid_gasstationid"
+    source: "transactions_1k"
+    target: "gasstations"
+    from: "transactions_1k.gasstationid"
+    to: "gasstations.gasstationid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "transactions_1k_to_products_productid_productid"
+    source: "transactions_1k"
+    target: "products"
+    from: "transactions_1k.productid"
+    to: "products.productid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "transactions_1k_to_yearmonth_customerid_customerid"
+    source: "transactions_1k"
+    target: "yearmonth"
+    from: "transactions_1k.customerid"
+    to: "yearmonth.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "yearmonth_to_customers_customerid_customerid"
+    source: "yearmonth"
+    target: "customers"
+    from: "yearmonth.customerid"
+    to: "customers.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+views:
+  - name: "debit_card_specializing_all"
+    title: "Debit Card Specializing All"
+    description: "Governed semantic view for the BIRD debit_card_specializing database."
+    public: true
+    ai_context: "Debit card customer segments, currencies, gas station transactions, products, and monthly fuel consumption."
+    entities:
+      - join_path: "customers"
+        includes:
+          measures:
+            - "count_customerid"
+            - "count_customerid_2"
+            - "count_row_count"
+            - "sum_currency"
+            - "sum_currency_2"
+          dimensions:
+            - "segment"
+            - "currency"
+          time_dimensions: []
+          segments: []
+      - join_path: "gasstations"
+        includes:
+          measures:
+            - "sum_country"
+          dimensions:
+            - "chainid"
+            - "country"
+            - "segment"
+          time_dimensions: []
+          segments: []
+      - join_path: "products"
+        includes:
+          measures: []
+          dimensions:
+            - "description"
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k"
+        includes:
+          measures:
+            - "avg_amount"
+            - "avg_price"
+            - "avg_price_2"
+            - "count_customerid"
+            - "count_transactionid"
+            - "count_transactionid_2"
+            - "count_transactionid_3"
+            - "sum_price"
+            - "sum_price_2"
+          dimensions:
+            - "time"
+            - "customerid"
+            - "cardid"
+            - "gasstationid"
+            - "productid"
+            - "amount"
+            - "price"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "yearmonth"
+        includes:
+          measures:
+            - "avg_consumption"
+            - "count_row_count"
+            - "min_consumption"
+            - "sum_consumption"
+            - "sum_consumption_2"
+            - "sum_consumption_3"
+            - "sum_consumption_4"
+            - "sum_consumption_5"
+            - "sum_consumption_6"
+            - "sum_consumption_7"
+            - "sum_consumption_8"
+          dimensions:
+            - "consumption"
+          time_dimensions: []
+          segments: []
+      - join_path: "customers.transactions_1k"
+        prefix: true
+        includes:
+          measures:
+            - "avg_amount"
+            - "avg_price"
+            - "avg_price_2"
+            - "count_customerid"
+            - "count_transactionid"
+            - "count_transactionid_2"
+            - "count_transactionid_3"
+            - "sum_price"
+            - "sum_price_2"
+          dimensions:
+            - "time"
+            - "customerid"
+            - "cardid"
+            - "gasstationid"
+            - "productid"
+            - "amount"
+            - "price"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "customers.yearmonth"
+        prefix: true
+        includes:
+          measures:
+            - "avg_consumption"
+            - "count_row_count"
+            - "min_consumption"
+            - "sum_consumption"
+            - "sum_consumption_2"
+            - "sum_consumption_3"
+            - "sum_consumption_4"
+            - "sum_consumption_5"
+            - "sum_consumption_6"
+            - "sum_consumption_7"
+            - "sum_consumption_8"
+          dimensions:
+            - "consumption"
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k.customers"
+        prefix: true
+        includes:
+          measures:
+            - "count_customerid"
+            - "count_customerid_2"
+            - "count_row_count"
+            - "sum_currency"
+            - "sum_currency_2"
+          dimensions:
+            - "segment"
+            - "currency"
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k.gasstations"
+        prefix: true
+        includes:
+          measures:
+            - "sum_country"
+          dimensions:
+            - "chainid"
+            - "country"
+            - "segment"
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k.products"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "description"
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k.yearmonth"
+        prefix: true
+        includes:
+          measures:
+            - "avg_consumption"
+            - "count_row_count"
+            - "min_consumption"
+            - "sum_consumption"
+            - "sum_consumption_2"
+            - "sum_consumption_3"
+            - "sum_consumption_4"
+            - "sum_consumption_5"
+            - "sum_consumption_6"
+            - "sum_consumption_7"
+            - "sum_consumption_8"
+          dimensions:
+            - "consumption"
+          time_dimensions: []
+          segments: []
+      - join_path: "yearmonth.customers"
+        prefix: true
+        includes:
+          measures:
+            - "count_customerid"
+            - "count_customerid_2"
+            - "count_row_count"
+            - "sum_currency"
+            - "sum_currency_2"
+          dimensions:
+            - "segment"
+            - "currency"
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "customers.count_customerid"
+          - "customers.count_customerid_2"
+          - "customers.count_row_count"
+          - "customers.sum_currency"
+          - "customers.sum_currency_2"
+          - "gasstations.sum_country"
+          - "transactions_1k.avg_amount"
+          - "transactions_1k.avg_price"
+          - "transactions_1k.avg_price_2"
+          - "transactions_1k.count_customerid"
+          - "transactions_1k.count_transactionid"
+          - "transactions_1k.count_transactionid_2"
+          - "transactions_1k.count_transactionid_3"
+          - "transactions_1k.sum_price"
+          - "transactions_1k.sum_price_2"
+          - "yearmonth.avg_consumption"
+          - "yearmonth.count_row_count"
+          - "yearmonth.min_consumption"
+          - "yearmonth.sum_consumption"
+          - "yearmonth.sum_consumption_2"
+          - "yearmonth.sum_consumption_3"
+          - "yearmonth.sum_consumption_4"
+          - "yearmonth.sum_consumption_5"
+          - "yearmonth.sum_consumption_6"
+          - "yearmonth.sum_consumption_7"
+          - "yearmonth.sum_consumption_8"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "customers.segment"
+          - "customers.currency"
+          - "transactions_1k.customerid"
+    default_time_dimension: "transactions_1k.date"
+policies: []

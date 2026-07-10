@@ -1,0 +1,156 @@
+[
+  {
+    "snapshot_id": "california_schools_3cc20de4404e",
+    "version_hash": "3cc20de4404e1b0d3eba07c1aa3f8443d6d3b220681603130a8ccec8b2f158e0",
+    "domains": [
+      "california_schools"
+    ],
+    "entities": 3,
+    "relationships": 6,
+    "views": 1,
+    "catalog_members": 111,
+    "warnings": [],
+    "db_id": "california_schools",
+    "path": "bird_semantic_engine/california_schools/model.yml"
+  },
+  {
+    "snapshot_id": "card_games_11eebb995020",
+    "version_hash": "11eebb995020587926250dfc6c8c21af2ff2fbdd603a50b41a8791b742c03523",
+    "domains": [
+      "card_games"
+    ],
+    "entities": 6,
+    "relationships": 11,
+    "views": 1,
+    "catalog_members": 147,
+    "warnings": [],
+    "db_id": "card_games",
+    "path": "bird_semantic_engine/card_games/model.yml"
+  },
+  {
+    "snapshot_id": "codebase_community_e921ef7b9bc6",
+    "version_hash": "e921ef7b9bc6e1f7848bbae49178657a8fa66f714a8736a4e9515811995253ec",
+    "domains": [
+      "codebase_community"
+    ],
+    "entities": 8,
+    "relationships": 28,
+    "views": 1,
+    "catalog_members": 134,
+    "warnings": [],
+    "db_id": "codebase_community",
+    "path": "bird_semantic_engine/codebase_community/model.yml"
+  },
+  {
+    "snapshot_id": "debit_card_specializing_6c2746e0a487",
+    "version_hash": "6c2746e0a487be1c03ed5917b97c89521d8c4c3428081e619898b56ca0ddf183",
+    "domains": [
+      "debit_card_specializing"
+    ],
+    "entities": 5,
+    "relationships": 7,
+    "views": 1,
+    "catalog_members": 53,
+    "warnings": [],
+    "db_id": "debit_card_specializing",
+    "path": "bird_semantic_engine/debit_card_specializing/model.yml"
+  },
+  {
+    "snapshot_id": "european_football_2_33e59f4e12cb",
+    "version_hash": "33e59f4e12cb674c95b61d3d7e6994538cb003db6ca3275a31b0635aa831bce4",
+    "domains": [
+      "european_football_2"
+    ],
+    "entities": 7,
+    "relationships": 45,
+    "views": 1,
+    "catalog_members": 162,
+    "warnings": [],
+    "db_id": "european_football_2",
+    "path": "bird_semantic_engine/european_football_2/model.yml"
+  },
+  {
+    "snapshot_id": "financial_cb0a55043d22",
+    "version_hash": "cb0a55043d22ecbf320da59c96e62fa585773ae2cb9d92f979ab9f677cf24bf2",
+    "domains": [
+      "financial"
+    ],
+    "entities": 8,
+    "relationships": 16,
+    "views": 1,
+    "catalog_members": 109,
+    "warnings": [],
+    "db_id": "financial",
+    "path": "bird_semantic_engine/financial/model.yml"
+  },
+  {
+    "snapshot_id": "formula_1_7aed56128e12",
+    "version_hash": "7aed56128e1285405906d28854df4fc0c75438fe8dafac05baaa0cb284382f61",
+    "domains": [
+      "formula_1"
+    ],
+    "entities": 13,
+    "relationships": 30,
+    "views": 1,
+    "catalog_members": 148,
+    "warnings": [],
+    "db_id": "formula_1",
+    "path": "bird_semantic_engine/formula_1/model.yml"
+  },
+  {
+    "snapshot_id": "student_club_c4489ba79faf",
+    "version_hash": "c4489ba79fafab522de13c3e646dbe73459385d848f275a516e64d2f9fbdc3ea",
+    "domains": [
+      "student_club"
+    ],
+    "entities": 8,
+    "relationships": 16,
+    "views": 1,
+    "catalog_members": 115,
+    "warnings": [],
+    "db_id": "student_club",
+    "path": "bird_semantic_engine/student_club/model.yml"
+  },
+  {
+    "snapshot_id": "superhero_bcc2c0bb44c4",
+    "version_hash": "bcc2c0bb44c40ad3e0481299ca4c1c21e027155cdafb4775048ea6b1d65e87ca",
+    "domains": [
+      "superhero"
+    ],
+    "entities": 10,
+    "relationships": 18,
+    "views": 1,
+    "catalog_members": 90,
+    "warnings": [],
+    "db_id": "superhero",
+    "path": "bird_semantic_engine/superhero/model.yml"
+  },
+  {
+    "snapshot_id": "thrombosis_prediction_8eb1f6f5aaa1",
+    "version_hash": "8eb1f6f5aaa1a7948197da9cf033c4b5009a2b015d6d94cd88ab7aa2fa8201ec",
+    "domains": [
+      "thrombosis_prediction"
+    ],
+    "entities": 3,
+    "relationships": 6,
+    "views": 1,
+    "catalog_members": 126,
+    "warnings": [],
+    "db_id": "thrombosis_prediction",
+    "path": "bird_semantic_engine/thrombosis_prediction/model.yml"
+  },
+  {
+    "snapshot_id": "toxicology_458a14f7c915",
+    "version_hash": "458a14f7c915ab4b4be51feb19e451d1eb7106b011556df0506c77677f36fc87",
+    "domains": [
+      "toxicology"
+    ],
+    "entities": 4,
+    "relationships": 11,
+    "views": 1,
+    "catalog_members": 61,
+    "warnings": [],
+    "db_id": "toxicology",
+    "path": "bird_semantic_engine/toxicology/model.yml"
+  }
+]

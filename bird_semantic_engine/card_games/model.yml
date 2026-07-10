@@ -1,0 +1,2705 @@
+version: 1
+domain: "card_games"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "cards"
+    title: "Cards"
+    description: "BIRD table cards in the card_games database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "cards"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "uuid"
+        expr: "uuid"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "artist"
+        title: "Artist"
+        expr: "artist"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "asciiname"
+        title: "AsciiName"
+        expr: "asciiName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "availability"
+        title: "Availability"
+        expr: "availability"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "bordercolor"
+        title: "BorderColor"
+        expr: "borderColor"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "cardkingdomfoilid"
+        title: "CardKingdomFoilId"
+        expr: "cardKingdomFoilId"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "cardkingdomid"
+        title: "CardKingdomId"
+        expr: "cardKingdomId"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "coloridentity"
+        title: "ColorIdentity"
+        expr: "colorIdentity"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "colorindicator"
+        title: "ColorIndicator"
+        expr: "colorIndicator"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "colors"
+        title: "Colors"
+        expr: "colors"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "convertedmanacost"
+        title: "ConvertedManaCost"
+        expr: "convertedManaCost"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "dueldeck"
+        title: "DuelDeck"
+        expr: "duelDeck"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "edhrecrank"
+        title: "EdhrecRank"
+        expr: "edhrecRank"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "faceconvertedmanacost"
+        title: "FaceConvertedManaCost"
+        expr: "faceConvertedManaCost"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "facename"
+        title: "FaceName"
+        expr: "faceName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "flavorname"
+        title: "FlavorName"
+        expr: "flavorName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "frameeffects"
+        title: "FrameEffects"
+        expr: "frameEffects"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "frameversion"
+        title: "FrameVersion"
+        expr: "frameVersion"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "hand"
+        title: "Hand"
+        expr: "hand"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "hascontentwarning"
+        title: "HasContentWarning"
+        expr: "hasContentWarning"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "hasfoil"
+        title: "HasFoil"
+        expr: "hasFoil"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isfullart"
+        title: "IsFullArt"
+        expr: "isFullArt"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isoversized"
+        title: "IsOversized"
+        expr: "isOversized"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ispromo"
+        title: "IsPromo"
+        expr: "isPromo"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isreprint"
+        title: "IsReprint"
+        expr: "isReprint"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isstarter"
+        title: "IsStarter"
+        expr: "isStarter"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isstoryspotlight"
+        title: "IsStorySpotlight"
+        expr: "isStorySpotlight"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "istextless"
+        title: "IsTextless"
+        expr: "isTextless"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "keywords"
+        title: "Keywords"
+        expr: "keywords"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "layout"
+        title: "Layout"
+        expr: "layout"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "leadershipskills"
+        title: "LeadershipSkills"
+        expr: "leadershipSkills"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "life"
+        title: "Life"
+        expr: "life"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "loyalty"
+        title: "Loyalty"
+        expr: "loyalty"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "manacost"
+        title: "ManaCost"
+        expr: "manaCost"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "mtgarenaid"
+        title: "MtgArenaId"
+        expr: "mtgArenaId"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "number"
+        title: "Number"
+        expr: "number"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "originalreleasedate"
+        title: "OriginalReleaseDate"
+        expr: "originalReleaseDate"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "originaltype"
+        title: "OriginalType"
+        expr: "originalType"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "otherfaceids"
+        title: "OtherFaceIds"
+        expr: "otherFaceIds"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "power"
+        title: "Power"
+        expr: "power"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "promotypes"
+        title: "PromoTypes"
+        expr: "promoTypes"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "purchaseurls"
+        title: "PurchaseUrls"
+        expr: "purchaseUrls"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "rarity"
+        title: "Rarity"
+        expr: "rarity"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "setcode"
+        title: "SetCode"
+        expr: "setCode"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "side"
+        title: "Side"
+        expr: "side"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "subtypes"
+        title: "Subtypes"
+        expr: "subtypes"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "supertypes"
+        title: "Supertypes"
+        expr: "supertypes"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "toughness"
+        title: "Toughness"
+        expr: "toughness"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "types"
+        title: "Types"
+        expr: "types"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "watermark"
+        title: "Watermark"
+        expr: "watermark"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_availability"
+        title: "Count Availability"
+        description: "COUNT over availability extracted from repeated BIRD gold SQL patterns."
+        expr: "availability"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "availability"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_frameeffects"
+        title: "Count Frameeffects"
+        description: "COUNT over frameEffects extracted from repeated BIRD gold SQL patterns."
+        expr: "frameEffects"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "frameeffects"
+        allowed_dimensions:
+          - "cards.frameeffects"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE NOT cardKingdomFoilId IS NULL AND NOT cardKingdomId IS NULL"
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions:
+          - "cards.artist"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: []
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "istextless"
+            operator: "equals"
+            values:
+              - 0
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.status = 'Restricted' AND T1.isTextless = 0"
+      - name: "distinct_id_count_2"
+        title: "Distinct Id Count 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "isstarter"
+            operator: "equals"
+            values:
+              - 1
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.status = 'Restricted' AND T1.isStarter = 1"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "isreprint"
+            operator: "equals"
+            values:
+              - 1
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.language = 'German' AND T1.isReprint = 1"
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "bordercolor"
+            operator: "equals"
+            values:
+              - "borderless"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.borderColor = 'borderless' AND T2.language = 'Russian'"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "isstoryspotlight"
+            operator: "equals"
+            values:
+              - 1
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.isStorySpotlight = 1"
+      - name: "count_id_5"
+        title: "Count Id 5"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "bordercolor"
+            operator: "equals"
+            values:
+              - "white"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.status = 'Banned' AND T1.borderColor = 'white'"
+      - name: "count_id_6"
+        title: "Count Id 6"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "frameversion"
+            operator: "equals"
+            values:
+              - "future"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.frameVersion = 'future'"
+      - name: "count_id_7"
+        title: "Count Id 7"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.format = 'premodern' AND T3.text = 'This is a triggered mana ability.' AND T1.Side IS NULL"
+      - name: "distinct_id_count_3"
+        title: "Distinct Id Count 3"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "rarity"
+            operator: "equals"
+            values:
+              - "rare"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.rarity = 'rare' AND T2.date = '2007-02-01'"
+      - name: "count_id_8"
+        title: "Count Id 8"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.format = 'commander' AND T2.status = 'Legal'"
+      - name: "count_id_9"
+        title: "Count Id 9"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "power"
+            operator: "equals"
+            values:
+              - "*"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.power IS NULL OR T1.power = '*'"
+      - name: "count_id_10"
+        title: "Count Id 10"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Abyssal Horror"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.name = 'Abyssal Horror'"
+      - name: "count_id_11"
+        title: "Count Id 11"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "artist"
+            operator: "equals"
+            values:
+              - "Adam Rex"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.translation = 'Hauptset Zehnte Edition' AND T1.artist = 'Adam Rex'"
+      - name: "count_id_12"
+        title: "Count Id 12"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Coldsnap"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.name = 'Coldsnap'"
+      - name: "count_id_13"
+        title: "Count Id 13"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Abundance"
+          - member: "rarity"
+            operator: "equals"
+            values:
+              - "rare"
+          - member: "types"
+            operator: "equals"
+            values:
+              - "Enchantment"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.rarity = 'rare' AND T1.types = 'Enchantment' AND T1.name = 'Abundance' AND T2.status = 'Legal'"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters:
+          - member: "power"
+            operator: "equals"
+            values:
+              - "*"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE power = '*'"
+      - name: "count_row_count_2"
+        title: "Count Row Count 2"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_row_count_3"
+        title: "Count Row Count 3"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.status = 'Banned'"
+      - name: "sum_artist"
+        title: "Sum Artist"
+        description: "SUM over artist extracted from repeated BIRD gold SQL patterns."
+        expr: "artist"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "artist"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_availability"
+        title: "Sum Availability"
+        description: "SUM over availability extracted from repeated BIRD gold SQL patterns."
+        expr: "availability"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "availability"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_bordercolor"
+        title: "Sum Bordercolor"
+        description: "SUM over borderColor extracted from repeated BIRD gold SQL patterns."
+        expr: "borderColor"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "bordercolor"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_bordercolor_2"
+        title: "Sum Bordercolor 2"
+        description: "SUM over borderColor extracted from repeated BIRD gold SQL patterns."
+        expr: "borderColor"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "bordercolor"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Coldsnap"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.name = 'Coldsnap'"
+      - name: "sum_cardkingdomfoilid"
+        title: "Sum Cardkingdomfoilid"
+        description: "SUM over cardKingdomFoilId extracted from repeated BIRD gold SQL patterns."
+        expr: "cardKingdomFoilId"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cardkingdomfoilid"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Coldsnap"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.name = 'Coldsnap'"
+      - name: "sum_convertedmanacost"
+        title: "Sum Convertedmanacost"
+        description: "SUM over convertedManaCost extracted from repeated BIRD gold SQL patterns."
+        expr: "convertedManaCost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "convertedmanacost"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Abyssal Horror"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.name = 'Abyssal Horror'"
+      - name: "sum_convertedmanacost_2"
+        title: "Sum Convertedmanacost 2"
+        description: "SUM over convertedManaCost extracted from repeated BIRD gold SQL patterns."
+        expr: "convertedManaCost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "convertedmanacost"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Coldsnap"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.name = 'Coldsnap'"
+      - name: "sum_hascontentwarning"
+        title: "Sum Hascontentwarning"
+        description: "SUM over hasContentWarning extracted from repeated BIRD gold SQL patterns."
+        expr: "hasContentWarning"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "hascontentwarning"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.format = 'commander' AND T2.status = 'Legal'"
+      - name: "sum_istextless"
+        title: "Sum Istextless"
+        description: "SUM over isTextless extracted from repeated BIRD gold SQL patterns."
+        expr: "isTextless"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "istextless"
+        allowed_dimensions: []
+        filters:
+          - member: "isstoryspotlight"
+            operator: "equals"
+            values:
+              - 1
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE isStorySpotlight = 1"
+      - name: "sum_istextless_2"
+        title: "Sum Istextless 2"
+        description: "SUM over isTextless extracted from repeated BIRD gold SQL patterns."
+        expr: "isTextless"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "istextless"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_power"
+        title: "Sum Power"
+        description: "SUM over power extracted from repeated BIRD gold SQL patterns."
+        expr: "power"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "power"
+        allowed_dimensions: []
+        filters:
+          - member: "bordercolor"
+            operator: "equals"
+            values:
+              - "white"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE borderColor = 'white'"
+      - name: "sum_power_2"
+        title: "Sum Power 2"
+        description: "SUM over power extracted from repeated BIRD gold SQL patterns."
+        expr: "power"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "power"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Coldsnap"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.name = 'Coldsnap' AND T1.convertedManaCost > 5"
+      - name: "sum_power_3"
+        title: "Sum Power 3"
+        description: "SUM over power extracted from repeated BIRD gold SQL patterns."
+        expr: "power"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "power"
+        allowed_dimensions: []
+        filters:
+          - member: "dueldeck"
+            operator: "equals"
+            values:
+              - "a"
+          - member: "hasfoil"
+            operator: "equals"
+            values:
+              - 0
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE hasFoil = 0 AND duelDeck = 'a'"
+    segments: []
+  - name: "foreign_data"
+    title: "Foreign Data"
+    description: "BIRD table foreign_data in the card_games database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "foreign_data"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "uuid"
+        expr: "uuid"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "flavortext"
+        title: "FlavorText"
+        expr: "flavorText"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "language"
+        title: "Language"
+        expr: "language"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "text"
+        title: "Text"
+        expr: "text"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE language = 'Spanish'"
+      - name: "sum_language"
+        title: "Sum Language"
+        description: "SUM over language extracted from repeated BIRD gold SQL patterns."
+        expr: "language"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "language"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_language_2"
+        title: "Sum Language 2"
+        description: "SUM over language extracted from repeated BIRD gold SQL patterns."
+        expr: "language"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "language"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.isStorySpotlight = 1"
+      - name: "sum_language_3"
+        title: "Sum Language 3"
+        description: "SUM over language extracted from repeated BIRD gold SQL patterns."
+        expr: "language"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "language"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.power IS NULL OR T1.power = '*'"
+    segments: []
+  - name: "legalities"
+    title: "Legalities"
+    description: "BIRD table legalities in the card_games database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "legalities"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "uuid"
+        expr: "uuid"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "format"
+        title: "Format"
+        expr: "format"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+  - name: "sets"
+    title: "Sets"
+    description: "BIRD table sets in the card_games database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "sets"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "code"
+        expr: "code"
+        type: "string"
+        primary_key: false
+    time_dimensions:
+      - name: "releasedate"
+        title: "ReleaseDate"
+        description: "Time column releaseDate from sets."
+        expr: "releaseDate"
+        type: "date"
+        default: true
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "basesetsize"
+        title: "BaseSetSize"
+        expr: "baseSetSize"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "block"
+        title: "Block"
+        expr: "block"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isfoilonly"
+        title: "IsFoilOnly"
+        expr: "isFoilOnly"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isforeignonly"
+        title: "IsForeignOnly"
+        expr: "isForeignOnly"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isnonfoilonly"
+        title: "IsNonFoilOnly"
+        expr: "isNonFoilOnly"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "isonlineonly"
+        title: "IsOnlineOnly"
+        expr: "isOnlineOnly"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "keyrunecode"
+        title: "KeyruneCode"
+        expr: "keyruneCode"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "mcmname"
+        title: "McmName"
+        expr: "mcmName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "mtgocode"
+        title: "MtgoCode"
+        expr: "mtgoCode"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "parentcode"
+        title: "ParentCode"
+        expr: "parentCode"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "totalsetsize"
+        title: "TotalSetSize"
+        expr: "totalSetSize"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "block"
+            operator: "equals"
+            values:
+              - "Commander"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.language = 'Portuguese (Brazil)' AND T1.block = 'Commander'"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "type"
+            operator: "equals"
+            values:
+              - "expansion"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.type = 'expansion'"
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "mtgocode"
+            operator: "equals"
+            values:
+              - ""
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.language = 'Japanese' AND (T1.mtgoCode IS NULL OR T1.mtgoCode = '')"
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "block"
+            operator: "equals"
+            values:
+              - "Ice Age"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.block = 'Ice Age' AND T2.language = 'Italian' AND NOT T2.translation IS NULL"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE NOT T2.translation IS NULL AND T1.baseSetSize < 100 AND T2.language = 'Italian'"
+      - name: "count_id_5"
+        title: "Count Id 5"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions:
+          - "sets.releasedate"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.releaseDate BETWEEN '2012-01-01' AND '2015-12-31'"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_id"
+        title: "Sum Id"
+        description: "SUM over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions:
+          - "sets.releasedate"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.releaseDate BETWEEN '2012-01-01' AND '2015-12-31'"
+      - name: "sum_isnonfoilonly"
+        title: "Sum Isnonfoilonly"
+        description: "SUM over isNonFoilOnly extracted from repeated BIRD gold SQL patterns."
+        expr: "isNonFoilOnly"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "isnonfoilonly"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE code IN (SELECT setCode FROM set_translations WHERE language = 'Japanese')"
+    segments: []
+  - name: "set_translations"
+    title: "Set Translations"
+    description: "BIRD table set_translations in the card_games database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "set_translations"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "setcode"
+        expr: "setCode"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "language"
+        title: "Language"
+        expr: "language"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "translation"
+        title: "Translation"
+        expr: "translation"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_language"
+        title: "Count Language"
+        description: "COUNT over language extracted from repeated BIRD gold SQL patterns."
+        expr: "language"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "language"
+        allowed_dimensions:
+          - "sets.releasedate"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.releaseDate BETWEEN '2012-01-01' AND '2015-12-31'"
+      - name: "distinct_translation_count"
+        title: "Distinct Translation Count"
+        description: "COUNT over translation extracted from repeated BIRD gold SQL patterns."
+        expr: "translation"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "translation"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE setCode IN (SELECT setCode FROM cards WHERE name = 'Angel of Mercy') AND NOT translation IS NULL"
+      - name: "distinct_translation_count_2"
+        title: "Distinct Translation Count 2"
+        description: "COUNT over translation extracted from repeated BIRD gold SQL patterns."
+        expr: "translation"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "translation"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.name = 'Tenth Edition' AND NOT T2.translation IS NULL"
+      - name: "sum_language"
+        title: "Sum Language"
+        description: "SUM over language extracted from repeated BIRD gold SQL patterns."
+        expr: "language"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "language"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.type = 'expansion'"
+      - name: "sum_language_2"
+        title: "Sum Language 2"
+        description: "SUM over language extracted from repeated BIRD gold SQL patterns."
+        expr: "language"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "language"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_language_3"
+        title: "Sum Language 3"
+        description: "SUM over language extracted from repeated BIRD gold SQL patterns."
+        expr: "language"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "language"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.name = 'Ancestor''s Chosen'"
+    segments: []
+  - name: "rulings"
+    title: "Rulings"
+    description: "BIRD table rulings in the card_games database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "rulings"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "uuid"
+        expr: "uuid"
+        type: "string"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from rulings."
+        expr: "date"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "text"
+        title: "Text"
+        expr: "text"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures: []
+    segments: []
+relationships:
+  - name: "cards_to_foreign_data_uuid_uuid"
+    source: "cards"
+    target: "foreign_data"
+    from: "cards.uuid"
+    to: "foreign_data.uuid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "cards_to_legalities_uuid_uuid"
+    source: "cards"
+    target: "legalities"
+    from: "cards.uuid"
+    to: "legalities.uuid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "cards_to_rulings_uuid_uuid"
+    source: "cards"
+    target: "rulings"
+    from: "cards.uuid"
+    to: "rulings.uuid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "foreign_data_to_cards_uuid_uuid"
+    source: "foreign_data"
+    target: "cards"
+    from: "foreign_data.uuid"
+    to: "cards.uuid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "legalities_to_cards_uuid_uuid"
+    source: "legalities"
+    target: "cards"
+    from: "legalities.uuid"
+    to: "cards.uuid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "rulings_to_cards_uuid_uuid"
+    source: "rulings"
+    target: "cards"
+    from: "rulings.uuid"
+    to: "cards.uuid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "set_translations_to_cards_setcode_setcode"
+    source: "set_translations"
+    target: "cards"
+    from: "set_translations.setcode"
+    to: "cards.setcode"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "set_translations_to_sets_setcode_code"
+    source: "set_translations"
+    target: "sets"
+    from: "set_translations.setcode"
+    to: "sets.code"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "sets_to_cards_code_setcode"
+    source: "sets"
+    target: "cards"
+    from: "sets.code"
+    to: "cards.setcode"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "sets_to_set_translations_code_setcode"
+    source: "sets"
+    target: "set_translations"
+    from: "sets.code"
+    to: "set_translations.setcode"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "sets_to_set_translations_id_id"
+    source: "sets"
+    target: "set_translations"
+    from: "sets.id"
+    to: "set_translations.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+views:
+  - name: "card_games_all"
+    title: "Card Games All"
+    description: "Governed semantic view for the BIRD card_games database."
+    public: true
+    ai_context: "Magic card metadata, sets, rulings, foreign names, legality by format, and card attributes."
+    entities:
+      - join_path: "cards"
+        includes:
+          measures:
+            - "count_availability"
+            - "count_frameeffects"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "distinct_id_count_3"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "sum_artist"
+            - "sum_availability"
+            - "sum_bordercolor"
+            - "sum_bordercolor_2"
+            - "sum_cardkingdomfoilid"
+            - "sum_convertedmanacost"
+            - "sum_convertedmanacost_2"
+            - "sum_hascontentwarning"
+            - "sum_istextless"
+            - "sum_istextless_2"
+            - "sum_power"
+            - "sum_power_2"
+            - "sum_power_3"
+          dimensions:
+            - "artist"
+            - "asciiname"
+            - "availability"
+            - "bordercolor"
+            - "cardkingdomfoilid"
+            - "cardkingdomid"
+            - "coloridentity"
+            - "colorindicator"
+            - "colors"
+            - "convertedmanacost"
+            - "dueldeck"
+            - "edhrecrank"
+            - "faceconvertedmanacost"
+            - "facename"
+            - "flavorname"
+            - "frameeffects"
+            - "frameversion"
+            - "hand"
+            - "hascontentwarning"
+            - "hasfoil"
+            - "isfullart"
+            - "isoversized"
+            - "ispromo"
+            - "isreprint"
+            - "isstarter"
+            - "isstoryspotlight"
+            - "istextless"
+            - "keywords"
+            - "layout"
+            - "leadershipskills"
+            - "life"
+            - "loyalty"
+            - "manacost"
+            - "mtgarenaid"
+            - "name"
+            - "number"
+            - "originalreleasedate"
+            - "originaltype"
+            - "otherfaceids"
+            - "power"
+            - "promotypes"
+            - "purchaseurls"
+            - "rarity"
+            - "setcode"
+            - "side"
+            - "subtypes"
+            - "supertypes"
+            - "toughness"
+            - "type"
+            - "types"
+            - "watermark"
+          time_dimensions: []
+          segments: []
+      - join_path: "foreign_data"
+        includes:
+          measures:
+            - "count_row_count"
+            - "sum_language"
+            - "sum_language_2"
+            - "sum_language_3"
+          dimensions:
+            - "flavortext"
+            - "language"
+            - "text"
+            - "type"
+          time_dimensions: []
+          segments: []
+      - join_path: "legalities"
+        includes:
+          measures: []
+          dimensions:
+            - "format"
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "sets"
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "distinct_id_count"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_row_count"
+            - "sum_id"
+            - "sum_isnonfoilonly"
+          dimensions:
+            - "basesetsize"
+            - "block"
+            - "isfoilonly"
+            - "isforeignonly"
+            - "isnonfoilonly"
+            - "isonlineonly"
+            - "keyrunecode"
+            - "mcmname"
+            - "mtgocode"
+            - "name"
+            - "parentcode"
+            - "totalsetsize"
+            - "type"
+          time_dimensions:
+            - "releasedate"
+          segments: []
+      - join_path: "set_translations"
+        includes:
+          measures:
+            - "count_language"
+            - "distinct_translation_count"
+            - "distinct_translation_count_2"
+            - "sum_language"
+            - "sum_language_2"
+            - "sum_language_3"
+          dimensions:
+            - "language"
+            - "translation"
+          time_dimensions: []
+          segments: []
+      - join_path: "rulings"
+        includes:
+          measures: []
+          dimensions:
+            - "text"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "cards.foreign_data"
+        prefix: true
+        includes:
+          measures:
+            - "count_row_count"
+            - "sum_language"
+            - "sum_language_2"
+            - "sum_language_3"
+          dimensions:
+            - "flavortext"
+            - "language"
+            - "text"
+            - "type"
+          time_dimensions: []
+          segments: []
+      - join_path: "cards.legalities"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "format"
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "cards.rulings"
+        prefix: true
+        includes:
+          measures: []
+          dimensions:
+            - "text"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "foreign_data.cards"
+        prefix: true
+        includes:
+          measures:
+            - "count_availability"
+            - "count_frameeffects"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "distinct_id_count_3"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "sum_artist"
+            - "sum_availability"
+            - "sum_bordercolor"
+            - "sum_bordercolor_2"
+            - "sum_cardkingdomfoilid"
+            - "sum_convertedmanacost"
+            - "sum_convertedmanacost_2"
+            - "sum_hascontentwarning"
+            - "sum_istextless"
+            - "sum_istextless_2"
+            - "sum_power"
+            - "sum_power_2"
+            - "sum_power_3"
+          dimensions:
+            - "artist"
+            - "asciiname"
+            - "availability"
+            - "bordercolor"
+            - "cardkingdomfoilid"
+            - "cardkingdomid"
+            - "coloridentity"
+            - "colorindicator"
+            - "colors"
+            - "convertedmanacost"
+            - "dueldeck"
+            - "edhrecrank"
+            - "faceconvertedmanacost"
+            - "facename"
+            - "flavorname"
+            - "frameeffects"
+            - "frameversion"
+            - "hand"
+            - "hascontentwarning"
+            - "hasfoil"
+            - "isfullart"
+            - "isoversized"
+            - "ispromo"
+            - "isreprint"
+            - "isstarter"
+            - "isstoryspotlight"
+            - "istextless"
+            - "keywords"
+            - "layout"
+            - "leadershipskills"
+            - "life"
+            - "loyalty"
+            - "manacost"
+            - "mtgarenaid"
+            - "name"
+            - "number"
+            - "originalreleasedate"
+            - "originaltype"
+            - "otherfaceids"
+            - "power"
+            - "promotypes"
+            - "purchaseurls"
+            - "rarity"
+            - "setcode"
+            - "side"
+            - "subtypes"
+            - "supertypes"
+            - "toughness"
+            - "type"
+            - "types"
+            - "watermark"
+          time_dimensions: []
+          segments: []
+      - join_path: "legalities.cards"
+        prefix: true
+        includes:
+          measures:
+            - "count_availability"
+            - "count_frameeffects"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "distinct_id_count_3"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "sum_artist"
+            - "sum_availability"
+            - "sum_bordercolor"
+            - "sum_bordercolor_2"
+            - "sum_cardkingdomfoilid"
+            - "sum_convertedmanacost"
+            - "sum_convertedmanacost_2"
+            - "sum_hascontentwarning"
+            - "sum_istextless"
+            - "sum_istextless_2"
+            - "sum_power"
+            - "sum_power_2"
+            - "sum_power_3"
+          dimensions:
+            - "artist"
+            - "asciiname"
+            - "availability"
+            - "bordercolor"
+            - "cardkingdomfoilid"
+            - "cardkingdomid"
+            - "coloridentity"
+            - "colorindicator"
+            - "colors"
+            - "convertedmanacost"
+            - "dueldeck"
+            - "edhrecrank"
+            - "faceconvertedmanacost"
+            - "facename"
+            - "flavorname"
+            - "frameeffects"
+            - "frameversion"
+            - "hand"
+            - "hascontentwarning"
+            - "hasfoil"
+            - "isfullart"
+            - "isoversized"
+            - "ispromo"
+            - "isreprint"
+            - "isstarter"
+            - "isstoryspotlight"
+            - "istextless"
+            - "keywords"
+            - "layout"
+            - "leadershipskills"
+            - "life"
+            - "loyalty"
+            - "manacost"
+            - "mtgarenaid"
+            - "name"
+            - "number"
+            - "originalreleasedate"
+            - "originaltype"
+            - "otherfaceids"
+            - "power"
+            - "promotypes"
+            - "purchaseurls"
+            - "rarity"
+            - "setcode"
+            - "side"
+            - "subtypes"
+            - "supertypes"
+            - "toughness"
+            - "type"
+            - "types"
+            - "watermark"
+          time_dimensions: []
+          segments: []
+      - join_path: "rulings.cards"
+        prefix: true
+        includes:
+          measures:
+            - "count_availability"
+            - "count_frameeffects"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "distinct_id_count_3"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "sum_artist"
+            - "sum_availability"
+            - "sum_bordercolor"
+            - "sum_bordercolor_2"
+            - "sum_cardkingdomfoilid"
+            - "sum_convertedmanacost"
+            - "sum_convertedmanacost_2"
+            - "sum_hascontentwarning"
+            - "sum_istextless"
+            - "sum_istextless_2"
+            - "sum_power"
+            - "sum_power_2"
+            - "sum_power_3"
+          dimensions:
+            - "artist"
+            - "asciiname"
+            - "availability"
+            - "bordercolor"
+            - "cardkingdomfoilid"
+            - "cardkingdomid"
+            - "coloridentity"
+            - "colorindicator"
+            - "colors"
+            - "convertedmanacost"
+            - "dueldeck"
+            - "edhrecrank"
+            - "faceconvertedmanacost"
+            - "facename"
+            - "flavorname"
+            - "frameeffects"
+            - "frameversion"
+            - "hand"
+            - "hascontentwarning"
+            - "hasfoil"
+            - "isfullart"
+            - "isoversized"
+            - "ispromo"
+            - "isreprint"
+            - "isstarter"
+            - "isstoryspotlight"
+            - "istextless"
+            - "keywords"
+            - "layout"
+            - "leadershipskills"
+            - "life"
+            - "loyalty"
+            - "manacost"
+            - "mtgarenaid"
+            - "name"
+            - "number"
+            - "originalreleasedate"
+            - "originaltype"
+            - "otherfaceids"
+            - "power"
+            - "promotypes"
+            - "purchaseurls"
+            - "rarity"
+            - "setcode"
+            - "side"
+            - "subtypes"
+            - "supertypes"
+            - "toughness"
+            - "type"
+            - "types"
+            - "watermark"
+          time_dimensions: []
+          segments: []
+      - join_path: "set_translations.cards"
+        prefix: true
+        includes:
+          measures:
+            - "count_availability"
+            - "count_frameeffects"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "distinct_id_count_3"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "sum_artist"
+            - "sum_availability"
+            - "sum_bordercolor"
+            - "sum_bordercolor_2"
+            - "sum_cardkingdomfoilid"
+            - "sum_convertedmanacost"
+            - "sum_convertedmanacost_2"
+            - "sum_hascontentwarning"
+            - "sum_istextless"
+            - "sum_istextless_2"
+            - "sum_power"
+            - "sum_power_2"
+            - "sum_power_3"
+          dimensions:
+            - "artist"
+            - "asciiname"
+            - "availability"
+            - "bordercolor"
+            - "cardkingdomfoilid"
+            - "cardkingdomid"
+            - "coloridentity"
+            - "colorindicator"
+            - "colors"
+            - "convertedmanacost"
+            - "dueldeck"
+            - "edhrecrank"
+            - "faceconvertedmanacost"
+            - "facename"
+            - "flavorname"
+            - "frameeffects"
+            - "frameversion"
+            - "hand"
+            - "hascontentwarning"
+            - "hasfoil"
+            - "isfullart"
+            - "isoversized"
+            - "ispromo"
+            - "isreprint"
+            - "isstarter"
+            - "isstoryspotlight"
+            - "istextless"
+            - "keywords"
+            - "layout"
+            - "leadershipskills"
+            - "life"
+            - "loyalty"
+            - "manacost"
+            - "mtgarenaid"
+            - "name"
+            - "number"
+            - "originalreleasedate"
+            - "originaltype"
+            - "otherfaceids"
+            - "power"
+            - "promotypes"
+            - "purchaseurls"
+            - "rarity"
+            - "setcode"
+            - "side"
+            - "subtypes"
+            - "supertypes"
+            - "toughness"
+            - "type"
+            - "types"
+            - "watermark"
+          time_dimensions: []
+          segments: []
+      - join_path: "set_translations.sets"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "distinct_id_count"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_row_count"
+            - "sum_id"
+            - "sum_isnonfoilonly"
+          dimensions:
+            - "basesetsize"
+            - "block"
+            - "isfoilonly"
+            - "isforeignonly"
+            - "isnonfoilonly"
+            - "isonlineonly"
+            - "keyrunecode"
+            - "mcmname"
+            - "mtgocode"
+            - "name"
+            - "parentcode"
+            - "totalsetsize"
+            - "type"
+          time_dimensions:
+            - "releasedate"
+          segments: []
+      - join_path: "sets.cards"
+        prefix: true
+        includes:
+          measures:
+            - "count_availability"
+            - "count_frameeffects"
+            - "count_id"
+            - "distinct_id_count"
+            - "distinct_id_count_2"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "distinct_id_count_3"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_id_11"
+            - "count_id_12"
+            - "count_id_13"
+            - "count_row_count"
+            - "count_row_count_2"
+            - "count_row_count_3"
+            - "sum_artist"
+            - "sum_availability"
+            - "sum_bordercolor"
+            - "sum_bordercolor_2"
+            - "sum_cardkingdomfoilid"
+            - "sum_convertedmanacost"
+            - "sum_convertedmanacost_2"
+            - "sum_hascontentwarning"
+            - "sum_istextless"
+            - "sum_istextless_2"
+            - "sum_power"
+            - "sum_power_2"
+            - "sum_power_3"
+          dimensions:
+            - "artist"
+            - "asciiname"
+            - "availability"
+            - "bordercolor"
+            - "cardkingdomfoilid"
+            - "cardkingdomid"
+            - "coloridentity"
+            - "colorindicator"
+            - "colors"
+            - "convertedmanacost"
+            - "dueldeck"
+            - "edhrecrank"
+            - "faceconvertedmanacost"
+            - "facename"
+            - "flavorname"
+            - "frameeffects"
+            - "frameversion"
+            - "hand"
+            - "hascontentwarning"
+            - "hasfoil"
+            - "isfullart"
+            - "isoversized"
+            - "ispromo"
+            - "isreprint"
+            - "isstarter"
+            - "isstoryspotlight"
+            - "istextless"
+            - "keywords"
+            - "layout"
+            - "leadershipskills"
+            - "life"
+            - "loyalty"
+            - "manacost"
+            - "mtgarenaid"
+            - "name"
+            - "number"
+            - "originalreleasedate"
+            - "originaltype"
+            - "otherfaceids"
+            - "power"
+            - "promotypes"
+            - "purchaseurls"
+            - "rarity"
+            - "setcode"
+            - "side"
+            - "subtypes"
+            - "supertypes"
+            - "toughness"
+            - "type"
+            - "types"
+            - "watermark"
+          time_dimensions: []
+          segments: []
+      - join_path: "sets.set_translations"
+        prefix: true
+        includes:
+          measures:
+            - "count_language"
+            - "distinct_translation_count"
+            - "distinct_translation_count_2"
+            - "sum_language"
+            - "sum_language_2"
+            - "sum_language_3"
+          dimensions:
+            - "language"
+            - "translation"
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "cards.count_availability"
+          - "cards.count_frameeffects"
+          - "cards.count_id"
+          - "cards.count_id_10"
+          - "cards.count_id_11"
+          - "cards.count_id_12"
+          - "cards.count_id_13"
+          - "cards.count_id_2"
+          - "cards.count_id_3"
+          - "cards.count_id_4"
+          - "cards.count_id_5"
+          - "cards.count_id_6"
+          - "cards.count_id_7"
+          - "cards.count_id_8"
+          - "cards.count_id_9"
+          - "cards.count_row_count"
+          - "cards.count_row_count_2"
+          - "cards.count_row_count_3"
+          - "cards.distinct_id_count"
+          - "cards.distinct_id_count_2"
+          - "cards.distinct_id_count_3"
+          - "cards.sum_artist"
+          - "cards.sum_availability"
+          - "cards.sum_bordercolor"
+          - "cards.sum_bordercolor_2"
+          - "cards.sum_cardkingdomfoilid"
+          - "cards.sum_convertedmanacost"
+          - "cards.sum_convertedmanacost_2"
+          - "cards.sum_hascontentwarning"
+          - "cards.sum_istextless"
+          - "cards.sum_istextless_2"
+          - "cards.sum_power"
+          - "cards.sum_power_2"
+          - "cards.sum_power_3"
+          - "foreign_data.count_row_count"
+          - "foreign_data.sum_language"
+          - "foreign_data.sum_language_2"
+          - "foreign_data.sum_language_3"
+          - "set_translations.count_language"
+          - "set_translations.distinct_translation_count"
+          - "set_translations.distinct_translation_count_2"
+          - "set_translations.sum_language"
+          - "set_translations.sum_language_2"
+          - "set_translations.sum_language_3"
+          - "sets.count_id"
+          - "sets.count_id_2"
+          - "sets.count_id_3"
+          - "sets.count_id_4"
+          - "sets.count_id_5"
+          - "sets.count_row_count"
+          - "sets.distinct_id_count"
+          - "sets.sum_id"
+          - "sets.sum_isnonfoilonly"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "sets.releasedate"
+          - "cards.artist"
+          - "cards.frameeffects"
+    default_time_dimension: "sets.releasedate"
+policies: []

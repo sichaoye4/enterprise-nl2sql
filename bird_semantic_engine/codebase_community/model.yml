@@ -1,0 +1,3030 @@
+version: 1
+domain: "codebase_community"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "badges"
+    title: "Badges"
+    description: "BIRD table badges in the codebase_community database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "badges"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "Id"
+        type: "number"
+        primary_key: true
+      - name: "userid"
+        expr: "UserId"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column Date from badges."
+        expr: "Date"
+        type: "datetime"
+        default: true
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "name"
+        title: "Name"
+        expr: "Name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.DisplayName = 'csgillespie'"
+            - "WHERE STRFTIME('%Y', T1.Date) = '2011' AND T2.DisplayName = 'csgillespie'"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions:
+          - "users.displayname"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.Views > 200"
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Supporter"
+              - "Teacher"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.Name IN ('Supporter', 'Teacher') AND T2.Location = 'New York'"
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Teacher"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.Location = 'India' AND T1.Name = 'Teacher'"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Organizer"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.\"Name\" = 'Organizer'"
+      - name: "count_name"
+        title: "Count Name"
+        description: "COUNT over Name extracted from repeated BIRD gold SQL patterns."
+        expr: "Name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "name"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T.num > 5"
+      - name: "sum_date"
+        title: "Sum Date"
+        description: "SUM over Date extracted from repeated BIRD gold SQL patterns."
+        expr: "Date"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "date"
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values:
+              - "Student"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Name = 'Student'"
+    segments: []
+  - name: "comments"
+    title: "Comments"
+    description: "BIRD table comments in the codebase_community database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "comments"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "Id"
+        type: "number"
+        primary_key: true
+      - name: "postid"
+        expr: "PostId"
+        type: "number"
+        primary_key: false
+      - name: "userid"
+        expr: "UserId"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "creationdate"
+        title: "CreationDate"
+        description: "Time column CreationDate from comments."
+        expr: "CreationDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "score"
+        title: "Score"
+        expr: "Score"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "text"
+        title: "Text"
+        expr: "Text"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "userdisplayname"
+        title: "UserDisplayName"
+        expr: "UserDisplayName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Neil McGuigan' AND T3.Score < 60"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "score"
+            operator: "equals"
+            values:
+              - 0
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.ViewCount < 5 AND T2.Score = 0"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "score"
+            operator: "equals"
+            values:
+              - 0
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.CommentCount = 1 AND T2.Score = 0"
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "score"
+            operator: "equals"
+            values:
+              - 0
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.Score = 0 AND T2.Age = 40"
+      - name: "count_userid"
+        title: "Count Userid"
+        description: "COUNT over UserId extracted from repeated BIRD gold SQL patterns."
+        expr: "UserId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "userid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+  - name: "posthistory"
+    title: "PostHistory"
+    description: "BIRD table postHistory in the codebase_community database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "postHistory"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "Id"
+        type: "number"
+        primary_key: true
+      - name: "postid"
+        expr: "PostId"
+        type: "number"
+        primary_key: false
+      - name: "userid"
+        expr: "UserId"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "creationdate"
+        title: "CreationDate"
+        description: "Time column CreationDate from postHistory."
+        expr: "CreationDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "posthistorytypeid"
+        title: "PostHistoryTypeId"
+        expr: "PostHistoryTypeId"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "text"
+        title: "Text"
+        expr: "Text"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "comment"
+        title: "Comment"
+        expr: "Comment"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "userdisplayname"
+        title: "UserDisplayName"
+        expr: "UserDisplayName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "distinct_posthistorytypeid_count"
+        title: "Distinct Posthistorytypeid Count"
+        description: "COUNT over PostHistoryTypeId extracted from repeated BIRD gold SQL patterns."
+        expr: "PostHistoryTypeId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "posthistorytypeid"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T3.ViewCount >= 1000"
+    segments: []
+  - name: "postlinks"
+    title: "PostLinks"
+    description: "BIRD table postLinks in the codebase_community database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "postLinks"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "Id"
+        type: "number"
+        primary_key: true
+      - name: "postid"
+        expr: "PostId"
+        type: "number"
+        primary_key: false
+      - name: "relatedpostid"
+        expr: "RelatedPostId"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "creationdate"
+        title: "CreationDate"
+        description: "Time column CreationDate from postLinks."
+        expr: "CreationDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "linktypeid"
+        title: "LinkTypeId"
+        expr: "LinkTypeId"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.AnswerCount <= 2 AND STRFTIME('%Y', T1.CreationDate) = '2010'"
+    segments: []
+  - name: "posts"
+    title: "Posts"
+    description: "BIRD table posts in the codebase_community database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "posts"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "Id"
+        type: "number"
+        primary_key: true
+      - name: "owneruserid"
+        expr: "OwnerUserId"
+        type: "number"
+        primary_key: false
+      - name: "lasteditoruserid"
+        expr: "LastEditorUserId"
+        type: "number"
+        primary_key: false
+      - name: "parentid"
+        expr: "ParentId"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "creaiondate"
+        title: "CreaionDate"
+        description: "Time column CreaionDate from posts."
+        expr: "CreaionDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "lasactivitydate"
+        title: "LasActivityDate"
+        description: "Time column LasActivityDate from posts."
+        expr: "LasActivityDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "lasteditdate"
+        title: "LastEditDate"
+        description: "Time column LastEditDate from posts."
+        expr: "LastEditDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "communityowneddate"
+        title: "CommunityOwnedDate"
+        description: "Time column CommunityOwnedDate from posts."
+        expr: "CommunityOwnedDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "closeddate"
+        title: "ClosedDate"
+        description: "Time column ClosedDate from posts."
+        expr: "ClosedDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "score"
+        title: "Score"
+        expr: "Score"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "viewcount"
+        title: "ViewCount"
+        expr: "ViewCount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "body"
+        title: "Body"
+        expr: "Body"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "title"
+        title: "Title"
+        expr: "Title"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "tags"
+        title: "Tags"
+        expr: "Tags"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "answercount"
+        title: "AnswerCount"
+        expr: "AnswerCount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "commentcount"
+        title: "CommentCount"
+        expr: "CommentCount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "favoritecount"
+        title: "FavoriteCount"
+        expr: "FavoriteCount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "ownerdisplayname"
+        title: "OwnerDisplayName"
+        expr: "OwnerDisplayName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "lasteditordisplayname"
+        title: "LastEditorDisplayName"
+        expr: "LastEditorDisplayName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_score"
+        title: "Avg Score"
+        description: "AVG over Score extracted from repeated BIRD gold SQL patterns."
+        expr: "Score"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "score"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.DisplayName = 'csgillespie'"
+      - name: "avg_score_2"
+        title: "Avg Score 2"
+        description: "AVG over Score extracted from repeated BIRD gold SQL patterns."
+        expr: "Score"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "score"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Stephen Turner'"
+      - name: "avg_viewcount"
+        title: "Avg Viewcount"
+        description: "AVG over ViewCount extracted from repeated BIRD gold SQL patterns."
+        expr: "ViewCount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "viewcount"
+        allowed_dimensions:
+          - "comments.text"
+          - "posts.title"
+        filters:
+          - member: "tags"
+            operator: "equals"
+            values:
+              - "<humor>"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.Tags = '<humor>'"
+      - name: "avg_viewcount_2"
+        title: "Avg Viewcount 2"
+        description: "AVG over ViewCount extracted from repeated BIRD gold SQL patterns."
+        expr: "ViewCount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "viewcount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE ViewCount > (SELECT AVG(ViewCount) FROM posts)"
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.DisplayName = 'csgillespie'"
+            - "WHERE T2.DisplayName = 'csgillespie' AND T1.ParentId IS NULL"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 5
+          distinct: false
+          where_examples:
+            - "WHERE T1.Score >= 20 AND T2.Age > 65"
+            - "WHERE T1.Score > 5"
+            - "WHERE T1.Title LIKE '%data visualization%'"
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "viewcount"
+            operator: "equals"
+            values:
+              - 1910
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.ViewCount = 1910"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.BountyAmount = 50 AND STRFTIME('%Y', T2.CreationDate) = '2011'"
+      - name: "max_answercount"
+        title: "Max Answercount"
+        description: "MAX over AnswerCount extracted from repeated BIRD gold SQL patterns."
+        expr: "AnswerCount"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "answercount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.DisplayName = 'csgillespie'"
+      - name: "max_favoritecount"
+        title: "Max Favoritecount"
+        description: "MAX over FavoriteCount extracted from repeated BIRD gold SQL patterns."
+        expr: "FavoriteCount"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "favoritecount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE FavoriteCount = (SELECT MAX(FavoriteCount) FROM posts)"
+      - name: "sum_commentcount"
+        title: "Sum Commentcount"
+        description: "SUM over CommentCount extracted from repeated BIRD gold SQL patterns."
+        expr: "CommentCount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "commentcount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.DisplayName = 'csgillespie'"
+      - name: "sum_favoritecount"
+        title: "Sum Favoritecount"
+        description: "SUM over FavoriteCount extracted from repeated BIRD gold SQL patterns."
+        expr: "FavoriteCount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "favoritecount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Id IN (SELECT PostId FROM postHistory WHERE UserId = 686 AND STRFTIME('%Y', CreationDate) = '2011')"
+      - name: "sum_score"
+        title: "Sum Score"
+        description: "SUM over Score extracted from repeated BIRD gold SQL patterns."
+        expr: "Score"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "score"
+        allowed_dimensions:
+          - "users.websiteurl"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.DisplayName = 'Yevgeny'"
+      - name: "sum_score_2"
+        title: "Sum Score 2"
+        description: "SUM over Score extracted from repeated BIRD gold SQL patterns."
+        expr: "Score"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "score"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: []
+      - name: "sum_viewcount"
+        title: "Sum Viewcount"
+        description: "SUM over ViewCount extracted from repeated BIRD gold SQL patterns."
+        expr: "ViewCount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "viewcount"
+        allowed_dimensions:
+          - "users.displayname"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Harvey Motulsky' OR T1.DisplayName = 'Noah Snyder'"
+      - name: "sum_viewcount_2"
+        title: "Sum Viewcount 2"
+        description: "SUM over ViewCount extracted from repeated BIRD gold SQL patterns."
+        expr: "ViewCount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "viewcount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+  - name: "tags"
+    title: "Tags"
+    description: "BIRD table tags in the codebase_community database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "tags"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "Id"
+        type: "number"
+        primary_key: true
+      - name: "excerptpostid"
+        expr: "ExcerptPostId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "tagname"
+        title: "TagName"
+        expr: "TagName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "count"
+        title: "Count"
+        expr: "Count"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "wikipostid"
+        title: "WikiPostId"
+        expr: "WikiPostId"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "sum_tagname"
+        title: "Sum Tagname"
+        description: "SUM over TagName extracted from repeated BIRD gold SQL patterns."
+        expr: "TagName"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "tagname"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Community'"
+    segments: []
+  - name: "users"
+    title: "Users"
+    description: "BIRD table users in the codebase_community database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "users"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "Id"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "creationdate"
+        title: "CreationDate"
+        description: "Time column CreationDate from users."
+        expr: "CreationDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+      - name: "lastaccessdate"
+        title: "LastAccessDate"
+        description: "Time column LastAccessDate from users."
+        expr: "LastAccessDate"
+        type: "datetime"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "reputation"
+        title: "Reputation"
+        expr: "Reputation"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "displayname"
+        title: "DisplayName"
+        expr: "DisplayName"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "websiteurl"
+        title: "WebsiteUrl"
+        expr: "WebsiteUrl"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "location"
+        title: "Location"
+        expr: "Location"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "views"
+        title: "Views"
+        expr: "Views"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "upvotes"
+        title: "UpVotes"
+        expr: "UpVotes"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "downvotes"
+        title: "DownVotes"
+        expr: "DownVotes"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "age"
+        title: "Age"
+        expr: "Age"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_age"
+        title: "Avg Age"
+        description: "AVG over Age extracted from repeated BIRD gold SQL patterns."
+        expr: "Age"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "age"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "avg_upvotes"
+        title: "Avg Upvotes"
+        description: "AVG over UpVotes extracted from repeated BIRD gold SQL patterns."
+        expr: "UpVotes"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "upvotes"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "distinct_displayname_count"
+        title: "Distinct Displayname Count"
+        description: "COUNT over DisplayName extracted from repeated BIRD gold SQL patterns."
+        expr: "DisplayName"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "displayname"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T2.Views > 200"
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "displayname"
+            operator: "equals"
+            values:
+              - "Tiago Pasqualini"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Tiago Pasqualini'"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.Name = 'Teacher'"
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.Name = 'Supporter' AND T1.Age BETWEEN 19 AND 65"
+            - "WHERE T1.Age > 65 AND T2.Name = 'Supporter'"
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "displayname"
+            operator: "equals"
+            values:
+              - "Daniel Vassallo"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Daniel Vassallo'"
+      - name: "count_id_5"
+        title: "Count Id 5"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "displayname"
+            operator: "equals"
+            values:
+              - "Harlan"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Harlan'"
+      - name: "count_id_6"
+        title: "Count Id 6"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "displayname"
+            operator: "equals"
+            values:
+              - "Matt Parker"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Matt Parker'"
+      - name: "count_id_7"
+        title: "Count Id 7"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "displayname"
+            operator: "equals"
+            values:
+              - "Community"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Community'"
+      - name: "count_id_8"
+        title: "Count Id 8"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions:
+          - "users.displayname"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples:
+            - "WHERE T2.Score BETWEEN 5 AND 10"
+      - name: "count_id_9"
+        title: "Count Id 9"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "location"
+            operator: "equals"
+            values:
+              - "United Kingdom"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Location = 'United Kingdom' AND T2.FavoriteCount >= 4"
+      - name: "count_id_10"
+        title: "Count Id 10"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters:
+          - member: "displayname"
+            operator: "equals"
+            values:
+              - "Jay Stevens"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE STRFTIME('%Y', T2.CreaionDate) = '2010' AND T1.DisplayName = 'Jay Stevens'"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "1"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "max_age"
+        title: "Max Age"
+        description: "MAX over Age extracted from repeated BIRD gold SQL patterns."
+        expr: "Age"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "age"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE UserId IN (SELECT Id FROM users WHERE Age = (SELECT MAX(Age) FROM users))"
+      - name: "max_reputation"
+        title: "Max Reputation"
+        description: "MAX over Reputation extracted from repeated BIRD gold SQL patterns."
+        expr: "Reputation"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "reputation"
+        allowed_dimensions: []
+        filters:
+          - member: "displayname"
+            operator: "equals"
+            values:
+              - "Harlan"
+              - "Jarrod Dixon"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE DisplayName IN ('Harlan', 'Jarrod Dixon') AND Reputation = (SELECT MAX(Reputation) FROM users WHERE DisplayName IN ('Harlan', 'Jarrod Dixon'))"
+      - name: "max_reputation_2"
+        title: "Max Reputation 2"
+        description: "MAX over Reputation extracted from repeated BIRD gold SQL patterns."
+        expr: "Reputation"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "reputation"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples:
+            - "WHERE Reputation = (SELECT MAX(Reputation) FROM users)"
+      - name: "max_views"
+        title: "Max Views"
+        description: "MAX over Views extracted from repeated BIRD gold SQL patterns."
+        expr: "Views"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "views"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples:
+            - "WHERE Views = (SELECT MAX(Views) FROM users)"
+      - name: "min_age"
+        title: "Min Age"
+        description: "MIN over Age extracted from repeated BIRD gold SQL patterns."
+        expr: "Age"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "age"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Age = (SELECT MIN(Age) FROM users)"
+      - name: "min_reputation"
+        title: "Min Reputation"
+        description: "MIN over Reputation extracted from repeated BIRD gold SQL patterns."
+        expr: "Reputation"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "reputation"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Reputation = (SELECT MIN(Reputation) FROM users)"
+      - name: "min_views"
+        title: "Min Views"
+        description: "MIN over Views extracted from repeated BIRD gold SQL patterns."
+        expr: "Views"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "views"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Views = (SELECT MIN(Views) FROM users)"
+      - name: "sum_age"
+        title: "Sum Age"
+        description: "SUM over Age extracted from repeated BIRD gold SQL patterns."
+        expr: "Age"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "age"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T1.Score > 5"
+      - name: "sum_age_2"
+        title: "Sum Age 2"
+        description: "SUM over Age extracted from repeated BIRD gold SQL patterns."
+        expr: "Age"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "age"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.\"Name\" = 'Organizer'"
+      - name: "sum_reputation"
+        title: "Sum Reputation"
+        description: "SUM over Reputation extracted from repeated BIRD gold SQL patterns."
+        expr: "Reputation"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "reputation"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_upvotes"
+        title: "Sum Upvotes"
+        description: "SUM over UpVotes extracted from repeated BIRD gold SQL patterns."
+        expr: "UpVotes"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "upvotes"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.Score BETWEEN 5 AND 10"
+    segments: []
+  - name: "votes"
+    title: "Votes"
+    description: "BIRD table votes in the codebase_community database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "votes"
+      dialect: "sqlite"
+      grain:
+        - "id"
+    identifiers:
+      - name: "id"
+        expr: "Id"
+        type: "number"
+        primary_key: true
+      - name: "postid"
+        expr: "PostId"
+        type: "number"
+        primary_key: false
+      - name: "userid"
+        expr: "UserId"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "creationdate"
+        title: "CreationDate"
+        description: "Time column CreationDate from votes."
+        expr: "CreationDate"
+        type: "date"
+        default: false
+        granularities:
+          - "day"
+          - "week"
+          - "month"
+          - "quarter"
+          - "year"
+        sensitivity: "public"
+        public: true
+    dimensions:
+      - name: "votetypeid"
+        title: "VoteTypeId"
+        expr: "VoteTypeId"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "bountyamount"
+        title: "BountyAmount"
+        expr: "BountyAmount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE T1.UserId = 24"
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over Id extracted from repeated BIRD gold SQL patterns."
+        expr: "Id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.DisplayName = 'Matt Parker'"
+      - name: "sum_bountyamount"
+        title: "Sum Bountyamount"
+        description: "SUM over BountyAmount extracted from repeated BIRD gold SQL patterns."
+        expr: "BountyAmount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "bountyamount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Title LIKE '%data%'"
+    segments: []
+relationships:
+  - name: "badges_to_comments_userid_userid"
+    source: "badges"
+    target: "comments"
+    from: "badges.userid"
+    to: "comments.userid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "badges_to_users_userid_id"
+    source: "badges"
+    target: "users"
+    from: "badges.userid"
+    to: "users.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "comments_to_posts_postid_id"
+    source: "comments"
+    target: "posts"
+    from: "comments.postid"
+    to: "posts.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "comments_to_users_userid_id"
+    source: "comments"
+    target: "users"
+    from: "comments.userid"
+    to: "users.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "posthistory_to_badges_userid_userid"
+    source: "posthistory"
+    target: "badges"
+    from: "posthistory.userid"
+    to: "badges.userid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "posthistory_to_posts_postid_id"
+    source: "posthistory"
+    target: "posts"
+    from: "posthistory.postid"
+    to: "posts.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "posthistory_to_users_userid_id"
+    source: "posthistory"
+    target: "users"
+    from: "posthistory.userid"
+    to: "users.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "postlinks_to_posts_postid_id"
+    source: "postlinks"
+    target: "posts"
+    from: "postlinks.postid"
+    to: "posts.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "postlinks_to_posts_relatedpostid_id"
+    source: "postlinks"
+    target: "posts"
+    from: "postlinks.relatedpostid"
+    to: "posts.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "posts_to_comments_id_postid"
+    source: "posts"
+    target: "comments"
+    from: "posts.id"
+    to: "comments.postid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "posts_to_posthistory_id_postid"
+    source: "posts"
+    target: "posthistory"
+    from: "posts.id"
+    to: "posthistory.postid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "posts_to_postlinks_id_postid"
+    source: "posts"
+    target: "postlinks"
+    from: "posts.id"
+    to: "postlinks.postid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "posts_to_posts_parentid_id"
+    source: "posts"
+    target: "posts"
+    from: "posts.parentid"
+    to: "posts.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+  - name: "posts_to_tags_id_excerptpostid"
+    source: "posts"
+    target: "tags"
+    from: "posts.id"
+    to: "tags.excerptpostid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "posts_to_users_lasteditoruserid_id"
+    source: "posts"
+    target: "users"
+    from: "posts.lasteditoruserid"
+    to: "users.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "posts_to_users_owneruserid_id"
+    source: "posts"
+    target: "users"
+    from: "posts.owneruserid"
+    to: "users.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "posts_to_votes_id_postid"
+    source: "posts"
+    target: "votes"
+    from: "posts.id"
+    to: "votes.postid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "tags_to_posthistory_excerptpostid_postid"
+    source: "tags"
+    target: "posthistory"
+    from: "tags.excerptpostid"
+    to: "posthistory.postid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "tags_to_posts_excerptpostid_id"
+    source: "tags"
+    target: "posts"
+    from: "tags.excerptpostid"
+    to: "posts.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "users_to_badges_id_userid"
+    source: "users"
+    target: "badges"
+    from: "users.id"
+    to: "badges.userid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "users_to_comments_id_userid"
+    source: "users"
+    target: "comments"
+    from: "users.id"
+    to: "comments.userid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "users_to_posthistory_id_userid"
+    source: "users"
+    target: "posthistory"
+    from: "users.id"
+    to: "posthistory.userid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "users_to_posts_id_owneruserid"
+    source: "users"
+    target: "posts"
+    from: "users.id"
+    to: "posts.owneruserid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "users_to_votes_id_userid"
+    source: "users"
+    target: "votes"
+    from: "users.id"
+    to: "votes.userid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "votes_to_posthistory_postid_postid"
+    source: "votes"
+    target: "posthistory"
+    from: "votes.postid"
+    to: "posthistory.postid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "votes_to_posts_postid_id"
+    source: "votes"
+    target: "posts"
+    from: "votes.postid"
+    to: "posts.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "votes_to_posts_userid_owneruserid"
+    source: "votes"
+    target: "posts"
+    from: "votes.userid"
+    to: "posts.owneruserid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "votes_to_users_userid_id"
+    source: "votes"
+    target: "users"
+    from: "votes.userid"
+    to: "users.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+views:
+  - name: "codebase_community_all"
+    title: "Codebase Community All"
+    description: "Governed semantic view for the BIRD codebase_community database."
+    public: true
+    ai_context: "Stack Overflow-style community posts, users, votes, comments, badges, tags, and post history."
+    entities:
+      - join_path: "badges"
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "distinct_id_count"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_name"
+            - "sum_date"
+          dimensions:
+            - "name"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "comments"
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "distinct_id_count"
+            - "count_userid"
+          dimensions:
+            - "score"
+            - "text"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "posthistory"
+        includes:
+          measures:
+            - "distinct_posthistorytypeid_count"
+          dimensions:
+            - "posthistorytypeid"
+            - "text"
+            - "comment"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "postlinks"
+        includes:
+          measures:
+            - "count_id"
+          dimensions:
+            - "linktypeid"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "posts"
+        includes:
+          measures:
+            - "avg_score"
+            - "avg_score_2"
+            - "avg_viewcount"
+            - "avg_viewcount_2"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "max_answercount"
+            - "max_favoritecount"
+            - "sum_commentcount"
+            - "sum_favoritecount"
+            - "sum_score"
+            - "sum_score_2"
+            - "sum_viewcount"
+            - "sum_viewcount_2"
+          dimensions:
+            - "score"
+            - "viewcount"
+            - "body"
+            - "title"
+            - "tags"
+            - "answercount"
+            - "commentcount"
+            - "favoritecount"
+            - "ownerdisplayname"
+            - "lasteditordisplayname"
+          time_dimensions:
+            - "creaiondate"
+            - "lasactivitydate"
+            - "lasteditdate"
+            - "communityowneddate"
+            - "closeddate"
+          segments: []
+      - join_path: "tags"
+        includes:
+          measures:
+            - "sum_tagname"
+          dimensions:
+            - "tagname"
+            - "count"
+            - "wikipostid"
+          time_dimensions: []
+          segments: []
+      - join_path: "users"
+        includes:
+          measures:
+            - "avg_age"
+            - "avg_upvotes"
+            - "distinct_displayname_count"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_row_count"
+            - "max_age"
+            - "max_reputation"
+            - "max_reputation_2"
+            - "max_views"
+            - "min_age"
+            - "min_reputation"
+            - "min_views"
+            - "sum_age"
+            - "sum_age_2"
+            - "sum_reputation"
+            - "sum_upvotes"
+          dimensions:
+            - "reputation"
+            - "displayname"
+            - "websiteurl"
+            - "location"
+            - "views"
+            - "upvotes"
+            - "downvotes"
+            - "age"
+          time_dimensions:
+            - "creationdate"
+            - "lastaccessdate"
+          segments: []
+      - join_path: "votes"
+        includes:
+          measures:
+            - "distinct_id_count"
+            - "count_id"
+            - "sum_bountyamount"
+          dimensions:
+            - "votetypeid"
+            - "bountyamount"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "badges.comments"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "distinct_id_count"
+            - "count_userid"
+          dimensions:
+            - "score"
+            - "text"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "badges.users"
+        prefix: true
+        includes:
+          measures:
+            - "avg_age"
+            - "avg_upvotes"
+            - "distinct_displayname_count"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_row_count"
+            - "max_age"
+            - "max_reputation"
+            - "max_reputation_2"
+            - "max_views"
+            - "min_age"
+            - "min_reputation"
+            - "min_views"
+            - "sum_age"
+            - "sum_age_2"
+            - "sum_reputation"
+            - "sum_upvotes"
+          dimensions:
+            - "reputation"
+            - "displayname"
+            - "websiteurl"
+            - "location"
+            - "views"
+            - "upvotes"
+            - "downvotes"
+            - "age"
+          time_dimensions:
+            - "creationdate"
+            - "lastaccessdate"
+          segments: []
+      - join_path: "comments.posts"
+        prefix: true
+        includes:
+          measures:
+            - "avg_score"
+            - "avg_score_2"
+            - "avg_viewcount"
+            - "avg_viewcount_2"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "max_answercount"
+            - "max_favoritecount"
+            - "sum_commentcount"
+            - "sum_favoritecount"
+            - "sum_score"
+            - "sum_score_2"
+            - "sum_viewcount"
+            - "sum_viewcount_2"
+          dimensions:
+            - "score"
+            - "viewcount"
+            - "body"
+            - "title"
+            - "tags"
+            - "answercount"
+            - "commentcount"
+            - "favoritecount"
+            - "ownerdisplayname"
+            - "lasteditordisplayname"
+          time_dimensions:
+            - "creaiondate"
+            - "lasactivitydate"
+            - "lasteditdate"
+            - "communityowneddate"
+            - "closeddate"
+          segments: []
+      - join_path: "comments.users"
+        prefix: true
+        includes:
+          measures:
+            - "avg_age"
+            - "avg_upvotes"
+            - "distinct_displayname_count"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_row_count"
+            - "max_age"
+            - "max_reputation"
+            - "max_reputation_2"
+            - "max_views"
+            - "min_age"
+            - "min_reputation"
+            - "min_views"
+            - "sum_age"
+            - "sum_age_2"
+            - "sum_reputation"
+            - "sum_upvotes"
+          dimensions:
+            - "reputation"
+            - "displayname"
+            - "websiteurl"
+            - "location"
+            - "views"
+            - "upvotes"
+            - "downvotes"
+            - "age"
+          time_dimensions:
+            - "creationdate"
+            - "lastaccessdate"
+          segments: []
+      - join_path: "posthistory.badges"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "distinct_id_count"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_name"
+            - "sum_date"
+          dimensions:
+            - "name"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "posthistory.posts"
+        prefix: true
+        includes:
+          measures:
+            - "avg_score"
+            - "avg_score_2"
+            - "avg_viewcount"
+            - "avg_viewcount_2"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "max_answercount"
+            - "max_favoritecount"
+            - "sum_commentcount"
+            - "sum_favoritecount"
+            - "sum_score"
+            - "sum_score_2"
+            - "sum_viewcount"
+            - "sum_viewcount_2"
+          dimensions:
+            - "score"
+            - "viewcount"
+            - "body"
+            - "title"
+            - "tags"
+            - "answercount"
+            - "commentcount"
+            - "favoritecount"
+            - "ownerdisplayname"
+            - "lasteditordisplayname"
+          time_dimensions:
+            - "creaiondate"
+            - "lasactivitydate"
+            - "lasteditdate"
+            - "communityowneddate"
+            - "closeddate"
+          segments: []
+      - join_path: "posthistory.users"
+        prefix: true
+        includes:
+          measures:
+            - "avg_age"
+            - "avg_upvotes"
+            - "distinct_displayname_count"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_row_count"
+            - "max_age"
+            - "max_reputation"
+            - "max_reputation_2"
+            - "max_views"
+            - "min_age"
+            - "min_reputation"
+            - "min_views"
+            - "sum_age"
+            - "sum_age_2"
+            - "sum_reputation"
+            - "sum_upvotes"
+          dimensions:
+            - "reputation"
+            - "displayname"
+            - "websiteurl"
+            - "location"
+            - "views"
+            - "upvotes"
+            - "downvotes"
+            - "age"
+          time_dimensions:
+            - "creationdate"
+            - "lastaccessdate"
+          segments: []
+      - join_path: "postlinks.posts"
+        prefix: true
+        includes:
+          measures:
+            - "avg_score"
+            - "avg_score_2"
+            - "avg_viewcount"
+            - "avg_viewcount_2"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "max_answercount"
+            - "max_favoritecount"
+            - "sum_commentcount"
+            - "sum_favoritecount"
+            - "sum_score"
+            - "sum_score_2"
+            - "sum_viewcount"
+            - "sum_viewcount_2"
+          dimensions:
+            - "score"
+            - "viewcount"
+            - "body"
+            - "title"
+            - "tags"
+            - "answercount"
+            - "commentcount"
+            - "favoritecount"
+            - "ownerdisplayname"
+            - "lasteditordisplayname"
+          time_dimensions:
+            - "creaiondate"
+            - "lasactivitydate"
+            - "lasteditdate"
+            - "communityowneddate"
+            - "closeddate"
+          segments: []
+      - join_path: "posts.comments"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "distinct_id_count"
+            - "count_userid"
+          dimensions:
+            - "score"
+            - "text"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "posts.posthistory"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_posthistorytypeid_count"
+          dimensions:
+            - "posthistorytypeid"
+            - "text"
+            - "comment"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "posts.postlinks"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+          dimensions:
+            - "linktypeid"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "posts.posts"
+        prefix: true
+        includes:
+          measures:
+            - "avg_score"
+            - "avg_score_2"
+            - "avg_viewcount"
+            - "avg_viewcount_2"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "max_answercount"
+            - "max_favoritecount"
+            - "sum_commentcount"
+            - "sum_favoritecount"
+            - "sum_score"
+            - "sum_score_2"
+            - "sum_viewcount"
+            - "sum_viewcount_2"
+          dimensions:
+            - "score"
+            - "viewcount"
+            - "body"
+            - "title"
+            - "tags"
+            - "answercount"
+            - "commentcount"
+            - "favoritecount"
+            - "ownerdisplayname"
+            - "lasteditordisplayname"
+          time_dimensions:
+            - "creaiondate"
+            - "lasactivitydate"
+            - "lasteditdate"
+            - "communityowneddate"
+            - "closeddate"
+          segments: []
+      - join_path: "posts.tags"
+        prefix: true
+        includes:
+          measures:
+            - "sum_tagname"
+          dimensions:
+            - "tagname"
+            - "count"
+            - "wikipostid"
+          time_dimensions: []
+          segments: []
+      - join_path: "posts.users"
+        prefix: true
+        includes:
+          measures:
+            - "avg_age"
+            - "avg_upvotes"
+            - "distinct_displayname_count"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_row_count"
+            - "max_age"
+            - "max_reputation"
+            - "max_reputation_2"
+            - "max_views"
+            - "min_age"
+            - "min_reputation"
+            - "min_views"
+            - "sum_age"
+            - "sum_age_2"
+            - "sum_reputation"
+            - "sum_upvotes"
+          dimensions:
+            - "reputation"
+            - "displayname"
+            - "websiteurl"
+            - "location"
+            - "views"
+            - "upvotes"
+            - "downvotes"
+            - "age"
+          time_dimensions:
+            - "creationdate"
+            - "lastaccessdate"
+          segments: []
+      - join_path: "posts.votes"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_id_count"
+            - "count_id"
+            - "sum_bountyamount"
+          dimensions:
+            - "votetypeid"
+            - "bountyamount"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "tags.posthistory"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_posthistorytypeid_count"
+          dimensions:
+            - "posthistorytypeid"
+            - "text"
+            - "comment"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "tags.posts"
+        prefix: true
+        includes:
+          measures:
+            - "avg_score"
+            - "avg_score_2"
+            - "avg_viewcount"
+            - "avg_viewcount_2"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "max_answercount"
+            - "max_favoritecount"
+            - "sum_commentcount"
+            - "sum_favoritecount"
+            - "sum_score"
+            - "sum_score_2"
+            - "sum_viewcount"
+            - "sum_viewcount_2"
+          dimensions:
+            - "score"
+            - "viewcount"
+            - "body"
+            - "title"
+            - "tags"
+            - "answercount"
+            - "commentcount"
+            - "favoritecount"
+            - "ownerdisplayname"
+            - "lasteditordisplayname"
+          time_dimensions:
+            - "creaiondate"
+            - "lasactivitydate"
+            - "lasteditdate"
+            - "communityowneddate"
+            - "closeddate"
+          segments: []
+      - join_path: "users.badges"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "distinct_id_count"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_name"
+            - "sum_date"
+          dimensions:
+            - "name"
+          time_dimensions:
+            - "date"
+          segments: []
+      - join_path: "users.comments"
+        prefix: true
+        includes:
+          measures:
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "distinct_id_count"
+            - "count_userid"
+          dimensions:
+            - "score"
+            - "text"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "users.posthistory"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_posthistorytypeid_count"
+          dimensions:
+            - "posthistorytypeid"
+            - "text"
+            - "comment"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "users.posts"
+        prefix: true
+        includes:
+          measures:
+            - "avg_score"
+            - "avg_score_2"
+            - "avg_viewcount"
+            - "avg_viewcount_2"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "max_answercount"
+            - "max_favoritecount"
+            - "sum_commentcount"
+            - "sum_favoritecount"
+            - "sum_score"
+            - "sum_score_2"
+            - "sum_viewcount"
+            - "sum_viewcount_2"
+          dimensions:
+            - "score"
+            - "viewcount"
+            - "body"
+            - "title"
+            - "tags"
+            - "answercount"
+            - "commentcount"
+            - "favoritecount"
+            - "ownerdisplayname"
+            - "lasteditordisplayname"
+          time_dimensions:
+            - "creaiondate"
+            - "lasactivitydate"
+            - "lasteditdate"
+            - "communityowneddate"
+            - "closeddate"
+          segments: []
+      - join_path: "users.votes"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_id_count"
+            - "count_id"
+            - "sum_bountyamount"
+          dimensions:
+            - "votetypeid"
+            - "bountyamount"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "votes.posthistory"
+        prefix: true
+        includes:
+          measures:
+            - "distinct_posthistorytypeid_count"
+          dimensions:
+            - "posthistorytypeid"
+            - "text"
+            - "comment"
+            - "userdisplayname"
+          time_dimensions:
+            - "creationdate"
+          segments: []
+      - join_path: "votes.posts"
+        prefix: true
+        includes:
+          measures:
+            - "avg_score"
+            - "avg_score_2"
+            - "avg_viewcount"
+            - "avg_viewcount_2"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "max_answercount"
+            - "max_favoritecount"
+            - "sum_commentcount"
+            - "sum_favoritecount"
+            - "sum_score"
+            - "sum_score_2"
+            - "sum_viewcount"
+            - "sum_viewcount_2"
+          dimensions:
+            - "score"
+            - "viewcount"
+            - "body"
+            - "title"
+            - "tags"
+            - "answercount"
+            - "commentcount"
+            - "favoritecount"
+            - "ownerdisplayname"
+            - "lasteditordisplayname"
+          time_dimensions:
+            - "creaiondate"
+            - "lasactivitydate"
+            - "lasteditdate"
+            - "communityowneddate"
+            - "closeddate"
+          segments: []
+      - join_path: "votes.users"
+        prefix: true
+        includes:
+          measures:
+            - "avg_age"
+            - "avg_upvotes"
+            - "distinct_displayname_count"
+            - "count_id"
+            - "count_id_2"
+            - "count_id_3"
+            - "count_id_4"
+            - "count_id_5"
+            - "count_id_6"
+            - "count_id_7"
+            - "count_id_8"
+            - "count_id_9"
+            - "count_id_10"
+            - "count_row_count"
+            - "max_age"
+            - "max_reputation"
+            - "max_reputation_2"
+            - "max_views"
+            - "min_age"
+            - "min_reputation"
+            - "min_views"
+            - "sum_age"
+            - "sum_age_2"
+            - "sum_reputation"
+            - "sum_upvotes"
+          dimensions:
+            - "reputation"
+            - "displayname"
+            - "websiteurl"
+            - "location"
+            - "views"
+            - "upvotes"
+            - "downvotes"
+            - "age"
+          time_dimensions:
+            - "creationdate"
+            - "lastaccessdate"
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "badges.count_id"
+          - "badges.count_id_2"
+          - "badges.count_id_3"
+          - "badges.count_id_4"
+          - "badges.count_name"
+          - "badges.distinct_id_count"
+          - "badges.sum_date"
+          - "comments.count_id"
+          - "comments.count_id_2"
+          - "comments.count_id_3"
+          - "comments.count_id_4"
+          - "comments.count_userid"
+          - "comments.distinct_id_count"
+          - "posthistory.distinct_posthistorytypeid_count"
+          - "postlinks.count_id"
+          - "posts.avg_score"
+          - "posts.avg_score_2"
+          - "posts.avg_viewcount"
+          - "posts.avg_viewcount_2"
+          - "posts.count_id"
+          - "posts.count_id_2"
+          - "posts.count_id_3"
+          - "posts.count_id_4"
+          - "posts.max_answercount"
+          - "posts.max_favoritecount"
+          - "posts.sum_commentcount"
+          - "posts.sum_favoritecount"
+          - "posts.sum_score"
+          - "posts.sum_score_2"
+          - "posts.sum_viewcount"
+          - "posts.sum_viewcount_2"
+          - "tags.sum_tagname"
+          - "users.avg_age"
+          - "users.avg_upvotes"
+          - "users.count_id"
+          - "users.count_id_10"
+          - "users.count_id_2"
+          - "users.count_id_3"
+          - "users.count_id_4"
+          - "users.count_id_5"
+          - "users.count_id_6"
+          - "users.count_id_7"
+          - "users.count_id_8"
+          - "users.count_id_9"
+          - "users.count_row_count"
+          - "users.distinct_displayname_count"
+          - "users.max_age"
+          - "users.max_reputation"
+          - "users.max_reputation_2"
+          - "users.max_views"
+          - "users.min_age"
+          - "users.min_reputation"
+          - "users.min_views"
+          - "users.sum_age"
+          - "users.sum_age_2"
+          - "users.sum_reputation"
+          - "users.sum_upvotes"
+          - "votes.count_id"
+          - "votes.distinct_id_count"
+          - "votes.sum_bountyamount"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "users.displayname"
+          - "users.websiteurl"
+          - "posts.title"
+          - "comments.text"
+    default_time_dimension: "badges.date"
+policies: []

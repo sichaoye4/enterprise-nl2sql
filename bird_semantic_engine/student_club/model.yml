@@ -1,0 +1,2356 @@
+version: 1
+domain: "student_club"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+entities:
+  - name: "event"
+    title: "Event"
+    description: "BIRD table event in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "event"
+      dialect: "sqlite"
+      grain:
+        - "event_id"
+    identifiers:
+      - name: "event_id"
+        expr: "event_id"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "event_name"
+        title: "Event Name"
+        expr: "event_name"
+        type: "string"
+        synonyms:
+          - "event name"
+        sensitivity: "public"
+        public: true
+      - name: "event_date"
+        title: "Event Date"
+        expr: "event_date"
+        type: "string"
+        synonyms:
+          - "event date"
+        sensitivity: "public"
+        public: true
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "notes"
+        title: "Notes"
+        expr: "notes"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "location"
+        title: "Location"
+        expr: "location"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_event_id"
+        title: "Count Event Id"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "event id"
+        allowed_dimensions: []
+        filters:
+          - member: "event_name"
+            operator: "equals"
+            values:
+              - "Women's Soccer"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.event_name = 'Women''s Soccer'"
+      - name: "count_event_id_2"
+        title: "Count Event Id 2"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "event id"
+        allowed_dimensions: []
+        filters:
+          - member: "event_name"
+            operator: "equals"
+            values:
+              - "Women's Soccer"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.event_name = 'Women''s Soccer' AND T3.t_shirt_size = 'Medium'"
+      - name: "count_event_id_3"
+        title: "Count Event Id 3"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "event id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T3.first_name = 'Sacha' AND T3.last_name = 'Harrison' AND SUBSTRING(T1.event_date, 1, 4) = '2019'"
+      - name: "count_event_id_4"
+        title: "Count Event Id 4"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "event id"
+        allowed_dimensions: []
+        filters:
+          - member: "event_name"
+            operator: "equals"
+            values:
+              - "November Meeting"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.event_name = 'November Meeting' AND T1.remaining < 0"
+      - name: "count_event_id_5"
+        title: "Count Event Id 5"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "event id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE type = 'Meeting' AND SUBSTRING(event_date, 1, 4) = '2020'"
+      - name: "distinct_event_id_count"
+        title: "Distinct Event Id Count"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "event id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: []
+    segments: []
+  - name: "major"
+    title: "Major"
+    description: "BIRD table major in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "major"
+      dialect: "sqlite"
+      grain:
+        - "major_id"
+    identifiers:
+      - name: "major_id"
+        expr: "major_id"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "major_name"
+        title: "Major Name"
+        expr: "major_name"
+        type: "string"
+        synonyms:
+          - "major name"
+        sensitivity: "public"
+        public: true
+      - name: "department"
+        title: "Department"
+        expr: "department"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "college"
+        title: "College"
+        expr: "college"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_college"
+        title: "Count College"
+        description: "COUNT over college extracted from repeated BIRD gold SQL patterns."
+        expr: "college"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "college"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_major_id"
+        title: "Count Major Id"
+        description: "COUNT over major_id extracted from repeated BIRD gold SQL patterns."
+        expr: "major_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "major id"
+        allowed_dimensions: []
+        filters:
+          - member: "college"
+            operator: "equals"
+            values:
+              - "College of Agriculture and Applied Sciences"
+          - member: "department"
+            operator: "equals"
+            values:
+              - "School of Applied Sciences, Technology and Education"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE department = 'School of Applied Sciences, Technology and Education' AND college = 'College of Agriculture and Applied Sciences'"
+      - name: "count_major_name"
+        title: "Count Major Name"
+        description: "COUNT over major_name extracted from repeated BIRD gold SQL patterns."
+        expr: "major_name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "major name"
+        allowed_dimensions: []
+        filters:
+          - member: "college"
+            operator: "equals"
+            values:
+              - "College of Humanities and Social Sciences"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE college = 'College of Humanities and Social Sciences'"
+      - name: "sum_major_name"
+        title: "Sum Major Name"
+        description: "SUM over major_name extracted from repeated BIRD gold SQL patterns."
+        expr: "major_name"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "major name"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_major_name_2"
+        title: "Sum Major Name 2"
+        description: "SUM over major_name extracted from repeated BIRD gold SQL patterns."
+        expr: "major_name"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "major name"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.position = 'Member'"
+    segments: []
+  - name: "zip_code"
+    title: "Zip Code"
+    description: "BIRD table zip_code in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "zip_code"
+      dialect: "sqlite"
+      grain:
+        - "zip_code"
+    identifiers:
+      - name: "zip_code"
+        expr: "zip_code"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "city"
+        title: "City"
+        expr: "city"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "county"
+        title: "County"
+        expr: "county"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "state"
+        title: "State"
+        expr: "state"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "short_state"
+        title: "Short State"
+        expr: "short_state"
+        type: "string"
+        synonyms:
+          - "short state"
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_city"
+        title: "Count City"
+        description: "COUNT over city extracted from repeated BIRD gold SQL patterns."
+        expr: "city"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "city"
+        allowed_dimensions: []
+        filters:
+          - member: "county"
+            operator: "equals"
+            values:
+              - "Orange County"
+          - member: "state"
+            operator: "equals"
+            values:
+              - "Virginia"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE county = 'Orange County' AND state = 'Virginia'"
+      - name: "count_zip_code"
+        title: "Count Zip Code"
+        description: "COUNT over zip_code extracted from repeated BIRD gold SQL patterns."
+        expr: "zip_code"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "zip code"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_state"
+        title: "Sum State"
+        description: "SUM over state extracted from repeated BIRD gold SQL patterns."
+        expr: "state"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "state"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+  - name: "attendance"
+    title: "Attendance"
+    description: "BIRD table attendance in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "attendance"
+      dialect: "sqlite"
+      grain:
+        - "link_to_event"
+        - "link_to_member"
+    identifiers:
+      - name: "link_to_event"
+        expr: "link_to_event"
+        type: "string"
+        primary_key: true
+      - name: "link_to_member"
+        expr: "link_to_member"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions: []
+    measures:
+      - name: "count_link_to_event"
+        title: "Count Link To Event"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "link to event"
+        allowed_dimensions:
+          - "event.event_name"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples: []
+      - name: "distinct_link_to_event_count"
+        title: "Distinct Link To Event Count"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "link to event"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples:
+            - "WHERE SUBSTRING(T1.event_date, 1, 4) = '2020' AND T1.type = 'Meeting'"
+      - name: "count_link_to_event_2"
+        title: "Count Link To Event 2"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "link to event"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE SUBSTRING(T1.event_date, 1, 4) = '2020' AND T1.type = 'Meeting'"
+      - name: "count_link_to_event_3"
+        title: "Count Link To Event 3"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "link to event"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.phone = '954-555-6240'"
+      - name: "count_link_to_event_4"
+        title: "Count Link To Event 4"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "link to event"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.first_name = 'Luisa' AND T2.last_name = 'Guidi'"
+      - name: "count_link_to_member"
+        title: "Count Link To Member"
+        description: "COUNT over link_to_member extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_member"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "link to member"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.event_name = 'Women''s Soccer'"
+      - name: "count_link_to_member_2"
+        title: "Count Link To Member 2"
+        description: "COUNT over link_to_member extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_member"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "link to member"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.event_name = 'Community Theater' AND SUBSTRING(T1.event_date, 1, 4) = '2019'"
+    segments: []
+  - name: "budget"
+    title: "Budget"
+    description: "BIRD table budget in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "budget"
+      dialect: "sqlite"
+      grain:
+        - "budget_id"
+    identifiers:
+      - name: "budget_id"
+        expr: "budget_id"
+        type: "string"
+        primary_key: true
+      - name: "link_to_event"
+        expr: "link_to_event"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "category"
+        title: "Category"
+        expr: "category"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "spent"
+        title: "Spent"
+        expr: "spent"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "remaining"
+        title: "Remaining"
+        expr: "remaining"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "amount"
+        title: "Amount"
+        expr: "amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "event_status"
+        title: "Event Status"
+        expr: "event_status"
+        type: "string"
+        synonyms:
+          - "event status"
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_budget_id"
+        title: "Count Budget Id"
+        description: "COUNT over budget_id extracted from repeated BIRD gold SQL patterns."
+        expr: "budget_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "budget id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_spent"
+        title: "Count Spent"
+        description: "COUNT over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "spent"
+        allowed_dimensions: []
+        filters:
+          - member: "category"
+            operator: "equals"
+            values:
+              - "Food"
+          - member: "event_status"
+            operator: "equals"
+            values:
+              - "Closed"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE category = 'Food' AND event_status = 'Closed'"
+      - name: "max_spent"
+        title: "Max Spent"
+        description: "MAX over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "spent"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_amount"
+        title: "Sum Amount"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.event_name = 'October Speaker'"
+      - name: "sum_amount_2"
+        title: "Sum Amount 2"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.event_name = 'September Speaker'"
+      - name: "sum_amount_3"
+        title: "Sum Amount 3"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters:
+          - member: "category"
+            operator: "equals"
+            values:
+              - "Advertisement"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.category = 'Advertisement' AND T2.type = 'Meeting'"
+      - name: "sum_amount_4"
+        title: "Sum Amount 4"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.event_name = 'November Speaker'"
+      - name: "sum_amount_5"
+        title: "Sum Amount 5"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions:
+          - "budget.category"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.event_name = 'April Speaker'"
+      - name: "sum_remaining"
+        title: "Sum Remaining"
+        description: "SUM over remaining extracted from repeated BIRD gold SQL patterns."
+        expr: "remaining"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "remaining"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_spent"
+        title: "Sum Spent"
+        description: "SUM over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "spent"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_spent_2"
+        title: "Sum Spent 2"
+        description: "SUM over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "spent"
+        allowed_dimensions: []
+        filters:
+          - member: "category"
+            operator: "equals"
+            values:
+              - "Food"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE category = 'Food'"
+      - name: "sum_spent_3"
+        title: "Sum Spent 3"
+        description: "SUM over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "spent"
+        allowed_dimensions: []
+        filters:
+          - member: "category"
+            operator: "equals"
+            values:
+              - "Food"
+          - member: "event_status"
+            operator: "equals"
+            values:
+              - "Closed"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE category = 'Food' AND event_status = 'Closed'"
+      - name: "sum_spent_4"
+        title: "Sum Spent 4"
+        description: "SUM over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "spent"
+        allowed_dimensions:
+          - "event.event_name"
+        filters:
+          - member: "category"
+            operator: "equals"
+            values:
+              - "Speaker Gifts"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.category = 'Speaker Gifts'"
+    segments: []
+  - name: "expense"
+    title: "Expense"
+    description: "BIRD table expense in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "expense"
+      dialect: "sqlite"
+      grain:
+        - "expense_id"
+    identifiers:
+      - name: "expense_id"
+        expr: "expense_id"
+        type: "string"
+        primary_key: true
+      - name: "link_to_member"
+        expr: "link_to_member"
+        type: "string"
+        primary_key: false
+      - name: "link_to_budget"
+        expr: "link_to_budget"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "expense_description"
+        title: "Expense Description"
+        expr: "expense_description"
+        type: "string"
+        synonyms:
+          - "expense description"
+        sensitivity: "public"
+        public: true
+      - name: "expense_date"
+        title: "Expense Date"
+        expr: "expense_date"
+        type: "string"
+        synonyms:
+          - "expense date"
+        sensitivity: "public"
+        public: true
+      - name: "cost"
+        title: "Cost"
+        expr: "cost"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "approved"
+        title: "Approved"
+        expr: "approved"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "avg_cost"
+        title: "Avg Cost"
+        description: "AVG over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.last_name = 'Allen' AND T1.first_name = 'Elijah' AND (SUBSTRING(T2.expense_date, 6, 2) = '09' OR SUBSTRING(T2.expense_date, 6, 2) = '10')"
+      - name: "avg_cost_2"
+        title: "Avg Cost 2"
+        description: "AVG over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions:
+          - "expense.expense_description"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples:
+            - "WHERE T2.position <> 'Member'"
+            - "WHERE T1.cost > (SELECT AVG(T1.cost) FROM expense AS T1 INNER JOIN budget AS T2 ON T1.link_to_budget = T2.budget_id INNER JOIN member AS T3 ON T3.member_id = T1.link_to_member)"
+      - name: "avg_cost_3"
+        title: "Avg Cost 3"
+        description: "AVG over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.category = 'Parking' AND T3.cost < (SELECT AVG(cost) FROM expense)"
+      - name: "sum_cost"
+        title: "Sum Cost"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions: []
+        filters:
+          - member: "expense_description"
+            operator: "equals"
+            values:
+              - "Pizza"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE expense_description = 'Pizza'"
+      - name: "sum_cost_2"
+        title: "Sum Cost 2"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.event_name = 'Yearly Kickoff'"
+      - name: "sum_cost_3"
+        title: "Sum Cost 3"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples:
+            - "WHERE T1.member_id = 'rec4BLdZHS2Blfp4v'"
+      - name: "sum_cost_4"
+        title: "Sum Cost 4"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.event_name = 'October Meeting'"
+      - name: "sum_cost_5"
+        title: "Sum Cost 5"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions: []
+        filters:
+          - member: "expense_description"
+            operator: "equals"
+            values:
+              - "Parking"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE expense_description = 'Parking'"
+      - name: "sum_cost_6"
+        title: "Sum Cost 6"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "cost"
+        allowed_dimensions: []
+        filters:
+          - member: "expense_date"
+            operator: "equals"
+            values:
+              - "2019-08-20"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE expense_date = '2019-08-20'"
+    segments: []
+  - name: "income"
+    title: "Income"
+    description: "BIRD table income in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "income"
+      dialect: "sqlite"
+      grain:
+        - "income_id"
+    identifiers:
+      - name: "income_id"
+        expr: "income_id"
+        type: "string"
+        primary_key: true
+      - name: "link_to_member"
+        expr: "link_to_member"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "date_received"
+        title: "Date Received"
+        expr: "date_received"
+        type: "string"
+        synonyms:
+          - "date received"
+        sensitivity: "public"
+        public: true
+      - name: "amount"
+        title: "Amount"
+        expr: "amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "source"
+        title: "Source"
+        expr: "source"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "notes"
+        title: "Notes"
+        expr: "notes"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_income_id"
+        title: "Count Income Id"
+        description: "COUNT over income_id extracted from repeated BIRD gold SQL patterns."
+        expr: "income_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "income id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE amount = 50"
+      - name: "count_income_id_2"
+        title: "Count Income Id 2"
+        description: "COUNT over income_id extracted from repeated BIRD gold SQL patterns."
+        expr: "income_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "income id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.position = 'Member' AND T1.t_shirt_size = 'Medium'"
+      - name: "sum_amount"
+        title: "Sum Amount"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions:
+          - "income.source"
+          - "member.first_name"
+          - "member.last_name"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "sum_amount_2"
+        title: "Sum Amount 2"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "amount"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.position = 'Member' AND T1.t_shirt_size = 'Medium'"
+    segments: []
+  - name: "member"
+    title: "Member"
+    description: "BIRD table member in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "member"
+      dialect: "sqlite"
+      grain:
+        - "member_id"
+    identifiers:
+      - name: "member_id"
+        expr: "member_id"
+        type: "string"
+        primary_key: true
+      - name: "zip"
+        expr: "zip"
+        type: "number"
+        primary_key: false
+      - name: "link_to_major"
+        expr: "link_to_major"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "first_name"
+        title: "First Name"
+        expr: "first_name"
+        type: "string"
+        synonyms:
+          - "first name"
+        sensitivity: "public"
+        public: true
+      - name: "last_name"
+        title: "Last Name"
+        expr: "last_name"
+        type: "string"
+        synonyms:
+          - "last name"
+        sensitivity: "public"
+        public: true
+      - name: "email"
+        title: "Email"
+        expr: "email"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+      - name: "t_shirt_size"
+        title: "T Shirt Size"
+        expr: "t_shirt_size"
+        type: "string"
+        synonyms:
+          - "t shirt size"
+        sensitivity: "public"
+        public: true
+      - name: "phone"
+        title: "Phone"
+        expr: "phone"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+    measures:
+      - name: "count_member_id"
+        title: "Count Member Id"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.college = 'College of Engineering'"
+      - name: "count_member_id_2"
+        title: "Count Member Id 2"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T2.major_name = 'Environmental Engineering'"
+      - name: "count_member_id_3"
+        title: "Count Member Id 3"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters:
+          - member: "t_shirt_size"
+            operator: "equals"
+            values:
+              - "Medium"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples:
+            - "WHERE T2.major_name = 'Business' AND T1.t_shirt_size = 'Medium'"
+            - "WHERE T1.major_name = 'Business' AND T2.t_shirt_size = 'Medium'"
+      - name: "count_member_id_4"
+        title: "Count Member Id 4"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.state = 'Maryland'"
+      - name: "count_member_id_5"
+        title: "Count Member Id 5"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters:
+          - member: "position"
+            operator: "equals"
+            values:
+              - "President"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE position = 'President'"
+      - name: "count_member_id_6"
+        title: "Count Member Id 6"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.major_name = 'Physics Teaching'"
+      - name: "count_member_id_7"
+        title: "Count Member Id 7"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters:
+          - member: "position"
+            operator: "equals"
+            values:
+              - "Member"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.position = 'Member'"
+      - name: "count_member_id_8"
+        title: "Count Member Id 8"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters:
+          - member: "position"
+            operator: "equals"
+            values:
+              - "Member"
+          - member: "t_shirt_size"
+            operator: "equals"
+            values:
+              - "X-Large"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE position = 'Member' AND t_shirt_size = 'X-Large'"
+      - name: "count_member_id_9"
+        title: "Count Member Id 9"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters:
+          - member: "position"
+            operator: "equals"
+            values:
+              - "Member"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.position = 'Member' AND T2.major_name LIKE '%Education%' AND T2.college = 'College of Education & Human Services'"
+      - name: "count_member_id_10"
+        title: "Count Member Id 10"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "member id"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+      - name: "count_t_shirt_size"
+        title: "Count T Shirt Size"
+        description: "COUNT over t_shirt_size extracted from repeated BIRD gold SQL patterns."
+        expr: "t_shirt_size"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "t shirt size"
+        allowed_dimensions:
+          - "member.t_shirt_size"
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+relationships:
+  - name: "attendance_to_event_link_to_event_event_id"
+    source: "attendance"
+    target: "event"
+    from: "attendance.link_to_event"
+    to: "event.event_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "attendance_to_member_link_to_member_member_id"
+    source: "attendance"
+    target: "member"
+    from: "attendance.link_to_member"
+    to: "member.member_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "budget_to_event_link_to_event_event_id"
+    source: "budget"
+    target: "event"
+    from: "budget.link_to_event"
+    to: "event.event_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "budget_to_expense_budget_id_link_to_budget"
+    source: "budget"
+    target: "expense"
+    from: "budget.budget_id"
+    to: "expense.link_to_budget"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "event_to_attendance_event_id_link_to_event"
+    source: "event"
+    target: "attendance"
+    from: "event.event_id"
+    to: "attendance.link_to_event"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "event_to_budget_event_id_link_to_event"
+    source: "event"
+    target: "budget"
+    from: "event.event_id"
+    to: "budget.link_to_event"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "expense_to_budget_link_to_budget_budget_id"
+    source: "expense"
+    target: "budget"
+    from: "expense.link_to_budget"
+    to: "budget.budget_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "expense_to_member_link_to_member_member_id"
+    source: "expense"
+    target: "member"
+    from: "expense.link_to_member"
+    to: "member.member_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "income_to_member_link_to_member_member_id"
+    source: "income"
+    target: "member"
+    from: "income.link_to_member"
+    to: "member.member_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "major_to_member_major_id_link_to_major"
+    source: "major"
+    target: "member"
+    from: "major.major_id"
+    to: "member.link_to_major"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "member_to_attendance_member_id_link_to_member"
+    source: "member"
+    target: "attendance"
+    from: "member.member_id"
+    to: "attendance.link_to_member"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "member_to_expense_member_id_link_to_member"
+    source: "member"
+    target: "expense"
+    from: "member.member_id"
+    to: "expense.link_to_member"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "member_to_income_member_id_link_to_member"
+    source: "member"
+    target: "income"
+    from: "member.member_id"
+    to: "income.link_to_member"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+  - name: "member_to_major_link_to_major_major_id"
+    source: "member"
+    target: "major"
+    from: "member.link_to_major"
+    to: "major.major_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "member_to_zip_code_zip_zip_code"
+    source: "member"
+    target: "zip_code"
+    from: "member.zip"
+    to: "zip_code.zip_code"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "dev_tables_foreign_key"
+      - "gold_sql_join"
+  - name: "zip_code_to_member_zip_code_zip"
+    source: "zip_code"
+    target: "member"
+    from: "zip_code.zip_code"
+    to: "member.zip"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence:
+      - "gold_sql_join"
+views:
+  - name: "student_club_all"
+    title: "Student Club All"
+    description: "Governed semantic view for the BIRD student_club database."
+    public: true
+    ai_context: "Student club members, events, attendance, budgets, expenses, income, majors, and zip codes."
+    entities:
+      - join_path: "event"
+        includes:
+          measures:
+            - "count_event_id"
+            - "count_event_id_2"
+            - "count_event_id_3"
+            - "count_event_id_4"
+            - "count_event_id_5"
+            - "distinct_event_id_count"
+          dimensions:
+            - "event_name"
+            - "event_date"
+            - "type"
+            - "notes"
+            - "location"
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "major"
+        includes:
+          measures:
+            - "count_college"
+            - "count_major_id"
+            - "count_major_name"
+            - "sum_major_name"
+            - "sum_major_name_2"
+          dimensions:
+            - "major_name"
+            - "department"
+            - "college"
+          time_dimensions: []
+          segments: []
+      - join_path: "zip_code"
+        includes:
+          measures:
+            - "count_city"
+            - "count_zip_code"
+            - "sum_state"
+          dimensions:
+            - "type"
+            - "city"
+            - "county"
+            - "state"
+            - "short_state"
+          time_dimensions: []
+          segments: []
+      - join_path: "attendance"
+        includes:
+          measures:
+            - "count_link_to_event"
+            - "distinct_link_to_event_count"
+            - "count_link_to_event_2"
+            - "count_link_to_event_3"
+            - "count_link_to_event_4"
+            - "count_link_to_member"
+            - "count_link_to_member_2"
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "budget"
+        includes:
+          measures:
+            - "count_budget_id"
+            - "count_spent"
+            - "max_spent"
+            - "sum_amount"
+            - "sum_amount_2"
+            - "sum_amount_3"
+            - "sum_amount_4"
+            - "sum_amount_5"
+            - "sum_remaining"
+            - "sum_spent"
+            - "sum_spent_2"
+            - "sum_spent_3"
+            - "sum_spent_4"
+          dimensions:
+            - "category"
+            - "spent"
+            - "remaining"
+            - "amount"
+            - "event_status"
+          time_dimensions: []
+          segments: []
+      - join_path: "expense"
+        includes:
+          measures:
+            - "avg_cost"
+            - "avg_cost_2"
+            - "avg_cost_3"
+            - "sum_cost"
+            - "sum_cost_2"
+            - "sum_cost_3"
+            - "sum_cost_4"
+            - "sum_cost_5"
+            - "sum_cost_6"
+          dimensions:
+            - "expense_description"
+            - "expense_date"
+            - "cost"
+            - "approved"
+          time_dimensions: []
+          segments: []
+      - join_path: "income"
+        includes:
+          measures:
+            - "count_income_id"
+            - "count_income_id_2"
+            - "sum_amount"
+            - "sum_amount_2"
+          dimensions:
+            - "date_received"
+            - "amount"
+            - "source"
+            - "notes"
+          time_dimensions: []
+          segments: []
+      - join_path: "member"
+        includes:
+          measures:
+            - "count_member_id"
+            - "count_member_id_2"
+            - "count_member_id_3"
+            - "count_member_id_4"
+            - "count_member_id_5"
+            - "count_member_id_6"
+            - "count_member_id_7"
+            - "count_member_id_8"
+            - "count_member_id_9"
+            - "count_member_id_10"
+            - "count_t_shirt_size"
+          dimensions:
+            - "first_name"
+            - "last_name"
+            - "email"
+            - "position"
+            - "t_shirt_size"
+            - "phone"
+          time_dimensions: []
+          segments: []
+      - join_path: "attendance.event"
+        prefix: true
+        includes:
+          measures:
+            - "count_event_id"
+            - "count_event_id_2"
+            - "count_event_id_3"
+            - "count_event_id_4"
+            - "count_event_id_5"
+            - "distinct_event_id_count"
+          dimensions:
+            - "event_name"
+            - "event_date"
+            - "type"
+            - "notes"
+            - "location"
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "attendance.member"
+        prefix: true
+        includes:
+          measures:
+            - "count_member_id"
+            - "count_member_id_2"
+            - "count_member_id_3"
+            - "count_member_id_4"
+            - "count_member_id_5"
+            - "count_member_id_6"
+            - "count_member_id_7"
+            - "count_member_id_8"
+            - "count_member_id_9"
+            - "count_member_id_10"
+            - "count_t_shirt_size"
+          dimensions:
+            - "first_name"
+            - "last_name"
+            - "email"
+            - "position"
+            - "t_shirt_size"
+            - "phone"
+          time_dimensions: []
+          segments: []
+      - join_path: "budget.event"
+        prefix: true
+        includes:
+          measures:
+            - "count_event_id"
+            - "count_event_id_2"
+            - "count_event_id_3"
+            - "count_event_id_4"
+            - "count_event_id_5"
+            - "distinct_event_id_count"
+          dimensions:
+            - "event_name"
+            - "event_date"
+            - "type"
+            - "notes"
+            - "location"
+            - "status"
+          time_dimensions: []
+          segments: []
+      - join_path: "budget.expense"
+        prefix: true
+        includes:
+          measures:
+            - "avg_cost"
+            - "avg_cost_2"
+            - "avg_cost_3"
+            - "sum_cost"
+            - "sum_cost_2"
+            - "sum_cost_3"
+            - "sum_cost_4"
+            - "sum_cost_5"
+            - "sum_cost_6"
+          dimensions:
+            - "expense_description"
+            - "expense_date"
+            - "cost"
+            - "approved"
+          time_dimensions: []
+          segments: []
+      - join_path: "event.attendance"
+        prefix: true
+        includes:
+          measures:
+            - "count_link_to_event"
+            - "distinct_link_to_event_count"
+            - "count_link_to_event_2"
+            - "count_link_to_event_3"
+            - "count_link_to_event_4"
+            - "count_link_to_member"
+            - "count_link_to_member_2"
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "event.budget"
+        prefix: true
+        includes:
+          measures:
+            - "count_budget_id"
+            - "count_spent"
+            - "max_spent"
+            - "sum_amount"
+            - "sum_amount_2"
+            - "sum_amount_3"
+            - "sum_amount_4"
+            - "sum_amount_5"
+            - "sum_remaining"
+            - "sum_spent"
+            - "sum_spent_2"
+            - "sum_spent_3"
+            - "sum_spent_4"
+          dimensions:
+            - "category"
+            - "spent"
+            - "remaining"
+            - "amount"
+            - "event_status"
+          time_dimensions: []
+          segments: []
+      - join_path: "expense.budget"
+        prefix: true
+        includes:
+          measures:
+            - "count_budget_id"
+            - "count_spent"
+            - "max_spent"
+            - "sum_amount"
+            - "sum_amount_2"
+            - "sum_amount_3"
+            - "sum_amount_4"
+            - "sum_amount_5"
+            - "sum_remaining"
+            - "sum_spent"
+            - "sum_spent_2"
+            - "sum_spent_3"
+            - "sum_spent_4"
+          dimensions:
+            - "category"
+            - "spent"
+            - "remaining"
+            - "amount"
+            - "event_status"
+          time_dimensions: []
+          segments: []
+      - join_path: "expense.member"
+        prefix: true
+        includes:
+          measures:
+            - "count_member_id"
+            - "count_member_id_2"
+            - "count_member_id_3"
+            - "count_member_id_4"
+            - "count_member_id_5"
+            - "count_member_id_6"
+            - "count_member_id_7"
+            - "count_member_id_8"
+            - "count_member_id_9"
+            - "count_member_id_10"
+            - "count_t_shirt_size"
+          dimensions:
+            - "first_name"
+            - "last_name"
+            - "email"
+            - "position"
+            - "t_shirt_size"
+            - "phone"
+          time_dimensions: []
+          segments: []
+      - join_path: "income.member"
+        prefix: true
+        includes:
+          measures:
+            - "count_member_id"
+            - "count_member_id_2"
+            - "count_member_id_3"
+            - "count_member_id_4"
+            - "count_member_id_5"
+            - "count_member_id_6"
+            - "count_member_id_7"
+            - "count_member_id_8"
+            - "count_member_id_9"
+            - "count_member_id_10"
+            - "count_t_shirt_size"
+          dimensions:
+            - "first_name"
+            - "last_name"
+            - "email"
+            - "position"
+            - "t_shirt_size"
+            - "phone"
+          time_dimensions: []
+          segments: []
+      - join_path: "major.member"
+        prefix: true
+        includes:
+          measures:
+            - "count_member_id"
+            - "count_member_id_2"
+            - "count_member_id_3"
+            - "count_member_id_4"
+            - "count_member_id_5"
+            - "count_member_id_6"
+            - "count_member_id_7"
+            - "count_member_id_8"
+            - "count_member_id_9"
+            - "count_member_id_10"
+            - "count_t_shirt_size"
+          dimensions:
+            - "first_name"
+            - "last_name"
+            - "email"
+            - "position"
+            - "t_shirt_size"
+            - "phone"
+          time_dimensions: []
+          segments: []
+      - join_path: "member.attendance"
+        prefix: true
+        includes:
+          measures:
+            - "count_link_to_event"
+            - "distinct_link_to_event_count"
+            - "count_link_to_event_2"
+            - "count_link_to_event_3"
+            - "count_link_to_event_4"
+            - "count_link_to_member"
+            - "count_link_to_member_2"
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "member.expense"
+        prefix: true
+        includes:
+          measures:
+            - "avg_cost"
+            - "avg_cost_2"
+            - "avg_cost_3"
+            - "sum_cost"
+            - "sum_cost_2"
+            - "sum_cost_3"
+            - "sum_cost_4"
+            - "sum_cost_5"
+            - "sum_cost_6"
+          dimensions:
+            - "expense_description"
+            - "expense_date"
+            - "cost"
+            - "approved"
+          time_dimensions: []
+          segments: []
+      - join_path: "member.income"
+        prefix: true
+        includes:
+          measures:
+            - "count_income_id"
+            - "count_income_id_2"
+            - "sum_amount"
+            - "sum_amount_2"
+          dimensions:
+            - "date_received"
+            - "amount"
+            - "source"
+            - "notes"
+          time_dimensions: []
+          segments: []
+      - join_path: "member.major"
+        prefix: true
+        includes:
+          measures:
+            - "count_college"
+            - "count_major_id"
+            - "count_major_name"
+            - "sum_major_name"
+            - "sum_major_name_2"
+          dimensions:
+            - "major_name"
+            - "department"
+            - "college"
+          time_dimensions: []
+          segments: []
+      - join_path: "member.zip_code"
+        prefix: true
+        includes:
+          measures:
+            - "count_city"
+            - "count_zip_code"
+            - "sum_state"
+          dimensions:
+            - "type"
+            - "city"
+            - "county"
+            - "state"
+            - "short_state"
+          time_dimensions: []
+          segments: []
+      - join_path: "zip_code.member"
+        prefix: true
+        includes:
+          measures:
+            - "count_member_id"
+            - "count_member_id_2"
+            - "count_member_id_3"
+            - "count_member_id_4"
+            - "count_member_id_5"
+            - "count_member_id_6"
+            - "count_member_id_7"
+            - "count_member_id_8"
+            - "count_member_id_9"
+            - "count_member_id_10"
+            - "count_t_shirt_size"
+          dimensions:
+            - "first_name"
+            - "last_name"
+            - "email"
+            - "position"
+            - "t_shirt_size"
+            - "phone"
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes:
+          - "attendance.count_link_to_event"
+          - "attendance.count_link_to_event_2"
+          - "attendance.count_link_to_event_3"
+          - "attendance.count_link_to_event_4"
+          - "attendance.count_link_to_member"
+          - "attendance.count_link_to_member_2"
+          - "attendance.distinct_link_to_event_count"
+          - "budget.count_budget_id"
+          - "budget.count_spent"
+          - "budget.max_spent"
+          - "budget.sum_amount"
+          - "budget.sum_amount_2"
+          - "budget.sum_amount_3"
+          - "budget.sum_amount_4"
+          - "budget.sum_amount_5"
+          - "budget.sum_remaining"
+          - "budget.sum_spent"
+          - "budget.sum_spent_2"
+          - "budget.sum_spent_3"
+          - "budget.sum_spent_4"
+          - "event.count_event_id"
+          - "event.count_event_id_2"
+          - "event.count_event_id_3"
+          - "event.count_event_id_4"
+          - "event.count_event_id_5"
+          - "event.distinct_event_id_count"
+          - "expense.avg_cost"
+          - "expense.avg_cost_2"
+          - "expense.avg_cost_3"
+          - "expense.sum_cost"
+          - "expense.sum_cost_2"
+          - "expense.sum_cost_3"
+          - "expense.sum_cost_4"
+          - "expense.sum_cost_5"
+          - "expense.sum_cost_6"
+          - "income.count_income_id"
+          - "income.count_income_id_2"
+          - "income.sum_amount"
+          - "income.sum_amount_2"
+          - "major.count_college"
+          - "major.count_major_id"
+          - "major.count_major_name"
+          - "major.sum_major_name"
+          - "major.sum_major_name_2"
+          - "member.count_member_id"
+          - "member.count_member_id_10"
+          - "member.count_member_id_2"
+          - "member.count_member_id_3"
+          - "member.count_member_id_4"
+          - "member.count_member_id_5"
+          - "member.count_member_id_6"
+          - "member.count_member_id_7"
+          - "member.count_member_id_8"
+          - "member.count_member_id_9"
+          - "member.count_t_shirt_size"
+          - "zip_code.count_city"
+          - "zip_code.count_zip_code"
+          - "zip_code.sum_state"
+      - name: "Frequently Used Dimensions"
+        includes:
+          - "event.event_name"
+          - "expense.expense_description"
+          - "income.source"
+          - "member.last_name"
+          - "member.first_name"
+          - "member.t_shirt_size"
+          - "budget.category"
+    default_time_dimension: null
+policies: []
