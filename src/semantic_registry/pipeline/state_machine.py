@@ -255,9 +255,9 @@ class NL2SQLPipeline:
             return self.build_response(context)
         stages = [
             self.classify,
+            self.run_semantic_engine,
             self.extract_terms,
             self.resolve_semantics,
-            self.run_semantic_engine,
             self.retrieve_metadata,
             self.build_context,
             self.generate_candidates,
@@ -279,7 +279,15 @@ class NL2SQLPipeline:
         return context
 
     def _should_skip_stage(self, stage_name: str, context: PipelineContext) -> bool:
-        if context.semantic_route == "SEMANTIC_SQL" and stage_name in {"generate_candidates", "validate", "repair"}:
+        if context.semantic_route == "SEMANTIC_SQL" and stage_name in {
+            "extract_terms",
+            "resolve_semantics",
+            "retrieve_metadata",
+            "build_context",
+            "generate_candidates",
+            "validate",
+            "repair",
+        }:
             return True
         return False
 
@@ -378,6 +386,8 @@ class NL2SQLPipeline:
         context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
         if context.semantic_route == "GUARDED_LLM_SQL" and context.guardrail_contract:
             context.context_prompt = self._inject_guardrail_contract(context.context_prompt, context.guardrail_contract)
+        if context.semantic_route == "CLARIFY" and context.gap_report:
+            context.context_prompt = self._inject_gap_report(context.context_prompt, context.gap_report)
         return context
 
     def generate_candidates(self, context: PipelineContext) -> PipelineContext:
@@ -422,6 +432,9 @@ class NL2SQLPipeline:
 
     def explain(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("explain")
+        if context.semantic_route == "SEMANTIC_SQL" and context.selected_sql is not None and context.semantic_plan is None:
+            context.explanation = self._semantic_sql_explanation(context.selected_sql)
+            return context
         if context.semantic_plan is None or context.selected_sql is None:
             context.error = "Cannot explain SQL without a semantic plan and selected SQL."
             return context
@@ -549,6 +562,56 @@ class NL2SQLPipeline:
                 "The SQL must use only the tables, columns, measures, dimensions, time dimensions, joins, segments, and invariants in this contract.",
                 "<guardrail_contract>\n" + contract_text + "\n</guardrail_contract>",
             ]
+        )
+
+    def _inject_gap_report(self, prompt: str, gap_report: dict[str, Any]) -> str:
+        missing_members = self._gap_items(
+            gap_report,
+            "missing_members",
+            "missing_measures",
+            "missing_dimensions",
+        )
+        gap_text = "\n".join(
+            [
+                "[Semantic Engine Gap Report]",
+                "The governed semantic model could not fully resolve this question:",
+                f"- Unresolved terms: {self._json_list(self._gap_items(gap_report, 'unresolved_terms'))}",
+                f"- Missing members: {self._json_list(missing_members)}",
+                f"- Suggested model additions: {self._json_list(self._gap_items(gap_report, 'suggested_model_additions'))}",
+                "",
+                "Consider whether existing governed members can satisfy the intent before generating raw SQL.",
+            ]
+        )
+        return "\n\n".join([prompt, gap_text])
+
+    def _gap_items(self, gap_report: dict[str, Any], *keys: str) -> list[Any]:
+        items: list[Any] = []
+        for key in keys:
+            value = gap_report.get(key) or []
+            if isinstance(value, list):
+                items.extend(value)
+            else:
+                items.append(value)
+        deduped: list[Any] = []
+        seen: set[str] = set()
+        for item in items:
+            marker = json.dumps(item, sort_keys=True) if isinstance(item, (dict, list)) else str(item)
+            if marker not in seen:
+                seen.add(marker)
+                deduped.append(item)
+        return deduped
+
+    def _json_list(self, values: list[Any]) -> str:
+        return json.dumps(values, sort_keys=True)
+
+    def _semantic_sql_explanation(self, sql_candidate: SQLCandidate) -> SQLExplanation:
+        table = sql_candidate.tables_used[0] if sql_candidate.tables_used else ""
+        return SQLExplanation(
+            table_selected=table,
+            table_reason="Selected by the governed semantic engine.",
+            columns_used=list(sql_candidate.columns_used),
+            assumptions=list(sql_candidate.assumptions),
+            caveats=sql_candidate.validation_errors,
         )
 
     def _semantic_clarification(self, context: PipelineContext) -> ClarificationResponse:

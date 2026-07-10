@@ -47,7 +47,14 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "amount"
+          - "annual"
+          - "average"
+          - "consumption"
           - "customerid"
+          - "customers"
+          - "difference"
+          - "paid"
         allowed_dimensions: []
         filters:
           - member: "currency"
@@ -70,7 +77,10 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "consumed"
+          - "customer"
           - "customerid"
+          - "percent"
         allowed_dimensions: []
         filters:
           - member: "segment"
@@ -83,6 +93,28 @@ entities:
           distinct: false
           where_examples:
             - "WHERE T1.Segment = 'LAM'"
+      - name: "count_customerid_3"
+        title: "Count Customerid 3"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "customerid"
+          - "customers"
+          - "euros"
+          - "percentage"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Segment = 'KAM'"
       - name: "count_row_count"
         title: "Count Row Count"
         description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
@@ -94,6 +126,9 @@ entities:
         public: true
         synonyms:
           - "1"
+          - "consumption"
+          - "customers"
+          - "year"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -101,45 +136,6 @@ entities:
           question_count: 1
           distinct: false
           where_examples: []
-      - name: "sum_currency"
-        title: "Sum Currency"
-        description: "SUM over Currency extracted from repeated BIRD gold SQL patterns."
-        expr: "Currency"
-        aggregation: "sum"
-        type: "number"
-        status: "certified"
-        owner: "bird_benchmark"
-        public: true
-        synonyms:
-          - "currency"
-        allowed_dimensions: []
-        filters: []
-        metadata:
-          source: "bird_gold_sql"
-          question_count: 3
-          distinct: false
-          where_examples:
-            - "WHERE Segment = 'SME'"
-            - "WHERE Segment = 'KAM'"
-      - name: "sum_currency_2"
-        title: "Sum Currency 2"
-        description: "SUM over Currency extracted from repeated BIRD gold SQL patterns."
-        expr: "Currency"
-        aggregation: "sum"
-        type: "number"
-        status: "certified"
-        owner: "bird_benchmark"
-        public: true
-        synonyms:
-          - "currency"
-        allowed_dimensions: []
-        filters: []
-        metadata:
-          source: "bird_gold_sql"
-          question_count: 1
-          distinct: false
-          where_examples:
-            - "WHERE T1.Date = '2012-08-25'"
     segments: []
   - name: "gasstations"
     title: "Gasstations"
@@ -181,25 +177,83 @@ entities:
         sensitivity: "public"
         public: true
     measures:
-      - name: "sum_country"
-        title: "Sum Country"
-        description: "SUM over Country extracted from repeated BIRD gold SQL patterns."
-        expr: "Country"
-        aggregation: "sum"
+      - name: "count_gasstationid"
+        title: "Count Gasstationid"
+        description: "COUNT over GasStationID extracted from repeated BIRD gold SQL patterns."
+        expr: "GasStationID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "gasstationid"
+          - "premium"
+          - "stations"
+        allowed_dimensions: []
+        filters:
+          - member: "country"
+            operator: "equals"
+            values:
+              - "CZE"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Country = 'CZE' AND Segment = 'Premium'"
+      - name: "count_gasstationid_2"
+        title: "Count Gasstationid 2"
+        description: "COUNT over GasStationID extracted from repeated BIRD gold SQL patterns."
+        expr: "GasStationID"
+        aggregation: "count"
         type: "number"
         status: "certified"
         owner: "bird_benchmark"
         public: true
         synonyms:
           - "country"
-        allowed_dimensions: []
+          - "gasstationid"
+          - "money"
+          - "number"
+          - "stations"
+          - "value"
+        allowed_dimensions:
+          - "gasstations.country"
         filters: []
         metadata:
           source: "bird_gold_sql"
-          question_count: 2
+          question_count: 1
           distinct: false
           where_examples:
-            - "WHERE Segment = 'Discount'"
+            - "WHERE Segment = 'Value for money'"
+      - name: "count_gasstationid_3"
+        title: "Count Gasstationid 3"
+        description: "COUNT over GasStationID extracted from repeated BIRD gold SQL patterns."
+        expr: "GasStationID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "gasstationid"
+          - "percentage"
+          - "premium"
+          - "slovakian"
+          - "stations"
+        allowed_dimensions: []
+        filters:
+          - member: "country"
+            operator: "equals"
+            values:
+              - "SVK"
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Country = 'SVK'"
     segments: []
   - name: "products"
     title: "Products"
@@ -321,6 +375,12 @@ entities:
         public: true
         synonyms:
           - "amount"
+          - "average"
+          - "january"
+          - "place"
+          - "price"
+          - "taken"
+          - "transactions"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -339,7 +399,14 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "average"
+          - "czech"
+          - "place"
           - "price"
+          - "republic"
+          - "stations"
+          - "taken"
+          - "transactions"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -358,7 +425,12 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "average"
+          - "customers"
+          - "euro"
+          - "paid"
           - "price"
+          - "transactions"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -378,6 +450,9 @@ entities:
         public: true
         synonyms:
           - "customerid"
+          - "customers"
+          - "percentage"
+          - "used"
         allowed_dimensions: []
         filters:
           - member: "date"
@@ -400,7 +475,19 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "among"
+          - "czech"
+          - "made"
+          - "over"
+          - "place"
+          - "price"
+          - "republic"
+          - "station"
+          - "stations"
+          - "taken"
+          - "them"
           - "transactionid"
+          - "transactions"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -420,7 +507,10 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "morning"
+          - "paid"
           - "transactionid"
+          - "transactions"
         allowed_dimensions: []
         filters:
           - member: "date"
@@ -443,7 +533,9 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "happened"
           - "transactionid"
+          - "transactions"
         allowed_dimensions: []
         filters:
           - member: "date"
@@ -466,7 +558,20 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "amount"
+          - "average"
+          - "currency"
+          - "customer"
+          - "highest"
+          - "item"
+          - "paid"
           - "price"
+          - "purchased"
+          - "revenue"
+          - "single"
+          - "spending"
+          - "station"
+          - "used"
         allowed_dimensions:
           - "customers.currency"
           - "transactions_1k.customerid"
@@ -488,7 +593,12 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "amount"
+          - "customer"
+          - "january"
           - "price"
+          - "spent"
+          - "stations"
         allowed_dimensions: []
         filters:
           - member: "customerid"
@@ -543,7 +653,11 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "average"
           - "consumption"
+          - "customers"
+          - "monthly"
+          - "year"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -552,6 +666,29 @@ entities:
           distinct: false
           where_examples:
             - "WHERE SUBSTRING(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'"
+      - name: "count_customerid"
+        title: "Count Customerid"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms:
+          - "consumed"
+          - "customerid"
+          - "customers"
+          - "february"
+          - "percentage"
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE Date = '201202'"
       - name: "count_row_count"
         title: "Count Row Count"
         description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
@@ -563,6 +700,14 @@ entities:
         public: true
         synonyms:
           - "1"
+          - "among"
+          - "consumption"
+          - "customers"
+          - "euro"
+          - "monthly"
+          - "over"
+          - "paid"
+          - "them"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -581,7 +726,13 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "amount"
+          - "annual"
+          - "average"
           - "consumption"
+          - "customers"
+          - "difference"
+          - "paid"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -600,7 +751,10 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "consumed"
           - "consumption"
+          - "customer"
+          - "percent"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -620,7 +774,17 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "amount"
+          - "annual"
+          - "average"
+          - "consumed"
           - "consumption"
+          - "customers"
+          - "difference"
+          - "paid"
+          - "paying"
+          - "recorded"
+          - "year"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -641,7 +805,33 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "april"
+          - "august"
+          - "biggest"
+          - "client"
+          - "consume"
+          - "consumed"
+          - "consuming"
           - "consumption"
+          - "customer"
+          - "customers"
+          - "czkpaying"
+          - "difference"
+          - "eurpaying"
+          - "february"
+          - "highest"
+          - "increases"
+          - "kamhas"
+          - "lowest"
+          - "monthly"
+          - "november"
+          - "paid"
+          - "percentage"
+          - "segment"
+          - "segmentssme"
+          - "september"
+          - "three"
+          - "year"
         allowed_dimensions:
           - "customers.segment"
         filters: []
@@ -663,7 +853,15 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "biggest"
           - "consumption"
+          - "currency"
+          - "customers"
+          - "euro"
+          - "monthly"
+          - "paid"
+          - "recorded"
+          - "year"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -682,7 +880,13 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "consumed"
           - "consumption"
+          - "customer"
+          - "customers"
+          - "june"
+          - "month"
+          - "peak"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -703,6 +907,12 @@ entities:
         public: true
         synonyms:
           - "consumption"
+          - "currency"
+          - "customer"
+          - "euro"
+          - "highest"
+          - "october"
+          - "used"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -721,7 +931,12 @@ entities:
         owner: "bird_benchmark"
         public: true
         synonyms:
+          - "among"
+          - "consume"
+          - "consumed"
           - "consumption"
+          - "customers"
+          - "kams"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -742,6 +957,11 @@ entities:
         public: true
         synonyms:
           - "consumption"
+          - "customer"
+          - "decrease"
+          - "paid"
+          - "rate"
+          - "year"
         allowed_dimensions: []
         filters: []
         metadata:
@@ -842,9 +1062,8 @@ views:
           measures:
             - "count_customerid"
             - "count_customerid_2"
+            - "count_customerid_3"
             - "count_row_count"
-            - "sum_currency"
-            - "sum_currency_2"
           dimensions:
             - "segment"
             - "currency"
@@ -853,7 +1072,9 @@ views:
       - join_path: "gasstations"
         includes:
           measures:
-            - "sum_country"
+            - "count_gasstationid"
+            - "count_gasstationid_2"
+            - "count_gasstationid_3"
           dimensions:
             - "chainid"
             - "country"
@@ -894,6 +1115,7 @@ views:
         includes:
           measures:
             - "avg_consumption"
+            - "count_customerid"
             - "count_row_count"
             - "min_consumption"
             - "sum_consumption"
@@ -937,6 +1159,7 @@ views:
         includes:
           measures:
             - "avg_consumption"
+            - "count_customerid"
             - "count_row_count"
             - "min_consumption"
             - "sum_consumption"
@@ -957,9 +1180,8 @@ views:
           measures:
             - "count_customerid"
             - "count_customerid_2"
+            - "count_customerid_3"
             - "count_row_count"
-            - "sum_currency"
-            - "sum_currency_2"
           dimensions:
             - "segment"
             - "currency"
@@ -969,7 +1191,9 @@ views:
         prefix: true
         includes:
           measures:
-            - "sum_country"
+            - "count_gasstationid"
+            - "count_gasstationid_2"
+            - "count_gasstationid_3"
           dimensions:
             - "chainid"
             - "country"
@@ -989,6 +1213,7 @@ views:
         includes:
           measures:
             - "avg_consumption"
+            - "count_customerid"
             - "count_row_count"
             - "min_consumption"
             - "sum_consumption"
@@ -1009,9 +1234,8 @@ views:
           measures:
             - "count_customerid"
             - "count_customerid_2"
+            - "count_customerid_3"
             - "count_row_count"
-            - "sum_currency"
-            - "sum_currency_2"
           dimensions:
             - "segment"
             - "currency"
@@ -1022,10 +1246,11 @@ views:
         includes:
           - "customers.count_customerid"
           - "customers.count_customerid_2"
+          - "customers.count_customerid_3"
           - "customers.count_row_count"
-          - "customers.sum_currency"
-          - "customers.sum_currency_2"
-          - "gasstations.sum_country"
+          - "gasstations.count_gasstationid"
+          - "gasstations.count_gasstationid_2"
+          - "gasstations.count_gasstationid_3"
           - "transactions_1k.avg_amount"
           - "transactions_1k.avg_price"
           - "transactions_1k.avg_price_2"
@@ -1036,6 +1261,7 @@ views:
           - "transactions_1k.sum_price"
           - "transactions_1k.sum_price_2"
           - "yearmonth.avg_consumption"
+          - "yearmonth.count_customerid"
           - "yearmonth.count_row_count"
           - "yearmonth.min_consumption"
           - "yearmonth.sum_consumption"
@@ -1051,5 +1277,6 @@ views:
           - "customers.segment"
           - "customers.currency"
           - "transactions_1k.customerid"
+          - "gasstations.country"
     default_time_dimension: "transactions_1k.date"
 policies: []

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from src.semantic_registry.pipeline.candidate_generator import SQLCandidate
-from src.semantic_registry.pipeline.state_machine import NL2SQLPipeline
+from src.semantic_registry.pipeline.state_machine import NL2SQLPipeline, PipelineContext
+from src.semantic_registry.resolver.plan import SemanticQueryPlan
+from src.semantic_registry.retrieval.hybrid import RetrievalResult
 from tests.resolver.conftest import (  # noqa: F401
     registry_data as registry_data,
     resolver_concepts as resolver_concepts,
@@ -73,6 +75,10 @@ def test_semantic_sql_route_bypasses_llm_and_returns_compiled_sql(registry_data)
     assert context.semantic_compiled_sql == compiled_sql
     assert context.response is not None
     assert context.response.generated_sql == compiled_sql
+    assert "extract_terms" not in context.trace
+    assert "resolve_semantics" not in context.trace
+    assert "retrieve_metadata" not in context.trace
+    assert "build_context" not in context.trace
     assert "generate_candidates" not in context.trace
     assert "validate" not in context.trace
     assert "repair" not in context.trace
@@ -104,6 +110,7 @@ def test_guarded_llm_route_passes_contract_to_llm_context(registry_data) -> None
 
 
 def test_clarify_route_continues_to_llm_with_gap_report(registry_data) -> None:
+    generator = RecordingCandidateGenerator()
     pipeline = NL2SQLPipeline(
         registry_data=registry_data,
         semantic_engine=FakeSemanticEngine(
@@ -115,6 +122,7 @@ def test_clarify_route_continues_to_llm_with_gap_report(registry_data) -> None:
                 },
             }
         ),
+        candidate_generator=generator,
     )
 
     context = pipeline.run("show paid GMV by channel")
@@ -124,6 +132,38 @@ def test_clarify_route_continues_to_llm_with_gap_report(registry_data) -> None:
     assert context.requires_clarification is False
     assert context.gap_report is not None
     assert "profit" in str(context.gap_report)
+    assert context.context_prompt is not None
+    assert "[Semantic Engine Gap Report]" in context.context_prompt
+    assert '"profit"' in context.context_prompt
+    assert generator.prompt is not None
+    assert "[Semantic Engine Gap Report]" in generator.prompt
+
+
+def test_build_context_injects_gap_report_for_clarify_route(registry_data) -> None:
+    pipeline = NL2SQLPipeline(
+        registry_data=registry_data,
+        semantic_engine=FakeSemanticEngine({"route": "CLARIFY"}),
+    )
+    context = PipelineContext(
+        question="show profit by channel",
+        domain="commerce",
+        semantic_route="CLARIFY",
+        gap_report={
+            "unresolved_terms": ["profit"],
+            "missing_members": ["profit_margin"],
+            "suggested_model_additions": ["profit metric"],
+        },
+        semantic_plan=SemanticQueryPlan(metric="paid_gmv", dimension="channel", domain="commerce"),
+        retrieved_metadata=RetrievalResult(),
+    )
+
+    context = pipeline.build_context(context)
+
+    assert context.context_prompt is not None
+    assert "[Semantic Engine Gap Report]" in context.context_prompt
+    assert 'Unresolved terms: ["profit"]' in context.context_prompt
+    assert 'Missing members: ["profit_margin"]' in context.context_prompt
+    assert 'Suggested model additions: ["profit metric"]' in context.context_prompt
 
 
 def test_blocked_route_sets_error(registry_data) -> None:

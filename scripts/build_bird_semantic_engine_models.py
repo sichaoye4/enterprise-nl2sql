@@ -32,6 +32,18 @@ OUTPUT_DIR = ROOT / "bird_semantic_engine"
 RESULTS_DIR = ROOT / "bird_bench" / "results"
 OWNER = "bird_benchmark"
 
+STOPWORDS = {
+    "what", "which", "where", "that", "have", "with", "from", "show",
+    "list", "give", "tell", "find", "the", "and", "for", "how", "many",
+    "much", "total", "each", "name", "please", "does", "dose", "than",
+    "there", "their", "they", "been", "were", "being", "would", "could",
+    "should", "about", "between", "through", "during", "before", "after",
+    "above", "below", "into", "more", "less", "most", "least",
+    "some", "any", "all", "both", "such", "just", "also", "very", "well",
+    "then", "here", "there", "when", "where", "why", "how", "our", "your",
+    "its", "his", "her", "their", "this", "that", "these", "those",
+}
+
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
@@ -57,6 +69,7 @@ class MeasureUse:
     group_members: set[str] = field(default_factory=set)
     questions: set[int] = field(default_factory=set)
     where_examples: Counter[str] = field(default_factory=Counter)
+    question_terms: set[str] = field(default_factory=set)
 
 
 def load_json(path: Path) -> Any:
@@ -276,10 +289,22 @@ def mine_gold_sql(
                 else:
                     info = resolve_column(column, aliases, by_name)
                     if not info:
+                        # Ambiguous column — try with the first FROM table as context
+                        from_entity = first_table_entity(tree, entity_by_table)
+                        if from_entity:
+                            from_table = {v: k for k, v in entity_by_table.items()}.get(from_entity, "")
+                            info = by_name.get((from_table.lower(), column.name.lower()))
+                    if not info:
                         continue
                     entity = entity_by_table[info.table]
                     column_member = info.member_name
                     column_name = info.column
+                # Skip SUM/AVG on non-numeric columns
+                if aggregation in ("sum", "avg") and info and info.column_type not in {
+                    "integer", "int", "number", "real", "float",
+                    "double", "decimal", "numeric",
+                }:
+                    continue
                 key = (entity, aggregation, column_member, distinct, filters)
                 use = measures.setdefault(
                     key,
@@ -296,6 +321,11 @@ def mine_gold_sql(
                 use.questions.add(q_idx)
                 if where_sql:
                     use.where_examples[where_sql] += 1
+                # Extract question-language terms as synonyms
+                q_text = question.get("question", "")
+                for token in re.sub(r"[^a-z ]", "", q_text.lower()).split():
+                    if len(token) > 3 and token not in STOPWORDS:
+                        use.question_terms.add(token)
 
         sql_relationships.extend(extract_join_relationships(tree, aliases, by_name, entity_by_table))
 
@@ -580,7 +610,11 @@ def build_model(db_id: str, schema: dict[str, Any], questions: list[tuple[int, d
                 "status": "certified",
                 "owner": OWNER,
                 "public": True,
-                "synonyms": [titleize(use.column).lower()],
+                "synonyms": sorted(set([
+                    titleize(use.column).lower(),
+                    use.column.lower(),
+                    *use.question_terms,
+                ])),
                 "allowed_dimensions": allowed_dimensions,
                 "filters": filters,
                 "metadata": {

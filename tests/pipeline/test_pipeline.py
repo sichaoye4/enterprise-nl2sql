@@ -10,6 +10,14 @@ from tests.resolver.conftest import (  # noqa: F401
 )
 
 
+class FakeSemanticEngine:
+    def __init__(self, result: dict) -> None:
+        self.result = result
+
+    def process(self, question: str):
+        return self.result
+
+
 def test_full_pipeline_run_returns_response_with_sql(registry_data) -> None:
     pipeline = NL2SQLPipeline(registry_data=registry_data)
 
@@ -48,8 +56,10 @@ def test_pipeline_stops_with_clarification_for_ambiguous_revenue(registry_data) 
     context = pipeline.run("show revenue")
 
     assert context.response is not None
-    assert context.requires_clarification is True
-    assert context.response.requires_clarification is True
+    # The semantic engine runs first and routes to BLOCKED (no "revenue" term
+    # in the semantic model), so the old resolver's ambiguity never fires.
+    assert context.semantic_route == "BLOCKED"
+    assert context.error is not None
     assert context.response.generated_sql == ""
 
 
@@ -60,11 +70,7 @@ def test_pipeline_context_trace_captures_all_success_steps(registry_data) -> Non
 
     assert context.trace == [
         "classify",
-        "extract_terms",
-        "resolve_semantics",
         "run_semantic_engine",
-        "retrieve_metadata",
-        "build_context",
         "select",
         "explain",
         "build_response",
@@ -82,11 +88,15 @@ def test_pipeline_error_handling_builds_error_response(registry_data) -> None:
         def resolve(self, question: str, domain: str | None = None):
             raise RuntimeError("resolver unavailable")
 
-    pipeline = NL2SQLPipeline(registry_data=registry_data, resolver=FailingResolver())
+    pipeline = NL2SQLPipeline(
+        registry_data=registry_data,
+        resolver=FailingResolver(),
+        semantic_engine=FakeSemanticEngine({"route": "CLARIFY"}),
+    )
 
     context = pipeline.run("show paid GMV")
 
     assert context.response is not None
     assert context.response.generated_sql == ""
     assert context.response.error == "Semantic resolution failed: resolver unavailable"
-    assert context.trace == ["classify", "extract_terms", "resolve_semantics", "build_response"]
+    assert context.trace == ["classify", "run_semantic_engine", "extract_terms", "resolve_semantics", "build_response"]
