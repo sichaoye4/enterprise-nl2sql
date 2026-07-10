@@ -23,16 +23,13 @@ class FakeSemanticEngine:
         return self.result
 
 
-class FailingCandidateGenerator:
-    def generate_candidates(self, context):
-        raise AssertionError("LLM candidate generation should have been skipped")
-
-
 class RecordingCandidateGenerator:
     def __init__(self) -> None:
         self.prompt: str | None = None
+        self.calls = 0
 
     def generate_candidates(self, context):
+        self.calls += 1
         self.prompt = context.context_prompt
         return [
             SQLCandidate(
@@ -50,8 +47,60 @@ class RecordingCandidateGenerator:
         ]
 
 
-def test_semantic_sql_route_bypasses_llm_and_returns_compiled_sql(registry_data) -> None:
+class RetryCandidateGenerator:
+    def __init__(self) -> None:
+        self.calls = 0
+        self.prompts: list[str | None] = []
+
+    def generate_candidates(self, context):
+        self.calls += 1
+        self.prompts.append(context.context_prompt)
+        if self.calls == 1:
+            return [
+                SQLCandidate(
+                    candidate_id="bad_a",
+                    sql="SELECT bogus FROM missing_table",
+                    generation_strategy="guarded_llm",
+                    assumptions=[],
+                    tables_used=["missing_table"],
+                    columns_used=["bogus"],
+                    confidence="low",
+                    reasoning_summary="Invalid guarded candidate.",
+                    parse_success=True,
+                    validation_errors=[],
+                ),
+                SQLCandidate(
+                    candidate_id="bad_b",
+                    sql="SELECT also_bad FROM missing_table",
+                    generation_strategy="guarded_llm",
+                    assumptions=[],
+                    tables_used=["missing_table"],
+                    columns_used=["also_bad"],
+                    confidence="low",
+                    reasoning_summary="Invalid guarded candidate.",
+                    parse_success=True,
+                    validation_errors=[],
+                ),
+            ]
+        return [
+            SQLCandidate(
+                candidate_id="raw",
+                sql="SELECT SUM(paid_gmv_amt) AS paid_gmv FROM orders WHERE payment_dt IS NOT NULL",
+                generation_strategy="raw_fallback",
+                assumptions=[],
+                tables_used=["orders"],
+                columns_used=["paid_gmv_amt", "payment_dt"],
+                confidence="medium",
+                reasoning_summary="Generated without semantic guardrail contract.",
+                parse_success=True,
+                validation_errors=[],
+            )
+        ]
+
+
+def test_semantic_sql_route_runs_llm_with_compiled_sql_seed(registry_data) -> None:
     compiled_sql = "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM orders"
+    generator = RecordingCandidateGenerator()
     pipeline = NL2SQLPipeline(
         registry_data=registry_data,
         semantic_engine=FakeSemanticEngine(
@@ -66,22 +115,27 @@ def test_semantic_sql_route_bypasses_llm_and_returns_compiled_sql(registry_data)
                 },
             }
         ),
-        candidate_generator=FailingCandidateGenerator(),
+        candidate_generator=generator,
     )
 
     context = pipeline.run("show paid GMV by channel")
 
     assert context.semantic_route == "SEMANTIC_SQL"
     assert context.semantic_compiled_sql == compiled_sql
+    assert generator.calls == 1
+    assert generator.prompt is not None
+    assert "[Compiled SQL Seed]" in generator.prompt
+    assert compiled_sql in generator.prompt
+    assert "<guardrail_contract>" in generator.prompt
     assert context.response is not None
-    assert context.response.generated_sql == compiled_sql
+    assert context.response.generated_sql.startswith("SELECT SUM(paid_gmv_amt) AS paid_gmv FROM orders")
     assert "extract_terms" not in context.trace
     assert "resolve_semantics" not in context.trace
     assert "retrieve_metadata" not in context.trace
-    assert "build_context" not in context.trace
-    assert "generate_candidates" not in context.trace
-    assert "validate" not in context.trace
-    assert "repair" not in context.trace
+    assert "build_context" in context.trace
+    assert "generate_candidates" in context.trace
+    assert "validate" in context.trace
+    assert "repair" in context.trace
 
 
 def test_guarded_llm_route_passes_contract_to_llm_context(registry_data) -> None:
@@ -107,6 +161,93 @@ def test_guarded_llm_route_passes_contract_to_llm_context(registry_data) -> None
     assert "<guardrail_contract>" in generator.prompt
     assert '"selected_view": "commerce_orders"' in generator.prompt
     assert '"paid_gmv_amt"' in generator.prompt
+
+
+def test_semantic_quality_gate_catches_orphan_filter_and_downgrades(registry_data) -> None:
+    compiled_sql = "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM orders WHERE Currency = 'CZK'"
+    generator = RecordingCandidateGenerator()
+    pipeline = NL2SQLPipeline(
+        registry_data=registry_data,
+        semantic_engine=FakeSemanticEngine(
+            {
+                "route": "SEMANTIC_SQL",
+                "compiled_query": {
+                    "sql": compiled_sql,
+                    "lineage": {
+                        "tables": ["orders"],
+                        "measures": {"paid_gmv": {"column": "paid_gmv_amt"}},
+                    },
+                },
+            }
+        ),
+        candidate_generator=generator,
+    )
+
+    context = pipeline.run("show paid GMV")
+
+    assert context.semantic_route == "GUARDED_LLM_SQL"
+    assert context.semantic_compiled_sql is None
+    assert context.gap_report is not None
+    assert context.gap_report["quality_gate"]["orphan_filters"] == ["CZK"]
+    assert generator.prompt is not None
+    assert "[Compiled SQL Seed]" not in generator.prompt
+    assert "<guardrail_contract>" in generator.prompt
+
+
+def test_semantic_quality_gate_passes_clean_sql(registry_data) -> None:
+    compiled_sql = "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM orders"
+    generator = RecordingCandidateGenerator()
+    pipeline = NL2SQLPipeline(
+        registry_data=registry_data,
+        semantic_engine=FakeSemanticEngine(
+            {
+                "route": "SEMANTIC_SQL",
+                "compiled_query": {
+                    "sql": compiled_sql,
+                    "lineage": {
+                        "tables": ["orders"],
+                        "measures": {"paid_gmv": {"column": "paid_gmv_amt"}},
+                    },
+                },
+            }
+        ),
+        candidate_generator=generator,
+    )
+
+    context = pipeline.run("show paid GMV")
+
+    assert context.semantic_route == "SEMANTIC_SQL"
+    assert context.semantic_compiled_sql == compiled_sql
+    assert generator.prompt is not None
+    assert "[Compiled SQL Seed]" in generator.prompt
+
+
+def test_guarded_llm_retries_without_contract_after_validation_failures(registry_data) -> None:
+    generator = RetryCandidateGenerator()
+    contract = {
+        "selected_view": "commerce_orders",
+        "entities": [{"name": "orders", "table": "orders"}],
+        "measures": [{"name": "paid_gmv", "column": "paid_gmv_amt", "aggregation": "sum"}],
+        "dimensions": [],
+        "relationships": [],
+    }
+    pipeline = NL2SQLPipeline(
+        registry_data=registry_data,
+        semantic_engine=FakeSemanticEngine({"route": "GUARDED_LLM_SQL", "guardrail_contract": contract}),
+        candidate_generator=generator,
+    )
+
+    context = pipeline.run("show paid GMV")
+
+    assert generator.calls == 2
+    assert context.semantic_retry_count == 2
+    assert context.semantic_route == "RAW_SQL_FALLBACK"
+    assert context.guardrail_contract is None
+    assert context.response is not None
+    assert context.response.validation_status == "pass"
+    assert context.response.generated_sql == "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM orders WHERE payment_dt IS NOT NULL"
+    assert generator.prompts[0] is not None and "<guardrail_contract>" in generator.prompts[0]
+    assert generator.prompts[1] is not None and "<guardrail_contract>" not in generator.prompts[1]
 
 
 def test_clarify_route_continues_to_llm_with_gap_report(registry_data) -> None:

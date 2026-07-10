@@ -2,10 +2,13 @@ from __future__ import annotations
 
 import uuid
 import json
+import logging
 import sys
 from pathlib import Path
 from typing import Any
 
+import sqlglot
+from sqlglot import exp
 from pydantic import BaseModel, Field
 
 from src.semantic_registry.config import get_settings
@@ -28,9 +31,12 @@ from src.semantic_registry.resolver import (
     load_semantic_registry,
 )
 from src.semantic_registry.resolver.registry import SemanticRegistryData
-from src.semantic_registry.retrieval.hybrid import HybridRetriever, RetrievalResult
+from src.semantic_registry.retrieval.hybrid import HybridRetriever, RetrievalResult, ScoredCandidate
 from src.semantic_registry.validation.orchestrator import SQLValidator, ValidationSuiteResult
 from src.semantic_registry.yaml_schema.schemas import DimensionYaml, MetricYaml
+
+
+logger = logging.getLogger(__name__)
 
 
 class PipelineContext(BaseModel):
@@ -55,6 +61,7 @@ class PipelineContext(BaseModel):
     semantic_route: str | None = None
     semantic_compiled_sql: str | None = None
     guardrail_contract: dict[str, Any] | None = None
+    semantic_retry_count: int = 0
     gap_report: dict[str, Any] | None = None
     trace: list[str] = Field(default_factory=list)
 
@@ -256,6 +263,7 @@ class NL2SQLPipeline:
         stages = [
             self.classify,
             self.run_semantic_engine,
+            self.run_semantic_quality_gate,
             self.extract_terms,
             self.resolve_semantics,
             self.retrieve_metadata,
@@ -283,10 +291,6 @@ class NL2SQLPipeline:
             "extract_terms",
             "resolve_semantics",
             "retrieve_metadata",
-            "build_context",
-            "generate_candidates",
-            "validate",
-            "repair",
         }:
             return True
         return False
@@ -343,9 +347,11 @@ class NL2SQLPipeline:
                 context.error = "Semantic engine selected SEMANTIC_SQL but returned no compiled SQL."
                 return context
             context.semantic_compiled_sql = str(compiled_sql)
-            candidate = self._semantic_sql_candidate(str(compiled_sql), compiled_query)
-            context.sql_candidates = [candidate]
-            context.selected_sql = candidate
+            context.guardrail_contract = self._semantic_guardrail_contract(result, compiled_query)
+            context.semantic_plan = self._semantic_plan_from_engine_result(result, compiled_query, context)
+            context.retrieved_metadata = self._semantic_retrieval_context(context.semantic_plan, compiled_query)
+            context.sql_candidates = []
+            context.selected_sql = None
         elif context.semantic_route == "GUARDED_LLM_SQL":
             contract = self._result_value(result, "guardrail_contract")
             context.guardrail_contract = self._model_dump(contract)
@@ -358,6 +364,62 @@ class NL2SQLPipeline:
         elif context.semantic_route:
             context.error = f"Semantic engine returned unsupported route: {context.semantic_route}"
         return context
+
+    def run_semantic_quality_gate(self, context: PipelineContext) -> PipelineContext:
+        context.trace.append("run_semantic_quality_gate")
+        if context.semantic_route != "SEMANTIC_SQL" or not context.semantic_compiled_sql:
+            return context
+
+        orphan_filters = self._semantic_quality_gate(context.semantic_compiled_sql, context.question)
+        if not orphan_filters:
+            return context
+
+        logger.warning("Semantic SQL quality gate failed; orphan filters detected: %s", orphan_filters)
+        context.gap_report = dict(context.gap_report or {})
+        context.gap_report["quality_gate"] = {
+            "status": "failed",
+            "orphan_filters": orphan_filters,
+        }
+        context.semantic_route = "GUARDED_LLM_SQL"
+        context.semantic_compiled_sql = None
+        context.sql_candidates = []
+        context.selected_sql = None
+        return context
+
+    def _semantic_quality_gate(self, sql: str, question: str) -> list[str]:
+        question_text = question.lower()
+        orphan_filters: list[str] = []
+        for value in self._filter_literal_values(sql):
+            normalized = value.lower()
+            candidates = {
+                normalized,
+                normalized.replace("_", " "),
+                normalized.replace("-", " "),
+            }
+            if not any(candidate and candidate in question_text for candidate in candidates):
+                orphan_filters.append(value)
+        return list(dict.fromkeys(orphan_filters))
+
+    def _filter_literal_values(self, sql: str) -> list[str]:
+        try:
+            statement = sqlglot.parse_one(sql)
+        except sqlglot.errors.ParseError:
+            return []
+
+        filter_roots: list[exp.Expression] = []
+        filter_roots.extend(where.this for where in statement.find_all(exp.Where) if where.this is not None)
+        for case in statement.find_all(exp.Case):
+            for condition in case.args.get("ifs") or []:
+                if condition.this is not None:
+                    filter_roots.append(condition.this)
+
+        values: list[str] = []
+        for root in filter_roots:
+            for literal in root.find_all(exp.Literal):
+                if literal.this is None:
+                    continue
+                values.append(str(literal.this))
+        return list(dict.fromkeys(values))
 
     def _can_continue_through_dimension_term_ambiguity(
         self,
@@ -384,8 +446,12 @@ class NL2SQLPipeline:
             context.error = "Cannot build context without semantic plan and retrieved metadata."
             return context
         context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
-        if context.semantic_route == "GUARDED_LLM_SQL" and context.guardrail_contract:
-            context.context_prompt = self._inject_guardrail_contract(context.context_prompt, context.guardrail_contract)
+        if context.semantic_route in {"GUARDED_LLM_SQL", "SEMANTIC_SQL"} and context.guardrail_contract:
+            context.context_prompt = self._inject_guardrail_contract(
+                context.context_prompt,
+                context.guardrail_contract,
+                context.semantic_compiled_sql,
+            )
         if context.semantic_route == "CLARIFY" and context.gap_report:
             context.context_prompt = self._inject_gap_report(context.context_prompt, context.gap_report)
         return context
@@ -404,6 +470,19 @@ class NL2SQLPipeline:
             context.error = "Cannot validate SQL without a semantic plan."
             return context
         allowed_tables, allowed_columns = self._allowed_metadata(context)
+        self._validate_candidates(context, allowed_tables, allowed_columns)
+        if self._should_retry_without_guardrails(context):
+            self._retry_without_guardrails(context, allowed_tables, allowed_columns)
+        return context
+
+    def _validate_candidates(
+        self,
+        context: PipelineContext,
+        allowed_tables: set[str],
+        allowed_columns: dict[str, set[str]],
+    ) -> None:
+        if context.semantic_plan is None:
+            return
         for candidate in context.sql_candidates:
             result = self.sql_validator.validate(
                 candidate.sql,
@@ -417,7 +496,28 @@ class NL2SQLPipeline:
             candidate.validation_errors = self._validation_errors(result)
             candidate.validation_results = result.model_dump(mode="json")
             context.validation_results[candidate.candidate_id] = candidate.validation_results
-        return context
+
+    def _should_retry_without_guardrails(self, context: PipelineContext) -> bool:
+        if context.semantic_route != "GUARDED_LLM_SQL" or not context.guardrail_contract:
+            return False
+        failed = [candidate for candidate in context.sql_candidates if not (candidate.parse_success and not candidate.validation_errors)]
+        if len(failed) != len(context.sql_candidates):
+            return False
+        context.semantic_retry_count += len(failed)
+        return context.semantic_retry_count >= 2
+
+    def _retry_without_guardrails(
+        self,
+        context: PipelineContext,
+        allowed_tables: set[str],
+        allowed_columns: dict[str, set[str]],
+    ) -> None:
+        context.semantic_route = "RAW_SQL_FALLBACK"
+        context.guardrail_contract = None
+        if context.semantic_plan is not None and context.retrieved_metadata is not None:
+            context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
+        context.sql_candidates = self.candidate_generator.generate_candidates(context)
+        self._validate_candidates(context, allowed_tables, allowed_columns)
 
     def repair(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("repair")
@@ -535,6 +635,224 @@ class NL2SQLPipeline:
             validation_errors=[],
         )
 
+    def _semantic_guardrail_contract(self, result: Any, compiled_query: Any) -> dict[str, Any] | None:
+        contract = self._model_dump(self._result_value(result, "guardrail_contract"))
+        if contract:
+            return contract
+
+        lineage = self._model_dump(self._result_value(compiled_query, "lineage")) or {}
+        tables = list(lineage.get("tables") or [])
+        selected_view = lineage.get("selected_view") or self._selected_view_from_result(result) or (tables[0] if tables else "semantic_sql")
+        columns = self._lineage_columns(lineage)
+        metric_names = list((lineage.get("measures") or {}).keys()) if isinstance(lineage.get("measures"), dict) else []
+        metric_models = [metric for metric in self.registry_data.metrics if metric.metric in metric_names]
+        if not metric_models:
+            metric_models = [
+                metric
+                for metric in self.registry_data.metrics
+                if metric.measure is not None and metric.measure.column in columns
+            ]
+
+        measures: list[dict[str, Any]] = []
+        dimensions: list[dict[str, Any]] = []
+        time_dimensions: list[dict[str, Any]] = []
+        for metric in metric_models:
+            if metric.measure:
+                measures.append(
+                    {
+                        "name": metric.metric,
+                        "entity": metric.measure.table,
+                        "kind": "measure",
+                        "column": metric.measure.column,
+                        "aggregation": metric.aggregation,
+                    }
+                )
+                if metric.measure.table not in tables:
+                    tables.append(metric.measure.table)
+            if metric.physical_time_column:
+                time_dimensions.append(
+                    {
+                        "name": metric.default_time_dimension or metric.physical_time_column,
+                        "entity": metric.measure.table if metric.measure else selected_view,
+                        "kind": "time_dimension",
+                        "column": metric.physical_time_column,
+                    }
+                )
+            for dimension_name in metric.allowed_dimensions:
+                dimension = self._dimension_by_name(dimension_name)
+                mapping = self._dimension_mapping_for_tables(dimension, tables)
+                if dimension and mapping:
+                    dimensions.append(
+                        {
+                            "name": dimension.dimension,
+                            "entity": mapping["table"],
+                            "kind": "dimension",
+                            "column": mapping["column"],
+                        }
+                    )
+
+        if not tables and not measures and not columns:
+            return None
+
+        parsed_tables, parsed_columns = self._tables_and_columns_from_sql(self._result_value(compiled_query, "sql") or "")
+        for table in parsed_tables:
+            if table not in tables:
+                tables.append(table)
+        for column in parsed_columns:
+            if column not in columns:
+                columns.append(column)
+
+        return {
+            "selected_view": selected_view,
+            "entities": [{"name": table, "table": table} for table in tables],
+            "measures": measures or [{"name": column, "column": column, "kind": "measure"} for column in columns],
+            "dimensions": list({json.dumps(item, sort_keys=True): item for item in dimensions}.values()),
+            "time_dimensions": list({json.dumps(item, sort_keys=True): item for item in time_dimensions}.values()),
+            "relationships": [],
+            "invariants": ["Do not change tables, measures, or join structure from the governed semantic SQL seed."],
+        }
+
+    def _semantic_plan_from_engine_result(
+        self,
+        result: Any,
+        compiled_query: Any,
+        context: PipelineContext,
+    ) -> SemanticQueryPlan:
+        resolution = self._result_value(result, "resolution")
+        metric = self._first_resolution_member(resolution, "measure")
+        dimension = self._first_resolution_member(resolution, "dimension")
+        time_semantics = self._first_resolution_member(resolution, "time_dimension")
+
+        lineage = self._model_dump(self._result_value(compiled_query, "lineage")) or {}
+        if metric is None:
+            measures = lineage.get("measures")
+            if isinstance(measures, dict) and measures:
+                metric = self._normalize_registry_member_name(next(iter(measures.keys())))
+
+        columns = self._lineage_columns(lineage)
+        if metric is None:
+            metric = self._metric_from_columns(columns)
+        metric_model = self._metric_by_name(metric)
+        metric = metric_model.metric if metric_model is not None else metric
+        if time_semantics is None and metric_model is not None:
+            time_semantics = metric_model.default_time_dimension
+        else:
+            time_semantics = self._normalize_registry_member_name(time_semantics)
+        if dimension is None and metric_model is not None:
+            dimension = self._dimension_from_question(context.question, metric_model)
+        dimension_model = self._dimension_by_name(dimension)
+        dimension = dimension_model.dimension if dimension_model is not None else dimension
+
+        return SemanticQueryPlan(
+            metric=metric,
+            dimension=dimension,
+            time_semantics=time_semantics,
+            domain=context.domain,
+            filters=[],
+            requires_clarification=False,
+            confidence=1.0,
+        )
+
+    def _semantic_retrieval_context(self, semantic_plan: SemanticQueryPlan | None, compiled_query: Any) -> RetrievalResult:
+        result = RetrievalResult()
+        lineage = self._model_dump(self._result_value(compiled_query, "lineage")) or {}
+        table_names = list(lineage.get("tables") or [])
+        metric = self._metric_by_name(semantic_plan.metric if semantic_plan else None)
+        if metric and metric.measure and metric.measure.table not in table_names:
+            table_names.insert(0, metric.measure.table)
+        result.candidate_tables = [
+            ScoredCandidate(name=table_name, score=1.0, description="Governed semantic SQL source.", domain=semantic_plan.domain or "")
+            for table_name in table_names
+        ]
+        if semantic_plan and semantic_plan.metric:
+            result.candidate_metrics = [
+                ScoredCandidate(name=semantic_plan.metric, score=1.0, description="Governed semantic metric.", domain=semantic_plan.domain or "")
+            ]
+        return result
+
+    def _first_resolution_member(self, resolution: Any, member_type: str) -> str | None:
+        term_resolutions = self._result_value(resolution, "term_resolutions") or []
+        for item in term_resolutions:
+            if self._result_value(item, "member_type") == member_type:
+                member = self._result_value(item, "matched_member")
+                if member:
+                    return self._normalize_registry_member_name(str(member))
+        return None
+
+    def _selected_view_from_result(self, result: Any) -> str | None:
+        audit = self._result_value(result, "audit")
+        selected_view = self._result_value(audit, "selected_view")
+        if selected_view:
+            return str(selected_view)
+        resolution = self._result_value(result, "resolution")
+        route_decision = self._result_value(resolution, "route_decision")
+        selected_view = self._result_value(route_decision, "selected_view")
+        return str(selected_view) if selected_view else None
+
+    def _metric_by_name(self, metric_name: str | None) -> MetricYaml | None:
+        if metric_name is None:
+            return None
+        normalized = self._normalize_registry_member_name(metric_name)
+        for metric in self.registry_data.metrics:
+            if metric.metric == normalized:
+                return metric
+        return None
+
+    def _dimension_by_name(self, dimension_name: str | None) -> DimensionYaml | None:
+        if dimension_name is None:
+            return None
+        normalized = self._normalize_registry_member_name(dimension_name)
+        for dimension in self.registry_data.dimensions:
+            if dimension.dimension == normalized:
+                return dimension
+        return None
+
+    def _normalize_registry_member_name(self, value: str | None) -> str | None:
+        if value is None:
+            return None
+        return value.rsplit(".", 1)[-1]
+
+    def _metric_from_columns(self, columns: list[str]) -> str | None:
+        for column in columns:
+            for metric in self.registry_data.metrics:
+                if metric.measure is not None and metric.measure.column == column:
+                    return metric.metric
+        return None
+
+    def _dimension_from_question(self, question: str, metric: MetricYaml) -> str | None:
+        question_text = question.lower()
+        for dimension_name in metric.allowed_dimensions:
+            dimension = self._dimension_by_name(dimension_name)
+            if dimension is None:
+                continue
+            names = [dimension.dimension, *dimension.synonyms]
+            if any(name.replace("_", " ").lower() in question_text for name in names):
+                return dimension.dimension
+        return None
+
+    def _dimension_mapping_for_tables(self, dimension: DimensionYaml | None, tables: list[str]) -> dict[str, str] | None:
+        if dimension is None:
+            return None
+        table_set = set(tables)
+        for mapping in dimension.physical_mappings:
+            if mapping.table in table_set:
+                return {"table": mapping.table, "column": mapping.column}
+        if dimension.physical_mappings:
+            mapping = dimension.physical_mappings[0]
+            return {"table": mapping.table, "column": mapping.column}
+        return None
+
+    def _tables_and_columns_from_sql(self, sql: str) -> tuple[list[str], list[str]]:
+        if not sql:
+            return [], []
+        try:
+            statement = sqlglot.parse_one(sql)
+        except sqlglot.errors.ParseError:
+            return [], []
+        tables = [table.name for table in statement.find_all(exp.Table) if table.name]
+        columns = [column.name for column in statement.find_all(exp.Column) if column.name]
+        return list(dict.fromkeys(tables)), list(dict.fromkeys(columns))
+
     def _lineage_columns(self, lineage: dict[str, Any]) -> list[str]:
         columns: list[str] = []
         for key in ("measures", "filters"):
@@ -553,16 +871,27 @@ class NL2SQLPipeline:
                             columns.append(column)
         return list(dict.fromkeys(columns))
 
-    def _inject_guardrail_contract(self, prompt: str, contract: dict[str, Any]) -> str:
+    def _inject_guardrail_contract(self, prompt: str, contract: dict[str, Any], compiled_sql_seed: str | None = None) -> str:
         contract_text = json.dumps(contract, sort_keys=True)
-        return "\n\n".join(
-            [
-                prompt,
-                "GuardrailContract:",
-                "The SQL must use only the tables, columns, measures, dimensions, time dimensions, joins, segments, and invariants in this contract.",
-                "<guardrail_contract>\n" + contract_text + "\n</guardrail_contract>",
-            ]
-        )
+        parts = [
+            prompt,
+            "[GuardrailContract]",
+            "The SQL must use only the tables, columns, measures, dimensions, time dimensions, joins, segments, and invariants in this contract.",
+            "<guardrail_contract>\n" + contract_text + "\n</guardrail_contract>",
+        ]
+        if compiled_sql_seed:
+            parts.extend(
+                [
+                    "[Compiled SQL Seed]",
+                    compiled_sql_seed,
+                    (
+                        "Your task: Review the compiled SQL above. If it correctly answers the question, return it as-is. "
+                        "If improvements are needed (ORDER BY, LIMIT, formatting), refine it. "
+                        "Do NOT change tables, measures, or join relationships."
+                    ),
+                ]
+            )
+        return "\n\n".join(parts)
 
     def _inject_gap_report(self, prompt: str, gap_report: dict[str, Any]) -> str:
         missing_members = self._gap_items(

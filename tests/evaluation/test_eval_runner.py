@@ -56,8 +56,9 @@ def test_run_semantic_eval_returns_eval_result_with_correct_structure(registry_d
 def test_run_sql_eval_passes_for_matching_sql(registry_data) -> None:
     pipeline = NL2SQLPipeline(registry_data=registry_data)
     case = matching_case(
-        "SELECT SUM(t0.paid_gmv_amt) AS paid_gmv FROM ads_order_channel_daily AS t0"
+        "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM orders WHERE payment_dt IS NOT NULL"
     )
+    case.required_tables = ["orders"]
 
     result = EvalRunner().run_sql_eval([case], pipeline)
 

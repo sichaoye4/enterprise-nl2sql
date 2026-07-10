@@ -71,6 +71,11 @@ def test_pipeline_context_trace_captures_all_success_steps(registry_data) -> Non
     assert context.trace == [
         "classify",
         "run_semantic_engine",
+        "run_semantic_quality_gate",
+        "build_context",
+        "generate_candidates",
+        "validate",
+        "repair",
         "select",
         "explain",
         "build_response",
@@ -99,4 +104,11 @@ def test_pipeline_error_handling_builds_error_response(registry_data) -> None:
     assert context.response is not None
     assert context.response.generated_sql == ""
     assert context.response.error == "Semantic resolution failed: resolver unavailable"
-    assert context.trace == ["classify", "run_semantic_engine", "extract_terms", "resolve_semantics", "build_response"]
+    assert context.trace == [
+        "classify",
+        "run_semantic_engine",
+        "run_semantic_quality_gate",
+        "extract_terms",
+        "resolve_semantics",
+        "build_response",
+    ]
