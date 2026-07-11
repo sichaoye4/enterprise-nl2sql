@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+import contextlib
+import io
 import re
+from pathlib import Path
 from typing import Any
 
 from src.semantic_registry.metadata.models import ColumnMetadata, TableMetadata
@@ -28,51 +31,43 @@ class ContextBuilder:
         semantic_plan: SemanticQueryPlan,
         retrieved_metadata: RetrievalResult,
         raw_schema: str | None = None,
+        evidence: str | None = None,
     ) -> str:
         safe_question = self._redact_sensitive_values(question)
         tables = self._candidate_tables(semantic_plan, retrieved_metadata)
         
-        # When full raw DDL is available (BIRD mode), use a clean prompt
-        # matching the baseline approach that achieves 66% EX
+        # BIRD mode: mirror scripts/run_full_benchmark.py as closely as the
+        # pipeline allows: few-shot examples, enriched schema, evidence hint,
+        # question, compact JSON contract.
         if raw_schema:
+            db_id = self._db_id_from_raw_schema(raw_schema) or semantic_plan.domain
+            examples = self._few_shot_examples(safe_question, db_id)
             sections = [
-                "You are a SQL expert. Given the database schema and a question, generate a valid SQLite query.",
-                "",
-                "Database Schema:",
-                raw_schema,
+                "You are a SQLite expert. Generate a single SELECT statement.",
             ]
-            caveats = retrieved_metadata.known_caveats
-            if caveats:
-                sections.extend(["", "Domain Knowledge / Hint:"])
-                sections.extend(f"- {self._redact_sensitive_values(c)}" for c in caveats)
-            examples = self._few_shot_examples()
             if examples:
-                sections.extend(["", "Examples:", ""])
-                sections.append(examples)
+                sections.extend(
+                    [
+                        "Here are examples of similar questions and their SQL:",
+                        examples,
+                    ]
+                )
+            sections.extend(
+                [
+                    "Database Schema:",
+                    raw_schema,
+                ]
+            )
+            safe_evidence = self._redact_sensitive_values(evidence)
+            if safe_evidence:
+                sections.append(f"Hint: {safe_evidence}")
             sections.extend([
-                "",
                 f"Question: {safe_question}",
                 "",
-                "Generate a valid SQLite SQL query that answers this question.",
-                "Return ONLY a valid JSON object with this exact format:",
-                '{  "sql": "SELECT ...",',
-                '   "assumptions": ["list your assumptions here"],',
-                '   "tables_used": ["table1", "table2"],',
-                '   "columns_used": ["col1", "col2"],',
-                '   "confidence": "high|medium|low",',
-                '   "reasoning_summary": "brief reasoning"}',
-                "",
-                "IMPORTANT:",
-                "- Use SQLite dialect",
-                "- Use backtick-quoting for column/table names with spaces",
-                "- Do NOT use SELECT *",
-                "- If the question has ambiguities, make a reasonable assumption and document it",
-                "- Return columns in the order implied by the question",
-                "- Use COUNT(*) unless the question specifically asks for distinct count",
-                "- When the question asks about 'each' or 'every' item, return all matching rows (do not use EXISTS)",
-                "- When multiple tables have a column with the same name, use the table that is most directly related to the question's context",
+                "Return ONLY a JSON object:",
+                '{"sql": "SELECT ...", "assumptions": [], "tables_used": [], "columns_used": [], "confidence": "high|medium|low", "reasoning_summary": "..."}',
             ])
-            return "\n".join(sections)
+            return "\n\n".join(sections)
         
         # Enterprise mode: use full governed semantic context
         sections = [
@@ -375,12 +370,34 @@ class ContextBuilder:
         redacted = re.sub(r"(?i)(password\s*(?:is|=|:)\s*)\S+", r"\1[REDACTED_PASSWORD]", redacted)
         return redacted
 
-    def _few_shot_examples(self) -> str | None:
-        """Return few-shot examples. Disabled for multi-DB benchmarks.
+    def _db_id_from_raw_schema(self, raw_schema: str) -> str | None:
+        match = re.search(r"^Database Schema for:\s*([^\s]+)\s*$", raw_schema, flags=re.MULTILINE)
+        return match.group(1) if match else None
 
-        Previously returned california_schools-specific examples which hurt
-        accuracy on other databases. The enriched schema context from
-        build_schema_context (with sample values, join paths, and BIRD evidence)
-        provides sufficient guidance.
-        """
-        return None
+    def _few_shot_examples(self, question: str | None = None, db_id: str | None = None) -> str | None:
+        if not question or not db_id:
+            return None
+        try:
+            from scripts.sql_pattern_memory import SQLPatternMemory
+
+            memory = SQLPatternMemory()
+            if memory.store.count() < 100:
+                dev_path = Path(__file__).resolve().parents[3] / "bird_bench" / "dev" / "dev_20240627" / "dev.json"
+                if dev_path.exists():
+                    with contextlib.redirect_stdout(io.StringIO()):
+                        memory.seed_from_bird(str(dev_path))
+            patterns = memory.retrieve(question, db_id, top_k=3)
+        except Exception:
+            return None
+        if not patterns:
+            return None
+        examples: list[str] = []
+        for index, match in enumerate(patterns[:3], start=1):
+            pattern = match.pattern
+            examples.append(f"Example {index}:")
+            examples.append(f"Question: {pattern.question}")
+            if pattern.difficulty:
+                examples.append(f"Difficulty: {pattern.difficulty}")
+            examples.append(f"SQL: {pattern.sql}")
+            examples.append("")
+        return "\n".join(examples).strip()
