@@ -4,6 +4,8 @@ import uuid
 import json
 import logging
 import inspect
+import re
+import sqlite3
 import sys
 from pathlib import Path
 from typing import Any
@@ -427,7 +429,7 @@ class NL2SQLPipeline:
         # BIRD mode: skip semantic router (saves 1 API call, rarely produces
         # SEMANTIC_SQL for BIRD questions, and the LLM generation path produces
         # better SQL with the enriched schema context)
-        if self._bird_raw_schema(context.domain, context.evidence):
+        if self._bird_raw_schema(context.domain, context.evidence, context.question):
             return context
         if context.semantic_route not in ("SEMANTIC_ASSISTED_LLM", "BASELINE_LLM", None):
             return context
@@ -536,10 +538,11 @@ class NL2SQLPipeline:
         if context.semantic_plan is None or context.retrieved_metadata is None:
             context.error = "Cannot build context without semantic plan and retrieved metadata."
             return context
-        raw_schema = self._bird_raw_schema(context.domain, context.evidence)
+        raw_schema = self._bird_raw_schema(context.domain, context.evidence, context.question)
         context.context_prompt = self.context_builder.build(
             context.question, context.semantic_plan, context.retrieved_metadata,
             raw_schema=raw_schema,
+            evidence=context.evidence,
         )
         # In BIRD mode (raw_schema present), the enriched schema context already
         # contains all necessary information (DDL, samples, join paths, evidence).
@@ -590,7 +593,7 @@ class NL2SQLPipeline:
         # BIRD mode: only run static validation (parse + select-only).
         # Enterprise rules (allowed_columns, metric matching, partition filters)
         # don't apply to BIRD questions and cause false rejections + repair loops.
-        raw_schema = self._bird_raw_schema(context.domain, context.evidence)
+        raw_schema = self._bird_raw_schema(context.domain, context.evidence, context.question)
         if raw_schema:
             self._validate_candidates_bird(context)
             return context
@@ -612,7 +615,16 @@ class NL2SQLPipeline:
             result = static.validate(candidate.sql, set(), {})
             candidate.parse_success = result.passed
             candidate.validation_errors = list(result.errors) if not result.passed else []
-            candidate.validation_results = {"passed": result.passed, "static": result.model_dump(mode="json")}
+            execution = self._execute_bird_sql(context.domain, candidate.sql) if result.passed else None
+            if execution and not execution.get("ok"):
+                candidate.validation_errors.append(f"execution: {execution.get('error')}")
+            elif execution and self._should_repair_empty_bird_result(context.question, execution):
+                candidate.validation_errors.append("execution: SQL returned 0 rows")
+            candidate.validation_results = {
+                "passed": result.passed and not candidate.validation_errors,
+                "static": result.model_dump(mode="json"),
+                "execution": execution,
+            }
             context.validation_results[candidate.candidate_id] = candidate.validation_results
 
     def _validate_candidates(
@@ -666,7 +678,9 @@ class NL2SQLPipeline:
             return context
         # BIRD mode: skip repair loop (validation already passed with static rules,
         # and enterprise semantic repair would make unnecessary LLM API calls)
-        if self._bird_raw_schema(context.domain, context.evidence):
+        raw_schema = self._bird_raw_schema(context.domain, context.evidence, context.question)
+        if raw_schema:
+            self._repair_bird_candidate(context, raw_schema)
             return context
         self.repair_loop.repair(context, self.sql_validator)
         return context
@@ -683,7 +697,7 @@ class NL2SQLPipeline:
             return context
         # BIRD mode: skip LLM judge (same model reviewing its own SQL adds
         # 30s+ per question without cross-model validation benefit)
-        if self._bird_raw_schema(context.domain, context.evidence):
+        if self._bird_raw_schema(context.domain, context.evidence, context.question):
             return context
 
         while True:
@@ -1429,16 +1443,143 @@ class NL2SQLPipeline:
             return value.get(key)
         return getattr(value, key, None)
 
-    def _bird_raw_schema(self, domain: str | None, evidence: str | None = None) -> str | None:
+    def _execute_bird_sql(self, domain: str | None, sql: str) -> dict[str, Any] | None:
+        if not domain or not sql:
+            return None
+        db_path = self._bird_db_path(domain)
+        if not db_path.exists():
+            return None
+        try:
+            with sqlite3.connect(db_path) as conn:
+                rows = conn.execute(sql).fetchall()
+            return {"ok": True, "row_count": len(rows), "error": ""}
+        except Exception as exc:
+            return {"ok": False, "row_count": 0, "error": str(exc)}
+
+    def _repair_bird_candidate(self, context: PipelineContext, raw_schema: str) -> None:
+        if not context.sql_candidates:
+            return
+        gateway = getattr(self.candidate_generator, "llm_gateway", None)
+        if gateway is None:
+            return
+        from src.semantic_registry.validation.static_validator import StaticValidator
+
+        static = StaticValidator(require_limit=False)
+        for candidate in context.sql_candidates:
+            execution = (candidate.validation_results or {}).get("execution") if candidate.validation_results else None
+            if not self._should_repair_bird_candidate(context.question, candidate, execution):
+                continue
+            prompt = self._bird_repair_prompt(context, candidate, raw_schema, execution)
+            stage = f"bird_repair_candidate_{candidate.candidate_id.lower()}"
+            self._record_llm_trace(context, stage, prompt=prompt)
+            candidate.repair_attempted = True
+            try:
+                response = gateway.generate(prompt)
+                self._record_llm_trace(context, stage, response=response.model_dump_json())
+                result = static.validate(response.sql, set(), {})
+                execution_after = self._execute_bird_sql(context.domain, response.sql) if result.passed else None
+                validation_errors = list(result.errors) if not result.passed else []
+                if execution_after and not execution_after.get("ok"):
+                    validation_errors.append(f"execution: {execution_after.get('error')}")
+                elif execution_after and self._should_repair_empty_bird_result(context.question, execution_after):
+                    validation_errors.append("execution: SQL returned 0 rows")
+                if validation_errors:
+                    for error in validation_errors:
+                        if error not in candidate.validation_errors:
+                            candidate.validation_errors.append(error)
+                    continue
+                candidate.sql = response.sql
+                candidate.assumptions = response.assumptions
+                candidate.tables_used = response.tables_used
+                candidate.columns_used = response.columns_used
+                candidate.confidence = response.confidence
+                candidate.reasoning_summary = response.reasoning_summary
+                candidate.parse_success = True
+                candidate.validation_errors = []
+                candidate.validation_results = {
+                    "passed": True,
+                    "static": result.model_dump(mode="json"),
+                    "execution": execution_after,
+                }
+                context.validation_results[candidate.candidate_id] = candidate.validation_results
+                candidate.repaired = True
+            except Exception as exc:
+                self._record_llm_trace(context, stage, response=f"ERROR: {exc}")
+                message = str(exc)
+                if message not in candidate.validation_errors:
+                    candidate.validation_errors.append(message)
+
+    def _should_repair_bird_candidate(
+        self,
+        question: str,
+        candidate: SQLCandidate,
+        execution: dict[str, Any] | None,
+    ) -> bool:
+        if not candidate.sql or not candidate.parse_success:
+            return True
+        if candidate.validation_errors:
+            return True
+        if execution and not execution.get("ok"):
+            return True
+        return self._should_repair_empty_bird_result(question, execution)
+
+    def _should_repair_empty_bird_result(self, question: str, execution: dict[str, Any] | None) -> bool:
+        if not execution or not execution.get("ok") or execution.get("row_count") != 0:
+            return False
+        return not re.search(r"\b(none|zero|no\s+|without|not any)\b", question or "", re.I)
+
+    def _bird_repair_prompt(
+        self,
+        context: PipelineContext,
+        candidate: SQLCandidate,
+        raw_schema: str,
+        execution: dict[str, Any] | None,
+    ) -> str:
+        if not candidate.sql:
+            reason = "No SELECT SQL was produced."
+        elif execution and not execution.get("ok"):
+            reason = f"SQL execution failed: {execution.get('error')}"
+        elif execution and execution.get("ok") and execution.get("row_count") == 0:
+            reason = "SQL executed but returned an empty result. Check filter values, joins, and whether sample values/evidence imply a different literal."
+        elif candidate.validation_errors:
+            reason = "; ".join(candidate.validation_errors)
+        else:
+            reason = "The SQL did not satisfy validation checks."
+        parts = [
+            "You are repairing a SQLite query. Return ONLY valid JSON.",
+            "Original question:",
+            context.question,
+        ]
+        if context.evidence:
+            parts.extend(["BIRD evidence:", context.evidence])
+        parts.extend(
+            [
+                "Schema context:",
+                raw_schema,
+                "Failed SQL:",
+                candidate.sql or "(no SQL was produced)",
+                "Why it failed:",
+                reason,
+                "Fix only this issue while preserving the requested answer. Generate a single SQLite SELECT statement.",
+                'Return ONLY: {"sql": "SELECT ...", "assumptions": [], "tables_used": [], "columns_used": [], "confidence": "high|medium|low", "reasoning_summary": "..."}',
+            ]
+        )
+        return "\n\n".join(parts)
+
+    def _bird_db_path(self, domain: str) -> Path:
+        db_root = Path(__file__).resolve().parent.parent.parent.parent / "bird_bench" / "dev" / "dev_20240627" / "databases" / "dev_databases"
+        return db_root / domain / f"{domain}.sqlite"
+
+    def _bird_raw_schema(self, domain: str | None, evidence: str | None = None, question: str | None = None) -> str | None:
         if not domain:
             return None
         try:
             from scripts.bird_schema_context import build_schema_context
             db_root = Path(__file__).resolve().parent.parent.parent.parent / "bird_bench" / "dev" / "dev_20240627" / "databases" / "dev_databases"
-            db_path = db_root / domain / f"{domain}.sqlite"
+            db_path = self._bird_db_path(domain)
             if not db_path.exists():
                 return None
-            return build_schema_context(db_root, domain, "", evidence or "")
+            return build_schema_context(db_root, domain, question or "", evidence or "")
         except Exception:
             return None
 
