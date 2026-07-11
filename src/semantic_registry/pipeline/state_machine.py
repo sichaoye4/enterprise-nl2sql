@@ -19,6 +19,7 @@ from src.semantic_registry.pipeline.classifier import QuestionClassification, Qu
 from src.semantic_registry.pipeline.context_builder import ContextBuilder
 from src.semantic_registry.pipeline.explainer import SQLExplainer, SQLExplanation
 from src.semantic_registry.pipeline.response import PipelineResponse, ResponseBuilder
+from src.semantic_registry.pipeline.semantic_judge import LLMJudge
 from src.semantic_registry.pipeline.semantic_router import SemanticRouter, compile_from_router
 from src.semantic_registry.repair.repair_loop import RepairLoop
 from src.semantic_registry.repair.selector import CandidateSelector
@@ -63,6 +64,8 @@ class PipelineContext(BaseModel):
     semantic_compiled_sql: str | None = None
     guardrail_contract: dict[str, Any] | None = None
     semantic_retry_count: int = 0
+    llm_judge_retry_count: int = 0
+    llm_judge_result: dict[str, Any] | None = None
     gap_report: dict[str, Any] | None = None
     trace: list[str] = Field(default_factory=list)
 
@@ -228,6 +231,7 @@ class NL2SQLPipeline:
         selector: CandidateSelector | None = None,
         explainer: SQLExplainer | None = None,
         response_builder: ResponseBuilder | None = None,
+        llm_judge: Any | None = None,
         semantic_engine: Any | None = None,
         semantic_model_path: str | Path | None = None,
     ) -> None:
@@ -247,6 +251,7 @@ class NL2SQLPipeline:
         self.selector = selector or CandidateSelector()
         self.explainer = explainer or SQLExplainer()
         self.response_builder = response_builder or ResponseBuilder()
+        self.llm_judge = llm_judge or LLMJudge()
         self.clarification_builder = ClarificationBuilder()
         self.semantic_model_path = Path(semantic_model_path) if semantic_model_path else self._default_semantic_model_path()
         self.semantic_engine = semantic_engine
@@ -274,6 +279,7 @@ class NL2SQLPipeline:
             self.validate,
             self.repair,
             self.select,
+            self.run_llm_judge,
             self.explain,
             self.build_response,
         ]
@@ -591,6 +597,88 @@ class NL2SQLPipeline:
         context.selected_sql = self.selector.select(context.sql_candidates)
         context.selection_log = list(self.selector.selection_log)
         return context
+
+    def run_llm_judge(self, context: PipelineContext) -> PipelineContext:
+        context.trace.append("run_llm_judge")
+        if context.selected_sql is None or not context.selected_sql.sql:
+            return context
+
+        while True:
+            result = self._judge_selected_sql(context)
+            if result is None:
+                return context
+
+            context.llm_judge_result = {
+                "pass": result.pass_,
+                "reasoning": result.reasoning,
+                "confidence": result.confidence,
+                "retry_count": context.llm_judge_retry_count,
+            }
+            if result.pass_:
+                return context
+
+            if context.semantic_route == "SEMANTIC_SQL":
+                self._accept_judge_failure_with_warning(context, result.reasoning)
+                return context
+
+            if context.llm_judge_retry_count >= 3:
+                self._accept_judge_failure_with_warning(context, result.reasoning)
+                return context
+
+            context.llm_judge_retry_count += 1
+            self._retry_after_judge_failure(context, result.reasoning)
+            if context.error or context.selected_sql is None or not context.selected_sql.sql:
+                return context
+            context.trace.append("run_llm_judge")
+
+    def _judge_selected_sql(self, context: PipelineContext) -> Any | None:
+        if context.selected_sql is None:
+            return None
+        try:
+            return self.llm_judge.judge(
+                context.question,
+                context.selected_sql.sql,
+                context.semantic_route or context.selected_sql.generation_strategy,
+                context.semantic_plan,
+            )
+        except Exception as exc:
+            logger.warning("LLM judge unavailable; accepting selected SQL without semantic judge verdict: %s", exc)
+            context.llm_judge_result = {
+                "pass": True,
+                "reasoning": f"LLM judge unavailable: {exc}",
+                "confidence": 0.0,
+                "retry_count": context.llm_judge_retry_count,
+                "warning": True,
+            }
+            return None
+
+    def _retry_after_judge_failure(self, context: PipelineContext, reasoning: str) -> None:
+        feedback = (
+            "The previous SQL attempt was rejected by an independent semantic judge. "
+            f"Reason: {reasoning}. Review the metric, filters, dimensions, grouping, and time logic before trying again."
+        )
+        context.context_prompt = self._inject_llm_judge_feedback(context.context_prompt or "", feedback)
+        context.selected_sql = None
+        context.sql_candidates = []
+        context = self.generate_candidates(context)
+        context = self.validate(context)
+        if context.error:
+            return
+        context = self.repair(context)
+        if context.error:
+            return
+        context = self.select(context)
+
+    def _accept_judge_failure_with_warning(self, context: PipelineContext, reasoning: str) -> None:
+        if context.llm_judge_result is not None:
+            context.llm_judge_result["warning"] = True
+        if context.selected_sql is None:
+            return
+        warning = f"Judge warning: {reasoning}"
+        if warning not in context.selected_sql.assumptions:
+            context.selected_sql.assumptions.append(warning)
+        if reasoning and f"[Judge: {reasoning}]" not in context.selected_sql.reasoning_summary:
+            context.selected_sql.reasoning_summary += f" [Judge: {reasoning}]"
 
     def explain(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("explain")
@@ -1048,6 +1136,15 @@ class NL2SQLPipeline:
             ]
         )
         return "\n\n".join([prompt, gap_text])
+
+    def _inject_llm_judge_feedback(self, prompt: str, feedback: str) -> str:
+        feedback_text = "\n".join(
+            [
+                "[Previous Attempt Feedback]",
+                feedback,
+            ]
+        )
+        return "\n\n".join(part for part in [prompt, feedback_text] if part)
 
     def _gap_items(self, gap_report: dict[str, Any], *keys: str) -> list[Any]:
         items: list[Any] = []

@@ -14,15 +14,19 @@ from src.semantic_registry.pipeline.llm_gateway import (
     TransientLLMError,
 )
 from src.semantic_registry.pipeline.response import PipelineResponse, ResponseBuilder
+from src.semantic_registry.pipeline.semantic_judge import DashScopeLLMClient, JudgeResult, LLMJudge
 from src.semantic_registry.pipeline.state_machine import NL2SQLPipeline, PipelineContext
 
 __all__ = [
     "CandidateGenerator",
     "ContextBuilder",
+    "DashScopeLLMClient",
     "DeepSeekProvider",
+    "JudgeResult",
     "LLMGateway",
     "LLMProvider",
     "LLMResponse",
+    "LLMJudge",
     "MockLLMProvider",
     "MockProvider",
     "NL2SQLPipeline",
