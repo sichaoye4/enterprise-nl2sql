@@ -205,6 +205,16 @@ Known engineering gaps:
 - ⚠️ SQL compiler defaults to PostgreSQL dialect (`dialect="postgres"` in SQLCompiler.__init__). BIRD benchmarks use SQLite — semantic-compiled SQL won't execute. Fix: pass `dialect="sqlite"` when running BIRD benchmarks. Affects semantic-only route EX.
 - ⚠️ Synonym coverage for BIRD natural language is poor — entity-scoping fix (commit `06bdf62`) resolved the CLARIFY dead-end, but most questions still can't match BIRD's phrasing to semantic model terms. Only ~2/110 questions reach `SEMANTIC_SQL`; the rest fall through to LLM fallback. Needs model enrichment with BIRD-specific synonyms.
 
+## Fixes Applied
+
+### 2026-07-11: sqlglot dialect for BIRD validation (commit `0481136`)
+`validate_select_sql()` in `llm_gateway.py` was calling `sqlglot.parse(sql)` without specifying a dialect. sqlglot's default ANSI parser rejects backtick-quoted identifiers with parentheses (e.g., `` `Percent (%) Eligible Free (K-12)` ``). Fixed by adding `read='sqlite'`:
+```python
+# Before: sqlglot.parse(sql)  -- fails on backtick + parenthesis
+# After:  sqlglot.parse(sql, read='sqlite')  -- handles SQLite dialect
+```
+This was the root cause of the 0% EX on california_schools DB. All 10 sample questions used columns with parentheses in names.
+
 ## Environment Configuration
 
 Required in `.env`:
