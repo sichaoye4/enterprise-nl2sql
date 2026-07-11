@@ -178,6 +178,16 @@ def test_llm_judge_retry_flow_injects_feedback_and_reselects(registry_data) -> N
     assert generator.prompts[1] is not None
     assert "[Previous Attempt Feedback]" in generator.prompts[1]
     assert "missing required freshness filter" in generator.prompts[1]
+    assert context.llm_trace["llm_judge"]["prompt"] is not None
+    assert "<judge_input>" in context.llm_trace["llm_judge"]["prompt"]
+    assert context.llm_trace["llm_judge"]["response"] == (
+        '{"pass": false, "reasoning": "missing required freshness filter", "confidence": 0.82}'
+    )
+    assert context.llm_trace["retry_1_llm_judge"]["response"] == (
+        '{"pass": true, "reasoning": "answers the revised request", "confidence": 0.9}'
+    )
+    assert context.llm_trace["retry_1_candidate_a"]["prompt"] is not None
+    assert "missing required freshness filter" in context.llm_trace["retry_1_candidate_a"]["prompt"]
 
 
 def test_semantic_sql_judge_failure_falls_back_to_semantic_assisted_generation(registry_data) -> None:
@@ -217,6 +227,12 @@ def test_semantic_sql_judge_failure_falls_back_to_semantic_assisted_generation(r
     assert generator.calls == 2
     assert context.response is not None
     assert context.response.generated_sql.startswith("SELECT")
+    assert context.llm_trace["fallback_candidate_a"]["prompt"] is not None
+    assert "deterministic semantic SQL failed shared validation" in context.llm_trace["fallback_candidate_a"]["prompt"]
+    assert "ambiguous semantic intent" in context.llm_trace["retry_1_candidate_a"]["prompt"]
+    assert context.llm_trace["retry_1_llm_judge"]["response"] == (
+        '{"pass": true, "reasoning": "assisted SQL answers the request", "confidence": 0.9}'
+    )
 
 
 @pytest.mark.skipif(
@@ -234,4 +250,3 @@ def test_dashscope_judge_real_api_smoke() -> None:
     assert isinstance(result.pass_, bool)
     assert result.reasoning
     assert 0.0 <= result.confidence <= 1.0
-

@@ -235,6 +235,9 @@ def test_pipeline_integration(debit_card_snapshot, registry_data) -> None:
     assert "run_semantic_llm_router" in context.trace
     assert "generate_candidates" in context.trace
     assert "validate" in context.trace
+    assert context.llm_trace["semantic_router"]["prompt"] is not None
+    assert "How many gas stations in CZE?" in context.llm_trace["semantic_router"]["prompt"]
+    assert context.llm_trace["semantic_router"]["response"] == router_json()
 
 
 def test_router_prompt_lists_catalog(debit_card_snapshot) -> None:
