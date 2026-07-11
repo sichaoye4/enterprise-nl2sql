@@ -218,7 +218,7 @@ def test_pipeline_integration(debit_card_snapshot, registry_data) -> None:
         registry_data=registry_data,
         semantic_engine=FakeSemanticEngine(
             debit_card_snapshot,
-            {"route": "CLARIFY", "gap_report": {"unresolved_terms": ["gas stations"]}},
+            {"route": "BASELINE_LLM", "gap_report": {"unresolved_terms": ["gas stations"]}},
         ),
         candidate_generator=candidate_generator,
     )
@@ -226,13 +226,15 @@ def test_pipeline_integration(debit_card_snapshot, registry_data) -> None:
 
     context = pipeline.run("How many gas stations in CZE?", domain="debit_card_specializing")
 
-    assert context.semantic_route == "SEMANTIC_SQL"
+    # Router compilation still passes through shared validation. The fixture's
+    # commerce registry cannot validate the BIRD tables, so it falls back to
+    # semantic-assisted generation rather than returning unchecked SQL.
+    assert context.semantic_route == "SEMANTIC_ASSISTED_LLM"
     assert context.response is not None
-    assert "FROM gasstations" in context.response.generated_sql
-    assert context.selected_sql is not None
-    assert context.selected_sql.generation_strategy == "semantic_engine"
+    assert candidate_generator.calls == 1
     assert "run_semantic_llm_router" in context.trace
-    assert "generate_candidates" not in context.trace
+    assert "generate_candidates" in context.trace
+    assert "validate" in context.trace
 
 
 def test_router_prompt_lists_catalog(debit_card_snapshot) -> None:

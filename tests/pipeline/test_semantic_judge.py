@@ -162,7 +162,7 @@ def test_llm_judge_retry_flow_injects_feedback_and_reselects(registry_data) -> N
     )
     pipeline = NL2SQLPipeline(
         registry_data=registry_data,
-        semantic_engine=FakeSemanticEngine({"route": "CLARIFY"}),
+        semantic_engine=FakeSemanticEngine({"route": "BASELINE_LLM"}),
         candidate_generator=generator,
         llm_judge=judge,
     )
@@ -180,8 +180,16 @@ def test_llm_judge_retry_flow_injects_feedback_and_reselects(registry_data) -> N
     assert "missing required freshness filter" in generator.prompts[1]
 
 
-def test_semantic_sql_judge_failure_accepts_with_warning(registry_data) -> None:
-    judge = LLMJudge(client=FakeJudgeClient(['{"pass": false, "reasoning": "ambiguous semantic intent", "confidence": 0.6}']))
+def test_semantic_sql_judge_failure_falls_back_to_semantic_assisted_generation(registry_data) -> None:
+    generator = RetryCandidateGenerator()
+    judge = LLMJudge(
+        client=FakeJudgeClient(
+            [
+                '{"pass": false, "reasoning": "ambiguous semantic intent", "confidence": 0.6}',
+                '{"pass": true, "reasoning": "assisted SQL answers the request", "confidence": 0.9}',
+            ]
+        )
+    )
     pipeline = NL2SQLPipeline(
         registry_data=registry_data,
         semantic_engine=FakeSemanticEngine(
@@ -196,18 +204,19 @@ def test_semantic_sql_judge_failure_accepts_with_warning(registry_data) -> None:
                 },
             }
         ),
+        candidate_generator=generator,
         llm_judge=judge,
     )
 
     context = pipeline.run("show paid GMV")
 
-    assert context.llm_judge_retry_count == 0
+    assert context.llm_judge_retry_count == 1
     assert context.llm_judge_result is not None
-    assert context.llm_judge_result["pass"] is False
-    assert context.llm_judge_result["warning"] is True
+    assert context.llm_judge_result["pass"] is True
+    assert context.semantic_route == "SEMANTIC_ASSISTED_LLM"
+    assert generator.calls == 2
     assert context.response is not None
     assert context.response.generated_sql.startswith("SELECT")
-    assert "Judge warning: ambiguous semantic intent" in context.response.assumptions
 
 
 @pytest.mark.skipif(

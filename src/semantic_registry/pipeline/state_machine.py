@@ -62,6 +62,8 @@ class PipelineContext(BaseModel):
     error: str | None = None
     semantic_route: str | None = None
     semantic_compiled_sql: str | None = None
+    semantic_result: dict[str, Any] | None = None
+    semantic_context: dict[str, Any] | None = None
     guardrail_contract: dict[str, Any] | None = None
     semantic_retry_count: int = 0
     llm_judge_retry_count: int = 0
@@ -295,21 +297,12 @@ class NL2SQLPipeline:
         return context
 
     def _should_skip_stage(self, stage_name: str, context: PipelineContext) -> bool:
-        if context.semantic_route == "SEMANTIC_SQL" and context.selected_sql is not None and stage_name in {
+        if context.semantic_route == "SEMANTIC_SQL" and stage_name in {
             "extract_terms",
             "resolve_semantics",
             "retrieve_metadata",
             "build_context",
             "generate_candidates",
-            "validate",
-            "repair",
-            "select",
-        }:
-            return True
-        if context.semantic_route == "SEMANTIC_SQL" and stage_name in {
-            "extract_terms",
-            "resolve_semantics",
-            "retrieve_metadata",
         }:
             return True
         return False
@@ -357,10 +350,12 @@ class NL2SQLPipeline:
 
         route = self._result_value(result, "route")
         context.semantic_route = str(route) if route else None
+        context.semantic_result = self._model_dump(result)
+        context.semantic_context = self._model_dump(self._result_value(result, "semantic_context"))
         context.gap_report = self._model_dump(self._result_value(result, "gap_report"))
 
         if context.semantic_route == "SEMANTIC_SQL":
-            compiled_query = self._result_value(result, "compiled_query")
+            compiled_query = self._result_value(result, "compiled_candidate") or self._result_value(result, "compiled_query")
             compiled_sql = self._result_value(compiled_query, "sql")
             if not compiled_sql:
                 context.error = "Semantic engine selected SEMANTIC_SQL but returned no compiled SQL."
@@ -369,17 +364,21 @@ class NL2SQLPipeline:
             context.guardrail_contract = self._semantic_guardrail_contract(result, compiled_query)
             context.semantic_plan = self._semantic_plan_from_engine_result(result, compiled_query, context)
             context.retrieved_metadata = self._semantic_retrieval_context(context.semantic_plan, compiled_query)
-            context.sql_candidates = []
+            context.sql_candidates = [self._semantic_sql_candidate(context.semantic_compiled_sql, compiled_query)]
             context.selected_sql = None
-        elif context.semantic_route == "GUARDED_LLM_SQL":
+        elif context.semantic_route in {"SEMANTIC_ASSISTED_LLM", "GUARDED_LLM_SQL"}:
+            context.semantic_route = "SEMANTIC_ASSISTED_LLM"
             contract = self._result_value(result, "guardrail_contract")
             context.guardrail_contract = self._model_dump(contract)
         elif context.semantic_route == "CLARIFY":
             # Log gap report but don't short-circuit — let the pipeline fall
             # through to the existing LLM stages which may still produce SQL.
+            context.requires_clarification = True
+            context.clarification = self._semantic_clarification(context)
+        elif context.semantic_route in {"REJECTED", "BLOCKED"}:
+            context.error = self._semantic_gap_message("Semantic engine rejected this question.", context.gap_report)
+        elif context.semantic_route == "BASELINE_LLM":
             pass
-        elif context.semantic_route == "BLOCKED":
-            context.error = self._semantic_gap_message("Semantic engine blocked this question.", context.gap_report)
         elif context.semantic_route:
             context.error = f"Semantic engine returned unsupported route: {context.semantic_route}"
         return context
@@ -399,7 +398,7 @@ class NL2SQLPipeline:
             "status": "failed",
             "orphan_filters": orphan_filters,
         }
-        context.semantic_route = "GUARDED_LLM_SQL"
+        context.semantic_route = "SEMANTIC_ASSISTED_LLM"
         context.semantic_compiled_sql = None
         context.sql_candidates = []
         context.selected_sql = None
@@ -407,7 +406,7 @@ class NL2SQLPipeline:
 
     def run_semantic_llm_router(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("run_semantic_llm_router")
-        if context.semantic_route not in ("CLARIFY", None):
+        if context.semantic_route not in ("SEMANTIC_ASSISTED_LLM", "BASELINE_LLM", None):
             return context
         try:
             snapshot = self._load_semantic_snapshot(context.domain)
@@ -444,10 +443,11 @@ class NL2SQLPipeline:
                 requires_clarification=False,
                 confidence=result.confidence,
             )
+            context.retrieved_metadata = self._semantic_retrieval_context(context.semantic_plan, compiled)
             context.guardrail_contract = self._semantic_guardrail_contract({}, compiled)
             candidate = self._semantic_sql_candidate(compiled.sql, compiled)
             context.sql_candidates = [candidate]
-            context.selected_sql = candidate
+            context.selected_sql = None
         except Exception:
             logger.exception("Semantic LLM router failed; falling back to existing pipeline.")
         return context
@@ -514,13 +514,14 @@ class NL2SQLPipeline:
             context.error = "Cannot build context without semantic plan and retrieved metadata."
             return context
         context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
-        if context.semantic_route in {"GUARDED_LLM_SQL", "SEMANTIC_SQL"} and context.guardrail_contract:
+        if context.semantic_context:
+            context.context_prompt = self._inject_semantic_context(context.context_prompt, context.semantic_context)
+        if context.semantic_route == "SEMANTIC_ASSISTED_LLM" and context.guardrail_contract:
             context.context_prompt = self._inject_guardrail_contract(
                 context.context_prompt,
                 context.guardrail_contract,
-                context.semantic_compiled_sql,
             )
-        if context.semantic_route == "CLARIFY" and context.gap_report:
+        if context.semantic_route in {"SEMANTIC_ASSISTED_LLM", "BASELINE_LLM"} and context.gap_report:
             context.context_prompt = self._inject_gap_report(context.context_prompt, context.gap_report)
         return context
 
@@ -566,7 +567,7 @@ class NL2SQLPipeline:
             context.validation_results[candidate.candidate_id] = candidate.validation_results
 
     def _should_retry_without_guardrails(self, context: PipelineContext) -> bool:
-        if context.semantic_route != "GUARDED_LLM_SQL" or not context.guardrail_contract:
+        if context.semantic_route != "SEMANTIC_ASSISTED_LLM" or not context.guardrail_contract:
             return False
         failed = [candidate for candidate in context.sql_candidates if not (candidate.parse_success and not candidate.validation_errors)]
         if len(failed) != len(context.sql_candidates):
@@ -580,7 +581,7 @@ class NL2SQLPipeline:
         allowed_tables: set[str],
         allowed_columns: dict[str, set[str]],
     ) -> None:
-        context.semantic_route = "RAW_SQL_FALLBACK"
+        context.semantic_route = "BASELINE_LLM"
         context.guardrail_contract = None
         if context.semantic_plan is not None and context.retrieved_metadata is not None:
             context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
@@ -589,6 +590,9 @@ class NL2SQLPipeline:
 
     def repair(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("repair")
+        if context.semantic_route == "SEMANTIC_SQL" and any(candidate.validation_errors for candidate in context.sql_candidates):
+            self._fallback_from_semantic_sql(context, "The deterministic semantic SQL failed shared validation.")
+            return context
         self.repair_loop.repair(context, self.sql_validator)
         return context
 
@@ -618,8 +622,11 @@ class NL2SQLPipeline:
                 return context
 
             if context.semantic_route == "SEMANTIC_SQL":
-                self._accept_judge_failure_with_warning(context, result.reasoning)
-                return context
+                self._fallback_from_semantic_sql(context, result.reasoning)
+                if context.error or context.selected_sql is None or not context.selected_sql.sql:
+                    return context
+                context.trace.append("run_llm_judge")
+                continue
 
             if context.llm_judge_retry_count >= 3:
                 self._accept_judge_failure_with_warning(context, result.reasoning)
@@ -635,11 +642,17 @@ class NL2SQLPipeline:
         if context.selected_sql is None:
             return None
         try:
+            judge_context = {
+                "legacy_plan": context.semantic_plan.model_dump(mode="json") if context.semantic_plan else None,
+                "semantic_route": context.semantic_route,
+                "semantic_context": context.semantic_context,
+                "semantic_result": context.semantic_result,
+            }
             return self.llm_judge.judge(
                 context.question,
                 context.selected_sql.sql,
                 context.semantic_route or context.selected_sql.generation_strategy,
-                context.semantic_plan,
+                judge_context,
             )
         except Exception as exc:
             logger.warning("LLM judge unavailable; accepting selected SQL without semantic judge verdict: %s", exc)
@@ -679,6 +692,29 @@ class NL2SQLPipeline:
             context.selected_sql.assumptions.append(warning)
         if reasoning and f"[Judge: {reasoning}]" not in context.selected_sql.reasoning_summary:
             context.selected_sql.reasoning_summary += f" [Judge: {reasoning}]"
+
+    def _fallback_from_semantic_sql(self, context: PipelineContext, reason: str) -> None:
+        if context.semantic_plan is None or context.retrieved_metadata is None:
+            context.error = f"Cannot fall back from semantic SQL: {reason}"
+            return
+        context.semantic_route = "SEMANTIC_ASSISTED_LLM"
+        context.semantic_compiled_sql = None
+        context.selected_sql = None
+        context.sql_candidates = []
+        context.context_prompt = None
+        self.build_context(context)
+        if context.error:
+            return
+        context.context_prompt = self._inject_llm_judge_feedback(
+            context.context_prompt or "",
+            f"The deterministic semantic SQL was rejected. {reason}",
+        )
+        self.generate_candidates(context)
+        self.validate(context)
+        if context.error:
+            return
+        self.repair_loop.repair(context, self.sql_validator)
+        context.selected_sql = self.selector.select(context.sql_candidates)
 
     def explain(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("explain")
@@ -743,7 +779,9 @@ class NL2SQLPipeline:
         try:
             from semantic_engine.pipeline import SemanticPipeline
         except ModuleNotFoundError:
-            source_path = Path.home() / "semantic_modeling" / "src"
+            source_path = self._workspace_semantic_engine_root() / "src"
+            if not source_path.exists():
+                source_path = Path.home() / "semantic_modeling" / "src"
             if str(source_path) not in sys.path:
                 sys.path.insert(0, str(source_path))
             from semantic_engine.pipeline import SemanticPipeline
@@ -765,9 +803,14 @@ class NL2SQLPipeline:
         return self.semantic_model_path
 
     def _default_semantic_model_path(self) -> Path:
-        root = Path.home() / "semantic_modeling" / "semantic_models"
+        root = self._workspace_semantic_engine_root() / "semantic_models"
+        if not root.exists():
+            root = Path.home() / "semantic_modeling" / "semantic_models"
         commerce = root / "commerce"
         return commerce if commerce.exists() else root
+
+    def _workspace_semantic_engine_root(self) -> Path:
+        return Path(__file__).resolve().parents[4] / "semantic_modeling"
 
     def _load_semantic_snapshot(self, domain: str | None = None) -> Any | None:
         pipeline = self._semantic_pipeline(domain)
@@ -1116,6 +1159,17 @@ class NL2SQLPipeline:
                 ]
             )
         return "\n\n".join(parts)
+
+    def _inject_semantic_context(self, prompt: str, semantic_context: dict[str, Any]) -> str:
+        return "\n\n".join(
+            [
+                prompt,
+                "[Semantic Context]",
+                "Use these resolved business semantics when they help answer the question. "
+                "Do not assume that missing members are modeled.",
+                "<semantic_context>\n" + json.dumps(semantic_context, sort_keys=True) + "\n</semantic_context>",
+            ]
+        )
 
     def _inject_gap_report(self, prompt: str, gap_report: dict[str, Any]) -> str:
         missing_members = self._gap_items(

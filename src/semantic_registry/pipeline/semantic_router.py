@@ -15,7 +15,9 @@ def _ensure_semantic_engine_path() -> None:
     try:
         import semantic_engine  # noqa: F401
     except ModuleNotFoundError:
-        source_path = Path.home() / "semantic_modeling" / "src"
+        source_path = Path(__file__).resolve().parents[4] / "semantic_modeling" / "src"
+        if not source_path.exists():
+            source_path = Path.home() / "semantic_modeling" / "src"
         if str(source_path) not in sys.path:
             sys.path.insert(0, str(source_path))
 

@@ -57,7 +57,7 @@ class EvalCaseStore:
         if not path.exists():
             return cases
         for yaml_file in sorted([*path.glob("*.yaml"), *path.glob("*.yml")]):
-            data = yaml.safe_load(yaml_file.read_text()) or {}
+            data = yaml.safe_load(yaml_file.read_text(encoding="utf-8")) or {}
             raw_cases = data.get("cases", data if isinstance(data, list) else [data])
             for raw_case in raw_cases:
                 if raw_case:
