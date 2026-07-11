@@ -35,7 +35,9 @@ def validate_select_sql(sql: str) -> list[str]:
     statement = statements[0]
     if not isinstance(statement, exp.Select):
         errors.append("Only SELECT statements are allowed")
-    if any(True for _star in statement.find_all(exp.Star)):
+    # Only flag SELECT * when the Star appears directly in the SELECT list
+    # (not inside aggregate functions like COUNT(*))
+    if any(isinstance(star.parent, (exp.Select, exp.Column)) for star in statement.find_all(exp.Star)):
         errors.append("SELECT * is not allowed")
     return errors
 
@@ -374,17 +376,60 @@ class LLMGateway:
         contracted_prompt = self._with_contract(prompt, system_prompt)
         parser = StrictJSONParser()
         last_error: Exception | None = None
+        last_raw: str = ""
         for _attempt in range(self.retries + 1):
             try:
                 raw = self.provider.generate(contracted_prompt)
-                response = raw if isinstance(raw, LLMResponse) else parser.parse(raw)
+                if isinstance(raw, LLMResponse):
+                    self._validate_response(raw)
+                    return raw
+                last_raw = raw if isinstance(raw, str) else ""
+                response = parser.parse(raw)
                 self._validate_response(response)
                 return response
             except (TransientLLMError, TimeoutError, ConnectionError, ValueError) as exc:
                 last_error = exc
+        # Fallback: try to extract a SELECT statement from the raw LLM output
+        # when JSON parsing fails.  This handles models that return prose or
+        # code blocks instead of the requested JSON contract.
+        fallback_sql = self._extract_sql_fallback(last_raw)
+        if fallback_sql:
+            response = LLMResponse(
+                sql=fallback_sql,
+                assumptions=[],
+                tables_used=[],
+                columns_used=[],
+                confidence="low",
+                reasoning_summary="SQL extracted via fallback (JSON parsing failed).",
+            )
+            try:
+                self._validate_response(response)
+                return response
+            except ValueError:
+                pass
         if last_error is not None:
             raise last_error
         raise RuntimeError("LLM generation failed")
+
+    @staticmethod
+    def _extract_sql_fallback(raw: str) -> str:
+        """Extract a SELECT statement from raw LLM output when JSON parsing fails.
+
+        Mirrors the approach in scripts/run_full_benchmark.py:extract_sql_from_response().
+        """
+        if not raw:
+            return ""
+        # Try SQL code block first (```sql ... ```)
+        code_match = re.search(r"```(?:sql)?\s*(.*?)\s*```", raw, re.IGNORECASE | re.DOTALL)
+        if code_match:
+            sql = code_match.group(1).strip()
+            if sql.upper().startswith("SELECT"):
+                return sql.rstrip(";")
+        # Fallback: find SELECT statement up to ; or end of string
+        match = re.search(r"SELECT\s+.*?(?:;|$)", raw, re.DOTALL | re.IGNORECASE)
+        if not match:
+            return ""
+        return match.group(0).strip().rstrip(";")
 
     def _with_contract(self, prompt: str, system_prompt: str | None) -> str:
         contract = "\n".join(
