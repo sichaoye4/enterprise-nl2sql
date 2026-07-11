@@ -1,0 +1,73 @@
+relationships:
+  - from_table: "badges"
+    from_column: "UserId"
+    to_table: "users"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 79851
+  - from_table: "comments"
+    from_column: "UserId"
+    to_table: "users"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 171450
+  - from_table: "comments"
+    from_column: "PostId"
+    to_table: "posts"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 174249
+  - from_table: "postHistory"
+    from_column: "UserId"
+    to_table: "users"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 281829
+  - from_table: "postHistory"
+    from_column: "PostId"
+    to_table: "posts"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 303114
+  - from_table: "postLinks"
+    from_column: "RelatedPostId"
+    to_table: "posts"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 11099
+  - from_table: "postLinks"
+    from_column: "PostId"
+    to_table: "posts"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 11101
+  - from_table: "posts"
+    from_column: "OwnerUserId"
+    to_table: "users"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 90574
+  - from_table: "posts"
+    from_column: "LastEditorUserId"
+    to_table: "users"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 44605
+  - from_table: "tags"
+    from_column: "ExcerptPostId"
+    to_table: "posts"
+    to_column: "Id"
+    relationship_type: "one_to_one"
+    sample_match_count: 595
+  - from_table: "votes"
+    from_column: "UserId"
+    to_table: "users"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 3425
+  - from_table: "votes"
+    from_column: "PostId"
+    to_table: "posts"
+    to_column: "Id"
+    relationship_type: "many_to_one"
+    sample_match_count: 38930

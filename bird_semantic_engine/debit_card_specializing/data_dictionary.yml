@@ -1,0 +1,180 @@
+db_id: "debit_card_specializing"
+tables:
+  customers:
+    description: "Customers records and attributes"
+    row_count: 32461
+    columns:
+      CustomerID:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each customer record"
+        sample_values: [3, 5, 6, 7, 9, 10, 20, 35]
+        is_primary_key: true
+        is_foreign_key: false
+      Segment:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Currency code for monetary amounts in this record"
+        sample_values: ["KAM", "LAM", "SME"]
+        value_format: "Three-letter uppercase code (ISO country or currency style)"
+        is_primary_key: false
+        is_foreign_key: false
+      Currency:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Currency code for monetary amounts in this record"
+        sample_values: ["CZK", "EUR"]
+        value_format: "Three-letter uppercase code (ISO country or currency style)"
+        is_primary_key: false
+        is_foreign_key: false
+  gasstations:
+    description: "Gasstations records and attributes"
+    row_count: 5716
+    columns:
+      GasStationID:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each gas station record"
+        sample_values: [44, 45, 46, 47, 48, 49, 50, 51]
+        is_primary_key: true
+        is_foreign_key: false
+      ChainID:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related chain"
+        sample_values: [1, 2, 3, 4, 6, 7, 8, 9]
+        is_primary_key: false
+        is_foreign_key: true
+      Country:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Country code associated with the record"
+        sample_values: ["CZE", "SVK"]
+        value_format: "Three-letter uppercase code (ISO country or currency style)"
+        is_primary_key: false
+        is_foreign_key: false
+      Segment:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's segment"
+        sample_values: ["Discount", "Noname", "Other", "Premium", "Value for money"]
+        is_primary_key: false
+        is_foreign_key: false
+  products:
+    description: "Products records and attributes"
+    row_count: 591
+    columns:
+      ProductID:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each product record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      Description:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing description"
+        sample_values: ["**Acquirer Event Fee**", "**Acquirer Simple Fee**", "**Acquirer Terminal Fee**", "**Acquirer Transaction Fee**", "**Card Service Fee**", "**Odometer Prompt Fee**", "**Own Yard Terminal Comms Fee**", "**Own Yard Terminal Fee**"]
+        is_primary_key: false
+        is_foreign_key: false
+  transactions_1k:
+    description: "Transactions 1K records and attributes"
+    row_count: 1000
+    columns:
+      TransactionID:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each transaction record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      Date:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for date"
+        sample_values: ["2012-08-23", "2012-08-24", "2012-08-25", "2012-08-26"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      Time:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Time or timestamp value for time"
+        sample_values: ["00:07:00", "00:13:00", "00:16:00", "00:34:00", "00:49:00", "00:51:00", "02:00:00", "02:50:00"]
+        is_primary_key: false
+        is_foreign_key: false
+      CustomerID:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related customer"
+        sample_values: [96, 272, 651, 679, 1057, 1227, 2183, 2464]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "yearmonth.CustomerID"
+        foreign_table: "yearmonth"
+      CardID:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related card"
+        sample_values: [26228, 29378, 29379, 30883, 32057, 33446, 35708, 37489]
+        is_primary_key: false
+        is_foreign_key: true
+      GasStationID:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related gas station"
+        sample_values: [48, 64, 65, 89, 92, 94, 97, 104]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "gasstations.GasStationID"
+        foreign_table: "gasstations"
+      ProductID:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related product"
+        sample_values: [2, 5, 7, 8, 9, 11, 12, 15]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "products.ProductID"
+        foreign_table: "products"
+      Amount:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Monetary or numeric amount for amount"
+        sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+        is_primary_key: false
+        is_foreign_key: false
+      Price:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Monetary or numeric amount for price"
+        sample_values: [1.76, 3.64, 3.78, 4.74, 5.44, 6.04, 6.09, 6.29]
+        is_primary_key: false
+        is_foreign_key: false
+  yearmonth:
+    description: "Yearmonth records and attributes"
+    row_count: 383282
+    columns:
+      CustomerID:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each customer record"
+        sample_values: [5, 6, 7, 9, 20, 35, 37, 38]
+        is_primary_key: true
+        is_foreign_key: false
+      Date:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each date record"
+        sample_values: ["201112", "201201", "201202", "201203", "201204", "201205", "201206", "201207"]
+        value_format: "Short uppercase code"
+        is_primary_key: true
+        is_foreign_key: false
+      Consumption:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing consumption"
+        sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+        is_primary_key: false
+        is_foreign_key: false

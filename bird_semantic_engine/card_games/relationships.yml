@@ -1,0 +1,25 @@
+relationships:
+  - from_table: "foreign_data"
+    from_column: "uuid"
+    to_table: "cards"
+    to_column: "uuid"
+    relationship_type: "many_to_one"
+    sample_match_count: 229170
+  - from_table: "legalities"
+    from_column: "uuid"
+    to_table: "cards"
+    to_column: "uuid"
+    relationship_type: "many_to_one"
+    sample_match_count: 427835
+  - from_table: "rulings"
+    from_column: "uuid"
+    to_table: "cards"
+    to_column: "uuid"
+    relationship_type: "many_to_one"
+    sample_match_count: 87769
+  - from_table: "set_translations"
+    from_column: "setCode"
+    to_table: "sets"
+    to_column: "code"
+    relationship_type: "many_to_one"
+    sample_match_count: 1210

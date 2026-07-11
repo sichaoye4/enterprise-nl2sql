@@ -1,0 +1,281 @@
+db_id: "superhero"
+tables:
+  alignment:
+    description: "Alignment records and attributes"
+    row_count: 4
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4]
+        is_primary_key: true
+        is_foreign_key: false
+      alignment:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing alignment"
+        sample_values: ["Bad", "Good", "N/A", "Neutral"]
+        is_primary_key: false
+        is_foreign_key: false
+  attribute:
+    description: "Attribute records and attributes"
+    row_count: 6
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6]
+        is_primary_key: true
+        is_foreign_key: false
+      attribute_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for attribute name"
+        sample_values: ["Combat", "Durability", "Intelligence", "Power", "Speed", "Strength"]
+        is_primary_key: false
+        is_foreign_key: false
+  colour:
+    description: "Colour records and attributes"
+    row_count: 35
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      colour:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing colour"
+        sample_values: ["Amber", "Auburn", "Black", "Black/Blue", "Blond", "Blue", "Blue/White", "Brown"]
+        is_primary_key: false
+        is_foreign_key: false
+  gender:
+    description: "Gender records and attributes"
+    row_count: 3
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3]
+        is_primary_key: true
+        is_foreign_key: false
+      gender:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing gender"
+        sample_values: ["Female", "Male", "N/A"]
+        is_primary_key: false
+        is_foreign_key: false
+  hero_attribute:
+    description: "Hero Attribute records and attributes"
+    row_count: 3738
+    columns:
+      hero_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related hero"
+        sample_values: [1, 2, 3, 4, 5, 6, 8, 9]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "superhero.id"
+        foreign_table: "superhero"
+      attribute_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related attribute"
+        sample_values: [1, 2, 3, 4, 5, 6]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "attribute.id"
+        foreign_table: "attribute"
+      attribute_value:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing attribute value"
+        sample_values: [5, 10, 15, 20, 25, 30, 35, 40]
+        is_primary_key: false
+        is_foreign_key: false
+  hero_power:
+    description: "Hero Power records and attributes"
+    row_count: 5825
+    columns:
+      hero_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related hero"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "superhero.id"
+        foreign_table: "superhero"
+      power_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related power"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "superpower.id"
+        foreign_table: "superpower"
+  publisher:
+    description: "Publisher records and attributes"
+    row_count: 25
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      publisher_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for publisher name"
+        sample_values: ["", "ABC Studios", "DC Comics", "Dark Horse Comics", "George Lucas", "Hanna-Barbera", "HarperCollins", "IDW Publishing"]
+        is_primary_key: false
+        is_foreign_key: false
+  race:
+    description: "Race records and attributes"
+    row_count: 61
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      race:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing race"
+        sample_values: ["-", "Alien", "Alpha", "Amazon", "Android", "Animal", "Asgardian", "Atlantean"]
+        is_primary_key: false
+        is_foreign_key: false
+  superhero:
+    description: "Superhero records and attributes"
+    row_count: 750
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      superhero_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for superhero name"
+        sample_values: ["3-D Man", "A-Bomb", "Abe Sapien", "Abin Sur", "Abomination", "Abraxas", "Absorbing Man", "Adam Monroe"]
+        is_primary_key: false
+        is_foreign_key: false
+      full_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for full name"
+        sample_values: ["-", "Abner Jenkins", "Abraham Sapien", "Abraxas", "Adam Strange", "Adam Warlock", "Adrian Alexander Veidt", "Adrian Toomes"]
+        is_primary_key: false
+        is_foreign_key: false
+      gender_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related gender"
+        sample_values: [1, 2, 3]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "gender.id"
+        foreign_table: "gender"
+      eye_colour_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related eye colour"
+        sample_values: [1, 2, 4, 7, 8, 9, 12, 13]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "colour.id"
+        foreign_table: "colour"
+      hair_colour_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related hair colour"
+        sample_values: [1, 3, 4, 5, 6, 7, 9, 10]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "colour.id"
+        foreign_table: "colour"
+      skin_colour_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related skin colour"
+        sample_values: [1, 4, 7, 8, 12, 13, 14, 19]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "colour.id"
+        foreign_table: "colour"
+      race_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related race"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "race.id"
+        foreign_table: "race"
+      publisher_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related publisher"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "publisher.id"
+        foreign_table: "publisher"
+      alignment_id:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related alignment"
+        sample_values: [1, 2, 3]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "alignment.id"
+        foreign_table: "alignment"
+      height_cm:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing height cm"
+        sample_values: [0, 61, 64, 66, 71, 79, 122, 137]
+        is_primary_key: false
+        is_foreign_key: false
+      weight_kg:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing weight kg"
+        sample_values: [0, 14, 16, 17, 18, 25, 27, 36]
+        is_primary_key: false
+        is_foreign_key: false
+  superpower:
+    description: "Superpower records and attributes"
+    row_count: 167
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      power_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for power name"
+        sample_values: ["Accelerated Healing", "Adaptation", "Agility", "Animal Attributes", "Animal Control", "Animal Oriented Powers", "Animation", "Anti-Gravity"]
+        is_primary_key: false
+        is_foreign_key: false

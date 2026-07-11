@@ -1,0 +1,3716 @@
+version: 1
+domain: "formula_1"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+  data_dictionary:
+    db_id: "formula_1"
+    tables: ["circuits", "constructorResults", "constructorStandings", "constructors", "driverStandings", "drivers", "lapTimes", "pitStops", "qualifying", "races", "results", "seasons", "status"]
+entities:
+  - name: "circuits"
+    title: "Circuits"
+    description: "BIRD table circuits in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "circuits"
+      dialect: "sqlite"
+      grain: ["circuitid"]
+    identifiers:
+      - name: "circuitid"
+        expr: "circuitId"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "circuitref"
+        title: "CircuitRef"
+        expr: "circuitRef"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing circuit ref"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing circuit ref"
+            sample_values: ["BAK", "adelaide", "ain-diab", "aintree", "americas", "anderstorp", "avus", "bahrain"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Name or label for name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for name"
+            sample_values: ["A1-Ring", "AVUS", "Adelaide Street Circuit", "Ain Diab", "Aintree", "Autodromo Enzo e Dino Ferrari", "Autodromo Nazionale di Monza", "Aut\u00f3dromo Hermanos Rodr\u00edguez"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "location"
+        title: "Location"
+        expr: "location"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing location"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing location"
+            sample_values: ["Abu Dhabi", "Adelaide", "Anderstorp", "Austin", "Baku", "Barcelona", "Berlin", "Bern"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "country"
+        title: "Country"
+        expr: "country"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing country"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing country"
+            sample_values: ["Argentina", "Australia", "Austria", "Azerbaijan", "Bahrain", "Belgium", "Brazil", "Canada"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "lat"
+        title: "Lat"
+        expr: "lat"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing lat"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing lat"
+            sample_values: [-34.9272, -34.6943, -33.0486, -25.9894, -23.7036, -22.9756, 1.2914, 2.76083]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "lng"
+        title: "Lng"
+        expr: "lng"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing lng"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing lng"
+            sample_values: [-118.189, -117.273, -115.174, -112.075, -99.0907, -97.6411, -96.7587, -86.2347]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "alt"
+        title: "Alt"
+        expr: "alt"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing alt"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing alt"
+            sample_values: []
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "url"
+        title: "Url"
+        expr: "url"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "URL or website associated with the record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["http://en.wikipedia.org/wiki/A1-Ring", "http://en.wikipedia.org/wiki/AVUS", "http://en.wikipedia.org/wiki/Adelaide_Street_Circuit", "http://en.wikipedia.org/wiki/Ain-Diab_Circuit", "http://en.wikipedia.org/wiki/Aintree_Motor_Racing_Circuit", "http://en.wikipedia.org/wiki/Aut%C3%B3dromo_Hermanos_Rodr%C3%ADguez", "http://en.wikipedia.org/wiki/Aut%C3%B3dromo_Internacional_Nelson_Piquet", "http://en.wikipedia.org/wiki/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 72
+        columns:
+          circuitId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each circuit record"
+            sample_values: [2, 3, 4, 5, 6, 7, 8, 9]
+            is_primary_key: true
+            is_foreign_key: false
+          circuitRef:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing circuit ref"
+            sample_values: ["BAK", "adelaide", "ain-diab", "aintree", "americas", "anderstorp", "avus", "bahrain"]
+            is_primary_key: false
+            is_foreign_key: false
+          name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for name"
+            sample_values: ["A1-Ring", "AVUS", "Adelaide Street Circuit", "Ain Diab", "Aintree", "Autodromo Enzo e Dino Ferrari", "Autodromo Nazionale di Monza", "Aut\u00f3dromo Hermanos Rodr\u00edguez"]
+            is_primary_key: false
+            is_foreign_key: false
+          location:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing location"
+            sample_values: ["Abu Dhabi", "Adelaide", "Anderstorp", "Austin", "Baku", "Barcelona", "Berlin", "Bern"]
+            is_primary_key: false
+            is_foreign_key: false
+          country:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing country"
+            sample_values: ["Argentina", "Australia", "Austria", "Azerbaijan", "Bahrain", "Belgium", "Brazil", "Canada"]
+            is_primary_key: false
+            is_foreign_key: false
+          lat:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing lat"
+            sample_values: [-34.9272, -34.6943, -33.0486, -25.9894, -23.7036, -22.9756, 1.2914, 2.76083]
+            is_primary_key: false
+            is_foreign_key: false
+          lng:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing lng"
+            sample_values: [-118.189, -117.273, -115.174, -112.075, -99.0907, -97.6411, -96.7587, -86.2347]
+            is_primary_key: false
+            is_foreign_key: false
+          alt:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing alt"
+            sample_values: []
+            is_primary_key: false
+            is_foreign_key: false
+          url:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["http://en.wikipedia.org/wiki/A1-Ring", "http://en.wikipedia.org/wiki/AVUS", "http://en.wikipedia.org/wiki/Adelaide_Street_Circuit", "http://en.wikipedia.org/wiki/Ain-Diab_Circuit", "http://en.wikipedia.org/wiki/Aintree_Motor_Racing_Circuit", "http://en.wikipedia.org/wiki/Aut%C3%B3dromo_Hermanos_Rodr%C3%ADguez", "http://en.wikipedia.org/wiki/Aut%C3%B3dromo_Internacional_Nelson_Piquet", "http://en.wikipedia.org/wiki/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "constructors"
+    title: "Constructors"
+    description: "BIRD table constructors in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "constructors"
+      dialect: "sqlite"
+      grain: ["constructorid"]
+    identifiers:
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "constructorref"
+        title: "ConstructorRef"
+        expr: "constructorRef"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing constructor ref"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing constructor ref"
+            sample_values: ["adams", "afm", "ags", "alfa", "alta", "amon", "apollon", "arrows"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Name or label for name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for name"
+            sample_values: ["AFM", "AGS", "ATS", "Adams", "Alfa Romeo", "Alta", "Amon", "Andrea Moda"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "nationality"
+        title: "Nationality"
+        expr: "nationality"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing nationality"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing nationality"
+            sample_values: ["American", "Australian", "Austrian", "Belgium", "Brazilian", "British", "Canadian", "Dutch"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "url"
+        title: "Url"
+        expr: "url"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "URL or website associated with the record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["http://en.wikipedia.org/wiki/A.J._Watson", "http://en.wikipedia.org/wiki/ATS_(wheels)", "http://en.wikipedia.org/wiki/Adams_(constructor)", "http://en.wikipedia.org/wiki/Alex_von_Falkenhausen_Motorenbau", "http://en.wikipedia.org/wiki/Alfa_Romeo_(Formula_One)", "http://en.wikipedia.org/wiki/Alta_auto_racing_team", "http://en.wikipedia.org/wiki/Amon_(Formula_One_team)", "http://en.wikipedia.org/wiki/Andrea_Moda_Formula"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "distinct_constructorid_count"
+        title: "Distinct Constructorid Count"
+        description: "COUNT over constructorId extracted from repeated BIRD gold SQL patterns."
+        expr: "constructorId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["constructorid"]
+        allowed_dimensions: []
+        filters:
+          - member: "nationality"
+            operator: "equals"
+            values: ["French"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T1.laps > 50 AND T2.nationality = 'French'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each constructor record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 208
+        columns:
+          constructorId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each constructor record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          constructorRef:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing constructor ref"
+            sample_values: ["adams", "afm", "ags", "alfa", "alta", "amon", "apollon", "arrows"]
+            is_primary_key: false
+            is_foreign_key: false
+          name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for name"
+            sample_values: ["AFM", "AGS", "ATS", "Adams", "Alfa Romeo", "Alta", "Amon", "Andrea Moda"]
+            is_primary_key: false
+            is_foreign_key: false
+          nationality:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing nationality"
+            sample_values: ["American", "Australian", "Austrian", "Belgium", "Brazilian", "British", "Canadian", "Dutch"]
+            is_primary_key: false
+            is_foreign_key: false
+          url:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["http://en.wikipedia.org/wiki/A.J._Watson", "http://en.wikipedia.org/wiki/ATS_(wheels)", "http://en.wikipedia.org/wiki/Adams_(constructor)", "http://en.wikipedia.org/wiki/Alex_von_Falkenhausen_Motorenbau", "http://en.wikipedia.org/wiki/Alfa_Romeo_(Formula_One)", "http://en.wikipedia.org/wiki/Alta_auto_racing_team", "http://en.wikipedia.org/wiki/Amon_(Formula_One_team)", "http://en.wikipedia.org/wiki/Andrea_Moda_Formula"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "drivers"
+    title: "Drivers"
+    description: "BIRD table drivers in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "drivers"
+      dialect: "sqlite"
+      grain: ["driverid"]
+    identifiers:
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "dob"
+        title: "Dob"
+        description: "Time column dob from drivers."
+        expr: "dob"
+        type: "date"
+        default: true
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for dob"
+            sample_values: ["1896-12-28", "1898-06-09", "1898-08-18", "1898-11-01", "1899-08-03", "1899-10-13", "1899-10-15", "1900-03-29"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "driverref"
+        title: "DriverRef"
+        expr: "driverRef"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing driver ref"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing driver ref"
+            sample_values: ["Cannoc", "Changy", "abate", "abecassis", "acheson", "adamich", "adams", "ader"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "number"
+        title: "Number"
+        expr: "number"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric count or quantity for number"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric count or quantity for number"
+            sample_values: [2, 3, 4, 5, 6, 7, 8, 9]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "code"
+        title: "Code"
+        expr: "code"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Currency code for monetary amounts in this record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Currency code for monetary amounts in this record"
+            sample_values: ["ALB", "ALG", "ALO", "BAD", "BAR", "BIA", "BOT", "BOU"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "forename"
+        title: "Forename"
+        expr: "forename"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing forename"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing forename"
+            sample_values: ["Adolf", "Adolfo", "Adrian", "Adri\u00e1n", "Aguri", "Al", "Alain", "Alan"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "surname"
+        title: "Surname"
+        expr: "surname"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing surname"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing surname"
+            sample_values: ["Abate", "Abecassis", "Acheson", "Adams", "Ader", "Adolff", "Agabashian", "Ahrens"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "nationality"
+        title: "Nationality"
+        expr: "nationality"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing nationality"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing nationality"
+            sample_values: ["American", "American-Italian", "Argentine", "Argentine-Italian", "Australian", "Austrian", "Belgian", "Brazilian"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "url"
+        title: "Url"
+        expr: "url"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "URL or website associated with the record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["", "http://en.wikipedia.org/wiki/%C3%89lie_Bayol", "http://en.wikipedia.org/wiki/%C3%89ric_Bernard", "http://en.wikipedia.org/wiki/%C3%89rik_Comas", "http://en.wikipedia.org/wiki/%C3%93scar_Alfredo_G%C3%A1lvez", "http://en.wikipedia.org/wiki/A.J._Foyt", "http://en.wikipedia.org/wiki/Adolf_Brudes", "http://en.wikipedia.org/wiki/Adolfo_Schewelm_Cruz"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_code"
+        title: "Count Code"
+        description: "COUNT over code extracted from repeated BIRD gold SQL patterns."
+        expr: "code"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["code"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Currency code for monetary amounts in this record"
+            sample_values: ["ALB", "ALG", "ALO", "BAD", "BAR", "BIA", "BOT", "BOU"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_driverid"
+        title: "Count Driverid"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.year = 2007 AND T1.name = 'Bahrain Grand Prix' AND T2.time IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each driver record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_driverid_2"
+        title: "Count Driverid 2"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverid"]
+        allowed_dimensions: []
+        filters:
+          - member: "nationality"
+            operator: "equals"
+            values: ["French"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.nationality = 'French' AND (CAST(SUBSTRING(T2.time, 1, 2) AS INTEGER) * 60 + CAST(SUBSTRING(T2.time, 4, 2) AS INTEGER) + CAST(SUBSTRING(T2.time, 7, 2) AS REAL) / 1000) < 120"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each driver record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_driverid_3"
+        title: "Count Driverid 3"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverid"]
+        allowed_dimensions: []
+        filters:
+          - member: "nationality"
+            operator: "equals"
+            values: ["American"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.status = 'Puncture' AND T1.nationality = 'American'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each driver record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters:
+          - member: "nationality"
+            operator: "equals"
+            values: ["British"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.name = 'Australian Grand Prix' AND T1.nationality = 'British' AND T3.year = 2008"]
+      - name: "count_row_count_2"
+        title: "Count Row Count 2"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.nationality = 'Dutch'"]
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 840
+        columns:
+          driverId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each driver record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          driverRef:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing driver ref"
+            sample_values: ["Cannoc", "Changy", "abate", "abecassis", "acheson", "adamich", "adams", "ader"]
+            is_primary_key: false
+            is_foreign_key: false
+          number:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric count or quantity for number"
+            sample_values: [2, 3, 4, 5, 6, 7, 8, 9]
+            is_primary_key: false
+            is_foreign_key: false
+          code:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Currency code for monetary amounts in this record"
+            sample_values: ["ALB", "ALG", "ALO", "BAD", "BAR", "BIA", "BOT", "BOU"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+          forename:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing forename"
+            sample_values: ["Adolf", "Adolfo", "Adrian", "Adri\u00e1n", "Aguri", "Al", "Alain", "Alan"]
+            is_primary_key: false
+            is_foreign_key: false
+          surname:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing surname"
+            sample_values: ["Abate", "Abecassis", "Acheson", "Adams", "Ader", "Adolff", "Agabashian", "Ahrens"]
+            is_primary_key: false
+            is_foreign_key: false
+          dob:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for dob"
+            sample_values: ["1896-12-28", "1898-06-09", "1898-08-18", "1898-11-01", "1899-08-03", "1899-10-13", "1899-10-15", "1900-03-29"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          nationality:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing nationality"
+            sample_values: ["American", "American-Italian", "Argentine", "Argentine-Italian", "Australian", "Austrian", "Belgian", "Brazilian"]
+            is_primary_key: false
+            is_foreign_key: false
+          url:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["", "http://en.wikipedia.org/wiki/%C3%89lie_Bayol", "http://en.wikipedia.org/wiki/%C3%89ric_Bernard", "http://en.wikipedia.org/wiki/%C3%89rik_Comas", "http://en.wikipedia.org/wiki/%C3%93scar_Alfredo_G%C3%A1lvez", "http://en.wikipedia.org/wiki/A.J._Foyt", "http://en.wikipedia.org/wiki/Adolf_Brudes", "http://en.wikipedia.org/wiki/Adolfo_Schewelm_Cruz"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "seasons"
+    title: "Seasons"
+    description: "BIRD table seasons in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "seasons"
+      dialect: "sqlite"
+      grain: ["year"]
+    identifiers:
+      - name: "year"
+        expr: "year"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "url"
+        title: "Url"
+        expr: "url"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "URL or website associated with the record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["http://en.wikipedia.org/wiki/1950_Formula_One_season", "http://en.wikipedia.org/wiki/1951_Formula_One_season", "http://en.wikipedia.org/wiki/1952_Formula_One_season", "http://en.wikipedia.org/wiki/1953_Formula_One_season", "http://en.wikipedia.org/wiki/1954_Formula_One_season", "http://en.wikipedia.org/wiki/1955_Formula_One_season", "http://en.wikipedia.org/wiki/1956_Formula_One_season", "http://en.wikipedia.org/wiki/1957_Formula_One_season"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 68
+        columns:
+          year:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each year record"
+            sample_values: [1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957]
+            is_primary_key: true
+            is_foreign_key: false
+          url:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["http://en.wikipedia.org/wiki/1950_Formula_One_season", "http://en.wikipedia.org/wiki/1951_Formula_One_season", "http://en.wikipedia.org/wiki/1952_Formula_One_season", "http://en.wikipedia.org/wiki/1953_Formula_One_season", "http://en.wikipedia.org/wiki/1954_Formula_One_season", "http://en.wikipedia.org/wiki/1955_Formula_One_season", "http://en.wikipedia.org/wiki/1956_Formula_One_season", "http://en.wikipedia.org/wiki/1957_Formula_One_season"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "races"
+    title: "Races"
+    description: "BIRD table races in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "races"
+      dialect: "sqlite"
+      grain: ["raceid"]
+    identifiers:
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: true
+      - name: "year"
+        expr: "year"
+        type: "number"
+        primary_key: false
+      - name: "circuitid"
+        expr: "circuitId"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from races."
+        expr: "date"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["1950-05-13", "1950-05-21", "1950-05-30", "1950-06-04", "1950-06-18", "1950-07-02", "1950-09-03", "1951-05-27"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "round"
+        title: "Round"
+        expr: "round"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing round"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing round"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "name"
+        title: "Name"
+        expr: "name"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Name or label for name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for name"
+            sample_values: ["Abu Dhabi Grand Prix", "Argentine Grand Prix", "Australian Grand Prix", "Austrian Grand Prix", "Azerbaijan Grand Prix", "Bahrain Grand Prix", "Belgian Grand Prix", "Brazilian Grand Prix"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "time"
+        title: "Time"
+        expr: "time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Time or timestamp value for time"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["03:00:00", "04:30:00", "05:00:00", "06:00:00", "07:00:00", "08:00:00", "09:00:00", "09:30:00"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_circuitid"
+        title: "Count Circuitid"
+        description: "COUNT over circuitId extracted from repeated BIRD gold SQL patterns."
+        expr: "circuitId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["circuitid"]
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values: ["British Grand Prix"]
+          - member: "name"
+            operator: "equals"
+            values: ["Silverstone Circuit"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.name = 'Silverstone Circuit' AND T2.name = 'British Grand Prix'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related circuit"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "circuits.circuitId"
+            foreign_table: "circuits"
+      - name: "count_circuitid_2"
+        title: "Count Circuitid 2"
+        description: "COUNT over circuitId extracted from repeated BIRD gold SQL patterns."
+        expr: "circuitId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["circuitid"]
+        allowed_dimensions: []
+        filters:
+          - member: "name"
+            operator: "equals"
+            values: ["European Grand Prix"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.name = 'European Grand Prix'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related circuit"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "circuits.circuitId"
+            foreign_table: "circuits"
+      - name: "count_circuitid_3"
+        title: "Count Circuitid 3"
+        description: "COUNT over circuitId extracted from repeated BIRD gold SQL patterns."
+        expr: "circuitId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["circuitid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.country = 'Italy'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related circuit"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "circuits.circuitId"
+            foreign_table: "circuits"
+      - name: "count_raceid"
+        title: "Count Raceid"
+        description: "COUNT over raceId extracted from repeated BIRD gold SQL patterns."
+        expr: "raceId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["raceid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE NOT T1.country IN ('Bahrain', 'China', 'Singapore', 'Japan', 'Korea', 'Turkey', 'UAE', 'Malaysia', 'Spain', 'Monaco', 'Azerbaijan', 'Austria', 'Belgium', 'France', 'Germany', 'Hungary', 'Italy', 'UK') AND T3.year = 2010"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each race record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_raceid_2"
+        title: "Count Raceid 2"
+        description: "COUNT over raceId extracted from repeated BIRD gold SQL patterns."
+        expr: "raceId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["raceid"]
+        allowed_dimensions: ["circuits.name"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', T2.date) BETWEEN '1990' AND '2000'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each race record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_round"
+        title: "Count Round"
+        description: "COUNT over round extracted from repeated BIRD gold SQL patterns."
+        expr: "round"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["round"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing round"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 976
+        columns:
+          raceId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each race record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          year:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing year"
+            sample_values: [1950, 1951, 1952, 1953, 1954, 1955, 1956, 1957]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "seasons.year"
+            foreign_table: "seasons"
+          round:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing round"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          circuitId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related circuit"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "circuits.circuitId"
+            foreign_table: "circuits"
+          name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for name"
+            sample_values: ["Abu Dhabi Grand Prix", "Argentine Grand Prix", "Australian Grand Prix", "Austrian Grand Prix", "Azerbaijan Grand Prix", "Bahrain Grand Prix", "Belgian Grand Prix", "Brazilian Grand Prix"]
+            is_primary_key: false
+            is_foreign_key: false
+          date:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["1950-05-13", "1950-05-21", "1950-05-30", "1950-06-04", "1950-06-18", "1950-07-02", "1950-09-03", "1951-05-27"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          time:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["03:00:00", "04:30:00", "05:00:00", "06:00:00", "07:00:00", "08:00:00", "09:00:00", "09:30:00"]
+            is_primary_key: false
+            is_foreign_key: false
+          url:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "URL or website associated with the record"
+            sample_values: ["http://en.wikipedia.org/wiki/1950_Belgian_Grand_Prix", "http://en.wikipedia.org/wiki/1950_British_Grand_Prix", "http://en.wikipedia.org/wiki/1950_French_Grand_Prix", "http://en.wikipedia.org/wiki/1950_Indianapolis_500", "http://en.wikipedia.org/wiki/1950_Italian_Grand_Prix", "http://en.wikipedia.org/wiki/1950_Monaco_Grand_Prix", "http://en.wikipedia.org/wiki/1950_Swiss_Grand_Prix", "http://en.wikipedia.org/wiki/1951_Belgian_Grand_Prix"]
+            value_format: "URL"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "constructorresults"
+    title: "ConstructorResults"
+    description: "BIRD table constructorResults in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "constructorResults"
+      dialect: "sqlite"
+      grain: ["constructorresultsid"]
+    identifiers:
+      - name: "constructorresultsid"
+        expr: "constructorResultsId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "points"
+        title: "Points"
+        expr: "points"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing points"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's status"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["D"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "sum_points"
+        title: "Sum Points"
+        description: "SUM over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["points"]
+        allowed_dimensions: ["constructors.name"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.name = 'Monaco Grand Prix' AND T3.year BETWEEN 1980 AND 2010"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 11082
+        columns:
+          constructorResultsId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each constructor results record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          raceId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related race"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+          constructorId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related constructor"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "constructors.constructorId"
+            foreign_table: "constructors"
+          points:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 4.0]
+            is_primary_key: false
+            is_foreign_key: false
+          status:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["D"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "constructorstandings"
+    title: "ConstructorStandings"
+    description: "BIRD table constructorStandings in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "constructorStandings"
+      dialect: "sqlite"
+      grain: ["constructorstandingsid"]
+    identifiers:
+      - name: "constructorstandingsid"
+        expr: "constructorStandingsId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "points"
+        title: "Points"
+        expr: "points"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing points"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing position"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "positiontext"
+        title: "PositionText"
+        expr: "positionText"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing position text"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing position text"
+            sample_values: ["1", "10", "11", "12", "13", "14", "15", "16"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "wins"
+        title: "Wins"
+        expr: "wins"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing wins"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wins"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_raceid"
+        title: "Count Raceid"
+        description: "COUNT over raceId extracted from repeated BIRD gold SQL patterns."
+        expr: "raceId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["raceid"]
+        allowed_dimensions: []
+        filters:
+          - member: "points"
+            operator: "equals"
+            values: [0]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.points = 0 AND T2.nationality = 'Japanese'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related race"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+      - name: "max_points"
+        title: "Max Points"
+        description: "MAX over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["points"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.nationality = 'British'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 11836
+        columns:
+          constructorStandingsId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each constructor standings record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          raceId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related race"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+          constructorId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related constructor"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "constructors.constructorId"
+            foreign_table: "constructors"
+          points:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]
+            is_primary_key: false
+            is_foreign_key: false
+          position:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          positionText:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing position text"
+            sample_values: ["1", "10", "11", "12", "13", "14", "15", "16"]
+            is_primary_key: false
+            is_foreign_key: false
+          wins:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wins"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "driverstandings"
+    title: "DriverStandings"
+    description: "BIRD table driverStandings in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "driverStandings"
+      dialect: "sqlite"
+      grain: ["driverstandingsid"]
+    identifiers:
+      - name: "driverstandingsid"
+        expr: "driverStandingsId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "points"
+        title: "Points"
+        expr: "points"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing points"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.33, 1.5, 2.0, 3.0, 3.33]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing position"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "positiontext"
+        title: "PositionText"
+        expr: "positionText"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing position text"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing position text"
+            sample_values: ["1", "10", "100", "101", "102", "103", "104", "105"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "wins"
+        title: "Wins"
+        expr: "wins"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing wins"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wins"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_points"
+        title: "Avg Points"
+        description: "AVG over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["points"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.forename = 'Eddie' AND T1.surname = 'Irvine' AND T3.year = 2000"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.33, 1.5, 2.0, 3.0, 3.33]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_points_2"
+        title: "Avg Points 2"
+        description: "AVG over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["points"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.forename = 'Lewis' AND T1.surname = 'Hamilton' AND T3.name = 'Turkish Grand Prix'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.33, 1.5, 2.0, 3.0, 3.33]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_driverstandingsid"
+        title: "Count Driverstandingsid"
+        description: "COUNT over driverStandingsId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverStandingsId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverstandingsid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.surname = 'Hamilton' AND T1.year >= 2010"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each driver standings record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_position"
+        title: "Count Position"
+        description: "COUNT over position extracted from repeated BIRD gold SQL patterns."
+        expr: "position"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["position"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.surname = 'Hamilton' AND T1.year >= 2010"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_wins"
+        title: "Count Wins"
+        description: "COUNT over wins extracted from repeated BIRD gold SQL patterns."
+        expr: "wins"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["wins"]
+        allowed_dimensions: ["drivers.forename", "drivers.nationality", "drivers.surname"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.wins >= 1"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wins"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "max_points"
+        title: "Max Points"
+        description: "MAX over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["points"]
+        allowed_dimensions: ["drivers.forename", "drivers.nationality", "drivers.surname"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.wins >= 1"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.33, 1.5, 2.0, 3.0, 3.33]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_wins"
+        title: "Sum Wins"
+        description: "SUM over wins extracted from repeated BIRD gold SQL patterns."
+        expr: "wins"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["wins"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.forename = 'Michael' AND T1.surname = 'Schumacher' AND T4.name = 'Sepang International Circuit'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wins"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_wins_2"
+        title: "Sum Wins 2"
+        description: "SUM over wins extracted from repeated BIRD gold SQL patterns."
+        expr: "wins"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["wins"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wins"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 31578
+        columns:
+          driverStandingsId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each driver standings record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          raceId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related race"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+          driverId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related driver"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+          points:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.33, 1.5, 2.0, 3.0, 3.33]
+            is_primary_key: false
+            is_foreign_key: false
+          position:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          positionText:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing position text"
+            sample_values: ["1", "10", "100", "101", "102", "103", "104", "105"]
+            is_primary_key: false
+            is_foreign_key: false
+          wins:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wins"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "laptimes"
+    title: "LapTimes"
+    description: "BIRD table lapTimes in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "lapTimes"
+      dialect: "sqlite"
+      grain: ["raceid", "driverid", "lap"]
+    identifiers:
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: true
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: true
+      - name: "lap"
+        expr: "lap"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing position"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "time"
+        title: "Time"
+        expr: "time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Time or timestamp value for time"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["10:32.179", "10:41.546", "11:16.839", "11:48.170", "12:09.123", "12:33.601", "12:35.976", "13:14.653"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "milliseconds"
+        title: "Milliseconds"
+        expr: "milliseconds"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing milliseconds"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing milliseconds"
+            sample_values: [67411, 67424, 67442, 67486, 67496, 67503, 67511, 67538]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_milliseconds"
+        title: "Avg Milliseconds"
+        description: "AVG over milliseconds extracted from repeated BIRD gold SQL patterns."
+        expr: "milliseconds"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["milliseconds"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.forename = 'Lewis' AND T3.surname = 'Hamilton' AND T1.year = 2009 AND T1.name = 'Malaysian Grand Prix'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing milliseconds"
+            sample_values: [67411, 67424, 67442, 67486, 67496, 67503, 67511, 67538]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_lap"
+        title: "Count Lap"
+        description: "COUNT over lap extracted from repeated BIRD gold SQL patterns."
+        expr: "lap"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["lap"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.country = 'Italy'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each lap record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "sum_milliseconds"
+        title: "Sum Milliseconds"
+        description: "SUM over milliseconds extracted from repeated BIRD gold SQL patterns."
+        expr: "milliseconds"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["milliseconds"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.country = 'Italy'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing milliseconds"
+            sample_values: [67411, 67424, 67442, 67486, 67496, 67503, 67511, 67538]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 420369
+        columns:
+          raceId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each race record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "races.raceId"
+            foreign_table: "races"
+          driverId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each driver record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "drivers.driverId"
+            foreign_table: "drivers"
+          lap:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each lap record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          position:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          time:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["10:32.179", "10:41.546", "11:16.839", "11:48.170", "12:09.123", "12:33.601", "12:35.976", "13:14.653"]
+            is_primary_key: false
+            is_foreign_key: false
+          milliseconds:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing milliseconds"
+            sample_values: [67411, 67424, 67442, 67486, 67496, 67503, 67511, 67538]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "pitstops"
+    title: "PitStops"
+    description: "BIRD table pitStops in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "pitStops"
+      dialect: "sqlite"
+      grain: ["raceid", "driverid", "stop"]
+    identifiers:
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: true
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: true
+      - name: "stop"
+        expr: "stop"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "lap"
+        title: "Lap"
+        expr: "lap"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing lap"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing lap"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "time"
+        title: "Time"
+        expr: "time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Time or timestamp value for time"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["13:04:51", "13:04:58", "13:05:06", "13:05:11", "13:05:14", "13:05:45", "13:05:59", "13:06:42"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "duration"
+        title: "Duration"
+        expr: "duration"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing duration"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing duration"
+            sample_values: ["12.897", "12.959", "13.173", "13.186", "13.199", "13.201", "13.206", "13.259"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_duration"
+        title: "Avg Duration"
+        description: "AVG over duration extracted from repeated BIRD gold SQL patterns."
+        expr: "duration"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["duration"]
+        allowed_dimensions: ["drivers.forename", "drivers.surname"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.nationality = 'German' AND STRFTIME('%Y', T2.dob) BETWEEN '1980' AND '1985'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing duration"
+            sample_values: ["12.897", "12.959", "13.173", "13.186", "13.199", "13.201", "13.206", "13.259"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 6070
+        columns:
+          raceId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each race record"
+            sample_values: [841, 842, 843, 844, 845, 846, 847, 848]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "races.raceId"
+            foreign_table: "races"
+          driverId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each driver record"
+            sample_values: [1, 2, 3, 4, 5, 8, 10, 13]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "drivers.driverId"
+            foreign_table: "drivers"
+          stop:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each stop record"
+            sample_values: [1, 2, 3, 4, 5, 6]
+            is_primary_key: true
+            is_foreign_key: false
+          lap:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing lap"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          time:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["13:04:51", "13:04:58", "13:05:06", "13:05:11", "13:05:14", "13:05:45", "13:05:59", "13:06:42"]
+            is_primary_key: false
+            is_foreign_key: false
+          duration:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing duration"
+            sample_values: ["12.897", "12.959", "13.173", "13.186", "13.199", "13.201", "13.206", "13.259"]
+            is_primary_key: false
+            is_foreign_key: false
+          milliseconds:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing milliseconds"
+            sample_values: [12897, 12959, 13173, 13186, 13199, 13201, 13206, 13259]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "qualifying"
+    title: "Qualifying"
+    description: "BIRD table qualifying in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "qualifying"
+      dialect: "sqlite"
+      grain: ["qualifyid"]
+    identifiers:
+      - name: "qualifyid"
+        expr: "qualifyId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: false
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "q1"
+        title: "Q1"
+        expr: "q1"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing q1"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing q1"
+            sample_values: ["16:42.640", "1:05.064", "1:05.148", "1:05.585", "1:05.675", "1:05.760", "1:05.779", "1:05.854"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "q2"
+        title: "Q2"
+        expr: "q2"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing q2"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing q2"
+            sample_values: ["", "1:04.316", "1:04.772", "1:04.800", "1:04.948", "1:05.004", "1:05.161", "1:05.319"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "q3"
+        title: "Q3"
+        expr: "q3"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing q3"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing q3"
+            sample_values: ["", "1:04.251", "1:04.293", "1:04.424", "1:04.779", "1:04.896", "1:04.983", "1:05.480"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 7397
+        columns:
+          qualifyId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each qualify record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          raceId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related race"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+          driverId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related driver"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+          constructorId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related constructor"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "constructors.constructorId"
+            foreign_table: "constructors"
+          number:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric count or quantity for number"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+          position:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          q1:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing q1"
+            sample_values: ["16:42.640", "1:05.064", "1:05.148", "1:05.585", "1:05.675", "1:05.760", "1:05.779", "1:05.854"]
+            is_primary_key: false
+            is_foreign_key: false
+          q2:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing q2"
+            sample_values: ["", "1:04.316", "1:04.772", "1:04.800", "1:04.948", "1:05.004", "1:05.161", "1:05.319"]
+            is_primary_key: false
+            is_foreign_key: false
+          q3:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing q3"
+            sample_values: ["", "1:04.251", "1:04.293", "1:04.424", "1:04.779", "1:04.896", "1:04.983", "1:05.480"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "status"
+    title: "Status"
+    description: "BIRD table status in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "status"
+      dialect: "sqlite"
+      grain: ["statusid"]
+    identifiers:
+      - name: "statusid"
+        expr: "statusId"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's status"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["+1 Lap", "+10 Laps", "+11 Laps", "+12 Laps", "+13 Laps", "+14 Laps", "+15 Laps", "+16 Laps"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 134
+        columns:
+          statusId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each status record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          status:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["+1 Lap", "+10 Laps", "+11 Laps", "+12 Laps", "+13 Laps", "+14 Laps", "+15 Laps", "+16 Laps"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "results"
+    title: "Results"
+    description: "BIRD table results in the formula_1 database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "results"
+      dialect: "sqlite"
+      grain: ["resultid"]
+    identifiers:
+      - name: "resultid"
+        expr: "resultId"
+        type: "number"
+        primary_key: true
+      - name: "raceid"
+        expr: "raceId"
+        type: "number"
+        primary_key: false
+      - name: "driverid"
+        expr: "driverId"
+        type: "number"
+        primary_key: false
+      - name: "constructorid"
+        expr: "constructorId"
+        type: "number"
+        primary_key: false
+      - name: "statusid"
+        expr: "statusId"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "grid"
+        title: "Grid"
+        expr: "grid"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Identifier linking this record to a related grid"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related grid"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: true
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing position"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "positiontext"
+        title: "PositionText"
+        expr: "positionText"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing position text"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing position text"
+            sample_values: ["1", "10", "11", "12", "13", "14", "15", "16"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "positionorder"
+        title: "PositionOrder"
+        expr: "positionOrder"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing position order"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position order"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "points"
+        title: "Points"
+        expr: "points"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing points"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.33, 1.5, 2.0, 2.5, 3.0]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "laps"
+        title: "Laps"
+        expr: "laps"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing laps"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing laps"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "time"
+        title: "Time"
+        expr: "time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Time or timestamp value for time"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["+ 1:06.7", "+ 25.6", "+ 53.3", "+0.01", "+0.011", "+0.014", "+0.050", "+0.08"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "milliseconds"
+        title: "Milliseconds"
+        expr: "milliseconds"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing milliseconds"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing milliseconds"
+            sample_values: [1474899, 1476158, 1480019, 1505002, 1525436, 1525968, 1527260, 1535330]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "fastestlap"
+        title: "FastestLap"
+        expr: "fastestLap"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing fastest lap"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing fastest lap"
+            sample_values: [2, 3, 4, 5, 6, 7, 8, 9]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "rank"
+        title: "Rank"
+        expr: "rank"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing rank"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing rank"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "fastestlaptime"
+        title: "FastestLapTime"
+        expr: "fastestLapTime"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Time or timestamp value for fastest lap time"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for fastest lap time"
+            sample_values: ["1:07.411", "1:07.442", "1:07.486", "1:07.496", "1:07.847", "1:08.061", "1:08.411", "1:08.419"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "fastestlapspeed"
+        title: "FastestLapSpeed"
+        expr: "fastestLapSpeed"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing fastest lap speed"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing fastest lap speed"
+            sample_values: ["100.615", "101.399", "101.884", "108.410", "112.116", "117.753", "118.872", "121.027"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_fastestlapspeed"
+        title: "Avg Fastestlapspeed"
+        description: "AVG over fastestLapSpeed extracted from repeated BIRD gold SQL patterns."
+        expr: "fastestLapSpeed"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["fastestlapspeed"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.year = 2009 AND T2.name = 'Spanish Grand Prix'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing fastest lap speed"
+            sample_values: ["100.615", "101.399", "101.884", "108.410", "112.116", "117.753", "118.872", "121.027"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_fastestlaptime"
+        title: "Avg Fastestlaptime"
+        description: "AVG over fastestLapTime extracted from repeated BIRD gold SQL patterns."
+        expr: "fastestLapTime"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["fastestlaptime"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.surname = 'Hamilton' AND T1.forename = 'Lewis'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for fastest lap time"
+            sample_values: ["1:07.411", "1:07.442", "1:07.486", "1:07.496", "1:07.847", "1:08.061", "1:08.411", "1:08.419"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_fastestlaptime_2"
+        title: "Avg Fastestlaptime 2"
+        description: "AVG over fastestLapTime extracted from repeated BIRD gold SQL patterns."
+        expr: "fastestLapTime"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["fastestlaptime"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.rank < 11 AND T2.year = 2006 AND T2.name = 'United States Grand Prix'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for fastest lap time"
+            sample_values: ["1:07.411", "1:07.442", "1:07.486", "1:07.496", "1:07.847", "1:08.061", "1:08.411", "1:08.419"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_driverid"
+        title: "Count Driverid"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T1.date = '2015-11-29' AND NOT T2.time IS NULL", "WHERE T1.date = '2015-11-29' AND T2.time IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related driver"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+      - name: "count_driverid_2"
+        title: "Count Driverid 2"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.date = '1983-07-16'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related driver"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+      - name: "count_driverid_3"
+        title: "Count Driverid 3"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.name = 'Australian Grand Prix' AND T1.year = 2008 AND NOT T2.time IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related driver"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+      - name: "count_driverid_4"
+        title: "Count Driverid 4"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.nationality = 'Italian' AND T1.time IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related driver"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+      - name: "count_driverid_5"
+        title: "Count Driverid 5"
+        description: "COUNT over driverId extracted from repeated BIRD gold SQL patterns."
+        expr: "driverId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["driverid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.statusId = 3 AND T2.name = 'Canadian Grand Prix'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related driver"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+      - name: "count_raceid"
+        title: "Count Raceid"
+        description: "COUNT over raceId extracted from repeated BIRD gold SQL patterns."
+        expr: "raceId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["raceid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.nationality = 'Japanese' AND T2.year BETWEEN 2007 AND 2009"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related race"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+      - name: "count_resultid"
+        title: "Count Resultid"
+        description: "COUNT over resultId extracted from repeated BIRD gold SQL patterns."
+        expr: "resultId"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["resultid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.name = 'Australian Grand Prix' AND T2.year = 2008"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each result record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T2.year BETWEEN 2000 AND 2005"]
+      - name: "max_positionorder"
+        title: "Max Positionorder"
+        description: "MAX over positionOrder extracted from repeated BIRD gold SQL patterns."
+        expr: "positionOrder"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["positionorder"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position order"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_fastestlapspeed"
+        title: "Sum Fastestlapspeed"
+        description: "SUM over fastestLapSpeed extracted from repeated BIRD gold SQL patterns."
+        expr: "fastestLapSpeed"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["fastestlapspeed"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.forename = 'Paul' AND T1.surname = 'di Resta'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing fastest lap speed"
+            sample_values: ["100.615", "101.399", "101.884", "108.410", "112.116", "117.753", "118.872", "121.027"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_laps"
+        title: "Sum Laps"
+        description: "SUM over laps extracted from repeated BIRD gold SQL patterns."
+        expr: "laps"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["laps"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.year BETWEEN 2000 AND 2005"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing laps"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_points"
+        title: "Sum Points"
+        description: "SUM over points extracted from repeated BIRD gold SQL patterns."
+        expr: "points"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["points"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.forename = 'Lewis' AND T1.surname = 'Hamilton'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.33, 1.5, 2.0, 2.5, 3.0]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_time"
+        title: "Sum Time"
+        description: "SUM over time extracted from repeated BIRD gold SQL patterns."
+        expr: "time"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["time"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.name = 'Australian Grand Prix' AND T2.year = 2008"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["+ 1:06.7", "+ 25.6", "+ 53.3", "+0.01", "+0.011", "+0.014", "+0.050", "+0.08"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_time_2"
+        title: "Sum Time 2"
+        description: "SUM over time extracted from repeated BIRD gold SQL patterns."
+        expr: "time"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["time"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.nationality = 'Japanese' AND T2.year BETWEEN 2007 AND 2009"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["+ 1:06.7", "+ 25.6", "+ 53.3", "+0.01", "+0.011", "+0.014", "+0.050", "+0.08"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 23657
+        columns:
+          resultId:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each result record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          raceId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related race"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+          driverId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related driver"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "pitStops.stop"
+            foreign_table: "pitStops"
+          constructorId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related constructor"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "constructors.constructorId"
+            foreign_table: "constructors"
+          number:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric count or quantity for number"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+          grid:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related grid"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: true
+          position:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          positionText:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing position text"
+            sample_values: ["1", "10", "11", "12", "13", "14", "15", "16"]
+            is_primary_key: false
+            is_foreign_key: false
+          positionOrder:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing position order"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          points:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing points"
+            sample_values: [0.0, 0.5, 1.0, 1.33, 1.5, 2.0, 2.5, 3.0]
+            is_primary_key: false
+            is_foreign_key: false
+          laps:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing laps"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+          time:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["+ 1:06.7", "+ 25.6", "+ 53.3", "+0.01", "+0.011", "+0.014", "+0.050", "+0.08"]
+            is_primary_key: false
+            is_foreign_key: false
+          milliseconds:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing milliseconds"
+            sample_values: [1474899, 1476158, 1480019, 1505002, 1525436, 1525968, 1527260, 1535330]
+            is_primary_key: false
+            is_foreign_key: false
+          fastestLap:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing fastest lap"
+            sample_values: [2, 3, 4, 5, 6, 7, 8, 9]
+            is_primary_key: false
+            is_foreign_key: false
+          rank:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing rank"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+          fastestLapTime:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for fastest lap time"
+            sample_values: ["1:07.411", "1:07.442", "1:07.486", "1:07.496", "1:07.847", "1:08.061", "1:08.411", "1:08.419"]
+            is_primary_key: false
+            is_foreign_key: false
+          fastestLapSpeed:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing fastest lap speed"
+            sample_values: ["100.615", "101.399", "101.884", "108.410", "112.116", "117.753", "118.872", "121.027"]
+            is_primary_key: false
+            is_foreign_key: false
+          statusId:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related status"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "status.statusId"
+            foreign_table: "status"
+relationships:
+  - name: "circuits_to_races_circuitid_circuitid"
+    source: "circuits"
+    target: "races"
+    from: "circuits.circuitid"
+    to: "races.circuitid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "constructorresults_to_constructors_constructorid_constructorid"
+    source: "constructorresults"
+    target: "constructors"
+    from: "constructorresults.constructorid"
+    to: "constructors.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "constructorresults_to_races_raceid_raceid"
+    source: "constructorresults"
+    target: "races"
+    from: "constructorresults.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key"]
+  - name: "constructors_to_constructorresults_constructorid_constructorid"
+    source: "constructors"
+    target: "constructorresults"
+    from: "constructors.constructorid"
+    to: "constructorresults.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "constructors_to_constructorstandings_constructorid_constructorid"
+    source: "constructors"
+    target: "constructorstandings"
+    from: "constructors.constructorid"
+    to: "constructorstandings.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "constructorstandings_to_constructors_constructorid_constructorid"
+    source: "constructorstandings"
+    target: "constructors"
+    from: "constructorstandings.constructorid"
+    to: "constructors.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "constructorstandings_to_races_raceid_raceid"
+    source: "constructorstandings"
+    target: "races"
+    from: "constructorstandings.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key"]
+  - name: "drivers_to_driverstandings_driverid_driverid"
+    source: "drivers"
+    target: "driverstandings"
+    from: "drivers.driverid"
+    to: "driverstandings.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "drivers_to_laptimes_driverid_driverid"
+    source: "drivers"
+    target: "laptimes"
+    from: "drivers.driverid"
+    to: "laptimes.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "drivers_to_qualifying_driverid_driverid"
+    source: "drivers"
+    target: "qualifying"
+    from: "drivers.driverid"
+    to: "qualifying.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "drivers_to_results_driverid_driverid"
+    source: "drivers"
+    target: "results"
+    from: "drivers.driverid"
+    to: "results.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "driverstandings_to_drivers_driverid_driverid"
+    source: "driverstandings"
+    target: "drivers"
+    from: "driverstandings.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "driverstandings_to_races_raceid_raceid"
+    source: "driverstandings"
+    target: "races"
+    from: "driverstandings.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "laptimes_to_drivers_driverid_driverid"
+    source: "laptimes"
+    target: "drivers"
+    from: "laptimes.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "laptimes_to_races_raceid_raceid"
+    source: "laptimes"
+    target: "races"
+    from: "laptimes.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "pitstops_to_drivers_driverid_driverid"
+    source: "pitstops"
+    target: "drivers"
+    from: "pitstops.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "pitstops_to_races_raceid_raceid"
+    source: "pitstops"
+    target: "races"
+    from: "pitstops.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "qualifying_to_constructors_constructorid_constructorid"
+    source: "qualifying"
+    target: "constructors"
+    from: "qualifying.constructorid"
+    to: "constructors.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key"]
+  - name: "qualifying_to_drivers_driverid_driverid"
+    source: "qualifying"
+    target: "drivers"
+    from: "qualifying.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "qualifying_to_races_raceid_raceid"
+    source: "qualifying"
+    target: "races"
+    from: "qualifying.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "races_to_circuits_circuitid_circuitid"
+    source: "races"
+    target: "circuits"
+    from: "races.circuitid"
+    to: "circuits.circuitid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "races_to_constructorresults_raceid_raceid"
+    source: "races"
+    target: "constructorresults"
+    from: "races.raceid"
+    to: "constructorresults.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "races_to_driverstandings_raceid_raceid"
+    source: "races"
+    target: "driverstandings"
+    from: "races.raceid"
+    to: "driverstandings.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "races_to_results_raceid_raceid"
+    source: "races"
+    target: "results"
+    from: "races.raceid"
+    to: "results.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "races_to_seasons_year_year"
+    source: "races"
+    target: "seasons"
+    from: "races.year"
+    to: "seasons.year"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key"]
+  - name: "results_to_constructors_constructorid_constructorid"
+    source: "results"
+    target: "constructors"
+    from: "results.constructorid"
+    to: "constructors.constructorid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "results_to_drivers_driverid_driverid"
+    source: "results"
+    target: "drivers"
+    from: "results.driverid"
+    to: "drivers.driverid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "results_to_races_raceid_raceid"
+    source: "results"
+    target: "races"
+    from: "results.raceid"
+    to: "races.raceid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "results_to_status_statusid_statusid"
+    source: "results"
+    target: "status"
+    from: "results.statusid"
+    to: "status.statusid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "seasons_to_races_year_year"
+    source: "seasons"
+    target: "races"
+    from: "seasons.year"
+    to: "races.year"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+views:
+  - name: "formula_1_all"
+    title: "Formula 1 All"
+    description: "Governed semantic view for the BIRD formula_1 database."
+    public: true
+    ai_context: "Formula 1 circuits, races, drivers, constructors, standings, lap times, pit stops, qualifying, and results."
+    entities:
+      - join_path: "circuits"
+        includes:
+          measures: []
+          dimensions: ["circuitref", "name", "location", "country", "lat", "lng", "alt", "url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "constructors"
+        includes:
+          measures: ["distinct_constructorid_count"]
+          dimensions: ["constructorref", "name", "nationality", "url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "drivers"
+        includes:
+          measures: ["count_code", "count_driverid", "count_driverid_2", "count_driverid_3", "count_row_count", "count_row_count_2"]
+          dimensions: ["driverref", "number", "code", "forename", "surname", "nationality", "url"]
+          time_dimensions: ["dob"]
+          segments: []
+      - join_path: "seasons"
+        includes:
+          measures: []
+          dimensions: ["url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "races"
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "constructorresults"
+        includes:
+          measures: ["sum_points"]
+          dimensions: ["points", "status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "constructorstandings"
+        includes:
+          measures: ["count_raceid", "max_points"]
+          dimensions: ["points", "position", "positiontext", "wins"]
+          time_dimensions: []
+          segments: []
+      - join_path: "driverstandings"
+        includes:
+          measures: ["avg_points", "avg_points_2", "count_driverstandingsid", "count_position", "count_wins", "max_points", "sum_wins", "sum_wins_2"]
+          dimensions: ["points", "position", "positiontext", "wins"]
+          time_dimensions: []
+          segments: []
+      - join_path: "laptimes"
+        includes:
+          measures: ["avg_milliseconds", "count_lap", "sum_milliseconds"]
+          dimensions: ["position", "time", "milliseconds"]
+          time_dimensions: []
+          segments: []
+      - join_path: "pitstops"
+        includes:
+          measures: ["avg_duration"]
+          dimensions: ["lap", "time", "duration"]
+          time_dimensions: []
+          segments: []
+      - join_path: "qualifying"
+        includes:
+          measures: []
+          dimensions: ["q1", "q2", "q3"]
+          time_dimensions: []
+          segments: []
+      - join_path: "status"
+        includes:
+          measures: []
+          dimensions: ["status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "results"
+        includes:
+          measures: ["avg_fastestlapspeed", "avg_fastestlaptime", "avg_fastestlaptime_2", "count_driverid", "count_driverid_2", "count_driverid_3", "count_driverid_4", "count_driverid_5", "count_raceid", "count_resultid", "count_row_count", "max_positionorder", "sum_fastestlapspeed", "sum_laps", "sum_points", "sum_time", "sum_time_2"]
+          dimensions: ["grid", "position", "positiontext", "positionorder", "points", "laps", "time", "milliseconds", "fastestlap", "rank", "fastestlaptime", "fastestlapspeed"]
+          time_dimensions: []
+          segments: []
+      - join_path: "circuits.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "constructorresults.constructors"
+        prefix: true
+        includes:
+          measures: ["distinct_constructorid_count"]
+          dimensions: ["constructorref", "name", "nationality", "url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "constructorresults.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "constructors.constructorresults"
+        prefix: true
+        includes:
+          measures: ["sum_points"]
+          dimensions: ["points", "status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "constructors.constructorstandings"
+        prefix: true
+        includes:
+          measures: ["count_raceid", "max_points"]
+          dimensions: ["points", "position", "positiontext", "wins"]
+          time_dimensions: []
+          segments: []
+      - join_path: "constructorstandings.constructors"
+        prefix: true
+        includes:
+          measures: ["distinct_constructorid_count"]
+          dimensions: ["constructorref", "name", "nationality", "url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "constructorstandings.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "drivers.driverstandings"
+        prefix: true
+        includes:
+          measures: ["avg_points", "avg_points_2", "count_driverstandingsid", "count_position", "count_wins", "max_points", "sum_wins", "sum_wins_2"]
+          dimensions: ["points", "position", "positiontext", "wins"]
+          time_dimensions: []
+          segments: []
+      - join_path: "drivers.laptimes"
+        prefix: true
+        includes:
+          measures: ["avg_milliseconds", "count_lap", "sum_milliseconds"]
+          dimensions: ["position", "time", "milliseconds"]
+          time_dimensions: []
+          segments: []
+      - join_path: "drivers.qualifying"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["q1", "q2", "q3"]
+          time_dimensions: []
+          segments: []
+      - join_path: "drivers.results"
+        prefix: true
+        includes:
+          measures: ["avg_fastestlapspeed", "avg_fastestlaptime", "avg_fastestlaptime_2", "count_driverid", "count_driverid_2", "count_driverid_3", "count_driverid_4", "count_driverid_5", "count_raceid", "count_resultid", "count_row_count", "max_positionorder", "sum_fastestlapspeed", "sum_laps", "sum_points", "sum_time", "sum_time_2"]
+          dimensions: ["grid", "position", "positiontext", "positionorder", "points", "laps", "time", "milliseconds", "fastestlap", "rank", "fastestlaptime", "fastestlapspeed"]
+          time_dimensions: []
+          segments: []
+      - join_path: "driverstandings.drivers"
+        prefix: true
+        includes:
+          measures: ["count_code", "count_driverid", "count_driverid_2", "count_driverid_3", "count_row_count", "count_row_count_2"]
+          dimensions: ["driverref", "number", "code", "forename", "surname", "nationality", "url"]
+          time_dimensions: ["dob"]
+          segments: []
+      - join_path: "driverstandings.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "laptimes.drivers"
+        prefix: true
+        includes:
+          measures: ["count_code", "count_driverid", "count_driverid_2", "count_driverid_3", "count_row_count", "count_row_count_2"]
+          dimensions: ["driverref", "number", "code", "forename", "surname", "nationality", "url"]
+          time_dimensions: ["dob"]
+          segments: []
+      - join_path: "laptimes.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "pitstops.drivers"
+        prefix: true
+        includes:
+          measures: ["count_code", "count_driverid", "count_driverid_2", "count_driverid_3", "count_row_count", "count_row_count_2"]
+          dimensions: ["driverref", "number", "code", "forename", "surname", "nationality", "url"]
+          time_dimensions: ["dob"]
+          segments: []
+      - join_path: "pitstops.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "qualifying.constructors"
+        prefix: true
+        includes:
+          measures: ["distinct_constructorid_count"]
+          dimensions: ["constructorref", "name", "nationality", "url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "qualifying.drivers"
+        prefix: true
+        includes:
+          measures: ["count_code", "count_driverid", "count_driverid_2", "count_driverid_3", "count_row_count", "count_row_count_2"]
+          dimensions: ["driverref", "number", "code", "forename", "surname", "nationality", "url"]
+          time_dimensions: ["dob"]
+          segments: []
+      - join_path: "qualifying.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "races.circuits"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["circuitref", "name", "location", "country", "lat", "lng", "alt", "url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "races.constructorresults"
+        prefix: true
+        includes:
+          measures: ["sum_points"]
+          dimensions: ["points", "status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "races.driverstandings"
+        prefix: true
+        includes:
+          measures: ["avg_points", "avg_points_2", "count_driverstandingsid", "count_position", "count_wins", "max_points", "sum_wins", "sum_wins_2"]
+          dimensions: ["points", "position", "positiontext", "wins"]
+          time_dimensions: []
+          segments: []
+      - join_path: "races.results"
+        prefix: true
+        includes:
+          measures: ["avg_fastestlapspeed", "avg_fastestlaptime", "avg_fastestlaptime_2", "count_driverid", "count_driverid_2", "count_driverid_3", "count_driverid_4", "count_driverid_5", "count_raceid", "count_resultid", "count_row_count", "max_positionorder", "sum_fastestlapspeed", "sum_laps", "sum_points", "sum_time", "sum_time_2"]
+          dimensions: ["grid", "position", "positiontext", "positionorder", "points", "laps", "time", "milliseconds", "fastestlap", "rank", "fastestlaptime", "fastestlapspeed"]
+          time_dimensions: []
+          segments: []
+      - join_path: "races.seasons"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "results.constructors"
+        prefix: true
+        includes:
+          measures: ["distinct_constructorid_count"]
+          dimensions: ["constructorref", "name", "nationality", "url"]
+          time_dimensions: []
+          segments: []
+      - join_path: "results.drivers"
+        prefix: true
+        includes:
+          measures: ["count_code", "count_driverid", "count_driverid_2", "count_driverid_3", "count_row_count", "count_row_count_2"]
+          dimensions: ["driverref", "number", "code", "forename", "surname", "nationality", "url"]
+          time_dimensions: ["dob"]
+          segments: []
+      - join_path: "results.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "results.status"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "seasons.races"
+        prefix: true
+        includes:
+          measures: ["count_circuitid", "count_circuitid_2", "count_circuitid_3", "count_raceid", "count_raceid_2", "count_round"]
+          dimensions: ["round", "name", "time"]
+          time_dimensions: ["date"]
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes: ["constructorresults.sum_points", "constructors.distinct_constructorid_count", "constructorstandings.count_raceid", "constructorstandings.max_points", "drivers.count_code", "drivers.count_driverid", "drivers.count_driverid_2", "drivers.count_driverid_3", "drivers.count_row_count", "drivers.count_row_count_2", "driverstandings.avg_points", "driverstandings.avg_points_2", "driverstandings.count_driverstandingsid", "driverstandings.count_position", "driverstandings.count_wins", "driverstandings.max_points", "driverstandings.sum_wins", "driverstandings.sum_wins_2", "laptimes.avg_milliseconds", "laptimes.count_lap", "laptimes.sum_milliseconds", "pitstops.avg_duration", "races.count_circuitid", "races.count_circuitid_2", "races.count_circuitid_3", "races.count_raceid", "races.count_raceid_2", "races.count_round", "results.avg_fastestlapspeed", "results.avg_fastestlaptime", "results.avg_fastestlaptime_2", "results.count_driverid", "results.count_driverid_2", "results.count_driverid_3", "results.count_driverid_4", "results.count_driverid_5", "results.count_raceid", "results.count_resultid", "results.count_row_count", "results.max_positionorder", "results.sum_fastestlapspeed", "results.sum_laps", "results.sum_points", "results.sum_time", "results.sum_time_2"]
+      - name: "Frequently Used Dimensions"
+        includes: ["drivers.forename", "drivers.surname", "drivers.nationality", "circuits.name", "constructors.name"]
+    default_time_dimension: "drivers.dob"
+policies: []
