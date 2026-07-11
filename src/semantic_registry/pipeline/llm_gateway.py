@@ -83,17 +83,20 @@ class MockLLMProvider:
         physical_mapping = re.search(r"^\s*Physical mapping:\s*([^\s]+)\.([^\s]+)\s*$", prompt, flags=re.MULTILINE)
         aggregation = re.search(r"^\s*Aggregation:\s*([A-Za-z_]+)\s*$", prompt, flags=re.MULTILINE)
         time_column = re.search(r"^\s*Time column:\s*([^\s]+)\s*$", prompt, flags=re.MULTILINE)
+        expression = re.search(r"^\s*Expression:\s*(.+?)\s*$", prompt, flags=re.MULTILINE)
+        metric_column = self._strip_identifier(physical_mapping.group(2)) if physical_mapping else None
+        resolved_time_column = self._strip_identifier(time_column.group(1)) if time_column else None
         return {
             "metric": self._machine_name(self._section_value(prompt, "Metric") or "metric_value"),
             "dimension": self._machine_name(self._section_value(prompt, "Dimension")),
             "time_range": self._section_value(prompt, "Time range"),
             "time_semantics": self._section_value(prompt, "Time semantics"),
-            "table": self._strip_identifier(physical_mapping.group(1)) if physical_mapping else None,
-            "metric_expression": self._strip_identifier(physical_mapping.group(2)) if physical_mapping else None,
-            "metric_column": self._strip_identifier(physical_mapping.group(2)) if physical_mapping else None,
-            "dimension_column": self._text_dimension_column(prompt),
+            "table": self._strip_identifier(physical_mapping.group(1)) if physical_mapping else self._text_candidate_table(prompt),
+            "metric_expression": expression.group(1).strip() if expression else metric_column,
+            "metric_column": metric_column,
+            "dimension_column": self._text_dimension_column(prompt, metric_column, resolved_time_column),
             "dimension_table": None,
-            "time_column": self._strip_identifier(time_column.group(1)) if time_column else None,
+            "time_column": resolved_time_column,
             "aggregation": aggregation.group(1).lower() if aggregation else "sum",
             "join_paths": self._text_join_paths(prompt),
         }
@@ -102,12 +105,43 @@ class MockLLMProvider:
         match = re.search(rf"^\s*-\s*{re.escape(label)}:\s*(.+?)\s*$", prompt, flags=re.MULTILINE)
         return match.group(1).strip() if match else None
 
-    def _text_dimension_column(self, prompt: str) -> str | None:
+    def _text_candidate_table(self, prompt: str) -> str | None:
+        match = re.search(r"^Candidate tables:\s*\n\s*-\s*([^:\s]+):", prompt, flags=re.MULTILINE)
+        return self._strip_identifier(match.group(1)) if match else None
+
+    def _text_dimension_column(self, prompt: str, metric_column: str | None = None, time_column: str | None = None) -> str | None:
         dimension = self._machine_name(self._section_value(prompt, "Dimension"))
         if not dimension:
             return None
-        columns = [self._strip_identifier(column) for column in re.findall(r"^\s*`([^`]+)`\s+[A-Z]+", prompt, flags=re.MULTILINE)]
-        return dimension if dimension in columns else None
+        excluded = {column for column in (metric_column, time_column) if column}
+        columns = self._text_table_columns(prompt)
+        for column in columns:
+            if column["name"] in excluded:
+                continue
+            if self._machine_name(column["name"]) == dimension:
+                return column["name"]
+        for column in columns:
+            if column["name"] in excluded:
+                continue
+            description = self._machine_name(column["description"])
+            if description and dimension in description.split("_"):
+                return column["name"]
+        if not columns:
+            return dimension
+        return None
+
+    def _text_table_columns(self, prompt: str) -> list[dict[str, str]]:
+        columns: list[dict[str, str]] = []
+        pattern = r"^\s*-\s*([A-Za-z_][A-Za-z0-9_]*)\s*\(([^)]*)\):\s*(.*?)\s*$"
+        for name, data_type, description in re.findall(pattern, prompt, flags=re.MULTILINE):
+            columns.append(
+                {
+                    "name": self._strip_identifier(name),
+                    "data_type": data_type.strip(),
+                    "description": description.strip(),
+                }
+            )
+        return columns
 
     def _text_join_paths(self, prompt: str) -> list[dict[str, str]]:
         joins: list[dict[str, str]] = []

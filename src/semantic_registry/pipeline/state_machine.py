@@ -3,6 +3,7 @@ from __future__ import annotations
 import uuid
 import json
 import logging
+import inspect
 import sys
 from pathlib import Path
 from typing import Any
@@ -19,7 +20,7 @@ from src.semantic_registry.pipeline.classifier import QuestionClassification, Qu
 from src.semantic_registry.pipeline.context_builder import ContextBuilder
 from src.semantic_registry.pipeline.explainer import SQLExplainer, SQLExplanation
 from src.semantic_registry.pipeline.response import PipelineResponse, ResponseBuilder
-from src.semantic_registry.pipeline.semantic_judge import LLMJudge
+from src.semantic_registry.pipeline.semantic_judge import LLMJudge, build_judge_prompt, parse_judge_response
 from src.semantic_registry.pipeline.semantic_router import SemanticRouter, compile_from_router
 from src.semantic_registry.repair.repair_loop import RepairLoop
 from src.semantic_registry.repair.selector import CandidateSelector
@@ -69,7 +70,21 @@ class PipelineContext(BaseModel):
     llm_judge_retry_count: int = 0
     llm_judge_result: dict[str, Any] | None = None
     gap_report: dict[str, Any] | None = None
+    llm_trace: dict[str, dict[str, str | None]] = Field(default_factory=dict)
     trace: list[str] = Field(default_factory=list)
+
+    def record_llm_trace(
+        self,
+        stage: str,
+        *,
+        prompt: str | None = None,
+        response: str | None = None,
+    ) -> None:
+        entry = self.llm_trace.setdefault(stage, {"prompt": None, "response": None})
+        if prompt is not None:
+            entry["prompt"] = prompt
+        if response is not None:
+            entry["response"] = response
 
 
 class RegistryMetadataProvider(MetadataProvider):
@@ -413,7 +428,7 @@ class NL2SQLPipeline:
             if snapshot is None:
                 return context
             self._build_catalog_listing(snapshot)
-            router = SemanticRouter(snapshot, self._llm_router_generate)
+            router = SemanticRouter(snapshot, lambda prompt: self._semantic_router_generate(prompt, context))
             result = router.route(context.question, db_id=context.domain)
             if result is None:
                 return context
@@ -525,10 +540,29 @@ class NL2SQLPipeline:
             context.context_prompt = self._inject_gap_report(context.context_prompt, context.gap_report)
         return context
 
-    def generate_candidates(self, context: PipelineContext) -> PipelineContext:
+    def generate_candidates(self, context: PipelineContext, trace_prefix: str = "") -> PipelineContext:
         context.trace.append("generate_candidates")
+        prompt_a = context.context_prompt or ""
+        prompt_b = self._candidate_plan_first_prompt(prompt_a)
+        self._record_llm_trace(context, f"{trace_prefix}candidate_a", prompt=prompt_a)
+        self._record_llm_trace(context, f"{trace_prefix}candidate_b", prompt=prompt_b)
         context.sql_candidates = self.candidate_generator.generate_candidates(context)
+        for candidate in context.sql_candidates:
+            stage = f"{trace_prefix}candidate_{candidate.candidate_id.lower()}"
+            if stage in context.llm_trace and context.llm_trace[stage].get("response") is None:
+                self._record_llm_trace(
+                    context,
+                    stage,
+                    response=candidate.model_dump_json(),
+                )
         return context
+
+    def _candidate_plan_first_prompt(self, prompt: str) -> str:
+        instruction = (
+            "Plan first: identify the metric, table, dimension, time filter, and grouping steps. "
+            "Then emit only the required JSON object with the final SQL."
+        )
+        return instruction + "\n\n" + prompt
 
     def validate(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("validate")
@@ -585,7 +619,7 @@ class NL2SQLPipeline:
         context.guardrail_contract = None
         if context.semantic_plan is not None and context.retrieved_metadata is not None:
             context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
-        context.sql_candidates = self.candidate_generator.generate_candidates(context)
+        self.generate_candidates(context, trace_prefix="retry_without_guardrails_")
         self._validate_candidates(context, allowed_tables, allowed_columns)
 
     def repair(self, context: PipelineContext) -> PipelineContext:
@@ -641,6 +675,7 @@ class NL2SQLPipeline:
     def _judge_selected_sql(self, context: PipelineContext) -> Any | None:
         if context.selected_sql is None:
             return None
+        stage: str | None = None
         try:
             judge_context = {
                 "legacy_plan": context.semantic_plan.model_dump(mode="json") if context.semantic_plan else None,
@@ -648,13 +683,25 @@ class NL2SQLPipeline:
                 "semantic_context": context.semantic_context,
                 "semantic_result": context.semantic_result,
             }
-            return self.llm_judge.judge(
+            route_type = context.semantic_route or context.selected_sql.generation_strategy
+            prompt = build_judge_prompt(context.question, context.selected_sql.sql, route_type, judge_context)
+            stage = self._judge_trace_stage(context)
+            self._record_llm_trace(context, stage, prompt=prompt)
+            if hasattr(self.llm_judge, "client") and hasattr(self.llm_judge.client, "generate"):
+                raw = self.llm_judge.client.generate(prompt)
+                self._record_llm_trace(context, stage, response=str(raw))
+                return parse_judge_response(raw)
+            result = self.llm_judge.judge(
                 context.question,
                 context.selected_sql.sql,
-                context.semantic_route or context.selected_sql.generation_strategy,
+                route_type,
                 judge_context,
             )
+            self._record_llm_trace(context, stage, response=self._judge_result_trace_response(result))
+            return result
         except Exception as exc:
+            if stage is not None and context.llm_trace.get(stage, {}).get("response") is None:
+                self._record_llm_trace(context, stage, response=f"ERROR: {exc}")
             logger.warning("LLM judge unavailable; accepting selected SQL without semantic judge verdict: %s", exc)
             context.llm_judge_result = {
                 "pass": True,
@@ -673,7 +720,7 @@ class NL2SQLPipeline:
         context.context_prompt = self._inject_llm_judge_feedback(context.context_prompt or "", feedback)
         context.selected_sql = None
         context.sql_candidates = []
-        context = self.generate_candidates(context)
+        context = self.generate_candidates(context, trace_prefix=f"retry_{context.llm_judge_retry_count}_")
         context = self.validate(context)
         if context.error:
             return
@@ -709,7 +756,7 @@ class NL2SQLPipeline:
             context.context_prompt or "",
             f"The deterministic semantic SQL was rejected. {reason}",
         )
-        self.generate_candidates(context)
+        self.generate_candidates(context, trace_prefix="fallback_")
         self.validate(context)
         if context.error:
             return
@@ -865,26 +912,90 @@ class NL2SQLPipeline:
                 )
         return listing
 
-    def _llm_router_generate(self, prompt: str) -> str:
+    def _llm_router_generate(self, prompt: str, context: PipelineContext | None = None) -> str:
         gateway = getattr(self.candidate_generator, "llm_gateway", None)
         system_prompt = (
             "Return ONLY the requested semantic-router JSON object. "
             "Do not generate SQL and do not include markdown."
         )
+        if context is not None:
+            self._record_llm_trace(context, "semantic_router", prompt=prompt)
         if gateway is not None and hasattr(gateway, "generate_text"):
-            return gateway.generate_text(prompt, system_prompt=system_prompt)
+            raw = gateway.generate_text(prompt, system_prompt=system_prompt)
+            if context is not None:
+                self._record_llm_trace(context, "semantic_router", response=str(raw))
+            return raw
         provider = getattr(gateway, "provider", None)
         if provider is not None:
             raw = provider.generate("\n\n".join([system_prompt, prompt]))
             if isinstance(raw, str):
+                if context is not None:
+                    self._record_llm_trace(context, "semantic_router", response=raw)
                 return raw
             if hasattr(raw, "model_dump_json"):
-                return raw.model_dump_json()
-            return json.dumps(raw)
+                response = raw.model_dump_json()
+            else:
+                response = json.dumps(raw)
+            if context is not None:
+                self._record_llm_trace(context, "semantic_router", response=response)
+            return response
         if gateway is not None:
             response = gateway.generate(prompt)
-            return response.model_dump_json()
+            raw = response.model_dump_json()
+            if context is not None:
+                self._record_llm_trace(context, "semantic_router", response=raw)
+            return raw
         raise RuntimeError("No LLM gateway is available for semantic routing.")
+
+    def _semantic_router_generate(self, prompt: str, context: PipelineContext) -> str:
+        if len(inspect.signature(self._llm_router_generate).parameters) <= 1:
+            self._record_llm_trace(context, "semantic_router", prompt=prompt)
+            raw = self._llm_router_generate(prompt)
+            self._record_llm_trace(context, "semantic_router", response=str(raw))
+            return raw
+        return self._llm_router_generate(prompt, context)
+
+    def _candidate_plan_first_prompt(self, prompt: str) -> str:
+        plan_first_prompt = getattr(self.candidate_generator, "_plan_first_prompt", None)
+        if callable(plan_first_prompt):
+            return plan_first_prompt(prompt)
+        instruction = (
+            "Plan first: identify the metric, table, dimension, time filter, and grouping steps. "
+            "Then emit only the required JSON object with the final SQL."
+        )
+        return instruction + "\n\n" + prompt
+
+    def _judge_trace_stage(self, context: PipelineContext) -> str:
+        if "llm_judge" not in context.llm_trace or context.llm_trace["llm_judge"].get("response") is None:
+            return "llm_judge"
+        index = 1
+        while (
+            f"retry_{index}_llm_judge" in context.llm_trace
+            and context.llm_trace[f"retry_{index}_llm_judge"].get("response") is not None
+        ):
+            index += 1
+        return f"retry_{index}_llm_judge"
+
+    def _record_llm_trace(
+        self,
+        context: PipelineContext,
+        stage: str,
+        *,
+        prompt: str | None = None,
+        response: str | None = None,
+    ) -> None:
+        context.record_llm_trace(stage, prompt=prompt, response=response)
+
+    def _judge_result_trace_response(self, result: Any) -> str:
+        if hasattr(result, "model_dump"):
+            payload = result.model_dump(mode="json")
+        else:
+            payload = {
+                "pass": getattr(result, "pass_", None),
+                "reasoning": getattr(result, "reasoning", None),
+                "confidence": getattr(result, "confidence", None),
+            }
+        return json.dumps(payload, ensure_ascii=False)
 
     def _semantic_sql_candidate(self, sql: str, compiled_query: Any) -> SQLCandidate:
         lineage = self._model_dump(self._result_value(compiled_query, "lineage")) or {}

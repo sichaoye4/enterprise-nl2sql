@@ -107,6 +107,44 @@ def test_mock_provider_generates_join_when_dimension_mapping_is_cross_table() ->
     assert response.tables_used == ["ads_order_channel_daily", "ads_campaign_daily"]
 
 
+def test_mock_provider_extracts_context_from_table_descriptions() -> None:
+    prompt = """
+You are generating SQL from a governed semantic registry context. Use SQLite syntax.
+
+Candidate tables:
+- orders: Certified semantic source for Paid GMV.
+  Columns:
+  - paid_gmv_amt (numeric): Measure for Paid GMV.
+  - payment_dt (date): Default time column for Paid GMV.
+  - channel (text): Attribution channel.
+
+Resolved semantic plan:
+- Metric: Paid GMV
+- Dimension: Channel
+- Time range: last_month
+- Time semantics: Payment Date
+
+Candidate metrics and physical mappings:
+- Paid GMV: Paid GMV.
+  Physical mapping: orders.paid_gmv_amt
+  Time column: payment_dt
+  Aggregation: sum
+
+Join paths between candidate tables:
+- None required or none available
+"""
+
+    response = MockLLMProvider().generate(prompt)
+
+    assert response.sql == (
+        "SELECT channel AS channel, SUM(paid_gmv_amt) AS paid_gmv FROM orders "
+        "WHERE payment_dt >= CURRENT_DATE - 31 GROUP BY channel ORDER BY paid_gmv DESC"
+    )
+    assert response.tables_used == ["orders"]
+    assert response.columns_used == ["paid_gmv_amt", "channel", "payment_dt"]
+    assert validate_select_sql(response.sql) == []
+
+
 def test_validate_select_sql_accepts_valid_select() -> None:
     errors = validate_select_sql("SELECT channel, SUM(paid_gmv_amt) AS paid_gmv FROM orders GROUP BY channel")
 

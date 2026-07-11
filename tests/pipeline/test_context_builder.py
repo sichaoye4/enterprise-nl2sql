@@ -41,9 +41,13 @@ def test_context_prompt_includes_question_schema_semantics_and_rules(registry_da
 
     assert "show paid GMV by channel last month" in prompt
     assert "Paid GMV" in prompt
-    assert "DDL Schema:" in prompt
-    assert "CREATE TABLE `orders`" in prompt
-    assert "`paid_gmv_amt` REAL" in prompt
+    assert "Candidate tables:" in prompt
+    assert "- orders:" in prompt
+    assert "paid_gmv_amt" in prompt
+    assert "Physical tables may have additional columns beyond those listed above" in prompt
+    assert "Do not invent tables" in prompt
+    assert "DDL Schema:" not in prompt
+    assert "CREATE TABLE" not in prompt
     assert "Use SQLite dialect." in prompt
     assert "Generation rules:" in prompt
     assert "Generate exactly one SELECT statement." in prompt

@@ -34,13 +34,21 @@ class CandidateGenerator:
     def generate_candidates(self, context: "PipelineContext") -> list[SQLCandidate]:
         prompt = context.context_prompt or ""
         return [
-            self._generate("A", "direct", prompt),
-            self._generate("B", "plan_first", self._plan_first_prompt(prompt)),
+            self._generate("A", "direct", prompt, context),
+            self._generate("B", "plan_first", self._plan_first_prompt(prompt), context),
         ]
 
-    def _generate(self, candidate_id: str, strategy: str, prompt: str) -> SQLCandidate:
+    def _generate(
+        self,
+        candidate_id: str,
+        strategy: str,
+        prompt: str,
+        context: "PipelineContext" | None = None,
+    ) -> SQLCandidate:
+        trace_stage = self._pending_trace_stage(context, candidate_id)
         try:
             response = self.llm_gateway.generate(prompt)
+            self._record_trace_response(context, trace_stage, response.model_dump_json())
             validation_errors = self._validation_errors(response.sql)
             parse_success = not any(error.startswith("SQL parse error") for error in validation_errors)
             return SQLCandidate(
@@ -56,6 +64,7 @@ class CandidateGenerator:
                 validation_errors=validation_errors,
             )
         except Exception as exc:
+            self._record_trace_response(context, trace_stage, f"ERROR: {exc}")
             return SQLCandidate(
                 candidate_id=candidate_id,
                 sql="",
@@ -85,3 +94,23 @@ class CandidateGenerator:
             "Then emit only the required JSON object with the final SQL."
         )
         return instruction + "\n\n" + prompt
+
+    def _pending_trace_stage(self, context: "PipelineContext" | None, candidate_id: str) -> str | None:
+        if context is None:
+            return None
+        suffix = f"candidate_{candidate_id.lower()}"
+        for stage, entry in reversed(context.llm_trace.items()):
+            if stage.endswith(suffix) and entry.get("response") is None:
+                return stage
+        return suffix
+
+    def _record_trace_response(
+        self,
+        context: "PipelineContext" | None,
+        stage: str | None,
+        response: str,
+    ) -> None:
+        if context is None or stage is None:
+            return
+        if hasattr(context, "record_llm_trace"):
+            context.record_llm_trace(stage, response=response)
