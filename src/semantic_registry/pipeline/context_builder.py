@@ -67,6 +67,10 @@ class ContextBuilder:
                 "- Use backtick-quoting for column/table names with spaces",
                 "- Do NOT use SELECT *",
                 "- If the question has ambiguities, make a reasonable assumption and document it",
+                "- Return columns in the order implied by the question",
+                "- Use COUNT(*) unless the question specifically asks for distinct count",
+                "- When the question asks about 'each' or 'every' item, return all matching rows (do not use EXISTS)",
+                "- When multiple tables have a column with the same name, use the table that is most directly related to the question's context",
             ])
             return "\n".join(sections)
         
