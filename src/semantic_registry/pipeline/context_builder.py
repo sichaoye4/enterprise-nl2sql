@@ -31,6 +31,42 @@ class ContextBuilder:
     ) -> str:
         safe_question = self._redact_sensitive_values(question)
         tables = self._candidate_tables(semantic_plan, retrieved_metadata)
+        
+        # When full raw DDL is available (BIRD mode), use a clean prompt
+        # matching the baseline approach that achieves 66% EX
+        if raw_schema:
+            sections = [
+                "You are a SQL expert. Given the database schema and a question, generate a valid SQLite query.",
+                "",
+                "Database Schema:",
+                raw_schema,
+            ]
+            caveats = retrieved_metadata.known_caveats
+            if caveats:
+                sections.extend(["", "Domain Knowledge / Hint:"])
+                sections.extend(f"- {self._redact_sensitive_values(c)}" for c in caveats)
+            sections.extend([
+                "",
+                f"Question: {safe_question}",
+                "",
+                "Generate a valid SQLite SQL query that answers this question.",
+                "Return ONLY a valid JSON object with this exact format:",
+                '{  "sql": "SELECT ...",',
+                '   "assumptions": ["list your assumptions here"],',
+                '   "tables_used": ["table1", "table2"],',
+                '   "columns_used": ["col1", "col2"],',
+                '   "confidence": "high|medium|low",',
+                '   "reasoning_summary": "brief reasoning"}',
+                "",
+                "IMPORTANT:",
+                "- Use SQLite dialect",
+                "- Use backtick-quoting for column/table names with spaces",
+                "- Do NOT use SELECT *",
+                "- If the question has ambiguities, make a reasonable assumption and document it",
+            ])
+            return "\n".join(sections)
+        
+        # Enterprise mode: use full governed semantic context
         sections = [
             "You are generating SQL from a governed semantic registry context. Use SQLite syntax.",
             raw_schema or self._tables_section(tables, retrieved_metadata),

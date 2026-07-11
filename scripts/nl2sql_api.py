@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 """
-NL2SQL API Server — connects UI to pattern memory + SQL generation.
+NL2SQL API Server — connects the BIRD workspace to SQL generation.
 
 Endpoints:
   POST /api/query    — Submit question, get SQL + results
+  GET  /api/database — Selected database schema and sample data
   GET  /api/history  — Past queries
   POST /api/confirm  — Mark query as correct (feeds pattern memory)
   GET  /api/stats    — Pattern memory stats
@@ -18,15 +19,16 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 # Load env
 env_path = os.path.expanduser("~/.hermes/.env")
-for line in open(env_path):
-    line = line.strip()
-    if "=" in line and not line.startswith("#"):
-        k, v = line.split("=", 1); k, v = k.strip(), v.strip().strip("'\"")
-        if k == "DEEPSEEK_API_KEY" and not os.environ.get("DEEPSEEK_API_KEY"):
-            os.environ[k] = v
+if os.path.exists(env_path):
+    for line in open(env_path, encoding="utf-8"):
+        line = line.strip()
+        if "=" in line and not line.startswith("#"):
+            k, v = line.split("=", 1); k, v = k.strip(), v.strip().strip("'\"")
+            if k == "DEEPSEEK_API_KEY" and not os.environ.get("DEEPSEEK_API_KEY"):
+                os.environ[k] = v
 
 from http.server import HTTPServer, BaseHTTPRequestHandler
-from urllib.parse import urlparse
+from urllib.parse import parse_qs, urlparse
 
 PORT = 8765
 BIRD_ROOT = os.path.join(os.path.dirname(__file__), "..", "bird_bench", 
@@ -36,11 +38,35 @@ BIRD_ROOT = os.path.join(os.path.dirname(__file__), "..", "bird_bench",
 _mem = None
 _prov = None
 
+
+class UnavailablePatternMemory:
+    """Safe, read-only fallback when local pattern storage is unavailable."""
+
+    def __init__(self, reason):
+        self.reason = str(reason)
+
+    def retrieve(self, *args, **kwargs):
+        return []
+
+    def stats(self):
+        return {"available": False, "reason": self.reason, "patterns": 0}
+
+    def ingest(self, *args, **kwargs):
+        return None
+
+    def build_few_shot_prompt(self, question, schema, patterns):
+        return ""
+
 def mem():
     global _mem
     if _mem is None:
-        from scripts.pattern_memory_v2 import PatternMemory
-        _mem = PatternMemory()
+        try:
+            from scripts.pattern_memory_v2 import PatternMemory
+            _mem = PatternMemory()
+        except Exception as exc:
+            # The interactive BIRD explorer must remain usable even when the
+            # optional local pattern-memory directory cannot be initialized.
+            _mem = UnavailablePatternMemory(exc)
     return _mem
 
 def prov():
@@ -60,6 +86,69 @@ def get_schema(db_id):
     schemas = [row[0] for row in c.fetchall()]
     conn.close()
     return "\n\n".join(schemas)
+
+
+def get_db_path(db_id):
+    return os.path.join(BIRD_ROOT, db_id, f"{db_id}.sqlite")
+
+
+def quote_identifier(value):
+    return '"' + str(value).replace('"', '""') + '"'
+
+
+def json_value(value):
+    if value is None or isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, bytes):
+        return f"<binary {len(value)} bytes>"
+    return str(value)
+
+
+def get_database_preview(db_id, row_limit=20):
+    db_path = get_db_path(db_id)
+    if not db_id or not os.path.exists(db_path):
+        return {"error": "Database not found"}
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row
+    try:
+        cursor = conn.cursor()
+        cursor.execute("SELECT name, sql FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%' ORDER BY name")
+        tables = []
+        for table_name, create_sql in cursor.fetchall():
+            cursor.execute(f"PRAGMA table_info({quote_identifier(table_name)})")
+            columns = [
+                {
+                    "name": row["name"],
+                    "type": row["type"] or "TEXT",
+                    "primary_key": bool(row["pk"]),
+                    # SQLite's PRAGMA can report NOT NULL as false for an
+                    # INTEGER PRIMARY KEY, even though it cannot be null.
+                    "nullable": not (bool(row["notnull"]) or bool(row["pk"])),
+                }
+                for row in cursor.fetchall()
+            ]
+            cursor.execute(f"SELECT COUNT(*) FROM {quote_identifier(table_name)}")
+            row_count = cursor.fetchone()[0]
+            cursor.execute(f"SELECT * FROM {quote_identifier(table_name)} LIMIT ?", (row_limit,))
+            sample_rows = [
+                {key: json_value(value) for key, value in dict(row).items()}
+                for row in cursor.fetchall()
+            ]
+            tables.append({
+                "name": table_name,
+                "columns": columns,
+                "row_count": row_count,
+                "sample_rows": sample_rows,
+                "create_sql": create_sql or "",
+            })
+        return {
+            "id": db_id,
+            "name": db_id.replace("_", " ").title(),
+            "table_count": len(tables),
+            "tables": tables,
+        }
+    finally:
+        conn.close()
 
 
 def get_dbs():
@@ -136,6 +225,10 @@ class Handler(BaseHTTPRequestHandler):
             self._serve_ui()
         elif p == "/api/databases":
             self._json(get_dbs())
+        elif p == "/api/database":
+            db_id = parse_qs(urlparse(self.path).query).get("db_id", [""])[0]
+            preview = get_database_preview(db_id)
+            self._json(preview, 404 if preview.get("error") else 200)
         elif p == "/api/history":
             self._json(load_history())
         elif p == "/api/stats":
@@ -173,7 +266,7 @@ class Handler(BaseHTTPRequestHandler):
         if not os.path.exists(hp):
             self._json({"error": "UI not built"}, 404)
             return
-        with open(hp) as f:
+        with open(hp, encoding="utf-8") as f:
             html = f.read()
         self.send_response(200)
         self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -189,8 +282,23 @@ class Handler(BaseHTTPRequestHandler):
             return
         
         start = time.time()
+        stages = []
         schema = get_schema(db_id) if db_id else ""
+        stages.append({
+            "id": "schema_context",
+            "title": "Schema context",
+            "status": "complete" if schema else "warning",
+            "summary": f"Loaded {len(schema.splitlines())} schema lines for {db_id or 'no database'}.",
+            "detail": schema[:12000],
+        })
         patterns = mem().retrieve(question, db_id=db_id, top_k=3) if db_id else []
+        stages.append({
+            "id": "pattern_retrieval",
+            "title": "Pattern & semantic retrieval",
+            "status": "complete",
+            "summary": f"Found {len(patterns)} relevant prior query patterns.",
+            "detail": "\n".join(f"- {p.question}" for p in patterns) or "No prior patterns matched; using schema context.",
+        })
         
         if patterns:
             prompt = mem().build_few_shot_prompt(question, schema, patterns)
@@ -208,6 +316,26 @@ class Handler(BaseHTTPRequestHandler):
             if not sql: error = "Could not extract SQL"
         except Exception as e:
             error = str(e)
+        stages.append({
+            "id": "sql_generation",
+            "title": "SQL candidate generation",
+            "status": "error" if error else "complete",
+            "summary": error or "Generated one SQLite SQL candidate.",
+            "detail": sql or error or "No SQL was produced.",
+        })
+
+        validation_error = None
+        if sql and not regex.match(r"^\s*(SELECT|WITH)\b", sql, regex.IGNORECASE):
+            validation_error = "Only SELECT or WITH queries can be previewed."
+        stages.append({
+            "id": "sql_validation",
+            "title": "SQL validation",
+            "status": "error" if validation_error else ("complete" if sql else "skipped"),
+            "summary": validation_error or ("Read-only query accepted for SQLite preview." if sql else "Skipped because no SQL was generated."),
+            "detail": validation_error or "Checked query shape before execution.",
+        })
+        if validation_error:
+            error = validation_error
         
         results, cols, exec_err = None, None, None
         if sql and not error and db_id:
@@ -224,6 +352,13 @@ class Handler(BaseHTTPRequestHandler):
                     conn.close()
                 except Exception as e:
                     exec_err = str(e)
+        stages.append({
+            "id": "preview_execution",
+            "title": "Preview execution",
+            "status": "error" if exec_err else ("complete" if results is not None else "skipped"),
+            "summary": exec_err or (f"Returned {len(results)} rows." if results is not None else "Skipped because no database was selected."),
+            "detail": exec_err or "Executed against the selected BIRD SQLite database with a read-only preview.",
+        })
         
         elapsed = time.time() - start
         resp = {
@@ -232,6 +367,7 @@ class Handler(BaseHTTPRequestHandler):
             "execution_error": exec_err, "error": error,
             "patterns_used": [{"intent": p.metadata.business_intent, "question": p.question[:50]} for p in patterns],
             "elapsed": round(elapsed, 2),
+            "pipeline_stages": stages,
         }
         save_history(resp)
         self._json(resp)
