@@ -26,7 +26,7 @@ def validate_select_sql(sql: str) -> list[str]:
     if not sql or not sql.strip():
         return ["SQL is empty"]
     try:
-        statements = [statement for statement in sqlglot.parse(sql) if statement is not None]
+        statements = [statement for statement in sqlglot.parse(sql, read='sqlite') if statement is not None]
     except sqlglot.errors.ParseError as exc:
         return [f"SQL parse error: {exc}"]
     if len(statements) != 1:
