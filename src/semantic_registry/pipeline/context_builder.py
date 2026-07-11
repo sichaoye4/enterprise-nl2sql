@@ -27,12 +27,13 @@ class ContextBuilder:
         question: str,
         semantic_plan: SemanticQueryPlan,
         retrieved_metadata: RetrievalResult,
+        raw_schema: str | None = None,
     ) -> str:
         safe_question = self._redact_sensitive_values(question)
         tables = self._candidate_tables(semantic_plan, retrieved_metadata)
         sections = [
             "You are generating SQL from a governed semantic registry context. Use SQLite syntax.",
-            self._tables_section(tables, retrieved_metadata),
+            raw_schema or self._tables_section(tables, retrieved_metadata),
             self._schema_caveat_section(),
             self._domain_knowledge_section(retrieved_metadata.known_caveats),
             self._semantic_plan_section(semantic_plan),
@@ -97,9 +98,9 @@ class ContextBuilder:
             if candidate.name not in rendered:
                 lines.append(f"-- {candidate.name}: {self._redact_sensitive_values(candidate.description)}")
         if retrieved_metadata.candidate_columns:
-            lines.append("Candidate columns:")
+            lines.append("Additional columns (from schema context):")
             for column in retrieved_metadata.candidate_columns:
-                lines.append(f"- {column}")
+                lines.append(f"  {column}")
         return "\n".join(lines)
 
     def _schema_caveat_section(self) -> str:

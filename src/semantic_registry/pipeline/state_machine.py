@@ -530,7 +530,11 @@ class NL2SQLPipeline:
         if context.semantic_plan is None or context.retrieved_metadata is None:
             context.error = "Cannot build context without semantic plan and retrieved metadata."
             return context
-        context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
+        raw_schema = self._bird_raw_schema(context.domain)
+        context.context_prompt = self.context_builder.build(
+            context.question, context.semantic_plan, context.retrieved_metadata,
+            raw_schema=raw_schema,
+        )
         if context.semantic_context:
             context.context_prompt = self._inject_semantic_context(context.context_prompt, context.semantic_context)
         if context.semantic_route == "SEMANTIC_ASSISTED_LLM" and context.guardrail_contract:
@@ -1385,6 +1389,20 @@ class NL2SQLPipeline:
         if isinstance(value, dict):
             return value.get(key)
         return getattr(value, key, None)
+
+    def _bird_raw_schema(self, domain: str | None) -> str | None:
+        if not domain:
+            return None
+        try:
+            from scripts.bird_eval import build_schema_prompt
+            dev_tables = Path(__file__).resolve().parent.parent.parent.parent / "bird_bench" / "dev" / "dev_20240627" / "dev_tables.json"
+            if not dev_tables.exists():
+                return None
+            import json
+            tables_data = json.loads(dev_tables.read_text())
+            return build_schema_prompt(tables_data, domain)
+        except Exception:
+            return None
 
 
 __all__ = ["NL2SQLPipeline", "PipelineContext", "RegistryMetadataProvider"]
