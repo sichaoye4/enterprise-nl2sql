@@ -93,8 +93,8 @@ def main() -> int:
         load_env_file(args.env_file)
 
     router_gateway = LLMGateway(provider=DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort=None))
-    generation_gateway = LLMGateway(provider=DeepSeekProvider(model="deepseek-v4-pro", reasoning_effort="high"))
-    judge_client = DeepSeekProvider(model="deepseek-v4-pro", reasoning_effort="high")
+    generation_gateway = LLMGateway(provider=DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort="xhigh"))
+    judge_client = DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort="xhigh")
     judge = LLMJudge(client=judge_client)
 
     dev = load_json(args.dev_json)
@@ -111,8 +111,8 @@ def main() -> int:
     print("BIRD 70TI split-model benchmark")
     print(f"  questions: {len(questions)} from {args.indices}")
     print("  router: deepseek-v4-flash")
-    print("  generation: deepseek-v4-pro reasoning_effort=high")
-    print("  judge: deepseek-v4-pro reasoning_effort=high")
+    print("  generation: deepseek-v4-flash reasoning_effort=xhigh")
+    print("  judge: deepseek-v4-flash reasoning_effort=xhigh")
     print(f"  output: {args.output}")
 
     started = time.time()
