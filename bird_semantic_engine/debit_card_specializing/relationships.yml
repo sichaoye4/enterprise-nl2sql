@@ -1,0 +1,25 @@
+relationships:
+  - from_table: "transactions_1k"
+    from_column: "CustomerID"
+    to_table: "customers"
+    to_column: "CustomerID"
+    relationship_type: "many_to_one"
+    sample_match_count: 1000
+  - from_table: "transactions_1k"
+    from_column: "CustomerID"
+    to_table: "yearmonth"
+    to_column: "CustomerID"
+    relationship_type: "many_to_one"
+    sample_match_count: 17655
+  - from_table: "transactions_1k"
+    from_column: "GasStationID"
+    to_table: "gasstations"
+    to_column: "GasStationID"
+    relationship_type: "many_to_one"
+    sample_match_count: 1000
+  - from_table: "transactions_1k"
+    from_column: "ProductID"
+    to_table: "products"
+    to_column: "ProductID"
+    relationship_type: "many_to_one"
+    sample_match_count: 1000

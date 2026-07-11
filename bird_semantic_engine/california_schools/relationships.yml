@@ -1,0 +1,13 @@
+relationships:
+  - from_table: "frpm"
+    from_column: "CDSCode"
+    to_table: "schools"
+    to_column: "CDSCode"
+    relationship_type: "one_to_one"
+    sample_match_count: 9986
+  - from_table: "satscores"
+    from_column: "cds"
+    to_table: "schools"
+    to_column: "CDSCode"
+    relationship_type: "one_to_one"
+    sample_match_count: 2058

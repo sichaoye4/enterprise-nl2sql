@@ -1,0 +1,3131 @@
+version: 1
+domain: "thrombosis_prediction"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+  data_dictionary:
+    db_id: "thrombosis_prediction"
+    tables: ["Examination", "Laboratory", "Patient"]
+entities:
+  - name: "examination"
+    title: "Examination"
+    description: "BIRD table Examination in the thrombosis_prediction database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Examination"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "ID"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "examination_date"
+        title: "Examination Date"
+        description: "Time column Examination Date from Examination."
+        expr: "Examination Date"
+        type: "date"
+        default: true
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for examination date"
+            sample_values: ["1989-04-18", "1989-11-09", "1991-11-14", "1992-01-08", "1992-03-16", "1992-06-01", "1992-06-08", "1992-06-23"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "acl_igg"
+        title: "ACL IgG"
+        expr: "aCL IgG"
+        type: "number"
+        synonyms: ["acl igg"]
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing a cl ig g"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a cl ig g"
+            sample_values: [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "acl_igm"
+        title: "ACL IgM"
+        expr: "aCL IgM"
+        type: "number"
+        synonyms: ["acl igm"]
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing a cl ig m"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a cl ig m"
+            sample_values: [0.0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.8, 0.9]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "ana"
+        title: "ANA"
+        expr: "ANA"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing ana"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ana"
+            sample_values: [0, 4, 16, 64, 256, 1024, 4094, 4096]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "ana_pattern"
+        title: "ANA Pattern"
+        expr: "ANA Pattern"
+        type: "string"
+        synonyms: ["ana pattern"]
+        sensitivity: "public"
+        public: true
+        description: "Text value representing ana pattern"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing ana pattern"
+            sample_values: ["D", "D,P", "D,P,S", "D,S", "N", "P", "P,D", "P,S"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "acl_iga"
+        title: "ACL IgA"
+        expr: "aCL IgA"
+        type: "number"
+        synonyms: ["acl iga"]
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing a cl ig a"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a cl ig a"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "diagnosis"
+        title: "Diagnosis"
+        expr: "Diagnosis"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing diagnosis"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing diagnosis"
+            sample_values: ["AGA", "AGA, meningitis", "ANA x5096", "ANA(+)", "ANA, BFP", "ANA\u00f9z\u00c9\u00bd\u00e9\u00de\u00e9\u0153", "APS", "APS susp"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "kct"
+        title: "KCT"
+        expr: "KCT"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing kct"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing kct"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "rvvt"
+        title: "RVVT"
+        expr: "RVVT"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing rvvt"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing rvvt"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "lac"
+        title: "LAC"
+        expr: "LAC"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing lac"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing lac"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "symptoms"
+        title: "Symptoms"
+        expr: "Symptoms"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing symptoms"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing symptoms"
+            sample_values: ["AMI", "AP", "Abortion", "Apo", "Apo, convulsion", "Budd-Chiari", "CMS lupus", "CNS lupus"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "thrombosis"
+        title: "Thrombosis"
+        expr: "Thrombosis"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing thrombosis"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing thrombosis"
+            sample_values: [0, 1, 2, 3]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_acl_igg"
+        title: "Avg Acl Igg"
+        description: "AVG over aCL IgG extracted from repeated BIRD gold SQL patterns."
+        expr: "aCL IgG"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["acl igg"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) >= 50 AND T1.Admission = '+'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a cl ig g"
+            sample_values: [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_acl_igm"
+        title: "Avg Acl Igm"
+        description: "AVG over aCL IgM extracted from repeated BIRD gold SQL patterns."
+        expr: "aCL IgM"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["acl igm"]
+        allowed_dimensions: []
+        filters:
+          - member: "ana_pattern"
+            operator: "equals"
+            values: ["S"]
+          - member: "thrombosis"
+            operator: "equals"
+            values: [2]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Thrombosis = 2 AND \\\"ANA Pattern\\\" = 'S' AND \\\"aCL IgM\\\" > (SELECT AVG(\\\"aCL IgM\\\") * 1.2 FROM Examination WHERE Thrombosis = 2 AND \\\"ANA Pattern\\\" = 'S')"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a cl ig m"
+            sample_values: [0.0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.8, 0.9]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "thrombosis"
+            operator: "equals"
+            values: [0]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.RF < 20 AND T1.Thrombosis = 0"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing id"
+            sample_values: [14872, 48473, 102490, 108788, 122405, 133382, 163109, 174116]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "Patient.ID"
+            foreign_table: "Patient"
+      - name: "distinct_id_count_2"
+        title: "Distinct Id Count 2"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "ana_pattern"
+            operator: "equals"
+            values: ["P"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.C3 > 35 AND T1.\\\"ANA Pattern\\\" = 'P'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing id"
+            sample_values: [14872, 48473, 102490, 108788, 122405, 133382, 163109, 174116]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "Patient.ID"
+            foreign_table: "Patient"
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "thrombosis"
+            operator: "equals"
+            values: [0]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.SM IN ('negative', '0') AND T1.Thrombosis = 0"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing id"
+            sample_values: [14872, 48473, 102490, 108788, 122405, 133382, 163109, 174116]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "Patient.ID"
+            foreign_table: "Patient"
+      - name: "distinct_id_count_3"
+        title: "Distinct Id Count 3"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.SSB = 'negative' OR '0' AND NOT T1.Symptoms IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing id"
+            sample_values: [14872, 48473, 102490, 108788, 122405, 133382, 163109, 174116]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "Patient.ID"
+            foreign_table: "Patient"
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.TG < 200 AND NOT T1.Symptoms IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing id"
+            sample_values: [14872, 48473, 102490, 108788, 122405, 133382, 163109, 174116]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "Patient.ID"
+            foreign_table: "Patient"
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters:
+          - member: "ana_pattern"
+            operator: "equals"
+            values: ["S"]
+          - member: "thrombosis"
+            operator: "equals"
+            values: [2]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Thrombosis = 2 AND \\\"ANA Pattern\\\" = 'S' AND \\\"aCL IgM\\\" > (SELECT AVG(\\\"aCL IgM\\\") * 1.2 FROM Examination WHERE Thrombosis = 2 AND \\\"ANA Pattern\\\" = 'S')"]
+      - name: "count_symptoms"
+        title: "Count Symptoms"
+        description: "COUNT over Symptoms extracted from repeated BIRD gold SQL patterns."
+        expr: "Symptoms"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["symptoms"]
+        allowed_dimensions: ["examination.symptoms"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Diagnosis = 'SLE'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing symptoms"
+            sample_values: ["AMI", "AP", "Abortion", "Apo", "Apo, convulsion", "Budd-Chiari", "CMS lupus", "CNS lupus"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 806
+        columns:
+          ID:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing id"
+            sample_values: [14872, 48473, 102490, 108788, 122405, 133382, 163109, 174116]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "Patient.ID"
+            foreign_table: "Patient"
+          Examination Date:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for examination date"
+            sample_values: ["1989-04-18", "1989-11-09", "1991-11-14", "1992-01-08", "1992-03-16", "1992-06-01", "1992-06-08", "1992-06-23"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          aCL IgG:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a cl ig g"
+            sample_values: [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+            is_primary_key: false
+            is_foreign_key: false
+          aCL IgM:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a cl ig m"
+            sample_values: [0.0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.8, 0.9]
+            is_primary_key: false
+            is_foreign_key: false
+          ANA:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ana"
+            sample_values: [0, 4, 16, 64, 256, 1024, 4094, 4096]
+            is_primary_key: false
+            is_foreign_key: false
+          ANA Pattern:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing ana pattern"
+            sample_values: ["D", "D,P", "D,P,S", "D,S", "N", "P", "P,D", "P,S"]
+            is_primary_key: false
+            is_foreign_key: false
+          aCL IgA:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a cl ig a"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+          Diagnosis:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing diagnosis"
+            sample_values: ["AGA", "AGA, meningitis", "ANA x5096", "ANA(+)", "ANA, BFP", "ANA\u00f9z\u00c9\u00bd\u00e9\u00de\u00e9\u0153", "APS", "APS susp"]
+            is_primary_key: false
+            is_foreign_key: false
+          KCT:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing kct"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+          RVVT:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing rvvt"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+          LAC:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing lac"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+          Symptoms:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing symptoms"
+            sample_values: ["AMI", "AP", "Abortion", "Apo", "Apo, convulsion", "Budd-Chiari", "CMS lupus", "CNS lupus"]
+            is_primary_key: false
+            is_foreign_key: false
+          Thrombosis:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing thrombosis"
+            sample_values: [0, 1, 2, 3]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "patient"
+    title: "Patient"
+    description: "BIRD table Patient in the thrombosis_prediction database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Patient"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "ID"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "birthday"
+        title: "Birthday"
+        description: "Time column Birthday from Patient."
+        expr: "Birthday"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birthday"
+            sample_values: ["1912-08-28", "1917-04-18", "1918-03-20", "1919-02-13", "1919-12-30", "1920-01-08", "1920-05-09", "1920-08-22"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "description"
+        title: "Description"
+        description: "Time column Description from Patient."
+        expr: "Description"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for description"
+            sample_values: ["1991-06-10", "1991-08-12", "1991-08-13", "1992-01-20", "1992-02-28", "1992-03-20", "1992-07-24", "1992-08-31"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "first_date"
+        title: "First Date"
+        description: "Time column First Date from Patient."
+        expr: "First Date"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for first date"
+            sample_values: ["1972-08-02", "1972-10-19", "1973-01-01", "1973-01-30", "1973-04-08", "1973-11-01", "1974-07-23", "1975-03-06"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "sex"
+        title: "SEX"
+        expr: "SEX"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing sex"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing sex"
+            sample_values: ["", "F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "admission"
+        title: "Admission"
+        expr: "Admission"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing admission"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing admission"
+            sample_values: ["", "+", "+(", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "diagnosis"
+        title: "Diagnosis"
+        expr: "Diagnosis"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing diagnosis"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing diagnosis"
+            sample_values: ["", "AGA", "ANA", "ANA (+)", "ANAPHYLACTOID PURPURA NEPHRITIS", "ANCA", "AORTITIS", "AORTITIS susp"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_birthday"
+        title: "Avg Birthday"
+        description: "AVG over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["birthday"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Date BETWEEN '1991-10-01' AND '1991-10-30'"]
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birthday"
+            sample_values: ["1912-08-28", "1917-04-18", "1918-03-20", "1919-02-13", "1919-12-30", "1920-01-08", "1920-05-09", "1920-08-22"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_birthday_2"
+        title: "Avg Birthday 2"
+        description: "AVG over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["birthday"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.\\\"T-CHO\\\" >= 250 AND T1.SEX = 'M'"]
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birthday"
+            sample_values: ["1912-08-28", "1917-04-18", "1918-03-20", "1919-02-13", "1919-12-30", "1920-01-08", "1920-05-09", "1920-08-22"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_diagnosis"
+        title: "Count Diagnosis"
+        description: "COUNT over Diagnosis extracted from repeated BIRD gold SQL patterns."
+        expr: "Diagnosis"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["diagnosis"]
+        allowed_dimensions: ["patient.diagnosis"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T1.\\\"Examination Date\\\" BETWEEN '1985-01-01' AND '1995-12-31'", "WHERE NOT T2.IGM BETWEEN 40 AND 400"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing diagnosis"
+            sample_values: ["", "AGA", "ANA", "ANA (+)", "ANAPHYLACTOID PURPURA NEPHRITIS", "ANCA", "AORTITIS", "AORTITIS susp"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 5
+          distinct: false
+          where_examples: ["WHERE T2.GOT < 60 AND T1.SEX = 'M'", "WHERE STRFTIME('%Y', T2.Date) = '1998' AND T1.SEX = 'M'", "WHERE T2.CRE >= 1.5 AND T1.SEX = 'M'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count"
+        title: "Distinct Id Count"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values: ["+"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T1.Admission = '+' AND STRFTIME('%Y', T2.\\\"Examination Date\\\") - STRFTIME('%Y', T1.\\\"First Date\\\") >= 1"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 8
+          distinct: false
+          where_examples: ["WHERE T2.\\\"GOT\\\" >= 60", "WHERE STRFTIME('%Y', T2.\\\"Examination Date\\\") BETWEEN '1990' AND '1993' AND STRFTIME('%Y', T2.\\\"Examination Date\\\") - STRFTIME('%Y', T1.Birthday) < 18", "WHERE T2.Date > '1997-01-01' AND T2.APTT >= 45"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_2"
+        title: "Distinct Id Count 2"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: true
+          where_examples: ["WHERE T2.\\\"T-BIL\\\" >= 2.0 AND T1.SEX = 'M'", "WHERE STRFTIME('%Y', T1.Birthday) BETWEEN '1936' AND '1956' AND T1.SEX = 'M' AND T2.CPK >= 250", "WHERE T2.FG <= 150 OR T2.FG >= 450 AND T2.WBC > 3.5 AND T2.WBC < 9.0 AND T1.SEX = 'M'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_3"
+        title: "Distinct Id Count 3"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.\\\"ANA Pattern\\\" <> 'P' AND STRFTIME('%Y', T1.Birthday) BETWEEN '1980' AND '1989' AND T1.SEX = 'F'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values: ["-"]
+          - member: "diagnosis"
+            operator: "equals"
+            values: ["Behcet"]
+          - member: "sex"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.Diagnosis = 'Behcet' AND T1.SEX = 'M' AND STRFTIME('%Y', T2.\\\"Examination Date\\\") BETWEEN '1995' AND '1997' AND T1.Admission = '-'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T2.WBC < 3.5 AND T1.SEX = 'F'", "WHERE T1.SEX = 'F'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_4"
+        title: "Distinct Id Count 4"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 5
+          distinct: true
+          where_examples: ["WHERE T2.TG >= 200 AND STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) > 50", "WHERE T2.FG <= 150 OR T2.FG >= 450 AND T1.Birthday > '1980-01-01'", "WHERE T2.IGG >= 2000"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_5"
+        title: "Distinct Id Count 5"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T3.Thrombosis = 0 AND T2.APTT > 45"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_5"
+        title: "Count Id 5"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE (T2.CRP = '+') AND T1.Description IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_6"
+        title: "Distinct Id Count 6"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE (T2.RA = '-' OR T2.RA = '+-') AND T3.KCT = '+'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_7"
+        title: "Distinct Id Count 7"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "diagnosis"
+            operator: "equals"
+            values: ["APS"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.C4 > 10 AND T1.Diagnosis = 'APS'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_8"
+        title: "Distinct Id Count 8"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values: ["+"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.RNP = 'negative' OR T2.RNP = '0' AND T1.Admission = '+'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_9"
+        title: "Distinct Id Count 9"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE (T2.SC170 = 'negative' OR T2.SC170 = '0') AND T1.SEX = 'F' AND T3.Symptoms IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_10"
+        title: "Distinct Id Count 10"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.SSA IN ('negative', '0') AND STRFTIME('%Y', T2.Date) < '2000'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_11"
+        title: "Distinct Id Count 11"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "diagnosis"
+            operator: "equals"
+            values: ["SLE"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.SSB = 'negative' OR '0' AND T1.Diagnosis = 'SLE'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_id_count_12"
+        title: "Distinct Id Count 12"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.CENTROMEA IN ('negative', '0') AND T2.SSB IN ('negative', '0') AND T1.SEX = 'M'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_6"
+        title: "Count Id 6"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values: ["+"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples: ["WHERE T2.IGG > 900 AND T2.IGG < 2000 AND T1.Admission = '+'", "WHERE T2.ALP >= 300 AND T1.Admission = '+'", "WHERE T2.WBC BETWEEN 3.5 AND 9 AND T1.Admission = '+'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_7"
+        title: "Count Id 7"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values: ["-"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.ALP < 300 AND T1.Admission = '-'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_8"
+        title: "Count Id 8"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "diagnosis"
+            operator: "equals"
+            values: ["SJS"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Diagnosis = 'SJS' AND T2.TP > 6.0 AND T2.TP < 8.5"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_9"
+        title: "Count Id 9"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.\\\"T-CHO\\\" >= 250 AND T3.KCT = '-'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_10"
+        title: "Count Id 10"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.\\\"ANA Pattern\\\" = 'P' AND T2.\\\"T-CHO\\\" < 250"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_11"
+        title: "Count Id 11"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.CPK < 250 AND (T3.KCT = '+' OR T3.RVVT = '+' OR T3.LAC = '+')"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_12"
+        title: "Count Id 12"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.GLU < 180 AND T3.Thrombosis = 0"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_13"
+        title: "Count Id 13"
+        description: "COUNT over ID extracted from repeated BIRD gold SQL patterns."
+        expr: "ID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters:
+          - member: "diagnosis"
+            operator: "equals"
+            values: ["SLE"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Diagnosis = 'SLE' AND T2.WBC BETWEEN 3.5 AND 9"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE SEX = 'F'", "WHERE T1.SEX = 'F'"]
+      - name: "count_row_count_2"
+        title: "Count Row Count 2"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', Birthday) BETWEEN '1930' AND '1940'", "WHERE STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) > 55"]
+      - name: "count_row_count_3"
+        title: "Count Row Count 3"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters:
+          - member: "admission"
+            operator: "equals"
+            values: ["-"]
+          - member: "sex"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', Description) = '1997' AND SEX = 'F' AND Admission = '-'"]
+      - name: "count_row_count_4"
+        title: "Count Row Count 4"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.SEX = 'F' AND STRFTIME('%Y', T2.\\\"Examination Date\\\") = '1997' AND T2.Thrombosis = 1"]
+      - name: "max_birthday"
+        title: "Max Birthday"
+        description: "MAX over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["birthday"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.TG >= 200"]
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birthday"
+            sample_values: ["1912-08-28", "1917-04-18", "1918-03-20", "1919-02-13", "1919-12-30", "1920-01-08", "1920-05-09", "1920-08-22"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "min_birthday"
+        title: "Min Birthday"
+        description: "MIN over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["birthday"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.TG >= 200"]
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birthday"
+            sample_values: ["1912-08-28", "1917-04-18", "1918-03-20", "1919-02-13", "1919-12-30", "1920-01-08", "1920-05-09", "1920-08-22"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "min_first_date"
+        title: "Min First Date"
+        description: "MIN over First Date extracted from repeated BIRD gold SQL patterns."
+        expr: "First Date"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["first date"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for first date"
+            sample_values: ["1972-08-02", "1972-10-19", "1973-01-01", "1973-01-30", "1973-04-08", "1973-11-01", "1974-07-23", "1975-03-06"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_admission"
+        title: "Sum Admission"
+        description: "SUM over Admission extracted from repeated BIRD gold SQL patterns."
+        expr: "Admission"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["admission"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE SEX = 'M'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing admission"
+            sample_values: ["", "+", "+(", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_admission_2"
+        title: "Sum Admission 2"
+        description: "SUM over Admission extracted from repeated BIRD gold SQL patterns."
+        expr: "Admission"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["admission"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE Diagnosis = 'SLE'", "WHERE STRFTIME('%Y', Birthday) BETWEEN '1930' AND '1940'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing admission"
+            sample_values: ["", "+", "+(", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_birthday"
+        title: "Sum Birthday"
+        description: "SUM over Birthday extracted from repeated BIRD gold SQL patterns."
+        expr: "Birthday"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["birthday"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE SEX = 'F'"]
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birthday"
+            sample_values: ["1912-08-28", "1917-04-18", "1918-03-20", "1919-02-13", "1919-12-30", "1920-01-08", "1920-05-09", "1920-08-22"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_sex"
+        title: "Sum Sex"
+        description: "SUM over SEX extracted from repeated BIRD gold SQL patterns."
+        expr: "SEX"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["sex"]
+        allowed_dimensions: []
+        filters:
+          - member: "sex"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.SEX = 'F'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing sex"
+            sample_values: ["", "F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_sex_2"
+        title: "Sum Sex 2"
+        description: "SUM over SEX extracted from repeated BIRD gold SQL patterns."
+        expr: "SEX"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["sex"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T2.CRE >= 1.5", "WHERE Diagnosis = 'RA' AND STRFTIME('%Y', Birthday) = '1980'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing sex"
+            sample_values: ["", "F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 1238
+        columns:
+          ID:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+            is_primary_key: true
+            is_foreign_key: false
+          SEX:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing sex"
+            sample_values: ["", "F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+          Birthday:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birthday"
+            sample_values: ["1912-08-28", "1917-04-18", "1918-03-20", "1919-02-13", "1919-12-30", "1920-01-08", "1920-05-09", "1920-08-22"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          Description:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for description"
+            sample_values: ["1991-06-10", "1991-08-12", "1991-08-13", "1992-01-20", "1992-02-28", "1992-03-20", "1992-07-24", "1992-08-31"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          First Date:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for first date"
+            sample_values: ["1972-08-02", "1972-10-19", "1973-01-01", "1973-01-30", "1973-04-08", "1973-11-01", "1974-07-23", "1975-03-06"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          Admission:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing admission"
+            sample_values: ["", "+", "+(", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+          Diagnosis:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing diagnosis"
+            sample_values: ["", "AGA", "ANA", "ANA (+)", "ANAPHYLACTOID PURPURA NEPHRITIS", "ANCA", "AORTITIS", "AORTITIS susp"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "laboratory"
+    title: "Laboratory"
+    description: "BIRD table Laboratory in the thrombosis_prediction database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "Laboratory"
+      dialect: "sqlite"
+      grain: ["id", "date"]
+    identifiers:
+      - name: "id"
+        expr: "ID"
+        type: "number"
+        primary_key: true
+      - name: "date"
+        expr: "Date"
+        type: "date"
+        primary_key: true
+    time_dimensions:
+      - name: "time_date"
+        title: "Date"
+        description: "Time column Date from Laboratory."
+        expr: "Date"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each date record"
+            sample_values: ["1981-01-27", "1981-01-28", "1981-02-02", "1981-02-03", "1981-02-04", "1981-02-05", "1981-02-06", "1981-02-17"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: true
+            is_foreign_key: false
+    dimensions:
+      - name: "got"
+        title: "GOT"
+        expr: "GOT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing got"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing got"
+            sample_values: [3, 6, 7, 8, 9, 10, 11, 12]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "gpt"
+        title: "GPT"
+        expr: "GPT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing gpt"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing gpt"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "ldh"
+        title: "LDH"
+        expr: "LDH"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing ldh"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ldh"
+            sample_values: [25, 27, 30, 43, 78, 82, 83, 84]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "alp"
+        title: "ALP"
+        expr: "ALP"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing alp"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing alp"
+            sample_values: [11, 22, 23, 24, 26, 27, 28, 29]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "tp"
+        title: "TP"
+        expr: "TP"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing tp"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing tp"
+            sample_values: [0.0, 1.4, 1.8, 3.8, 3.9, 4.0, 4.1, 4.2]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "alb"
+        title: "ALB"
+        expr: "ALB"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing alb"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing alb"
+            sample_values: [1.0, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "ua"
+        title: "UA"
+        expr: "UA"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing ua"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ua"
+            sample_values: [0.4, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "un"
+        title: "UN"
+        expr: "UN"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing un"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing un"
+            sample_values: [0, 3, 4, 5, 6, 7, 8, 9]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "cre"
+        title: "CRE"
+        expr: "CRE"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing cre"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing cre"
+            sample_values: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "t_bil"
+        title: "T BIL"
+        expr: "T-BIL"
+        type: "number"
+        synonyms: ["t bil"]
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing t bil"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing t bil"
+            sample_values: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "t_cho"
+        title: "T CHO"
+        expr: "T-CHO"
+        type: "number"
+        synonyms: ["t cho"]
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing t cho"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing t cho"
+            sample_values: [37, 80, 82, 85, 88, 89, 90, 93]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "tg"
+        title: "TG"
+        expr: "TG"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing tg"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing tg"
+            sample_values: [1, 24, 26, 28, 29, 30, 31, 32]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "cpk"
+        title: "CPK"
+        expr: "CPK"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing cpk"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing cpk"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "glu"
+        title: "GLU"
+        expr: "GLU"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing glu"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing glu"
+            sample_values: [62, 63, 65, 66, 67, 68, 69, 70]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "wbc"
+        title: "WBC"
+        expr: "WBC"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing wbc"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wbc"
+            sample_values: [0.9, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "rbc"
+        title: "RBC"
+        expr: "RBC"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing rbc"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing rbc"
+            sample_values: [0.4, 0.5, 0.6, 0.8, 1.0, 1.1, 1.2, 1.3]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "hgb"
+        title: "HGB"
+        expr: "HGB"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing hgb"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing hgb"
+            sample_values: [1.3, 1.6, 2.0, 2.8, 3.1, 3.4, 4.1, 4.6]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "hct"
+        title: "HCT"
+        expr: "HCT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing hct"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing hct"
+            sample_values: [3.0, 3.2, 3.3, 3.4, 4.3, 4.5, 5.8, 8.1]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "plt"
+        title: "PLT"
+        expr: "PLT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing plt"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing plt"
+            sample_values: [5, 13, 15, 17, 20, 21, 23, 24]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "pt"
+        title: "PT"
+        expr: "PT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing pt"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing pt"
+            sample_values: [10.1, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "aptt"
+        title: "APTT"
+        expr: "APTT"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing aptt"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing aptt"
+            sample_values: [57, 60, 76, 84, 86, 87, 88, 89]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "fg"
+        title: "FG"
+        expr: "FG"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing fg"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing fg"
+            sample_values: [23.8, 23.9, 24.1, 24.5, 24.7, 24.8, 25.4, 25.5]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "u_pro"
+        title: "U PRO"
+        expr: "U-PRO"
+        type: "string"
+        synonyms: ["u pro"]
+        sensitivity: "public"
+        public: true
+        description: "Text value representing u pro"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing u pro"
+            sample_values: ["%%", "+1(30)", "+2(100)", "-", "-15", "0", "1", "100"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "igg"
+        title: "IGG"
+        expr: "IGG"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing igg"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing igg"
+            sample_values: [3, 8, 55, 310, 315, 339, 430, 505]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "iga"
+        title: "IGA"
+        expr: "IGA"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing iga"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing iga"
+            sample_values: [1, 6, 20, 31, 32, 34, 36, 39]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "igm"
+        title: "IGM"
+        expr: "IGM"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing igm"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing igm"
+            sample_values: [0, 4, 12, 21, 22, 23, 26, 28]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "crp"
+        title: "CRP"
+        expr: "CRP"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing crp"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing crp"
+            sample_values: ["+", "-", "0", "0.03", "0.04", "0.05", "0.06", "0.07"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "ra"
+        title: "RA"
+        expr: "RA"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing ra"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing ra"
+            sample_values: ["+", "+-", "-", "2+", "7-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "rf"
+        title: "RF"
+        expr: "RF"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing rf"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing rf"
+            sample_values: ["100.2", "100.3", "100.4", "101", "101.2", "1017.6", "102.3", "102.4"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "c3"
+        title: "C3"
+        expr: "C3"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing c3"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing c3"
+            sample_values: [15, 17, 18, 19, 20, 21, 22, 23]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "c4"
+        title: "C4"
+        expr: "C4"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing c4"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing c4"
+            sample_values: [3, 4, 5, 6, 7, 8, 9, 10]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "rnp"
+        title: "RNP"
+        expr: "RNP"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing rnp"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing rnp"
+            sample_values: ["0", "1", "15", "16", "256", "4", "64", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sm"
+        title: "SM"
+        expr: "SM"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing sm"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing sm"
+            sample_values: ["0", "1", "2", "8", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sc170"
+        title: "SC170"
+        expr: "SC170"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing sc170"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing sc170"
+            sample_values: ["0", "1", "16", "4", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "ssa"
+        title: "SSA"
+        expr: "SSA"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing ssa"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing ssa"
+            sample_values: ["0", "1", "16", "256", "4", "64", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "ssb"
+        title: "SSB"
+        expr: "SSB"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing ssb"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing ssb"
+            sample_values: ["0", "1", "2", "32", "8", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "centromea"
+        title: "CENTROMEA"
+        expr: "CENTROMEA"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing centromea"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing centromea"
+            sample_values: ["0", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "dna"
+        title: "DNA"
+        expr: "DNA"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing dna"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing dna"
+            sample_values: ["0.56", "0.58", "10.1", "10.2", "100", "11", "110", "117"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_alb"
+        title: "Avg Alb"
+        description: "AVG over ALB extracted from repeated BIRD gold SQL patterns."
+        expr: "ALB"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["alb"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.PLT > 400 AND T1.Diagnosis = 'SLE' AND T1.SEX = 'F'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing alb"
+            sample_values: [1.0, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_hct"
+        title: "Avg Hct"
+        description: "AVG over HCT extracted from repeated BIRD gold SQL patterns."
+        expr: "HCT"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["hct"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.HCT < 29 AND STRFTIME('%Y', T2.Date) = '1991'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing hct"
+            sample_values: [3.0, 3.2, 3.3, 3.4, 4.3, 4.5, 5.8, 8.1]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_ldh"
+        title: "Avg Ldh"
+        description: "AVG over LDH extracted from repeated BIRD gold SQL patterns."
+        expr: "LDH"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["ldh"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE LDH < 500"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ldh"
+            sample_values: [25, 27, 30, 43, 78, 82, 83, 84]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_pt"
+        title: "Avg Pt"
+        description: "AVG over PT extracted from repeated BIRD gold SQL patterns."
+        expr: "PT"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["pt"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.PT < 14 AND T1.SEX = 'M'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing pt"
+            sample_values: [10.1, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_ua"
+        title: "Avg Ua"
+        description: "AVG over UA extracted from repeated BIRD gold SQL patterns."
+        expr: "UA"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["ua"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE (T2.UA < 6.5 AND T1.SEX = 'F') OR (T2.UA < 8.0 AND T1.SEX = 'M') AND T2.Date = (SELECT MAX(Date) FROM Laboratory)"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ua"
+            sample_values: [0.4, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE ID = (SELECT ID FROM Patient WHERE \\\"First Date\\\" = '1991-06-13' AND Diagnosis = 'SJS') AND STRFTIME('%Y', Date) = '1995'"]
+      - name: "max_date"
+        title: "Max Date"
+        description: "MAX over Date extracted from repeated BIRD gold SQL patterns."
+        expr: "Date"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["date"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE (T2.UA < 6.5 AND T1.SEX = 'F') OR (T2.UA < 8.0 AND T1.SEX = 'M') AND T2.Date = (SELECT MAX(Date) FROM Laboratory)"]
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each date record"
+            sample_values: ["1981-01-27", "1981-01-28", "1981-02-02", "1981-02-03", "1981-02-04", "1981-02-05", "1981-02-06", "1981-02-17"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "sum_plt"
+        title: "Sum Plt"
+        description: "SUM over PLT extracted from repeated BIRD gold SQL patterns."
+        expr: "PLT"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["plt"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing plt"
+            sample_values: [5, 13, 15, 17, 20, 21, 23, 24]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_pt"
+        title: "Sum Pt"
+        description: "SUM over PT extracted from repeated BIRD gold SQL patterns."
+        expr: "PT"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["pt"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', CURRENT_TIMESTAMP) - STRFTIME('%Y', T1.Birthday) > 55"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing pt"
+            sample_values: [10.1, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_t_cho"
+        title: "Sum T Cho"
+        description: "SUM over T-CHO extracted from repeated BIRD gold SQL patterns."
+        expr: "T-CHO"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["t cho"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Birthday = '1959-02-18'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing t cho"
+            sample_values: [37, 80, 82, 85, 88, 89, 90, 93]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_ua"
+        title: "Sum Ua"
+        description: "SUM over UA extracted from repeated BIRD gold SQL patterns."
+        expr: "UA"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["ua"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE \\\"U-PRO\\\" > 0 AND \\\"U-PRO\\\" < 30"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ua"
+            sample_values: [0.4, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_ua_2"
+        title: "Sum Ua 2"
+        description: "SUM over UA extracted from repeated BIRD gold SQL patterns."
+        expr: "UA"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["ua"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.SEX = 'F'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ua"
+            sample_values: [0.4, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 13908
+        columns:
+          ID:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [27654, 30609, 43003, 48473, 52199, 57266, 58139, 71417]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "Patient.ID"
+            foreign_table: "Patient"
+          Date:
+            type: "DATE"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each date record"
+            sample_values: ["1981-01-27", "1981-01-28", "1981-02-02", "1981-02-03", "1981-02-04", "1981-02-05", "1981-02-06", "1981-02-17"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: true
+            is_foreign_key: false
+          GOT:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing got"
+            sample_values: [3, 6, 7, 8, 9, 10, 11, 12]
+            is_primary_key: false
+            is_foreign_key: false
+          GPT:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing gpt"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          LDH:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ldh"
+            sample_values: [25, 27, 30, 43, 78, 82, 83, 84]
+            is_primary_key: false
+            is_foreign_key: false
+          ALP:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing alp"
+            sample_values: [11, 22, 23, 24, 26, 27, 28, 29]
+            is_primary_key: false
+            is_foreign_key: false
+          TP:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing tp"
+            sample_values: [0.0, 1.4, 1.8, 3.8, 3.9, 4.0, 4.1, 4.2]
+            is_primary_key: false
+            is_foreign_key: false
+          ALB:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing alb"
+            sample_values: [1.0, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]
+            is_primary_key: false
+            is_foreign_key: false
+          UA:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing ua"
+            sample_values: [0.4, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+            is_primary_key: false
+            is_foreign_key: false
+          UN:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing un"
+            sample_values: [0, 3, 4, 5, 6, 7, 8, 9]
+            is_primary_key: false
+            is_foreign_key: false
+          CRE:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing cre"
+            sample_values: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+            is_primary_key: false
+            is_foreign_key: false
+          T-BIL:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing t bil"
+            sample_values: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+            is_primary_key: false
+            is_foreign_key: false
+          T-CHO:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing t cho"
+            sample_values: [37, 80, 82, 85, 88, 89, 90, 93]
+            is_primary_key: false
+            is_foreign_key: false
+          TG:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing tg"
+            sample_values: [1, 24, 26, 28, 29, 30, 31, 32]
+            is_primary_key: false
+            is_foreign_key: false
+          CPK:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing cpk"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+          GLU:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing glu"
+            sample_values: [62, 63, 65, 66, 67, 68, 69, 70]
+            is_primary_key: false
+            is_foreign_key: false
+          WBC:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing wbc"
+            sample_values: [0.9, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8]
+            is_primary_key: false
+            is_foreign_key: false
+          RBC:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing rbc"
+            sample_values: [0.4, 0.5, 0.6, 0.8, 1.0, 1.1, 1.2, 1.3]
+            is_primary_key: false
+            is_foreign_key: false
+          HGB:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing hgb"
+            sample_values: [1.3, 1.6, 2.0, 2.8, 3.1, 3.4, 4.1, 4.6]
+            is_primary_key: false
+            is_foreign_key: false
+          HCT:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing hct"
+            sample_values: [3.0, 3.2, 3.3, 3.4, 4.3, 4.5, 5.8, 8.1]
+            is_primary_key: false
+            is_foreign_key: false
+          PLT:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing plt"
+            sample_values: [5, 13, 15, 17, 20, 21, 23, 24]
+            is_primary_key: false
+            is_foreign_key: false
+          PT:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing pt"
+            sample_values: [10.1, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9]
+            is_primary_key: false
+            is_foreign_key: false
+          APTT:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing aptt"
+            sample_values: [57, 60, 76, 84, 86, 87, 88, 89]
+            is_primary_key: false
+            is_foreign_key: false
+          FG:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing fg"
+            sample_values: [23.8, 23.9, 24.1, 24.5, 24.7, 24.8, 25.4, 25.5]
+            is_primary_key: false
+            is_foreign_key: false
+          PIC:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing pic"
+            sample_values: [114, 138, 150, 155, 157, 165, 176, 193]
+            is_primary_key: false
+            is_foreign_key: false
+          TAT:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing tat"
+            sample_values: [63, 64, 65, 67, 68, 71, 77, 78]
+            is_primary_key: false
+            is_foreign_key: false
+          TAT2:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing tat2"
+            sample_values: [59, 64, 68, 69, 71, 75, 78, 84]
+            is_primary_key: false
+            is_foreign_key: false
+          U-PRO:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing u pro"
+            sample_values: ["%%", "+1(30)", "+2(100)", "-", "-15", "0", "1", "100"]
+            is_primary_key: false
+            is_foreign_key: false
+          IGG:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing igg"
+            sample_values: [3, 8, 55, 310, 315, 339, 430, 505]
+            is_primary_key: false
+            is_foreign_key: false
+          IGA:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing iga"
+            sample_values: [1, 6, 20, 31, 32, 34, 36, 39]
+            is_primary_key: false
+            is_foreign_key: false
+          IGM:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing igm"
+            sample_values: [0, 4, 12, 21, 22, 23, 26, 28]
+            is_primary_key: false
+            is_foreign_key: false
+          CRP:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing crp"
+            sample_values: ["+", "-", "0", "0.03", "0.04", "0.05", "0.06", "0.07"]
+            is_primary_key: false
+            is_foreign_key: false
+          RA:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing ra"
+            sample_values: ["+", "+-", "-", "2+", "7-"]
+            is_primary_key: false
+            is_foreign_key: false
+          RF:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing rf"
+            sample_values: ["100.2", "100.3", "100.4", "101", "101.2", "1017.6", "102.3", "102.4"]
+            is_primary_key: false
+            is_foreign_key: false
+          C3:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing c3"
+            sample_values: [15, 17, 18, 19, 20, 21, 22, 23]
+            is_primary_key: false
+            is_foreign_key: false
+          C4:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing c4"
+            sample_values: [3, 4, 5, 6, 7, 8, 9, 10]
+            is_primary_key: false
+            is_foreign_key: false
+          RNP:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing rnp"
+            sample_values: ["0", "1", "15", "16", "256", "4", "64", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+          SM:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing sm"
+            sample_values: ["0", "1", "2", "8", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+          SC170:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing sc170"
+            sample_values: ["0", "1", "16", "4", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+          SSA:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing ssa"
+            sample_values: ["0", "1", "16", "256", "4", "64", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+          SSB:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing ssb"
+            sample_values: ["0", "1", "2", "32", "8", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+          CENTROMEA:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing centromea"
+            sample_values: ["0", "negative"]
+            is_primary_key: false
+            is_foreign_key: false
+          DNA:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing dna"
+            sample_values: ["0.56", "0.58", "10.1", "10.2", "100", "11", "110", "117"]
+            is_primary_key: false
+            is_foreign_key: false
+          DNA-II:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing dna ii"
+            sample_values: []
+            is_primary_key: false
+            is_foreign_key: false
+relationships:
+  - name: "examination_to_laboratory_id_id"
+    source: "examination"
+    target: "laboratory"
+    from: "examination.id"
+    to: "laboratory.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "examination_to_patient_id_id"
+    source: "examination"
+    target: "patient"
+    from: "examination.id"
+    to: "patient.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "laboratory_to_examination_id_id"
+    source: "laboratory"
+    target: "examination"
+    from: "laboratory.id"
+    to: "examination.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "laboratory_to_patient_id_id"
+    source: "laboratory"
+    target: "patient"
+    from: "laboratory.id"
+    to: "patient.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "patient_to_examination_id_id"
+    source: "patient"
+    target: "examination"
+    from: "patient.id"
+    to: "examination.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "patient_to_laboratory_id_id"
+    source: "patient"
+    target: "laboratory"
+    from: "patient.id"
+    to: "laboratory.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+views:
+  - name: "thrombosis_prediction_all"
+    title: "Thrombosis Prediction All"
+    description: "Governed semantic view for the BIRD thrombosis_prediction database."
+    public: true
+    ai_context: "Patient demographics, diagnoses, examinations, admissions, and laboratory measurements for thrombosis prediction."
+    entities:
+      - join_path: "examination"
+        includes:
+          measures: ["avg_acl_igg", "avg_acl_igm", "distinct_id_count", "distinct_id_count_2", "count_id", "distinct_id_count_3", "count_id_2", "count_row_count", "count_symptoms"]
+          dimensions: ["acl_igg", "acl_igm", "ana", "ana_pattern", "acl_iga", "diagnosis", "kct", "rvvt", "lac", "symptoms", "thrombosis"]
+          time_dimensions: ["examination_date"]
+          segments: []
+      - join_path: "patient"
+        includes:
+          measures: ["avg_birthday", "avg_birthday_2", "count_diagnosis", "count_id", "distinct_id_count", "count_id_2", "distinct_id_count_2", "distinct_id_count_3", "count_id_3", "count_id_4", "distinct_id_count_4", "distinct_id_count_5", "count_id_5", "distinct_id_count_6", "distinct_id_count_7", "distinct_id_count_8", "distinct_id_count_9", "distinct_id_count_10", "distinct_id_count_11", "distinct_id_count_12", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_row_count", "count_row_count_2", "count_row_count_3", "count_row_count_4", "max_birthday", "min_birthday", "min_first_date", "sum_admission", "sum_admission_2", "sum_birthday", "sum_sex", "sum_sex_2"]
+          dimensions: ["sex", "admission", "diagnosis"]
+          time_dimensions: ["birthday", "description", "first_date"]
+          segments: []
+      - join_path: "laboratory"
+        includes:
+          measures: ["avg_alb", "avg_hct", "avg_ldh", "avg_pt", "avg_ua", "count_row_count", "max_date", "sum_plt", "sum_pt", "sum_t_cho", "sum_ua", "sum_ua_2"]
+          dimensions: ["got", "gpt", "ldh", "alp", "tp", "alb", "ua", "un", "cre", "t_bil", "t_cho", "tg", "cpk", "glu", "wbc", "rbc", "hgb", "hct", "plt", "pt", "aptt", "fg", "u_pro", "igg", "iga", "igm", "crp", "ra", "rf", "c3", "c4", "rnp", "sm", "sc170", "ssa", "ssb", "centromea", "dna"]
+          time_dimensions: ["time_date"]
+          segments: []
+      - join_path: "examination.laboratory"
+        prefix: true
+        includes:
+          measures: ["avg_alb", "avg_hct", "avg_ldh", "avg_pt", "avg_ua", "count_row_count", "max_date", "sum_plt", "sum_pt", "sum_t_cho", "sum_ua", "sum_ua_2"]
+          dimensions: ["got", "gpt", "ldh", "alp", "tp", "alb", "ua", "un", "cre", "t_bil", "t_cho", "tg", "cpk", "glu", "wbc", "rbc", "hgb", "hct", "plt", "pt", "aptt", "fg", "u_pro", "igg", "iga", "igm", "crp", "ra", "rf", "c3", "c4", "rnp", "sm", "sc170", "ssa", "ssb", "centromea", "dna"]
+          time_dimensions: ["time_date"]
+          segments: []
+      - join_path: "examination.patient"
+        prefix: true
+        includes:
+          measures: ["avg_birthday", "avg_birthday_2", "count_diagnosis", "count_id", "distinct_id_count", "count_id_2", "distinct_id_count_2", "distinct_id_count_3", "count_id_3", "count_id_4", "distinct_id_count_4", "distinct_id_count_5", "count_id_5", "distinct_id_count_6", "distinct_id_count_7", "distinct_id_count_8", "distinct_id_count_9", "distinct_id_count_10", "distinct_id_count_11", "distinct_id_count_12", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_row_count", "count_row_count_2", "count_row_count_3", "count_row_count_4", "max_birthday", "min_birthday", "min_first_date", "sum_admission", "sum_admission_2", "sum_birthday", "sum_sex", "sum_sex_2"]
+          dimensions: ["sex", "admission", "diagnosis"]
+          time_dimensions: ["birthday", "description", "first_date"]
+          segments: []
+      - join_path: "laboratory.examination"
+        prefix: true
+        includes:
+          measures: ["avg_acl_igg", "avg_acl_igm", "distinct_id_count", "distinct_id_count_2", "count_id", "distinct_id_count_3", "count_id_2", "count_row_count", "count_symptoms"]
+          dimensions: ["acl_igg", "acl_igm", "ana", "ana_pattern", "acl_iga", "diagnosis", "kct", "rvvt", "lac", "symptoms", "thrombosis"]
+          time_dimensions: ["examination_date"]
+          segments: []
+      - join_path: "laboratory.patient"
+        prefix: true
+        includes:
+          measures: ["avg_birthday", "avg_birthday_2", "count_diagnosis", "count_id", "distinct_id_count", "count_id_2", "distinct_id_count_2", "distinct_id_count_3", "count_id_3", "count_id_4", "distinct_id_count_4", "distinct_id_count_5", "count_id_5", "distinct_id_count_6", "distinct_id_count_7", "distinct_id_count_8", "distinct_id_count_9", "distinct_id_count_10", "distinct_id_count_11", "distinct_id_count_12", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_row_count", "count_row_count_2", "count_row_count_3", "count_row_count_4", "max_birthday", "min_birthday", "min_first_date", "sum_admission", "sum_admission_2", "sum_birthday", "sum_sex", "sum_sex_2"]
+          dimensions: ["sex", "admission", "diagnosis"]
+          time_dimensions: ["birthday", "description", "first_date"]
+          segments: []
+      - join_path: "patient.examination"
+        prefix: true
+        includes:
+          measures: ["avg_acl_igg", "avg_acl_igm", "distinct_id_count", "distinct_id_count_2", "count_id", "distinct_id_count_3", "count_id_2", "count_row_count", "count_symptoms"]
+          dimensions: ["acl_igg", "acl_igm", "ana", "ana_pattern", "acl_iga", "diagnosis", "kct", "rvvt", "lac", "symptoms", "thrombosis"]
+          time_dimensions: ["examination_date"]
+          segments: []
+      - join_path: "patient.laboratory"
+        prefix: true
+        includes:
+          measures: ["avg_alb", "avg_hct", "avg_ldh", "avg_pt", "avg_ua", "count_row_count", "max_date", "sum_plt", "sum_pt", "sum_t_cho", "sum_ua", "sum_ua_2"]
+          dimensions: ["got", "gpt", "ldh", "alp", "tp", "alb", "ua", "un", "cre", "t_bil", "t_cho", "tg", "cpk", "glu", "wbc", "rbc", "hgb", "hct", "plt", "pt", "aptt", "fg", "u_pro", "igg", "iga", "igm", "crp", "ra", "rf", "c3", "c4", "rnp", "sm", "sc170", "ssa", "ssb", "centromea", "dna"]
+          time_dimensions: ["time_date"]
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes: ["examination.avg_acl_igg", "examination.avg_acl_igm", "examination.count_id", "examination.count_id_2", "examination.count_row_count", "examination.count_symptoms", "examination.distinct_id_count", "examination.distinct_id_count_2", "examination.distinct_id_count_3", "laboratory.avg_alb", "laboratory.avg_hct", "laboratory.avg_ldh", "laboratory.avg_pt", "laboratory.avg_ua", "laboratory.count_row_count", "laboratory.max_date", "laboratory.sum_plt", "laboratory.sum_pt", "laboratory.sum_t_cho", "laboratory.sum_ua", "laboratory.sum_ua_2", "patient.avg_birthday", "patient.avg_birthday_2", "patient.count_diagnosis", "patient.count_id", "patient.count_id_10", "patient.count_id_11", "patient.count_id_12", "patient.count_id_13", "patient.count_id_2", "patient.count_id_3", "patient.count_id_4", "patient.count_id_5", "patient.count_id_6", "patient.count_id_7", "patient.count_id_8", "patient.count_id_9", "patient.count_row_count", "patient.count_row_count_2", "patient.count_row_count_3", "patient.count_row_count_4", "patient.distinct_id_count", "patient.distinct_id_count_10", "patient.distinct_id_count_11", "patient.distinct_id_count_12", "patient.distinct_id_count_2", "patient.distinct_id_count_3", "patient.distinct_id_count_4", "patient.distinct_id_count_5", "patient.distinct_id_count_6", "patient.distinct_id_count_7", "patient.distinct_id_count_8", "patient.distinct_id_count_9", "patient.max_birthday", "patient.min_birthday", "patient.min_first_date", "patient.sum_admission", "patient.sum_admission_2", "patient.sum_birthday", "patient.sum_sex", "patient.sum_sex_2"]
+      - name: "Frequently Used Dimensions"
+        includes: ["patient.diagnosis", "examination.symptoms"]
+    default_time_dimension: "examination.examination_date"
+policies: []

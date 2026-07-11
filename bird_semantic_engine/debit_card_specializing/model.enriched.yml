@@ -1,0 +1,1387 @@
+version: 1
+domain: "debit_card_specializing"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+  data_dictionary:
+    db_id: "debit_card_specializing"
+    tables: ["customers", "gasstations", "products", "transactions_1k", "yearmonth"]
+entities:
+  - name: "customers"
+    title: "Customers"
+    description: "BIRD table customers in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "customers"
+      dialect: "sqlite"
+      grain: ["customerid"]
+    identifiers:
+      - name: "customerid"
+        expr: "CustomerID"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "segment"
+        title: "Segment"
+        expr: "Segment"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Currency code for monetary amounts in this record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Currency code for monetary amounts in this record"
+            sample_values: ["KAM", "LAM", "SME"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "currency"
+        title: "Currency"
+        expr: "Currency"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Currency code for monetary amounts in this record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Currency code for monetary amounts in this record"
+            sample_values: ["CZK", "EUR"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_customerid"
+        title: "Count Customerid"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount", "annual", "average", "consumption", "customerid", "customers", "difference", "paid"]
+        allowed_dimensions: []
+        filters:
+          - member: "currency"
+            operator: "equals"
+            values: ["CZK"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Currency = 'CZK' AND T2.Consumption = (SELECT MIN(Consumption) FROM yearmonth) AND T2.Date BETWEEN 201301 AND 201312"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each customer record"
+            sample_values: [3, 5, 6, 7, 9, 10, 20, 35]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_customerid_2"
+        title: "Count Customerid 2"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["consumed", "customer", "customerid", "percent"]
+        allowed_dimensions: []
+        filters:
+          - member: "segment"
+            operator: "equals"
+            values: ["LAM"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Segment = 'LAM'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each customer record"
+            sample_values: [3, 5, 6, 7, 9, 10, 20, 35]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_customerid_3"
+        title: "Count Customerid 3"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["customerid", "customers", "euros", "percentage"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Segment = 'KAM'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each customer record"
+            sample_values: [3, 5, 6, 7, 9, 10, 20, 35]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1", "consumption", "customers", "year"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 32461
+        columns:
+          CustomerID:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each customer record"
+            sample_values: [3, 5, 6, 7, 9, 10, 20, 35]
+            is_primary_key: true
+            is_foreign_key: false
+          Segment:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Currency code for monetary amounts in this record"
+            sample_values: ["KAM", "LAM", "SME"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+          Currency:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Currency code for monetary amounts in this record"
+            sample_values: ["CZK", "EUR"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "gasstations"
+    title: "Gasstations"
+    description: "BIRD table gasstations in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "gasstations"
+      dialect: "sqlite"
+      grain: ["gasstationid"]
+    identifiers:
+      - name: "gasstationid"
+        expr: "GasStationID"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "chainid"
+        title: "ChainID"
+        expr: "ChainID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Identifier linking this record to a related chain"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related chain"
+            sample_values: [1, 2, 3, 4, 6, 7, 8, 9]
+            is_primary_key: false
+            is_foreign_key: true
+      - name: "country"
+        title: "Country"
+        expr: "Country"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Country code associated with the record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Country code associated with the record"
+            sample_values: ["CZE", "SVK"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "segment"
+        title: "Segment"
+        expr: "Segment"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's segment"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's segment"
+            sample_values: ["Discount", "Noname", "Other", "Premium", "Value for money"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_gasstationid"
+        title: "Count Gasstationid"
+        description: "COUNT over GasStationID extracted from repeated BIRD gold SQL patterns."
+        expr: "GasStationID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["gasstationid", "premium", "stations"]
+        allowed_dimensions: []
+        filters:
+          - member: "country"
+            operator: "equals"
+            values: ["CZE"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Country = 'CZE' AND Segment = 'Premium'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each gas station record"
+            sample_values: [44, 45, 46, 47, 48, 49, 50, 51]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_gasstationid_2"
+        title: "Count Gasstationid 2"
+        description: "COUNT over GasStationID extracted from repeated BIRD gold SQL patterns."
+        expr: "GasStationID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["country", "gasstationid", "money", "number", "stations", "value"]
+        allowed_dimensions: ["gasstations.country"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Segment = 'Value for money'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each gas station record"
+            sample_values: [44, 45, 46, 47, 48, 49, 50, 51]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_gasstationid_3"
+        title: "Count Gasstationid 3"
+        description: "COUNT over GasStationID extracted from repeated BIRD gold SQL patterns."
+        expr: "GasStationID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["gasstationid", "percentage", "premium", "slovakian", "stations"]
+        allowed_dimensions: []
+        filters:
+          - member: "country"
+            operator: "equals"
+            values: ["SVK"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Country = 'SVK'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each gas station record"
+            sample_values: [44, 45, 46, 47, 48, 49, 50, 51]
+            is_primary_key: true
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 5716
+        columns:
+          GasStationID:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each gas station record"
+            sample_values: [44, 45, 46, 47, 48, 49, 50, 51]
+            is_primary_key: true
+            is_foreign_key: false
+          ChainID:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related chain"
+            sample_values: [1, 2, 3, 4, 6, 7, 8, 9]
+            is_primary_key: false
+            is_foreign_key: true
+          Country:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Country code associated with the record"
+            sample_values: ["CZE", "SVK"]
+            value_format: "Three-letter uppercase code (ISO country or currency style)"
+            is_primary_key: false
+            is_foreign_key: false
+          Segment:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's segment"
+            sample_values: ["Discount", "Noname", "Other", "Premium", "Value for money"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "products"
+    title: "Products"
+    description: "BIRD table products in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "products"
+      dialect: "sqlite"
+      grain: ["productid"]
+    identifiers:
+      - name: "productid"
+        expr: "ProductID"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "description"
+        title: "Description"
+        expr: "Description"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing description"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing description"
+            sample_values: ["**Acquirer Event Fee**", "**Acquirer Simple Fee**", "**Acquirer Terminal Fee**", "**Acquirer Transaction Fee**", "**Card Service Fee**", "**Odometer Prompt Fee**", "**Own Yard Terminal Comms Fee**", "**Own Yard Terminal Fee**"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 591
+        columns:
+          ProductID:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each product record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          Description:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing description"
+            sample_values: ["**Acquirer Event Fee**", "**Acquirer Simple Fee**", "**Acquirer Terminal Fee**", "**Acquirer Transaction Fee**", "**Card Service Fee**", "**Odometer Prompt Fee**", "**Own Yard Terminal Comms Fee**", "**Own Yard Terminal Fee**"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "transactions_1k"
+    title: "Transactions 1k"
+    description: "BIRD table transactions_1k in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "transactions_1k"
+      dialect: "sqlite"
+      grain: ["transactionid"]
+    identifiers:
+      - name: "transactionid"
+        expr: "TransactionID"
+        type: "number"
+        primary_key: true
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column Date from transactions_1k."
+        expr: "Date"
+        type: "date"
+        default: true
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["2012-08-23", "2012-08-24", "2012-08-25", "2012-08-26"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "time"
+        title: "Time"
+        expr: "Time"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Time or timestamp value for time"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["00:07:00", "00:13:00", "00:16:00", "00:34:00", "00:49:00", "00:51:00", "02:00:00", "02:50:00"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "customerid"
+        title: "CustomerID"
+        expr: "CustomerID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Identifier linking this record to a related customer"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related customer"
+            sample_values: [96, 272, 651, 679, 1057, 1227, 2183, 2464]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "yearmonth.CustomerID"
+            foreign_table: "yearmonth"
+      - name: "cardid"
+        title: "CardID"
+        expr: "CardID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Identifier linking this record to a related card"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related card"
+            sample_values: [26228, 29378, 29379, 30883, 32057, 33446, 35708, 37489]
+            is_primary_key: false
+            is_foreign_key: true
+      - name: "gasstationid"
+        title: "GasStationID"
+        expr: "GasStationID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Identifier linking this record to a related gas station"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related gas station"
+            sample_values: [48, 64, 65, 89, 92, 94, 97, 104]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "gasstations.GasStationID"
+            foreign_table: "gasstations"
+      - name: "productid"
+        title: "ProductID"
+        expr: "ProductID"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Identifier linking this record to a related product"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related product"
+            sample_values: [2, 5, 7, 8, 9, 11, 12, 15]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "products.ProductID"
+            foreign_table: "products"
+      - name: "amount"
+        title: "Amount"
+        expr: "Amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Monetary or numeric amount for amount"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "price"
+        title: "Price"
+        expr: "Price"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Monetary or numeric amount for price"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for price"
+            sample_values: [1.76, 3.64, 3.78, 4.74, 5.44, 6.04, 6.09, 6.29]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_amount"
+        title: "Avg Amount"
+        description: "AVG over Amount extracted from repeated BIRD gold SQL patterns."
+        expr: "Amount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount", "average", "january", "place", "price", "taken", "transactions"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Date LIKE '2012-01%'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_price"
+        title: "Avg Price"
+        description: "AVG over Price extracted from repeated BIRD gold SQL patterns."
+        expr: "Price"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["average", "czech", "place", "price", "republic", "stations", "taken", "transactions"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.Country = 'CZE'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for price"
+            sample_values: [1.76, 3.64, 3.78, 4.74, 5.44, 6.04, 6.09, 6.29]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_price_2"
+        title: "Avg Price 2"
+        description: "AVG over Price extracted from repeated BIRD gold SQL patterns."
+        expr: "Price"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["average", "customers", "euro", "paid", "price", "transactions"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.Currency = 'EUR'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for price"
+            sample_values: [1.76, 3.64, 3.78, 4.74, 5.44, 6.04, 6.09, 6.29]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_customerid"
+        title: "Count Customerid"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["customerid", "customers", "percentage", "used"]
+        allowed_dimensions: []
+        filters:
+          - member: "date"
+            operator: "equals"
+            values: ["2012-08-25"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Date = '2012-08-25'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related customer"
+            sample_values: [96, 272, 651, 679, 1057, 1227, 2183, 2464]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "yearmonth.CustomerID"
+            foreign_table: "yearmonth"
+      - name: "count_transactionid"
+        title: "Count Transactionid"
+        description: "COUNT over TransactionID extracted from repeated BIRD gold SQL patterns."
+        expr: "TransactionID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["among", "czech", "made", "over", "place", "price", "republic", "station", "stations", "taken", "them", "transactionid", "transactions"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T2.Country = 'CZE' AND T1.Price > 1000", "WHERE T2.Country = 'CZE' AND STRFTIME('%Y', T1.Date) >= '2012'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each transaction record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_transactionid_2"
+        title: "Count Transactionid 2"
+        description: "COUNT over TransactionID extracted from repeated BIRD gold SQL patterns."
+        expr: "TransactionID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["morning", "paid", "transactionid", "transactions"]
+        allowed_dimensions: []
+        filters:
+          - member: "date"
+            operator: "equals"
+            values: ["2012-08-26"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Date = '2012-08-26' AND T1.Time < '13: "00:00' AND T2.Currency = 'CZK'\""
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each transaction record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_transactionid_3"
+        title: "Count Transactionid 3"
+        description: "COUNT over TransactionID extracted from repeated BIRD gold SQL patterns."
+        expr: "TransactionID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["happened", "transactionid", "transactions"]
+        allowed_dimensions: []
+        filters:
+          - member: "date"
+            operator: "equals"
+            values: ["2012-08-26"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples:
+            - "WHERE T1.Date = '2012-08-26' AND T1.Time BETWEEN '08: "00:00' AND '09:00:00' AND T2.Country = 'CZE'\""
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each transaction record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "sum_price"
+        title: "Sum Price"
+        description: "SUM over Price extracted from repeated BIRD gold SQL patterns."
+        expr: "Price"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount", "average", "currency", "customer", "highest", "item", "paid", "price", "purchased", "revenue", "single", "spending", "station", "used"]
+        allowed_dimensions: ["customers.currency", "transactions_1k.customerid"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples: ["WHERE Date = '2012-08-25'", "WHERE T2.CustomerID = (SELECT CustomerID FROM yearmonth ORDER BY Consumption DESC LIMIT 1)"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for price"
+            sample_values: [1.76, 3.64, 3.78, 4.74, 5.44, 6.04, 6.09, 6.29]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_price_2"
+        title: "Sum Price 2"
+        description: "SUM over Price extracted from repeated BIRD gold SQL patterns."
+        expr: "Price"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount", "customer", "january", "price", "spent", "stations"]
+        allowed_dimensions: []
+        filters:
+          - member: "customerid"
+            operator: "equals"
+            values: ["38508"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.CustomerID = '38508'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for price"
+            sample_values: [1.76, 3.64, 3.78, 4.74, 5.44, 6.04, 6.09, 6.29]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 1000
+        columns:
+          TransactionID:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each transaction record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          Date:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["2012-08-23", "2012-08-24", "2012-08-25", "2012-08-26"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          Time:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Time or timestamp value for time"
+            sample_values: ["00:07:00", "00:13:00", "00:16:00", "00:34:00", "00:49:00", "00:51:00", "02:00:00", "02:50:00"]
+            is_primary_key: false
+            is_foreign_key: false
+          CustomerID:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related customer"
+            sample_values: [96, 272, 651, 679, 1057, 1227, 2183, 2464]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "yearmonth.CustomerID"
+            foreign_table: "yearmonth"
+          CardID:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related card"
+            sample_values: [26228, 29378, 29379, 30883, 32057, 33446, 35708, 37489]
+            is_primary_key: false
+            is_foreign_key: true
+          GasStationID:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related gas station"
+            sample_values: [48, 64, 65, 89, 92, 94, 97, 104]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "gasstations.GasStationID"
+            foreign_table: "gasstations"
+          ProductID:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related product"
+            sample_values: [2, 5, 7, 8, 9, 11, 12, 15]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "products.ProductID"
+            foreign_table: "products"
+          Amount:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+          Price:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for price"
+            sample_values: [1.76, 3.64, 3.78, 4.74, 5.44, 6.04, 6.09, 6.29]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "yearmonth"
+    title: "Yearmonth"
+    description: "BIRD table yearmonth in the debit_card_specializing database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "yearmonth"
+      dialect: "sqlite"
+      grain: ["customerid", "date"]
+    identifiers:
+      - name: "customerid"
+        expr: "CustomerID"
+        type: "number"
+        primary_key: true
+      - name: "date"
+        expr: "Date"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "consumption"
+        title: "Consumption"
+        expr: "Consumption"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing consumption"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_consumption"
+        title: "Avg Consumption"
+        description: "AVG over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["average", "consumption", "customers", "monthly", "year"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE SUBSTRING(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_customerid"
+        title: "Count Customerid"
+        description: "COUNT over CustomerID extracted from repeated BIRD gold SQL patterns."
+        expr: "CustomerID"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["consumed", "customerid", "customers", "february", "percentage"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE Date = '201202'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each customer record"
+            sample_values: [5, 6, 7, 9, 20, 35, 37, 38]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1", "among", "consumption", "customers", "euro", "monthly", "over", "paid", "them"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.Currency = 'EUR' AND T1.Consumption > 1000.00"]
+      - name: "min_consumption"
+        title: "Min Consumption"
+        description: "MIN over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount", "annual", "average", "consumption", "customers", "difference", "paid"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Currency = 'CZK' AND T2.Consumption = (SELECT MIN(Consumption) FROM yearmonth) AND T2.Date BETWEEN 201301 AND 201312"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_consumption"
+        title: "Sum Consumption"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["consumed", "consumption", "customer", "percent"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T1.Segment = 'LAM' AND SUBSTRING(T2.Date, 1, 4) = '2012'", "WHERE T1.Segment = 'LAM'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_consumption_2"
+        title: "Sum Consumption 2"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount", "annual", "average", "consumed", "consumption", "customers", "difference", "paid", "paying", "recorded", "year"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples: ["WHERE T1.Currency = 'CZK' AND T2.Consumption = (SELECT MIN(Consumption) FROM yearmonth) AND T2.Date BETWEEN 201301 AND 201312", "WHERE T1.Currency = 'CZK' AND T2.Date BETWEEN 201101 AND 201112", "WHERE T1.Currency = 'CZK'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_consumption_3"
+        title: "Sum Consumption 3"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["april", "august", "biggest", "client", "consume", "consumed", "consuming", "consumption", "customer", "customers", "czkpaying", "difference", "eurpaying", "february", "highest", "increases", "kamhas", "lowest", "monthly", "november", "paid", "percentage", "segment", "segmentssme", "september", "three", "year"]
+        allowed_dimensions: ["customers.segment"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 10
+          distinct: false
+          where_examples: ["WHERE SUBSTRING(T2.Date, 1, 4) = '2012'", "WHERE Date = '201304'", "WHERE T2.Date = '201309'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_consumption_4"
+        title: "Sum Consumption 4"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["biggest", "consumption", "currency", "customers", "euro", "monthly", "paid", "recorded", "year"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T1.Currency = 'EUR'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_consumption_5"
+        title: "Sum Consumption 5"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["consumed", "consumption", "customer", "customers", "june", "month", "peak"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE SUBSTRING(T2.Date, 1, 4) = '2013' AND T1.Segment = 'SME'", "WHERE T2.Date = '201206' AND T1.Segment = 'SME'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_consumption_6"
+        title: "Sum Consumption 6"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["consumption", "currency", "customer", "euro", "highest", "october", "used"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.Segment = 'LAM' AND T2.Date = '201310' AND T1.Currency = 'EUR'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_consumption_7"
+        title: "Sum Consumption 7"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["among", "consume", "consumed", "consumption", "customers", "kams"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T1.Segment = 'KAM'", "WHERE T2.Date = '201305' AND T1.Segment = 'KAM'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_consumption_8"
+        title: "Sum Consumption 8"
+        description: "SUM over Consumption extracted from repeated BIRD gold SQL patterns."
+        expr: "Consumption"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["consumption", "customer", "decrease", "paid", "rate", "year"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE CustomerID = (SELECT T1.CustomerID FROM transactions_1k AS T1 INNER JOIN gasstations AS T2 ON T1.GasStationID = T2.GasStationID WHERE T1.Date = '2012-08-25' AND T1.Price = 634.8)"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 383282
+        columns:
+          CustomerID:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each customer record"
+            sample_values: [5, 6, 7, 9, 20, 35, 37, 38]
+            is_primary_key: true
+            is_foreign_key: false
+          Date:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each date record"
+            sample_values: ["201112", "201201", "201202", "201203", "201204", "201205", "201206", "201207"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+          Consumption:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing consumption"
+            sample_values: [-582092.86, -123169.73, -18145.35, -16041.87, -14896.12, -12606.39, -12487.83, -10383.31]
+            is_primary_key: false
+            is_foreign_key: false
+relationships:
+  - name: "customers_to_transactions_1k_customerid_customerid"
+    source: "customers"
+    target: "transactions_1k"
+    from: "customers.customerid"
+    to: "transactions_1k.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "customers_to_yearmonth_customerid_customerid"
+    source: "customers"
+    target: "yearmonth"
+    from: "customers.customerid"
+    to: "yearmonth.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "transactions_1k_to_customers_customerid_customerid"
+    source: "transactions_1k"
+    target: "customers"
+    from: "transactions_1k.customerid"
+    to: "customers.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "transactions_1k_to_gasstations_gasstationid_gasstationid"
+    source: "transactions_1k"
+    target: "gasstations"
+    from: "transactions_1k.gasstationid"
+    to: "gasstations.gasstationid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "transactions_1k_to_products_productid_productid"
+    source: "transactions_1k"
+    target: "products"
+    from: "transactions_1k.productid"
+    to: "products.productid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "transactions_1k_to_yearmonth_customerid_customerid"
+    source: "transactions_1k"
+    target: "yearmonth"
+    from: "transactions_1k.customerid"
+    to: "yearmonth.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "yearmonth_to_customers_customerid_customerid"
+    source: "yearmonth"
+    target: "customers"
+    from: "yearmonth.customerid"
+    to: "customers.customerid"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+views:
+  - name: "debit_card_specializing_all"
+    title: "Debit Card Specializing All"
+    description: "Governed semantic view for the BIRD debit_card_specializing database."
+    public: true
+    ai_context: "Debit card customer segments, currencies, gas station transactions, products, and monthly fuel consumption."
+    entities:
+      - join_path: "customers"
+        includes:
+          measures: ["count_customerid", "count_customerid_2", "count_customerid_3", "count_row_count"]
+          dimensions: ["segment", "currency"]
+          time_dimensions: []
+          segments: []
+      - join_path: "gasstations"
+        includes:
+          measures: ["count_gasstationid", "count_gasstationid_2", "count_gasstationid_3"]
+          dimensions: ["chainid", "country", "segment"]
+          time_dimensions: []
+          segments: []
+      - join_path: "products"
+        includes:
+          measures: []
+          dimensions: ["description"]
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k"
+        includes:
+          measures: ["avg_amount", "avg_price", "avg_price_2", "count_customerid", "count_transactionid", "count_transactionid_2", "count_transactionid_3", "sum_price", "sum_price_2"]
+          dimensions: ["time", "customerid", "cardid", "gasstationid", "productid", "amount", "price"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "yearmonth"
+        includes:
+          measures: ["avg_consumption", "count_customerid", "count_row_count", "min_consumption", "sum_consumption", "sum_consumption_2", "sum_consumption_3", "sum_consumption_4", "sum_consumption_5", "sum_consumption_6", "sum_consumption_7", "sum_consumption_8"]
+          dimensions: ["consumption"]
+          time_dimensions: []
+          segments: []
+      - join_path: "customers.transactions_1k"
+        prefix: true
+        includes:
+          measures: ["avg_amount", "avg_price", "avg_price_2", "count_customerid", "count_transactionid", "count_transactionid_2", "count_transactionid_3", "sum_price", "sum_price_2"]
+          dimensions: ["time", "customerid", "cardid", "gasstationid", "productid", "amount", "price"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "customers.yearmonth"
+        prefix: true
+        includes:
+          measures: ["avg_consumption", "count_customerid", "count_row_count", "min_consumption", "sum_consumption", "sum_consumption_2", "sum_consumption_3", "sum_consumption_4", "sum_consumption_5", "sum_consumption_6", "sum_consumption_7", "sum_consumption_8"]
+          dimensions: ["consumption"]
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k.customers"
+        prefix: true
+        includes:
+          measures: ["count_customerid", "count_customerid_2", "count_customerid_3", "count_row_count"]
+          dimensions: ["segment", "currency"]
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k.gasstations"
+        prefix: true
+        includes:
+          measures: ["count_gasstationid", "count_gasstationid_2", "count_gasstationid_3"]
+          dimensions: ["chainid", "country", "segment"]
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k.products"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["description"]
+          time_dimensions: []
+          segments: []
+      - join_path: "transactions_1k.yearmonth"
+        prefix: true
+        includes:
+          measures: ["avg_consumption", "count_customerid", "count_row_count", "min_consumption", "sum_consumption", "sum_consumption_2", "sum_consumption_3", "sum_consumption_4", "sum_consumption_5", "sum_consumption_6", "sum_consumption_7", "sum_consumption_8"]
+          dimensions: ["consumption"]
+          time_dimensions: []
+          segments: []
+      - join_path: "yearmonth.customers"
+        prefix: true
+        includes:
+          measures: ["count_customerid", "count_customerid_2", "count_customerid_3", "count_row_count"]
+          dimensions: ["segment", "currency"]
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes: ["customers.count_customerid", "customers.count_customerid_2", "customers.count_customerid_3", "customers.count_row_count", "gasstations.count_gasstationid", "gasstations.count_gasstationid_2", "gasstations.count_gasstationid_3", "transactions_1k.avg_amount", "transactions_1k.avg_price", "transactions_1k.avg_price_2", "transactions_1k.count_customerid", "transactions_1k.count_transactionid", "transactions_1k.count_transactionid_2", "transactions_1k.count_transactionid_3", "transactions_1k.sum_price", "transactions_1k.sum_price_2", "yearmonth.avg_consumption", "yearmonth.count_customerid", "yearmonth.count_row_count", "yearmonth.min_consumption", "yearmonth.sum_consumption", "yearmonth.sum_consumption_2", "yearmonth.sum_consumption_3", "yearmonth.sum_consumption_4", "yearmonth.sum_consumption_5", "yearmonth.sum_consumption_6", "yearmonth.sum_consumption_7", "yearmonth.sum_consumption_8"]
+      - name: "Frequently Used Dimensions"
+        includes: ["customers.segment", "customers.currency", "transactions_1k.customerid", "gasstations.country"]
+    default_time_dimension: "transactions_1k.date"
+policies: []

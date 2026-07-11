@@ -1,0 +1,1677 @@
+version: 1
+domain: "toxicology"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+  data_dictionary:
+    db_id: "toxicology"
+    tables: ["atom", "bond", "connected", "molecule"]
+entities:
+  - name: "atom"
+    title: "Atom"
+    description: "BIRD table atom in the toxicology database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "atom"
+      dialect: "sqlite"
+      grain: ["atom_id"]
+    identifiers:
+      - name: "atom_id"
+        expr: "atom_id"
+        type: "string"
+        primary_key: true
+      - name: "molecule_id"
+        expr: "molecule_id"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "element"
+        title: "Element"
+        expr: "element"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing element"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing element"
+            sample_values: ["b", "br", "c", "ca", "cl", "cu", "f", "h"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "distinct_atom_id_count"
+        title: "Distinct Atom Id Count"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.bond_type = '='"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_atom_id_count_2"
+        title: "Distinct Atom Id Count 2"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T.element <> 'br'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_atom_id_count_3"
+        title: "Distinct Atom Id Count 3"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T3.bond_type = '-'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_atom_id"
+        title: "Count Atom Id"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples: ["WHERE T.molecule_id = 'TR206'", "WHERE T.molecule_id = 'TR001'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_atom_id_2"
+        title: "Count Atom Id 2"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters:
+          - member: "element"
+            operator: "equals"
+            values: ["i"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.element = 'i'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_atom_id_3"
+        title: "Count Atom Id 3"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters:
+          - member: "element"
+            operator: "equals"
+            values: ["c"]
+          - member: "element"
+            operator: "equals"
+            values: ["h"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T.element = 'c' OR T.element = 'h'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_atom_id_4"
+        title: "Count Atom Id 4"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters:
+          - member: "element"
+            operator: "equals"
+            values: ["p", "br"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.bond_type = '#' AND T1.element IN ('p', 'br')"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_atom_id_5"
+        title: "Count Atom Id 5"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.label = '+'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_atom_id_6"
+        title: "Count Atom Id 6"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters:
+          - member: "element"
+            operator: "equals"
+            values: ["h"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.label = '+' AND T1.element = 'h'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_atom_id_7"
+        title: "Count Atom Id 7"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters:
+          - member: "element"
+            operator: "equals"
+            values: ["c"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T.molecule_id = 'TR008' AND T.element = 'c'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_element"
+        title: "Count Element"
+        description: "COUNT over element extracted from repeated BIRD gold SQL patterns."
+        expr: "element"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["element"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing element"
+            sample_values: ["b", "br", "c", "ca", "cl", "cu", "f", "h"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_element_2"
+        title: "Count Element 2"
+        description: "COUNT over element extracted from repeated BIRD gold SQL patterns."
+        expr: "element"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["element"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.label = '+'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing element"
+            sample_values: ["b", "br", "c", "ca", "cl", "cu", "f", "h"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "distinct_element_count"
+        title: "Distinct Element Count"
+        description: "COUNT over element extracted from repeated BIRD gold SQL patterns."
+        expr: "element"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["element"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.bond_id = 'TR001_3_4'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing element"
+            sample_values: ["b", "br", "c", "ca", "cl", "cu", "f", "h"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count"
+        title: "Distinct Molecule Id Count"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: true
+          where_examples: ["WHERE T1.element <> 's' AND T2.bond_type <> '='"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related molecule"
+            sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "molecule.molecule_id"
+            foreign_table: "molecule"
+      - name: "distinct_molecule_id_count_2"
+        title: "Distinct Molecule Id Count 2"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "element"
+            operator: "equals"
+            values: ["o"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.bond_type = '=' AND T1.element = 'o'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related molecule"
+            sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "molecule.molecule_id"
+            foreign_table: "molecule"
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 12333
+        columns:
+          atom_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+          molecule_id:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related molecule"
+            sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "molecule.molecule_id"
+            foreign_table: "molecule"
+          element:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing element"
+            sample_values: ["b", "br", "c", "ca", "cl", "cu", "f", "h"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "bond"
+    title: "Bond"
+    description: "BIRD table bond in the toxicology database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "bond"
+      dialect: "sqlite"
+      grain: ["bond_id"]
+    identifiers:
+      - name: "bond_id"
+        expr: "bond_id"
+        type: "string"
+        primary_key: true
+      - name: "molecule_id"
+        expr: "molecule_id"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "bond_type"
+        title: "Bond Type"
+        expr: "bond_type"
+        type: "string"
+        synonyms: ["bond type"]
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's bond type"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's bond type"
+            sample_values: ["#", "-", "="]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_bond_id"
+        title: "Count Bond Id"
+        description: "COUNT over bond_id extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond id"]
+        allowed_dimensions: []
+        filters:
+          - member: "bond_type"
+            operator: "equals"
+            values: ["#"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T.bond_type = '#'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each bond record"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_bond_id_2"
+        title: "Count Bond Id 2"
+        description: "COUNT over bond_id extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 5
+          distinct: false
+          where_examples: ["WHERE T.molecule_id = 'TR008'", "WHERE T.molecule_id = 'TR047'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each bond record"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_bond_id_3"
+        title: "Count Bond Id 3"
+        description: "COUNT over bond_id extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond id"]
+        allowed_dimensions: []
+        filters:
+          - member: "bond_type"
+            operator: "equals"
+            values: ["-"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T1.bond_type = '-'", "WHERE T.bond_type = '-'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each bond record"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_bond_id_4"
+        title: "Count Bond Id 4"
+        description: "COUNT over bond_id extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.element = 'i'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each bond record"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_bond_id_5"
+        title: "Count Bond Id 5"
+        description: "COUNT over bond_id extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond id"]
+        allowed_dimensions: ["molecule.label"]
+        filters:
+          - member: "bond_type"
+            operator: "equals"
+            values: ["="]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.bond_type = '=' AND T2.molecule_id = 'TR006'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each bond record"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_bond_type"
+        title: "Count Bond Type"
+        description: "COUNT over bond_type extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_type"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond type"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's bond type"
+            sample_values: ["#", "-", "="]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "distinct_bond_type_count"
+        title: "Distinct Bond Type Count"
+        description: "COUNT over bond_type extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_type"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond type"]
+        allowed_dimensions: ["bond.bond_type"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T1.molecule_id = 'TR000'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's bond type"
+            sample_values: ["#", "-", "="]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_molecule_id"
+        title: "Count Molecule Id"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related molecule"
+            sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "molecule.molecule_id"
+            foreign_table: "molecule"
+      - name: "distinct_molecule_id_count"
+        title: "Distinct Molecule Id Count"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "bond_type"
+            operator: "equals"
+            values: ["#"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T.bond_type = '#'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related molecule"
+            sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "molecule.molecule_id"
+            foreign_table: "molecule"
+      - name: "distinct_molecule_id_count_2"
+        title: "Distinct Molecule Id Count 2"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "bond_type"
+            operator: "equals"
+            values: ["-"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T.molecule_id BETWEEN 'TR004' AND 'TR010' AND T.bond_type = '-'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related molecule"
+            sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "molecule.molecule_id"
+            foreign_table: "molecule"
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 12379
+        columns:
+          bond_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each bond record"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+          molecule_id:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related molecule"
+            sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "molecule.molecule_id"
+            foreign_table: "molecule"
+          bond_type:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's bond type"
+            sample_values: ["#", "-", "="]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "connected"
+    title: "Connected"
+    description: "BIRD table connected in the toxicology database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "connected"
+      dialect: "sqlite"
+      grain: ["atom_id", "atom_id2"]
+    identifiers:
+      - name: "atom_id"
+        expr: "atom_id"
+        type: "string"
+        primary_key: true
+      - name: "atom_id2"
+        expr: "atom_id2"
+        type: "string"
+        primary_key: true
+      - name: "bond_id"
+        expr: "bond_id"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions: []
+    measures:
+      - name: "count_atom_id"
+        title: "Count Atom Id"
+        description: "COUNT over atom_id extracted from repeated BIRD gold SQL patterns."
+        expr: "atom_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["atom id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "atom.atom_id"
+            foreign_table: "atom"
+      - name: "count_bond_id"
+        title: "Count Bond Id"
+        description: "COUNT over bond_id extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T1.molecule_id = 'TR009' AND T2.atom_id = T1.molecule_id || '_1' AND T2.atom_id2 = T1.molecule_id || '_2'", "WHERE SUBSTRING(T.atom_id, -2) = '19'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related bond"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "bond.bond_id"
+            foreign_table: "bond"
+      - name: "count_bond_id_2"
+        title: "Count Bond Id 2"
+        description: "COUNT over bond_id extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.element = 'i'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related bond"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "bond.bond_id"
+            foreign_table: "bond"
+      - name: "count_bond_id_3"
+        title: "Count Bond Id 3"
+        description: "COUNT over bond_id extracted from repeated BIRD gold SQL patterns."
+        expr: "bond_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["bond id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.element = 'cl'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related bond"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "bond.bond_id"
+            foreign_table: "bond"
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 24758
+        columns:
+          atom_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "atom.atom_id"
+            foreign_table: "atom"
+          atom_id2:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each atom id2 record"
+            sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "atom.atom_id"
+            foreign_table: "atom"
+          bond_id:
+            type: "TEXT"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related bond"
+            sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "bond.bond_id"
+            foreign_table: "bond"
+  - name: "molecule"
+    title: "Molecule"
+    description: "BIRD table molecule in the toxicology database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "molecule"
+      dialect: "sqlite"
+      grain: ["molecule_id"]
+    identifiers:
+      - name: "molecule_id"
+        expr: "molecule_id"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "label"
+        title: "Label"
+        expr: "label"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing label"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing label"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_label"
+        title: "Count Label"
+        description: "COUNT over label extracted from repeated BIRD gold SQL patterns."
+        expr: "label"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["label"]
+        allowed_dimensions: ["molecule.label"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.element = 'ca'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing label"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count"
+        title: "Distinct Molecule Id Count"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["-"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.element = 'cl' AND T1.label = '-'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_2"
+        title: "Distinct Molecule Id Count 2"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["-"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T1.element = 'na' AND T2.label = '-'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_molecule_id"
+        title: "Count Molecule Id"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["+"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples: ["WHERE T.label = '+'", "WHERE molecule_id BETWEEN 'TR000' AND 'TR099' AND T.label = '+'", "WHERE T.molecule_id BETWEEN 'TR000' AND 'TR030' AND T.label = '+'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_molecule_id_2"
+        title: "Count Molecule Id 2"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 5
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_3"
+        title: "Distinct Molecule Id Count 3"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["+"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.label = '+'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_4"
+        title: "Distinct Molecule Id Count 4"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T3.bond_type = '#'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_5"
+        title: "Distinct Molecule Id Count 5"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["+"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.label = '+' AND T1.element = 'br'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_molecule_id_3"
+        title: "Count Molecule Id 3"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["-"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T.label = '-'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_6"
+        title: "Distinct Molecule Id Count 6"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["-"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.label = '-' AND T1.bond_type = '-'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_7"
+        title: "Distinct Molecule Id Count 7"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T1.bond_type = '='"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_8"
+        title: "Distinct Molecule Id Count 8"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["+"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.element = 'n' AND T1.label = '+'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_9"
+        title: "Distinct Molecule Id Count 9"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T3.bond_type = '#' AND T2.element = 'h'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_molecule_id_count_10"
+        title: "Distinct Molecule Id Count 10"
+        description: "COUNT over molecule_id extracted from repeated BIRD gold SQL patterns."
+        expr: "molecule_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["molecule id"]
+        allowed_dimensions: []
+        filters:
+          - member: "label"
+            operator: "equals"
+            values: ["-"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T2.bond_type = '#' AND T1.label = '-'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "sum_label"
+        title: "Sum Label"
+        description: "SUM over label extracted from repeated BIRD gold SQL patterns."
+        expr: "label"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["label"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.bond_type = '='"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing label"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_label_2"
+        title: "Sum Label 2"
+        description: "SUM over label extracted from repeated BIRD gold SQL patterns."
+        expr: "label"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["label"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.bond_type = '#' AND T2.element = 'h'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing label"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 343
+        columns:
+          molecule_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each molecule record"
+            sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+            value_format: "Short uppercase code"
+            is_primary_key: true
+            is_foreign_key: false
+          label:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing label"
+            sample_values: ["+", "-"]
+            is_primary_key: false
+            is_foreign_key: false
+relationships:
+  - name: "atom_to_bond_molecule_id_molecule_id"
+    source: "atom"
+    target: "bond"
+    from: "atom.molecule_id"
+    to: "bond.molecule_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "atom_to_connected_atom_id_atom_id"
+    source: "atom"
+    target: "connected"
+    from: "atom.atom_id"
+    to: "connected.atom_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "atom_to_molecule_molecule_id_molecule_id"
+    source: "atom"
+    target: "molecule"
+    from: "atom.molecule_id"
+    to: "molecule.molecule_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "bond_to_atom_molecule_id_molecule_id"
+    source: "bond"
+    target: "atom"
+    from: "bond.molecule_id"
+    to: "atom.molecule_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "bond_to_connected_bond_id_bond_id"
+    source: "bond"
+    target: "connected"
+    from: "bond.bond_id"
+    to: "connected.bond_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "bond_to_molecule_molecule_id_molecule_id"
+    source: "bond"
+    target: "molecule"
+    from: "bond.molecule_id"
+    to: "molecule.molecule_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "connected_to_atom_atom_id2_atom_id"
+    source: "connected"
+    target: "atom"
+    from: "connected.atom_id2"
+    to: "atom.atom_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key"]
+  - name: "connected_to_atom_atom_id_atom_id"
+    source: "connected"
+    target: "atom"
+    from: "connected.atom_id"
+    to: "atom.atom_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "connected_to_bond_bond_id_bond_id"
+    source: "connected"
+    target: "bond"
+    from: "connected.bond_id"
+    to: "bond.bond_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "molecule_to_atom_molecule_id_molecule_id"
+    source: "molecule"
+    target: "atom"
+    from: "molecule.molecule_id"
+    to: "atom.molecule_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "molecule_to_bond_molecule_id_molecule_id"
+    source: "molecule"
+    target: "bond"
+    from: "molecule.molecule_id"
+    to: "bond.molecule_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+views:
+  - name: "toxicology_all"
+    title: "Toxicology All"
+    description: "Governed semantic view for the BIRD toxicology database."
+    public: true
+    ai_context: "Molecules, atoms, bonds, connectivity, and toxicology labels."
+    entities:
+      - join_path: "atom"
+        includes:
+          measures: ["distinct_atom_id_count", "distinct_atom_id_count_2", "distinct_atom_id_count_3", "count_atom_id", "count_atom_id_2", "count_atom_id_3", "count_atom_id_4", "count_atom_id_5", "count_atom_id_6", "count_atom_id_7", "count_element", "count_element_2", "distinct_element_count", "distinct_molecule_id_count", "distinct_molecule_id_count_2"]
+          dimensions: ["element"]
+          time_dimensions: []
+          segments: []
+      - join_path: "bond"
+        includes:
+          measures: ["count_bond_id", "count_bond_id_2", "count_bond_id_3", "count_bond_id_4", "count_bond_id_5", "count_bond_type", "distinct_bond_type_count", "count_molecule_id", "distinct_molecule_id_count", "distinct_molecule_id_count_2"]
+          dimensions: ["bond_type"]
+          time_dimensions: []
+          segments: []
+      - join_path: "connected"
+        includes:
+          measures: ["count_atom_id", "count_bond_id", "count_bond_id_2", "count_bond_id_3"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "molecule"
+        includes:
+          measures: ["count_label", "distinct_molecule_id_count", "distinct_molecule_id_count_2", "count_molecule_id", "count_molecule_id_2", "distinct_molecule_id_count_3", "distinct_molecule_id_count_4", "distinct_molecule_id_count_5", "count_molecule_id_3", "distinct_molecule_id_count_6", "distinct_molecule_id_count_7", "distinct_molecule_id_count_8", "distinct_molecule_id_count_9", "distinct_molecule_id_count_10", "sum_label", "sum_label_2"]
+          dimensions: ["label"]
+          time_dimensions: []
+          segments: []
+      - join_path: "atom.bond"
+        prefix: true
+        includes:
+          measures: ["count_bond_id", "count_bond_id_2", "count_bond_id_3", "count_bond_id_4", "count_bond_id_5", "count_bond_type", "distinct_bond_type_count", "count_molecule_id", "distinct_molecule_id_count", "distinct_molecule_id_count_2"]
+          dimensions: ["bond_type"]
+          time_dimensions: []
+          segments: []
+      - join_path: "atom.connected"
+        prefix: true
+        includes:
+          measures: ["count_atom_id", "count_bond_id", "count_bond_id_2", "count_bond_id_3"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "atom.molecule"
+        prefix: true
+        includes:
+          measures: ["count_label", "distinct_molecule_id_count", "distinct_molecule_id_count_2", "count_molecule_id", "count_molecule_id_2", "distinct_molecule_id_count_3", "distinct_molecule_id_count_4", "distinct_molecule_id_count_5", "count_molecule_id_3", "distinct_molecule_id_count_6", "distinct_molecule_id_count_7", "distinct_molecule_id_count_8", "distinct_molecule_id_count_9", "distinct_molecule_id_count_10", "sum_label", "sum_label_2"]
+          dimensions: ["label"]
+          time_dimensions: []
+          segments: []
+      - join_path: "bond.atom"
+        prefix: true
+        includes:
+          measures: ["distinct_atom_id_count", "distinct_atom_id_count_2", "distinct_atom_id_count_3", "count_atom_id", "count_atom_id_2", "count_atom_id_3", "count_atom_id_4", "count_atom_id_5", "count_atom_id_6", "count_atom_id_7", "count_element", "count_element_2", "distinct_element_count", "distinct_molecule_id_count", "distinct_molecule_id_count_2"]
+          dimensions: ["element"]
+          time_dimensions: []
+          segments: []
+      - join_path: "bond.connected"
+        prefix: true
+        includes:
+          measures: ["count_atom_id", "count_bond_id", "count_bond_id_2", "count_bond_id_3"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "bond.molecule"
+        prefix: true
+        includes:
+          measures: ["count_label", "distinct_molecule_id_count", "distinct_molecule_id_count_2", "count_molecule_id", "count_molecule_id_2", "distinct_molecule_id_count_3", "distinct_molecule_id_count_4", "distinct_molecule_id_count_5", "count_molecule_id_3", "distinct_molecule_id_count_6", "distinct_molecule_id_count_7", "distinct_molecule_id_count_8", "distinct_molecule_id_count_9", "distinct_molecule_id_count_10", "sum_label", "sum_label_2"]
+          dimensions: ["label"]
+          time_dimensions: []
+          segments: []
+      - join_path: "connected.atom"
+        prefix: true
+        includes:
+          measures: ["distinct_atom_id_count", "distinct_atom_id_count_2", "distinct_atom_id_count_3", "count_atom_id", "count_atom_id_2", "count_atom_id_3", "count_atom_id_4", "count_atom_id_5", "count_atom_id_6", "count_atom_id_7", "count_element", "count_element_2", "distinct_element_count", "distinct_molecule_id_count", "distinct_molecule_id_count_2"]
+          dimensions: ["element"]
+          time_dimensions: []
+          segments: []
+      - join_path: "connected.bond"
+        prefix: true
+        includes:
+          measures: ["count_bond_id", "count_bond_id_2", "count_bond_id_3", "count_bond_id_4", "count_bond_id_5", "count_bond_type", "distinct_bond_type_count", "count_molecule_id", "distinct_molecule_id_count", "distinct_molecule_id_count_2"]
+          dimensions: ["bond_type"]
+          time_dimensions: []
+          segments: []
+      - join_path: "molecule.atom"
+        prefix: true
+        includes:
+          measures: ["distinct_atom_id_count", "distinct_atom_id_count_2", "distinct_atom_id_count_3", "count_atom_id", "count_atom_id_2", "count_atom_id_3", "count_atom_id_4", "count_atom_id_5", "count_atom_id_6", "count_atom_id_7", "count_element", "count_element_2", "distinct_element_count", "distinct_molecule_id_count", "distinct_molecule_id_count_2"]
+          dimensions: ["element"]
+          time_dimensions: []
+          segments: []
+      - join_path: "molecule.bond"
+        prefix: true
+        includes:
+          measures: ["count_bond_id", "count_bond_id_2", "count_bond_id_3", "count_bond_id_4", "count_bond_id_5", "count_bond_type", "distinct_bond_type_count", "count_molecule_id", "distinct_molecule_id_count", "distinct_molecule_id_count_2"]
+          dimensions: ["bond_type"]
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes: ["atom.count_atom_id", "atom.count_atom_id_2", "atom.count_atom_id_3", "atom.count_atom_id_4", "atom.count_atom_id_5", "atom.count_atom_id_6", "atom.count_atom_id_7", "atom.count_element", "atom.count_element_2", "atom.distinct_atom_id_count", "atom.distinct_atom_id_count_2", "atom.distinct_atom_id_count_3", "atom.distinct_element_count", "atom.distinct_molecule_id_count", "atom.distinct_molecule_id_count_2", "bond.count_bond_id", "bond.count_bond_id_2", "bond.count_bond_id_3", "bond.count_bond_id_4", "bond.count_bond_id_5", "bond.count_bond_type", "bond.count_molecule_id", "bond.distinct_bond_type_count", "bond.distinct_molecule_id_count", "bond.distinct_molecule_id_count_2", "connected.count_atom_id", "connected.count_bond_id", "connected.count_bond_id_2", "connected.count_bond_id_3", "molecule.count_label", "molecule.count_molecule_id", "molecule.count_molecule_id_2", "molecule.count_molecule_id_3", "molecule.distinct_molecule_id_count", "molecule.distinct_molecule_id_count_10", "molecule.distinct_molecule_id_count_2", "molecule.distinct_molecule_id_count_3", "molecule.distinct_molecule_id_count_4", "molecule.distinct_molecule_id_count_5", "molecule.distinct_molecule_id_count_6", "molecule.distinct_molecule_id_count_7", "molecule.distinct_molecule_id_count_8", "molecule.distinct_molecule_id_count_9", "molecule.sum_label", "molecule.sum_label_2"]
+      - name: "Frequently Used Dimensions"
+        includes: ["molecule.label", "bond.bond_type"]
+    default_time_dimension: null
+policies: []

@@ -1,0 +1,661 @@
+db_id: "california_schools"
+tables:
+  frpm:
+    description: "Frpm records and attributes"
+    row_count: 9986
+    columns:
+      CDSCode:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each cdscode record"
+        sample_values: ["01100170109835", "01100170112607", "01100170118489", "01100170123968", "01100170124172", "01100170125567", "01100170130401", "01100170130419"]
+        is_primary_key: true
+        is_foreign_key: true
+        foreign_key_ref: "schools.CDSCode"
+        foreign_table: "schools"
+      Academic Year:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing academic year"
+        sample_values: ["2014-2015"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      County Code:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing county code"
+        sample_values: ["01", "02", "03", "04", "05", "06", "07", "08"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      District Code:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing district code"
+        sample_values: [10017, 10025, 10033, 10041, 10058, 10074, 10082, 10090]
+        is_primary_key: false
+        is_foreign_key: false
+      School Code:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing school code"
+        sample_values: ["0000000", "0100016", "0100024", "0100040", "0100057", "0100065", "0100081", "0100099"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      County Name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for county name"
+        sample_values: ["Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Colusa", "Contra Costa", "Del Norte"]
+        is_primary_key: false
+        is_foreign_key: false
+      District Name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for district name"
+        sample_values: ["ABC Unified", "Acalanes Union High", "Ackerman Charter", "Acton-Agua Dulce Unified", "Adelanto Elementary", "Alameda County Office of Education", "Alameda Unified", "Albany City Unified"]
+        is_primary_key: false
+        is_foreign_key: false
+      School Name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for school name"
+        sample_values: ["21st Century Learning Institute", "A. E. Arnold Elementary", "A. G. Currie Middle", "A. J. Cook Elementary", "A. J. Dorsa Elementary", "A. L. Conner Elementary", "A. M. Thomas Middle", "A. M. Winn Waldorf-Inspired"]
+        is_primary_key: false
+        is_foreign_key: false
+      District Type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's district type"
+        sample_values: ["County Office of Education (COE)", "Elementary School District", "High School District", "Non-School Locations", "State Board of Education", "State Special Schools", "Statewide Benefit Charter", "Unified School District"]
+        is_primary_key: false
+        is_foreign_key: false
+      School Type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's school type"
+        sample_values: ["Alternative Schools of Choice", "Continuation High Schools", "County Community", "District Community Day Schools", "Elemen Schools In 1 School Dist. (Public)", "Elementary Schools (Public)", "High Schools (Public)", "High Schools In 1 School Dist. (Public)"]
+        is_primary_key: false
+        is_foreign_key: false
+      Educational Option Type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's educational option type"
+        sample_values: ["Alternative School of Choice", "Community Day School", "Continuation School", "County Community School", "District Special Education Consortia School", "Home and Hospital", "Juvenile Court School", "Opportunity School"]
+        is_primary_key: false
+        is_foreign_key: false
+      NSLP Provision Status:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's nslp provision status"
+        sample_values: ["Breakfast Provision 2", "CEP", "Lunch Provision 2", "Multiple Provision Types", "Provision 1", "Provision 2", "Provision 3"]
+        is_primary_key: false
+        is_foreign_key: false
+      Charter School (Y/N):
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing charter school y n"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      Charter School Number:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Numeric count or quantity for charter school number"
+        sample_values: ["0001", "0005", "0009", "0012", "0013", "0014", "0015", "0016"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      Charter Funding Type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's charter funding type"
+        sample_values: ["Directly funded", "Locally funded", "Not in CS funding model"]
+        is_primary_key: false
+        is_foreign_key: false
+      IRC:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing irc"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      Low Grade:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing low grade"
+        sample_values: ["1", "10", "11", "12", "2", "3", "4", "5"]
+        is_primary_key: false
+        is_foreign_key: false
+      High Grade:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing high grade"
+        sample_values: ["1", "10", "11", "12", "13", "2", "3", "4"]
+        is_primary_key: false
+        is_foreign_key: false
+      Enrollment (K-12):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing enrollment k 12"
+        sample_values: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+        is_primary_key: false
+        is_foreign_key: false
+      Free Meal Count (K-12):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric count or quantity for free meal count k 12"
+        sample_values: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+        is_primary_key: false
+        is_foreign_key: false
+      Percent (%) Eligible Free (K-12):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing percent eligible free k 12"
+        sample_values: [0.00176056338028169, 0.00220507166482911, 0.00227790432801822, 0.00252525252525253, 0.00296296296296296, 0.00449438202247191, 0.00480769230769231, 0.0050761421319797]
+        is_primary_key: false
+        is_foreign_key: false
+      FRPM Count (K-12):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric count or quantity for frpm count k 12"
+        sample_values: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+        is_primary_key: false
+        is_foreign_key: false
+      Percent (%) Eligible FRPM (K-12):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing percent eligible frpm k 12"
+        sample_values: [0.00220507166482911, 0.00227790432801822, 0.00251256281407035, 0.00252525252525253, 0.00279329608938547, 0.00444444444444444, 0.00449438202247191, 0.00480769230769231]
+        is_primary_key: false
+        is_foreign_key: false
+      Enrollment (Ages 5-17):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing enrollment ages 5 17"
+        sample_values: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+        is_primary_key: false
+        is_foreign_key: false
+      Free Meal Count (Ages 5-17):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric count or quantity for free meal count ages 5 17"
+        sample_values: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+        is_primary_key: false
+        is_foreign_key: false
+      Percent (%) Eligible Free (Ages 5-17):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing percent eligible free ages 5 17"
+        sample_values: [0.00179856115107914, 0.00220507166482911, 0.00227790432801822, 0.00261780104712042, 0.00296296296296296, 0.00480769230769231, 0.0050761421319797, 0.00535019455252918]
+        is_primary_key: false
+        is_foreign_key: false
+      FRPM Count (Ages 5-17):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric count or quantity for frpm count ages 5 17"
+        sample_values: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+        is_primary_key: false
+        is_foreign_key: false
+      Percent (%) Eligible FRPM (Ages 5-17):
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing percent eligible frpm ages 5 17"
+        sample_values: [0.00220507166482911, 0.00227790432801822, 0.00251256281407035, 0.00261780104712042, 0.00279329608938547, 0.00444444444444444, 0.00480769230769231, 0.0050761421319797]
+        is_primary_key: false
+        is_foreign_key: false
+      2013-14 CALPADS Fall 1 Certification Status:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Categorical value describing the record's 2013 14 calpads fall 1 certification status"
+        sample_values: [1]
+        is_primary_key: false
+        is_foreign_key: false
+  satscores:
+    description: "Satscores records and attributes"
+    row_count: 2269
+    columns:
+      cds:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each cds record"
+        sample_values: ["10101080000000", "10101080109991", "10101080111682", "10101080119628", "10621170000000", "10621170113555", "10621170118018", "10621171030196"]
+        is_primary_key: true
+        is_foreign_key: true
+        foreign_key_ref: "schools.CDSCode"
+        foreign_table: "schools"
+      rtype:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing rtype"
+        sample_values: ["D", "S"]
+        is_primary_key: false
+        is_foreign_key: false
+      sname:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing sname"
+        sample_values: ["21st Century Learning Institute", "ABC Secondary (Alternative)", "APEX Academy", "ARISE High", "ASA Charter", "Abraham Lincoln Alternative", "Abraham Lincoln High", "Abraham Lincoln Senior High"]
+        is_primary_key: false
+        is_foreign_key: false
+      dname:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing dname"
+        sample_values: ["ABC Unified", "Acalanes Union High", "Acton-Agua Dulce Unified", "Adelanto Elementary", "Alameda County Office of Education", "Alameda Unified", "Albany City Unified", "Alhambra Unified"]
+        is_primary_key: false
+        is_foreign_key: false
+      cname:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing cname"
+        sample_values: ["Alameda", "Amador", "Butte", "Calaveras", "Colusa", "Contra Costa", "Del Norte", "El Dorado"]
+        is_primary_key: false
+        is_foreign_key: false
+      enroll12:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing enroll12"
+        sample_values: [0, 1, 2, 4, 5, 6, 7, 8]
+        is_primary_key: false
+        is_foreign_key: false
+      NumTstTakr:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric count or quantity for num tst takr"
+        sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+        is_primary_key: false
+        is_foreign_key: false
+      AvgScrRead:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing avg scr read"
+        sample_values: [308, 314, 321, 324, 331, 338, 342, 346]
+        is_primary_key: false
+        is_foreign_key: false
+      AvgScrMath:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing avg scr math"
+        sample_values: [289, 305, 306, 307, 314, 320, 328, 341]
+        is_primary_key: false
+        is_foreign_key: false
+      AvgScrWrite:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing avg scr write"
+        sample_values: [312, 318, 321, 327, 328, 335, 339, 342]
+        is_primary_key: false
+        is_foreign_key: false
+      NumGE1500:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric count or quantity for num ge1500"
+        sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+        is_primary_key: false
+        is_foreign_key: false
+  schools:
+    description: "Schools records and attributes"
+    row_count: 17686
+    columns:
+      CDSCode:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each cdscode record"
+        sample_values: ["01100170000000", "01100170109835", "01100170112607", "01100170118489", "01100170123968", "01100170124172", "01100170125567", "01100170130302"]
+        is_primary_key: true
+        is_foreign_key: false
+      NCESDist:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing ncesdist"
+        sample_values: ["0600001", "0600002", "0600003", "0600006", "0600007", "0600009", "0600011", "0600012"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      NCESSchool:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing ncesschool"
+        sample_values: ["00001", "00002", "00003", "00004", "00005", "00006", "00007", "00008"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      StatusType:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's status type"
+        sample_values: ["Active", "Closed", "Merged", "Pending"]
+        is_primary_key: false
+        is_foreign_key: false
+      County:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing county"
+        sample_values: ["Alameda", "Alpine", "Amador", "Butte", "Calaveras", "Colusa", "Contra Costa", "Del Norte"]
+        is_primary_key: false
+        is_foreign_key: false
+      District:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing district"
+        sample_values: ["ABC Unified", "Acalanes Union High", "Ackerman Charter", "Acton-Agua Dulce Unified", "Adelanto Elementary", "Alameda County Office of Education", "Alameda Unified", "Albany City Unified"]
+        is_primary_key: false
+        is_foreign_key: false
+      School:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing school"
+        sample_values: ["'3R' Middle", "100 Black Men of the Bay Area Community", "101 Elementary", "180 Program", "21st Century Learning Institute", "3 R Community Day", "3R Middle Community", "601 School"]
+        is_primary_key: false
+        is_foreign_key: false
+      Street:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing street"
+        sample_values: ["1 Carnes Road", "1 Cassou Road", "1 Childs Way", "1 Civic Center Circle Level 2", "1 Corritone Court", "1 Dove Creek", "1 Grizzly Way", "1 High School Hill"]
+        is_primary_key: false
+        is_foreign_key: false
+      StreetAbr:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing street abr"
+        sample_values: ["1 Carnes Rd.", "1 Cassou Rd.", "1 Childs Way", "1 Civic Center Cir. Level 2", "1 Corritone Ct.", "1 Dove Creek", "1 Grizzly Way", "1 High School Hill"]
+        is_primary_key: false
+        is_foreign_key: false
+      City:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing city"
+        sample_values: ["Acampo", "Acton", "Acton, CA", "Adelanto", "Adin", "Agoura", "Agoura Hills", "Agua Dulce"]
+        is_primary_key: false
+        is_foreign_key: false
+      Zip:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing zip"
+        sample_values: ["82025-1703", "89447", "90001", "90001-1133", "90001-1218", "90001-1264", "90001-1345", "90001-1433"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      State:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing state"
+        sample_values: ["CA"]
+        value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+        is_primary_key: false
+        is_foreign_key: false
+      MailStreet:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing mail street"
+        sample_values: ["(Never Opened Per Cbeds Dir.)", "(Per Supt. 9/8/98)", "1 Carnes Road", "1 Cassou Road", "1 Childs Way", "1 Corritone Court", "1 Dove Creek", "1 Grizzly Way"]
+        is_primary_key: false
+        is_foreign_key: false
+      MailStrAbr:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing mail str abr"
+        sample_values: ["(Never Opened Per Cbeds Dir.)", "(Per Supt. 9/8/98)", "1 Carnes Rd.", "1 Cassou Rd.", "1 Childs Way", "1 Corritone Ct.", "1 Dove Creek", "1 Grizzly Way"]
+        is_primary_key: false
+        is_foreign_key: false
+      MailCity:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing mail city"
+        sample_values: ["Acampo", "Acton", "Adelanto", "Adin", "Agoura", "Agoura Hills", "Agua Dulce", "Agua-Dulce"]
+        is_primary_key: false
+        is_foreign_key: false
+      MailZip:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing mail zip"
+        sample_values: ["65546", "69080", "81324", "90001", "90001-1133", "90001-1218", "90001-1264", "90001-1433"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      MailState:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing mail state"
+        sample_values: ["CA"]
+        value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+        is_primary_key: false
+        is_foreign_key: false
+      Phone:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing phone"
+        sample_values: ["(209) 223-1750", "(209) 229-4650", "(209) 229-4651", "(209) 229-4700", "(209) 229-4736", "(209) 238-1500", "(209) 238-1700", "(209) 238-6603"]
+        is_primary_key: false
+        is_foreign_key: false
+      Ext:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing ext"
+        sample_values: ["0", "00102", "0201", "029", "1", "10", "100", "1001"]
+        is_primary_key: false
+        is_foreign_key: false
+      Website:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "URL or website associated with the record"
+        sample_values: ["acornstooakscharter.org", "atlascharter.org", "bizweb.lightspeed.net/~leagles", "cortezhill.org", "doylepta.com", "erusd.k12.caq.us", "getrealeducatin.com", "ghsd.k12.ca.us"]
+        is_primary_key: false
+        is_foreign_key: false
+      OpenDate:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for open date"
+        sample_values: ["1850-07-01", "1853-07-01", "1856-07-01", "1860-07-01", "1861-07-01", "1863-07-01", "1865-02-07", "1865-07-01"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      ClosedDate:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for closed date"
+        sample_values: ["1980-07-01", "1983-06-30", "1984-05-28", "1984-06-22", "1984-06-23", "1984-06-26", "1984-06-27", "1984-06-28"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      Charter:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing charter"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      CharterNum:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Numeric count or quantity for charter num"
+        sample_values: ["0000", "0001", "0003", "0004", "0005", "0006", "0007", "0008"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      FundingType:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's funding type"
+        sample_values: ["Directly funded", "Locally funded", "Not in CS funding model"]
+        is_primary_key: false
+        is_foreign_key: false
+      DOC:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing doc"
+        sample_values: ["00", "02", "03", "31", "34", "42", "52", "54"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      DOCType:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing doctype"
+        sample_values: ["Administration Only", "Community College District", "County Office of Education (COE)", "Elementary School District", "High School District", "Joint Powers Authority (JPA)", "Non-School Locations", "Regional Occupation Center/Program (ROC/P)"]
+        is_primary_key: false
+        is_foreign_key: false
+      SOC:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing soc"
+        sample_values: ["08", "09", "10", "11", "13", "14", "15", "31"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      SOCType:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing soctype"
+        sample_values: ["Adult Education Centers", "Alternative Schools of Choice", "Continuation High Schools", "County Community", "District Community Day Schools", "Elemen Schools In 1 School Dist. (Public)", "Elementary Schools (Public)", "High Schools (Public)"]
+        is_primary_key: false
+        is_foreign_key: false
+      EdOpsCode:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing ed ops code"
+        sample_values: ["ALTSOC", "COMM", "COMMDAY", "CON", "HOMHOS", "JUV", "OPP", "ROP"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      EdOpsName:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for ed ops name"
+        sample_values: ["Alternative School of Choice", "Community Day School", "Continuation School", "County Community School", "District Special Education Consortia School", "Home and Hospital", "Juvenile Court School", "Opportunity School"]
+        is_primary_key: false
+        is_foreign_key: false
+      EILCode:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing eilcode"
+        sample_values: ["A", "ELEM", "ELEMHIGH", "HS", "INTMIDJR", "PS", "UG"]
+        is_primary_key: false
+        is_foreign_key: false
+      EILName:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing eilname"
+        sample_values: ["Adult", "Elementary", "Elementary-High Combination", "High School", "Intermediate/Middle/Junior High", "Preschool", "Ungraded"]
+        is_primary_key: false
+        is_foreign_key: false
+      GSoffered:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing gsoffered"
+        sample_values: ["1", "1-12", "1-2", "1-3", "1-4", "1-5", "1-6", "1-8"]
+        is_primary_key: false
+        is_foreign_key: false
+      GSserved:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing gsserved"
+        sample_values: ["1", "1-10", "1-12", "1-3", "1-4", "1-5", "1-6", "1-7"]
+        is_primary_key: false
+        is_foreign_key: false
+      Virtual:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing virtual"
+        sample_values: ["F", "N", "P"]
+        is_primary_key: false
+        is_foreign_key: false
+      Magnet:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing magnet"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      Latitude:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing latitude"
+        sample_values: [32.547737, 32.556438, 32.5582, 32.558871, 32.562092, 32.562857, 32.562958, 32.564207]
+        is_primary_key: false
+        is_foreign_key: false
+      Longitude:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing longitude"
+        sample_values: [-124.28481, -124.27296, -124.2675, -124.26731, -124.2614, -124.25964, -124.21317, -124.21239]
+        is_primary_key: false
+        is_foreign_key: false
+      AdmFName1:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm fname1"
+        sample_values: ["Aaron", "Abbe", "Abbie", "Abby", "Abel", "Abelardo", "Abhi", "Abigail"]
+        is_primary_key: false
+        is_foreign_key: false
+      AdmLName1:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm lname1"
+        sample_values: ["Aaberg", "Aaron", "Abad", "Abbate", "Abbati", "Abbot", "Abbott", "Abdel-Qawi"]
+        is_primary_key: false
+        is_foreign_key: false
+      AdmEmail1:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm email1"
+        sample_values: ["Albritton.j@monet.k12.ca.us", "DrStGean@scroc.k12.ca.us", "Eli.johnson@californiaprep.org", "GravenT@sfusd.edu", "Jhenry@guhsd.net", "LParker@nlusd.k12.ca.us", "Lynch@metroed.net", "Mark.Bello@sausd.us"]
+        value_format: "Email address"
+        is_primary_key: false
+        is_foreign_key: false
+      AdmFName2:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm fname2"
+        sample_values: ["Adam", "Aimee", "Alan", "Alana", "Alba", "Alberto", "Alejandro", "Alejo"]
+        is_primary_key: false
+        is_foreign_key: false
+      AdmLName2:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm lname2"
+        sample_values: ["Adams", "Adler", "Administrator", "Agee", "Ahlgren", "Aland", "Alcala", "Alfonso"]
+        is_primary_key: false
+        is_foreign_key: false
+      AdmEmail2:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm email2"
+        sample_values: ["Pccshigh@mcn.org", "a.ramirez@realjourney.org", "a.ruiz@tbuesd.org", "aadams@equitasacademy.org", "aatoian@maderacoe.us", "ace_empower@acecharter.org", "acrosby@sisnet.ssku.k12.ca.us", "adolid@piedmont.k12.ca.us"]
+        value_format: "Email address"
+        is_primary_key: false
+        is_foreign_key: false
+      AdmFName3:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm fname3"
+        sample_values: ["Alex", "Amos", "Andrew", "Barbara", "Beth", "Bianca", "Bree", "Bridget"]
+        is_primary_key: false
+        is_foreign_key: false
+      AdmLName3:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm lname3"
+        sample_values: ["Andreasen", "Ayala", "Bergmann", "Bixby", "Brown", "Burgos", "Chang", "Crawford"]
+        is_primary_key: false
+        is_foreign_key: false
+      AdmEmail3:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing adm email3"
+        sample_values: ["amos.nugent@gcccharters.org", "andrew.estrada@cvesd.org", "arojas@lpvrop.org", "bbrown@gerberschool.org", "bfarren@harvestridgeschool.org", "blopez@santapaulaunified.org", "bmandelbaum@bcoe.org", "bwolk@husd.com"]
+        value_format: "Email address"
+        is_primary_key: false
+        is_foreign_key: false
+      LastUpdate:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for last update"
+        sample_values: ["1999-06-24", "1999-07-09", "1999-07-28", "1999-08-03", "1999-08-26", "1999-08-27", "1999-09-08", "1999-10-07"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false

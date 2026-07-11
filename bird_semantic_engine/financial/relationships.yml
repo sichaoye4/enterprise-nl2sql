@@ -1,0 +1,49 @@
+relationships:
+  - from_table: "account"
+    from_column: "district_id"
+    to_table: "district"
+    to_column: "district_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 4500
+  - from_table: "card"
+    from_column: "disp_id"
+    to_table: "disp"
+    to_column: "disp_id"
+    relationship_type: "one_to_one"
+    sample_match_count: 892
+  - from_table: "client"
+    from_column: "district_id"
+    to_table: "district"
+    to_column: "district_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 5369
+  - from_table: "disp"
+    from_column: "client_id"
+    to_table: "client"
+    to_column: "client_id"
+    relationship_type: "one_to_one"
+    sample_match_count: 5369
+  - from_table: "disp"
+    from_column: "account_id"
+    to_table: "account"
+    to_column: "account_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 5369
+  - from_table: "loan"
+    from_column: "account_id"
+    to_table: "account"
+    to_column: "account_id"
+    relationship_type: "one_to_one"
+    sample_match_count: 682
+  - from_table: "order"
+    from_column: "account_id"
+    to_table: "account"
+    to_column: "account_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 6471
+  - from_table: "trans"
+    from_column: "account_id"
+    to_table: "account"
+    to_column: "account_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 1056320

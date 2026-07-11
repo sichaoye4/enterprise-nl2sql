@@ -1,0 +1,2223 @@
+version: 1
+domain: "superhero"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+  data_dictionary:
+    db_id: "superhero"
+    tables: ["alignment", "attribute", "colour", "gender", "hero_attribute", "hero_power", "publisher", "race", "superhero", "superpower"]
+entities:
+  - name: "alignment"
+    title: "Alignment"
+    description: "BIRD table alignment in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "alignment"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "alignment"
+        title: "Alignment"
+        expr: "alignment"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing alignment"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing alignment"
+            sample_values: ["Bad", "Good", "N/A", "Neutral"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 4
+        columns:
+          id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4]
+            is_primary_key: true
+            is_foreign_key: false
+          alignment:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing alignment"
+            sample_values: ["Bad", "Good", "N/A", "Neutral"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "attribute"
+    title: "Attribute"
+    description: "BIRD table attribute in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "attribute"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "attribute_name"
+        title: "Attribute Name"
+        expr: "attribute_name"
+        type: "string"
+        synonyms: ["attribute name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for attribute name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for attribute name"
+            sample_values: ["Combat", "Durability", "Intelligence", "Power", "Speed", "Strength"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 6
+        columns:
+          id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6]
+            is_primary_key: true
+            is_foreign_key: false
+          attribute_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for attribute name"
+            sample_values: ["Combat", "Durability", "Intelligence", "Power", "Speed", "Strength"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "colour"
+    title: "Colour"
+    description: "BIRD table colour in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "colour"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "colour"
+        title: "Colour"
+        expr: "colour"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing colour"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing colour"
+            sample_values: ["Amber", "Auburn", "Black", "Black/Blue", "Blond", "Blue", "Blue/White", "Brown"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_colour"
+        title: "Count Colour"
+        description: "COUNT over colour extracted from repeated BIRD gold SQL patterns."
+        expr: "colour"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["colour"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing colour"
+            sample_values: ["Amber", "Auburn", "Black", "Black/Blue", "Blond", "Blue", "Blue/White", "Brown"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_id"
+        title: "Sum Id"
+        description: "SUM over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "sum_id_2"
+        title: "Sum Id 2"
+        description: "SUM over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.weight_kg = 0 OR T1.weight_kg IS NULL"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 35
+        columns:
+          id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          colour:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing colour"
+            sample_values: ["Amber", "Auburn", "Black", "Black/Blue", "Blond", "Blue", "Blue/White", "Brown"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "gender"
+    title: "Gender"
+    description: "BIRD table gender in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "gender"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "gender"
+        title: "Gender"
+        expr: "gender"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing gender"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["Female", "Male", "N/A"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_gender"
+        title: "Count Gender"
+        description: "COUNT over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["gender"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'George Lucas'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["Female", "Male", "N/A"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 3
+        columns:
+          id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3]
+            is_primary_key: true
+            is_foreign_key: false
+          gender:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["Female", "Male", "N/A"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "publisher"
+    title: "Publisher"
+    description: "BIRD table publisher in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "publisher"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "publisher_name"
+        title: "Publisher Name"
+        expr: "publisher_name"
+        type: "string"
+        synonyms: ["publisher name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for publisher name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for publisher name"
+            sample_values: ["", "ABC Studios", "DC Comics", "Dark Horse Comics", "George Lucas", "Hanna-Barbera", "HarperCollins", "IDW Publishing"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_publisher_name"
+        title: "Count Publisher Name"
+        description: "COUNT over publisher_name extracted from repeated BIRD gold SQL patterns."
+        expr: "publisher_name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["publisher name"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.height_cm BETWEEN 150 AND 180"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for publisher name"
+            sample_values: ["", "ABC Studios", "DC Comics", "Dark Horse Comics", "George Lucas", "Hanna-Barbera", "HarperCollins", "IDW Publishing"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_publisher_name_2"
+        title: "Count Publisher Name 2"
+        description: "COUNT over publisher_name extracted from repeated BIRD gold SQL patterns."
+        expr: "publisher_name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["publisher name"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.gender = 'Female'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for publisher name"
+            sample_values: ["", "ABC Studios", "DC Comics", "Dark Horse Comics", "George Lucas", "Hanna-Barbera", "HarperCollins", "IDW Publishing"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_publisher_name"
+        title: "Sum Publisher Name"
+        description: "SUM over publisher_name extracted from repeated BIRD gold SQL patterns."
+        expr: "publisher_name"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["publisher name"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.alignment = 'Bad'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for publisher name"
+            sample_values: ["", "ABC Studios", "DC Comics", "Dark Horse Comics", "George Lucas", "Hanna-Barbera", "HarperCollins", "IDW Publishing"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_publisher_name_2"
+        title: "Sum Publisher Name 2"
+        description: "SUM over publisher_name extracted from repeated BIRD gold SQL patterns."
+        expr: "publisher_name"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["publisher name"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for publisher name"
+            sample_values: ["", "ABC Studios", "DC Comics", "Dark Horse Comics", "George Lucas", "Hanna-Barbera", "HarperCollins", "IDW Publishing"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 25
+        columns:
+          id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          publisher_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for publisher name"
+            sample_values: ["", "ABC Studios", "DC Comics", "Dark Horse Comics", "George Lucas", "Hanna-Barbera", "HarperCollins", "IDW Publishing"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "race"
+    title: "Race"
+    description: "BIRD table race in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "race"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "race"
+        title: "Race"
+        expr: "race"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing race"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing race"
+            sample_values: ["-", "Alien", "Alpha", "Amazon", "Android", "Animal", "Asgardian", "Atlantean"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 61
+        columns:
+          id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          race:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing race"
+            sample_values: ["-", "Alien", "Alpha", "Amazon", "Android", "Animal", "Asgardian", "Atlantean"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "superhero"
+    title: "Superhero"
+    description: "BIRD table superhero in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "superhero"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+      - name: "gender_id"
+        expr: "gender_id"
+        type: "number"
+        primary_key: false
+      - name: "eye_colour_id"
+        expr: "eye_colour_id"
+        type: "number"
+        primary_key: false
+      - name: "hair_colour_id"
+        expr: "hair_colour_id"
+        type: "number"
+        primary_key: false
+      - name: "skin_colour_id"
+        expr: "skin_colour_id"
+        type: "number"
+        primary_key: false
+      - name: "race_id"
+        expr: "race_id"
+        type: "number"
+        primary_key: false
+      - name: "publisher_id"
+        expr: "publisher_id"
+        type: "number"
+        primary_key: false
+      - name: "alignment_id"
+        expr: "alignment_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "superhero_name"
+        title: "Superhero Name"
+        expr: "superhero_name"
+        type: "string"
+        synonyms: ["superhero name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for superhero name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for superhero name"
+            sample_values: ["3-D Man", "A-Bomb", "Abe Sapien", "Abin Sur", "Abomination", "Abraxas", "Absorbing Man", "Adam Monroe"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "full_name"
+        title: "Full Name"
+        expr: "full_name"
+        type: "string"
+        synonyms: ["full name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for full name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for full name"
+            sample_values: ["-", "Abner Jenkins", "Abraham Sapien", "Abraxas", "Adam Strange", "Adam Warlock", "Adrian Alexander Veidt", "Adrian Toomes"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "height_cm"
+        title: "Height Cm"
+        expr: "height_cm"
+        type: "number"
+        synonyms: ["height cm"]
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing height cm"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing height cm"
+            sample_values: [0, 61, 64, 66, 71, 79, 122, 137]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "weight_kg"
+        title: "Weight Kg"
+        expr: "weight_kg"
+        type: "number"
+        synonyms: ["weight kg"]
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing weight kg"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing weight kg"
+            sample_values: [0, 14, 16, 17, 18, 25, 27, 36]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_height_cm"
+        title: "Avg Height Cm"
+        description: "AVG over height_cm extracted from repeated BIRD gold SQL patterns."
+        expr: "height_cm"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["height cm"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'Marvel Comics'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing height cm"
+            sample_values: [0, 61, 64, 66, 71, 79, 122, 137]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_height_cm_2"
+        title: "Avg Height Cm 2"
+        description: "AVG over height_cm extracted from repeated BIRD gold SQL patterns."
+        expr: "height_cm"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["height cm"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'Dark Horse Comics' AND T3.race <> 'Human'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing height cm"
+            sample_values: [0, 61, 64, 66, 71, 79, 122, 137]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_height_cm_3"
+        title: "Avg Height Cm 3"
+        description: "AVG over height_cm extracted from repeated BIRD gold SQL patterns."
+        expr: "height_cm"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["height cm"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.alignment = 'Neutral'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing height cm"
+            sample_values: [0, 61, 64, 66, 71, 79, 122, 137]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_height_cm_4"
+        title: "Avg Height Cm 4"
+        description: "AVG over height_cm extracted from repeated BIRD gold SQL patterns."
+        expr: "height_cm"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["height cm"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.height_cm * 100 > (SELECT AVG(height_cm) FROM superhero) * 80"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing height cm"
+            sample_values: [0, 61, 64, 66, 71, 79, 122, 137]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_weight_kg"
+        title: "Avg Weight Kg"
+        description: "AVG over weight_kg extracted from repeated BIRD gold SQL patterns."
+        expr: "weight_kg"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["weight kg"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.gender = 'Female'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing weight kg"
+            sample_values: [0, 14, 16, 17, 18, 25, 27, 36]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_weight_kg_2"
+        title: "Avg Weight Kg 2"
+        description: "AVG over weight_kg extracted from repeated BIRD gold SQL patterns."
+        expr: "weight_kg"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["weight kg"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.gender = 'Male' AND T1.weight_kg * 100 > (SELECT AVG(weight_kg) FROM superhero) * 79"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing weight kg"
+            sample_values: [0, 14, 16, 17, 18, 25, 27, 36]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_id"
+        title: "Count Id"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.power_name = 'Super Strength' AND T1.height_cm > 200"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_2"
+        title: "Count Id 2"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.colour = 'Blue'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_3"
+        title: "Count Id 3"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.power_name = 'Agility' AND T4.colour = 'Blue'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_4"
+        title: "Count Id 4"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: ["colour.colour"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'Marvel Comics'", "WHERE publisher.publisher_name = 'Marvel Comics'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_5"
+        title: "Count Id 5"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'DC Comics'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_6"
+        title: "Count Id 6"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'Marvel Comics' AND T3.colour = 'Gold'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_7"
+        title: "Count Id 7"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.colour = 'Blond'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_8"
+        title: "Count Id 8"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.attribute_name = 'Strength' AND T2.attribute_value = 100 AND T4.gender = 'Female'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_9"
+        title: "Count Id 9"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T2.alignment = 'Bad'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_10"
+        title: "Count Id 10"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples: ["WHERE T1.height_cm BETWEEN 150 AND 180", "WHERE T2.id = 1"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_11"
+        title: "Count Id 11"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'Dark Horse Comics'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_12"
+        title: "Count Id 12"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T2.gender = 'Female'", "WHERE T3.gender = 'Female'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_13"
+        title: "Count Id 13"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.race = 'Alien'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_14"
+        title: "Count Id 14"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.alignment = 'Neutral'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_15"
+        title: "Count Id 15"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.alignment = 'Good' AND T3.gender = 'Female'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_16"
+        title: "Count Id 16"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.alignment = 'Bad' AND T3.colour = 'Green'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_17"
+        title: "Count Id 17"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'Marvel Comics' AND T3.gender = 'Female'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_id_18"
+        title: "Count Id 18"
+        description: "COUNT over id extracted from repeated BIRD gold SQL patterns."
+        expr: "id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.publisher_name = 'George Lucas'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_row_count"
+        title: "Count Row Count"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.alignment = 'Bad'"]
+      - name: "count_row_count_2"
+        title: "Count Row Count 2"
+        description: "COUNT over 1 extracted from repeated BIRD gold SQL patterns."
+        expr: "1"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["1"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T1.race_id = 21 AND T1.gender_id = 1"]
+      - name: "count_superhero_name"
+        title: "Count Superhero Name"
+        description: "COUNT over superhero_name extracted from repeated BIRD gold SQL patterns."
+        expr: "superhero_name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["superhero name"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.race = 'Vampire'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for superhero name"
+            sample_values: ["3-D Man", "A-Bomb", "Abe Sapien", "Abin Sur", "Abomination", "Abraxas", "Absorbing Man", "Adam Monroe"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_superhero_name_2"
+        title: "Count Superhero Name 2"
+        description: "COUNT over superhero_name extracted from repeated BIRD gold SQL patterns."
+        expr: "superhero_name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["superhero name"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.attribute_name = 'Speed' AND T1.attribute_value = 100"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for superhero name"
+            sample_values: ["3-D Man", "A-Bomb", "Abe Sapien", "Abin Sur", "Abomination", "Abraxas", "Absorbing Man", "Adam Monroe"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_height_cm"
+        title: "Sum Height Cm"
+        description: "SUM over height_cm extracted from repeated BIRD gold SQL patterns."
+        expr: "height_cm"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["height cm"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing height cm"
+            sample_values: [0, 61, 64, 66, 71, 79, 122, 137]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_weight_kg"
+        title: "Sum Weight Kg"
+        description: "SUM over weight_kg extracted from repeated BIRD gold SQL patterns."
+        expr: "weight_kg"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["weight kg"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.race = 'Alien'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing weight kg"
+            sample_values: [0, 14, 16, 17, 18, 25, 27, 36]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 750
+        columns:
+          id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          superhero_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for superhero name"
+            sample_values: ["3-D Man", "A-Bomb", "Abe Sapien", "Abin Sur", "Abomination", "Abraxas", "Absorbing Man", "Adam Monroe"]
+            is_primary_key: false
+            is_foreign_key: false
+          full_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for full name"
+            sample_values: ["-", "Abner Jenkins", "Abraham Sapien", "Abraxas", "Adam Strange", "Adam Warlock", "Adrian Alexander Veidt", "Adrian Toomes"]
+            is_primary_key: false
+            is_foreign_key: false
+          gender_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related gender"
+            sample_values: [1, 2, 3]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "gender.id"
+            foreign_table: "gender"
+          eye_colour_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related eye colour"
+            sample_values: [1, 2, 4, 7, 8, 9, 12, 13]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "colour.id"
+            foreign_table: "colour"
+          hair_colour_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related hair colour"
+            sample_values: [1, 3, 4, 5, 6, 7, 9, 10]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "colour.id"
+            foreign_table: "colour"
+          skin_colour_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related skin colour"
+            sample_values: [1, 4, 7, 8, 12, 13, 14, 19]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "colour.id"
+            foreign_table: "colour"
+          race_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related race"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "race.id"
+            foreign_table: "race"
+          publisher_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related publisher"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "publisher.id"
+            foreign_table: "publisher"
+          alignment_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related alignment"
+            sample_values: [1, 2, 3]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "alignment.id"
+            foreign_table: "alignment"
+          height_cm:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing height cm"
+            sample_values: [0, 61, 64, 66, 71, 79, 122, 137]
+            is_primary_key: false
+            is_foreign_key: false
+          weight_kg:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing weight kg"
+            sample_values: [0, 14, 16, 17, 18, 25, 27, 36]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "hero_attribute"
+    title: "Hero Attribute"
+    description: "BIRD table hero_attribute in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "hero_attribute"
+      dialect: "sqlite"
+      grain: ["hero_id"]
+    identifiers:
+      - name: "hero_id"
+        expr: "hero_id"
+        type: "number"
+        primary_key: true
+      - name: "attribute_id"
+        expr: "attribute_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "attribute_value"
+        title: "Attribute Value"
+        expr: "attribute_value"
+        type: "number"
+        synonyms: ["attribute value"]
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing attribute value"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing attribute value"
+            sample_values: [5, 10, 15, 20, 25, 30, 35, 40]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_attribute_value"
+        title: "Avg Attribute Value"
+        description: "AVG over attribute_value extracted from repeated BIRD gold SQL patterns."
+        expr: "attribute_value"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["attribute value"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing attribute value"
+            sample_values: [5, 10, 15, 20, 25, 30, 35, 40]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_attribute_value_2"
+        title: "Avg Attribute Value 2"
+        description: "AVG over attribute_value extracted from repeated BIRD gold SQL patterns."
+        expr: "attribute_value"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["attribute value"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.alignment = 'Neutral'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing attribute value"
+            sample_values: [5, 10, 15, 20, 25, 30, 35, 40]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_hero_id"
+        title: "Count Hero Id"
+        description: "COUNT over hero_id extracted from repeated BIRD gold SQL patterns."
+        expr: "hero_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["hero id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.attribute_name = 'Strength' AND T1.attribute_value = (SELECT MAX(attribute_value) FROM hero_attribute)"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related hero"
+            sample_values: [1, 2, 3, 4, 5, 6, 8, 9]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superhero.id"
+            foreign_table: "superhero"
+      - name: "max_attribute_value"
+        title: "Max Attribute Value"
+        description: "MAX over attribute_value extracted from repeated BIRD gold SQL patterns."
+        expr: "attribute_value"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["attribute value"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.attribute_name = 'Strength' AND T1.attribute_value = (SELECT MAX(attribute_value) FROM hero_attribute)"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing attribute value"
+            sample_values: [5, 10, 15, 20, 25, 30, 35, 40]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "min_attribute_value"
+        title: "Min Attribute Value"
+        description: "MIN over attribute_value extracted from repeated BIRD gold SQL patterns."
+        expr: "attribute_value"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["attribute value"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE attribute_value = (SELECT MIN(attribute_value) FROM hero_attribute)"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing attribute value"
+            sample_values: [5, 10, 15, 20, 25, 30, 35, 40]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 3738
+        columns:
+          hero_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related hero"
+            sample_values: [1, 2, 3, 4, 5, 6, 8, 9]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superhero.id"
+            foreign_table: "superhero"
+          attribute_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related attribute"
+            sample_values: [1, 2, 3, 4, 5, 6]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "attribute.id"
+            foreign_table: "attribute"
+          attribute_value:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing attribute value"
+            sample_values: [5, 10, 15, 20, 25, 30, 35, 40]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "superpower"
+    title: "Superpower"
+    description: "BIRD table superpower in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "superpower"
+      dialect: "sqlite"
+      grain: ["id"]
+    identifiers:
+      - name: "id"
+        expr: "id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "power_name"
+        title: "Power Name"
+        expr: "power_name"
+        type: "string"
+        synonyms: ["power name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for power name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for power name"
+            sample_values: ["Accelerated Healing", "Adaptation", "Agility", "Animal Attributes", "Animal Control", "Animal Oriented Powers", "Animation", "Anti-Gravity"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 167
+        columns:
+          id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each id record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          power_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for power name"
+            sample_values: ["Accelerated Healing", "Adaptation", "Agility", "Animal Attributes", "Animal Control", "Animal Oriented Powers", "Animation", "Anti-Gravity"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "hero_power"
+    title: "Hero Power"
+    description: "BIRD table hero_power in the superhero database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "hero_power"
+      dialect: "sqlite"
+      grain: ["hero_id"]
+    identifiers:
+      - name: "hero_id"
+        expr: "hero_id"
+        type: "number"
+        primary_key: true
+      - name: "power_id"
+        expr: "power_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions: []
+    measures:
+      - name: "count_hero_id"
+        title: "Count Hero Id"
+        description: "COUNT over hero_id extracted from repeated BIRD gold SQL patterns."
+        expr: "hero_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["hero id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.power_name = 'Super Strength'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related hero"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superhero.id"
+            foreign_table: "superhero"
+      - name: "count_hero_id_2"
+        title: "Count Hero Id 2"
+        description: "COUNT over hero_id extracted from repeated BIRD gold SQL patterns."
+        expr: "hero_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["hero id"]
+        allowed_dimensions: ["superhero.superhero_name", "superpower.power_name"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related hero"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superhero.id"
+            foreign_table: "superhero"
+      - name: "count_hero_id_3"
+        title: "Count Hero Id 3"
+        description: "COUNT over hero_id extracted from repeated BIRD gold SQL patterns."
+        expr: "hero_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["hero id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.power_name = 'Stealth'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related hero"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superhero.id"
+            foreign_table: "superhero"
+      - name: "count_power_id"
+        title: "Count Power Id"
+        description: "COUNT over power_id extracted from repeated BIRD gold SQL patterns."
+        expr: "power_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["power id"]
+        allowed_dimensions: ["superhero.full_name"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related power"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superpower.id"
+            foreign_table: "superpower"
+      - name: "count_power_id_2"
+        title: "Count Power Id 2"
+        description: "COUNT over power_id extracted from repeated BIRD gold SQL patterns."
+        expr: "power_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["power id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.superhero_name = 'Amazo'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related power"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superpower.id"
+            foreign_table: "superpower"
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 5825
+        columns:
+          hero_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related hero"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superhero.id"
+            foreign_table: "superhero"
+          power_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related power"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "superpower.id"
+            foreign_table: "superpower"
+relationships:
+  - name: "alignment_to_superhero_id_alignment_id"
+    source: "alignment"
+    target: "superhero"
+    from: "alignment.id"
+    to: "superhero.alignment_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "attribute_to_hero_attribute_id_attribute_id"
+    source: "attribute"
+    target: "hero_attribute"
+    from: "attribute.id"
+    to: "hero_attribute.attribute_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "gender_to_superhero_id_gender_id"
+    source: "gender"
+    target: "superhero"
+    from: "gender.id"
+    to: "superhero.gender_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "hero_attribute_to_attribute_attribute_id_id"
+    source: "hero_attribute"
+    target: "attribute"
+    from: "hero_attribute.attribute_id"
+    to: "attribute.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "hero_attribute_to_superhero_hero_id_id"
+    source: "hero_attribute"
+    target: "superhero"
+    from: "hero_attribute.hero_id"
+    to: "superhero.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "hero_power_to_superhero_hero_id_id"
+    source: "hero_power"
+    target: "superhero"
+    from: "hero_power.hero_id"
+    to: "superhero.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "hero_power_to_superpower_power_id_id"
+    source: "hero_power"
+    target: "superpower"
+    from: "hero_power.power_id"
+    to: "superpower.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "publisher_to_superhero_id_publisher_id"
+    source: "publisher"
+    target: "superhero"
+    from: "publisher.id"
+    to: "superhero.publisher_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "superhero_to_alignment_alignment_id_id"
+    source: "superhero"
+    target: "alignment"
+    from: "superhero.alignment_id"
+    to: "alignment.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "superhero_to_colour_eye_colour_id_id"
+    source: "superhero"
+    target: "colour"
+    from: "superhero.eye_colour_id"
+    to: "colour.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "superhero_to_colour_hair_colour_id_id"
+    source: "superhero"
+    target: "colour"
+    from: "superhero.hair_colour_id"
+    to: "colour.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "superhero_to_colour_skin_colour_id_id"
+    source: "superhero"
+    target: "colour"
+    from: "superhero.skin_colour_id"
+    to: "colour.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "superhero_to_gender_gender_id_id"
+    source: "superhero"
+    target: "gender"
+    from: "superhero.gender_id"
+    to: "gender.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "superhero_to_hero_attribute_id_hero_id"
+    source: "superhero"
+    target: "hero_attribute"
+    from: "superhero.id"
+    to: "hero_attribute.hero_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "superhero_to_hero_power_id_hero_id"
+    source: "superhero"
+    target: "hero_power"
+    from: "superhero.id"
+    to: "hero_power.hero_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "superhero_to_publisher_publisher_id_id"
+    source: "superhero"
+    target: "publisher"
+    from: "superhero.publisher_id"
+    to: "publisher.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "superhero_to_race_race_id_id"
+    source: "superhero"
+    target: "race"
+    from: "superhero.race_id"
+    to: "race.id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "superpower_to_hero_power_id_power_id"
+    source: "superpower"
+    target: "hero_power"
+    from: "superpower.id"
+    to: "hero_power.power_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+views:
+  - name: "superhero_all"
+    title: "Superhero All"
+    description: "Governed semantic view for the BIRD superhero database."
+    public: true
+    ai_context: "Superhero characters, powers, attributes, publishers, alignments, races, colors, and genders."
+    entities:
+      - join_path: "alignment"
+        includes:
+          measures: []
+          dimensions: ["alignment"]
+          time_dimensions: []
+          segments: []
+      - join_path: "attribute"
+        includes:
+          measures: []
+          dimensions: ["attribute_name"]
+          time_dimensions: []
+          segments: []
+      - join_path: "colour"
+        includes:
+          measures: ["count_colour", "sum_id", "sum_id_2"]
+          dimensions: ["colour"]
+          time_dimensions: []
+          segments: []
+      - join_path: "gender"
+        includes:
+          measures: ["count_gender"]
+          dimensions: ["gender"]
+          time_dimensions: []
+          segments: []
+      - join_path: "publisher"
+        includes:
+          measures: ["count_publisher_name", "count_publisher_name_2", "sum_publisher_name", "sum_publisher_name_2"]
+          dimensions: ["publisher_name"]
+          time_dimensions: []
+          segments: []
+      - join_path: "race"
+        includes:
+          measures: []
+          dimensions: ["race"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superhero"
+        includes:
+          measures: ["avg_height_cm", "avg_height_cm_2", "avg_height_cm_3", "avg_height_cm_4", "avg_weight_kg", "avg_weight_kg_2", "count_id", "count_id_2", "count_id_3", "count_id_4", "count_id_5", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_id_14", "count_id_15", "count_id_16", "count_id_17", "count_id_18", "count_row_count", "count_row_count_2", "count_superhero_name", "count_superhero_name_2", "sum_height_cm", "sum_weight_kg"]
+          dimensions: ["superhero_name", "full_name", "height_cm", "weight_kg"]
+          time_dimensions: []
+          segments: []
+      - join_path: "hero_attribute"
+        includes:
+          measures: ["avg_attribute_value", "avg_attribute_value_2", "count_hero_id", "max_attribute_value", "min_attribute_value"]
+          dimensions: ["attribute_value"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superpower"
+        includes:
+          measures: []
+          dimensions: ["power_name"]
+          time_dimensions: []
+          segments: []
+      - join_path: "hero_power"
+        includes:
+          measures: ["count_hero_id", "count_hero_id_2", "count_hero_id_3", "count_power_id", "count_power_id_2"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "alignment.superhero"
+        prefix: true
+        includes:
+          measures: ["avg_height_cm", "avg_height_cm_2", "avg_height_cm_3", "avg_height_cm_4", "avg_weight_kg", "avg_weight_kg_2", "count_id", "count_id_2", "count_id_3", "count_id_4", "count_id_5", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_id_14", "count_id_15", "count_id_16", "count_id_17", "count_id_18", "count_row_count", "count_row_count_2", "count_superhero_name", "count_superhero_name_2", "sum_height_cm", "sum_weight_kg"]
+          dimensions: ["superhero_name", "full_name", "height_cm", "weight_kg"]
+          time_dimensions: []
+          segments: []
+      - join_path: "attribute.hero_attribute"
+        prefix: true
+        includes:
+          measures: ["avg_attribute_value", "avg_attribute_value_2", "count_hero_id", "max_attribute_value", "min_attribute_value"]
+          dimensions: ["attribute_value"]
+          time_dimensions: []
+          segments: []
+      - join_path: "gender.superhero"
+        prefix: true
+        includes:
+          measures: ["avg_height_cm", "avg_height_cm_2", "avg_height_cm_3", "avg_height_cm_4", "avg_weight_kg", "avg_weight_kg_2", "count_id", "count_id_2", "count_id_3", "count_id_4", "count_id_5", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_id_14", "count_id_15", "count_id_16", "count_id_17", "count_id_18", "count_row_count", "count_row_count_2", "count_superhero_name", "count_superhero_name_2", "sum_height_cm", "sum_weight_kg"]
+          dimensions: ["superhero_name", "full_name", "height_cm", "weight_kg"]
+          time_dimensions: []
+          segments: []
+      - join_path: "hero_attribute.attribute"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["attribute_name"]
+          time_dimensions: []
+          segments: []
+      - join_path: "hero_attribute.superhero"
+        prefix: true
+        includes:
+          measures: ["avg_height_cm", "avg_height_cm_2", "avg_height_cm_3", "avg_height_cm_4", "avg_weight_kg", "avg_weight_kg_2", "count_id", "count_id_2", "count_id_3", "count_id_4", "count_id_5", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_id_14", "count_id_15", "count_id_16", "count_id_17", "count_id_18", "count_row_count", "count_row_count_2", "count_superhero_name", "count_superhero_name_2", "sum_height_cm", "sum_weight_kg"]
+          dimensions: ["superhero_name", "full_name", "height_cm", "weight_kg"]
+          time_dimensions: []
+          segments: []
+      - join_path: "hero_power.superhero"
+        prefix: true
+        includes:
+          measures: ["avg_height_cm", "avg_height_cm_2", "avg_height_cm_3", "avg_height_cm_4", "avg_weight_kg", "avg_weight_kg_2", "count_id", "count_id_2", "count_id_3", "count_id_4", "count_id_5", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_id_14", "count_id_15", "count_id_16", "count_id_17", "count_id_18", "count_row_count", "count_row_count_2", "count_superhero_name", "count_superhero_name_2", "sum_height_cm", "sum_weight_kg"]
+          dimensions: ["superhero_name", "full_name", "height_cm", "weight_kg"]
+          time_dimensions: []
+          segments: []
+      - join_path: "hero_power.superpower"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["power_name"]
+          time_dimensions: []
+          segments: []
+      - join_path: "publisher.superhero"
+        prefix: true
+        includes:
+          measures: ["avg_height_cm", "avg_height_cm_2", "avg_height_cm_3", "avg_height_cm_4", "avg_weight_kg", "avg_weight_kg_2", "count_id", "count_id_2", "count_id_3", "count_id_4", "count_id_5", "count_id_6", "count_id_7", "count_id_8", "count_id_9", "count_id_10", "count_id_11", "count_id_12", "count_id_13", "count_id_14", "count_id_15", "count_id_16", "count_id_17", "count_id_18", "count_row_count", "count_row_count_2", "count_superhero_name", "count_superhero_name_2", "sum_height_cm", "sum_weight_kg"]
+          dimensions: ["superhero_name", "full_name", "height_cm", "weight_kg"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superhero.alignment"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["alignment"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superhero.colour"
+        prefix: true
+        includes:
+          measures: ["count_colour", "sum_id", "sum_id_2"]
+          dimensions: ["colour"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superhero.gender"
+        prefix: true
+        includes:
+          measures: ["count_gender"]
+          dimensions: ["gender"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superhero.hero_attribute"
+        prefix: true
+        includes:
+          measures: ["avg_attribute_value", "avg_attribute_value_2", "count_hero_id", "max_attribute_value", "min_attribute_value"]
+          dimensions: ["attribute_value"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superhero.hero_power"
+        prefix: true
+        includes:
+          measures: ["count_hero_id", "count_hero_id_2", "count_hero_id_3", "count_power_id", "count_power_id_2"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "superhero.publisher"
+        prefix: true
+        includes:
+          measures: ["count_publisher_name", "count_publisher_name_2", "sum_publisher_name", "sum_publisher_name_2"]
+          dimensions: ["publisher_name"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superhero.race"
+        prefix: true
+        includes:
+          measures: []
+          dimensions: ["race"]
+          time_dimensions: []
+          segments: []
+      - join_path: "superpower.hero_power"
+        prefix: true
+        includes:
+          measures: ["count_hero_id", "count_hero_id_2", "count_hero_id_3", "count_power_id", "count_power_id_2"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes: ["colour.count_colour", "colour.sum_id", "colour.sum_id_2", "gender.count_gender", "hero_attribute.avg_attribute_value", "hero_attribute.avg_attribute_value_2", "hero_attribute.count_hero_id", "hero_attribute.max_attribute_value", "hero_attribute.min_attribute_value", "hero_power.count_hero_id", "hero_power.count_hero_id_2", "hero_power.count_hero_id_3", "hero_power.count_power_id", "hero_power.count_power_id_2", "publisher.count_publisher_name", "publisher.count_publisher_name_2", "publisher.sum_publisher_name", "publisher.sum_publisher_name_2", "superhero.avg_height_cm", "superhero.avg_height_cm_2", "superhero.avg_height_cm_3", "superhero.avg_height_cm_4", "superhero.avg_weight_kg", "superhero.avg_weight_kg_2", "superhero.count_id", "superhero.count_id_10", "superhero.count_id_11", "superhero.count_id_12", "superhero.count_id_13", "superhero.count_id_14", "superhero.count_id_15", "superhero.count_id_16", "superhero.count_id_17", "superhero.count_id_18", "superhero.count_id_2", "superhero.count_id_3", "superhero.count_id_4", "superhero.count_id_5", "superhero.count_id_6", "superhero.count_id_7", "superhero.count_id_8", "superhero.count_id_9", "superhero.count_row_count", "superhero.count_row_count_2", "superhero.count_superhero_name", "superhero.count_superhero_name_2", "superhero.sum_height_cm", "superhero.sum_weight_kg"]
+      - name: "Frequently Used Dimensions"
+        includes: ["colour.colour", "superpower.power_name", "superhero.superhero_name", "superhero.full_name"]
+    default_time_dimension: null
+policies: []

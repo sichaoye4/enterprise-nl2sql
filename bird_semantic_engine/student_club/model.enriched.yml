@@ -1,0 +1,2926 @@
+version: 1
+domain: "student_club"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+  data_dictionary:
+    db_id: "student_club"
+    tables: ["attendance", "budget", "event", "expense", "income", "major", "member", "zip_code"]
+entities:
+  - name: "event"
+    title: "Event"
+    description: "BIRD table event in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "event"
+      dialect: "sqlite"
+      grain: ["event_id"]
+    identifiers:
+      - name: "event_id"
+        expr: "event_id"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "event_name"
+        title: "Event Name"
+        expr: "event_name"
+        type: "string"
+        synonyms: ["event name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for event name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for event name"
+            sample_values: ["April Meeting", "April Speaker", "Baseball game", "Community Theater", "Fall Budget Review", "Fall Elections", "February Meeting", "February Speaker"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "event_date"
+        title: "Event Date"
+        expr: "event_date"
+        type: "string"
+        synonyms: ["event date"]
+        sensitivity: "public"
+        public: true
+        description: "Date value for event date"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "date"
+            inferred_meaning: "Date value for event date"
+            sample_values: ["2019-09-01T07:00:00", "2019-09-03T12:00:00", "2019-09-07T03:00:00", "2019-09-10T09:30:00", "2019-09-10T12:00:00", "2019-09-12T06:00:00", "2019-09-19T02:00:00", "2019-09-24T12:00:00"]
+            value_format: "Timestamp"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's type"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["Budget", "Community Service", "Election", "Game", "Guest Speaker", "Meeting", "Registration", "Social"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "notes"
+        title: "Notes"
+        expr: "notes"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing notes"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing notes"
+            sample_values: ["All active members can vote for new officers between 4pm-8pm.", "Attend Women's soccer game as a group.", "Attend school Woman's Lacrosse game as a group.", "Attend school football game as a group.", "Attend school teams Lacrosse game as a group.", "Attend school teams baseball game as a group.", "Members and alumni can attend a community theater play at a reduced price. Active membership required.", "Monthly officers meeting"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "location"
+        title: "Location"
+        expr: "location"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing location"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing location"
+            sample_values: ["100 W. Main Street", "1308 106th Ave.", "258 S. Maple St.", "45 N. Smith St.", "900 E. Washington St.", "Campus Baseball Stadium", "Campus Common", "Campus Football stadium"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's status"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["Closed", "Open", "Planning"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_event_id"
+        title: "Count Event Id"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["event id"]
+        allowed_dimensions: []
+        filters:
+          - member: "event_name"
+            operator: "equals"
+            values: ["Women's Soccer"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.event_name = 'Women''s Soccer'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each event record"
+            sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec0dZPcWXF0QjNnE", "rec180D2MI4EpckHy", "rec2N69DMcrqN9PJC", "rec2mJrCofveboaz6", "rec5XDvJLyxDsGZWc", "recAlAwtBZ0Fqbr5K"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_event_id_2"
+        title: "Count Event Id 2"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["event id"]
+        allowed_dimensions: []
+        filters:
+          - member: "event_name"
+            operator: "equals"
+            values: ["Women's Soccer"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.event_name = 'Women''s Soccer' AND T3.t_shirt_size = 'Medium'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each event record"
+            sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec0dZPcWXF0QjNnE", "rec180D2MI4EpckHy", "rec2N69DMcrqN9PJC", "rec2mJrCofveboaz6", "rec5XDvJLyxDsGZWc", "recAlAwtBZ0Fqbr5K"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_event_id_3"
+        title: "Count Event Id 3"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["event id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.first_name = 'Sacha' AND T3.last_name = 'Harrison' AND SUBSTRING(T1.event_date, 1, 4) = '2019'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each event record"
+            sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec0dZPcWXF0QjNnE", "rec180D2MI4EpckHy", "rec2N69DMcrqN9PJC", "rec2mJrCofveboaz6", "rec5XDvJLyxDsGZWc", "recAlAwtBZ0Fqbr5K"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_event_id_4"
+        title: "Count Event Id 4"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["event id"]
+        allowed_dimensions: []
+        filters:
+          - member: "event_name"
+            operator: "equals"
+            values: ["November Meeting"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.event_name = 'November Meeting' AND T1.remaining < 0"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each event record"
+            sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec0dZPcWXF0QjNnE", "rec180D2MI4EpckHy", "rec2N69DMcrqN9PJC", "rec2mJrCofveboaz6", "rec5XDvJLyxDsGZWc", "recAlAwtBZ0Fqbr5K"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_event_id_5"
+        title: "Count Event Id 5"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["event id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE type = 'Meeting' AND SUBSTRING(event_date, 1, 4) = '2020'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each event record"
+            sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec0dZPcWXF0QjNnE", "rec180D2MI4EpckHy", "rec2N69DMcrqN9PJC", "rec2mJrCofveboaz6", "rec5XDvJLyxDsGZWc", "recAlAwtBZ0Fqbr5K"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "distinct_event_id_count"
+        title: "Distinct Event Id Count"
+        description: "COUNT over event_id extracted from repeated BIRD gold SQL patterns."
+        expr: "event_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["event id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each event record"
+            sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec0dZPcWXF0QjNnE", "rec180D2MI4EpckHy", "rec2N69DMcrqN9PJC", "rec2mJrCofveboaz6", "rec5XDvJLyxDsGZWc", "recAlAwtBZ0Fqbr5K"]
+            is_primary_key: true
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 42
+        columns:
+          event_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each event record"
+            sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec0dZPcWXF0QjNnE", "rec180D2MI4EpckHy", "rec2N69DMcrqN9PJC", "rec2mJrCofveboaz6", "rec5XDvJLyxDsGZWc", "recAlAwtBZ0Fqbr5K"]
+            is_primary_key: true
+            is_foreign_key: false
+          event_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for event name"
+            sample_values: ["April Meeting", "April Speaker", "Baseball game", "Community Theater", "Fall Budget Review", "Fall Elections", "February Meeting", "February Speaker"]
+            is_primary_key: false
+            is_foreign_key: false
+          event_date:
+            type: "TEXT"
+            inferred_type: "date"
+            inferred_meaning: "Date value for event date"
+            sample_values: ["2019-09-01T07:00:00", "2019-09-03T12:00:00", "2019-09-07T03:00:00", "2019-09-10T09:30:00", "2019-09-10T12:00:00", "2019-09-12T06:00:00", "2019-09-19T02:00:00", "2019-09-24T12:00:00"]
+            value_format: "Timestamp"
+            is_primary_key: false
+            is_foreign_key: false
+          type:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["Budget", "Community Service", "Election", "Game", "Guest Speaker", "Meeting", "Registration", "Social"]
+            is_primary_key: false
+            is_foreign_key: false
+          notes:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing notes"
+            sample_values: ["All active members can vote for new officers between 4pm-8pm.", "Attend Women's soccer game as a group.", "Attend school Woman's Lacrosse game as a group.", "Attend school football game as a group.", "Attend school teams Lacrosse game as a group.", "Attend school teams baseball game as a group.", "Members and alumni can attend a community theater play at a reduced price. Active membership required.", "Monthly officers meeting"]
+            is_primary_key: false
+            is_foreign_key: false
+          location:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing location"
+            sample_values: ["100 W. Main Street", "1308 106th Ave.", "258 S. Maple St.", "45 N. Smith St.", "900 E. Washington St.", "Campus Baseball Stadium", "Campus Common", "Campus Football stadium"]
+            is_primary_key: false
+            is_foreign_key: false
+          status:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["Closed", "Open", "Planning"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "major"
+    title: "Major"
+    description: "BIRD table major in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "major"
+      dialect: "sqlite"
+      grain: ["major_id"]
+    identifiers:
+      - name: "major_id"
+        expr: "major_id"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "major_name"
+        title: "Major Name"
+        expr: "major_name"
+        type: "string"
+        synonyms: ["major name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for major name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for major name"
+            sample_values: ["Accounting", "Aerospace Studies", "Agribusiness", "Agricultural Communication", "Agricultural Education", "Agricultural Machinery Technology", "Agricultural Science", "Agricultural Systems Technology"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "department"
+        title: "Department"
+        expr: "department"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing department"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing department"
+            sample_values: ["Aerospace Studies Program", "Animal, Dairy, and Veterinary Sciences Department", "Applied Economics Department", "Art and Design Department", "Asian Studies Program", "Biological Engineering Department", "Biology Department", "Chemistry and Biochemistry Department"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "college"
+        title: "College"
+        expr: "college"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing college"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing college"
+            sample_values: ["College of Agriculture and Applied Sciences", "College of Education & Human Services", "College of Engineering", "College of Humanities and Social Sciences", "College of Natural Resources", "College of Science", "College of the Arts", "School of Business"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_college"
+        title: "Count College"
+        description: "COUNT over college extracted from repeated BIRD gold SQL patterns."
+        expr: "college"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["college"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing college"
+            sample_values: ["College of Agriculture and Applied Sciences", "College of Education & Human Services", "College of Engineering", "College of Humanities and Social Sciences", "College of Natural Resources", "College of Science", "College of the Arts", "School of Business"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_major_id"
+        title: "Count Major Id"
+        description: "COUNT over major_id extracted from repeated BIRD gold SQL patterns."
+        expr: "major_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["major id"]
+        allowed_dimensions: []
+        filters:
+          - member: "college"
+            operator: "equals"
+            values: ["College of Agriculture and Applied Sciences"]
+          - member: "department"
+            operator: "equals"
+            values: ["School of Applied Sciences, Technology and Education"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE department = 'School of Applied Sciences, Technology and Education' AND college = 'College of Agriculture and Applied Sciences'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each major record"
+            sample_values: ["rec06DF6vZ1CyPKpc", "rec09LedkREyskCNv", "rec0Eanv576RhQllI", "rec0xRZtkzxrg8kj2", "rec1N0upiVLy5esTO", "rec1SiX2nFrkbTleH", "rec2joRXA5HOSHE9a", "rec3pZhvStMoNbVgy"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_major_name"
+        title: "Count Major Name"
+        description: "COUNT over major_name extracted from repeated BIRD gold SQL patterns."
+        expr: "major_name"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["major name"]
+        allowed_dimensions: []
+        filters:
+          - member: "college"
+            operator: "equals"
+            values: ["College of Humanities and Social Sciences"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE college = 'College of Humanities and Social Sciences'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for major name"
+            sample_values: ["Accounting", "Aerospace Studies", "Agribusiness", "Agricultural Communication", "Agricultural Education", "Agricultural Machinery Technology", "Agricultural Science", "Agricultural Systems Technology"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_major_name"
+        title: "Sum Major Name"
+        description: "SUM over major_name extracted from repeated BIRD gold SQL patterns."
+        expr: "major_name"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["major name"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for major name"
+            sample_values: ["Accounting", "Aerospace Studies", "Agribusiness", "Agricultural Communication", "Agricultural Education", "Agricultural Machinery Technology", "Agricultural Science", "Agricultural Systems Technology"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_major_name_2"
+        title: "Sum Major Name 2"
+        description: "SUM over major_name extracted from repeated BIRD gold SQL patterns."
+        expr: "major_name"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["major name"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.position = 'Member'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for major name"
+            sample_values: ["Accounting", "Aerospace Studies", "Agribusiness", "Agricultural Communication", "Agricultural Education", "Agricultural Machinery Technology", "Agricultural Science", "Agricultural Systems Technology"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 113
+        columns:
+          major_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each major record"
+            sample_values: ["rec06DF6vZ1CyPKpc", "rec09LedkREyskCNv", "rec0Eanv576RhQllI", "rec0xRZtkzxrg8kj2", "rec1N0upiVLy5esTO", "rec1SiX2nFrkbTleH", "rec2joRXA5HOSHE9a", "rec3pZhvStMoNbVgy"]
+            is_primary_key: true
+            is_foreign_key: false
+          major_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for major name"
+            sample_values: ["Accounting", "Aerospace Studies", "Agribusiness", "Agricultural Communication", "Agricultural Education", "Agricultural Machinery Technology", "Agricultural Science", "Agricultural Systems Technology"]
+            is_primary_key: false
+            is_foreign_key: false
+          department:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing department"
+            sample_values: ["Aerospace Studies Program", "Animal, Dairy, and Veterinary Sciences Department", "Applied Economics Department", "Art and Design Department", "Asian Studies Program", "Biological Engineering Department", "Biology Department", "Chemistry and Biochemistry Department"]
+            is_primary_key: false
+            is_foreign_key: false
+          college:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing college"
+            sample_values: ["College of Agriculture and Applied Sciences", "College of Education & Human Services", "College of Engineering", "College of Humanities and Social Sciences", "College of Natural Resources", "College of Science", "College of the Arts", "School of Business"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "zip_code"
+    title: "Zip Code"
+    description: "BIRD table zip_code in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "zip_code"
+      dialect: "sqlite"
+      grain: ["zip_code"]
+    identifiers:
+      - name: "zip_code"
+        expr: "zip_code"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's type"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["PO Box", "Standard", "Unique"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "city"
+        title: "City"
+        expr: "city"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing city"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing city"
+            sample_values: ["Aaronsburg", "Abbeville", "Abbot", "Abbotsford", "Abbott", "Abbottstown", "Abbyville", "Abell"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "county"
+        title: "County"
+        expr: "county"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing county"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing county"
+            sample_values: ["Abbeville County", "Acadia Parish", "Accomack County", "Ada County", "Adair County", "Adams County", "Addison County", "Adjuntas Municipio"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "state"
+        title: "State"
+        expr: "state"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing state"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing state"
+            sample_values: ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "short_state"
+        title: "Short State"
+        expr: "short_state"
+        type: "string"
+        synonyms: ["short state"]
+        sensitivity: "public"
+        public: true
+        description: "Text value representing short state"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing short state"
+            sample_values: ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC"]
+            value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_city"
+        title: "Count City"
+        description: "COUNT over city extracted from repeated BIRD gold SQL patterns."
+        expr: "city"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["city"]
+        allowed_dimensions: []
+        filters:
+          - member: "county"
+            operator: "equals"
+            values: ["Orange County"]
+          - member: "state"
+            operator: "equals"
+            values: ["Virginia"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE county = 'Orange County' AND state = 'Virginia'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing city"
+            sample_values: ["Aaronsburg", "Abbeville", "Abbot", "Abbotsford", "Abbott", "Abbottstown", "Abbyville", "Abell"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_zip_code"
+        title: "Count Zip Code"
+        description: "COUNT over zip_code extracted from repeated BIRD gold SQL patterns."
+        expr: "zip_code"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["zip code"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each zip code record"
+            sample_values: [501, 544, 601, 602, 603, 604, 605, 606]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "sum_state"
+        title: "Sum State"
+        description: "SUM over state extracted from repeated BIRD gold SQL patterns."
+        expr: "state"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["state"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing state"
+            sample_values: ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 41877
+        columns:
+          zip_code:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each zip code record"
+            sample_values: [501, 544, 601, 602, 603, 604, 605, 606]
+            is_primary_key: true
+            is_foreign_key: false
+          type:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["PO Box", "Standard", "Unique"]
+            is_primary_key: false
+            is_foreign_key: false
+          city:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing city"
+            sample_values: ["Aaronsburg", "Abbeville", "Abbot", "Abbotsford", "Abbott", "Abbottstown", "Abbyville", "Abell"]
+            is_primary_key: false
+            is_foreign_key: false
+          county:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing county"
+            sample_values: ["Abbeville County", "Acadia Parish", "Accomack County", "Ada County", "Adair County", "Adams County", "Addison County", "Adjuntas Municipio"]
+            is_primary_key: false
+            is_foreign_key: false
+          state:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing state"
+            sample_values: ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware"]
+            is_primary_key: false
+            is_foreign_key: false
+          short_state:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing short state"
+            sample_values: ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC"]
+            value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "attendance"
+    title: "Attendance"
+    description: "BIRD table attendance in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "attendance"
+      dialect: "sqlite"
+      grain: ["link_to_event", "link_to_member"]
+    identifiers:
+      - name: "link_to_event"
+        expr: "link_to_event"
+        type: "string"
+        primary_key: true
+      - name: "link_to_member"
+        expr: "link_to_member"
+        type: "string"
+        primary_key: true
+    time_dimensions: []
+    dimensions: []
+    measures:
+      - name: "count_link_to_event"
+        title: "Count Link To Event"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["link to event"]
+        allowed_dimensions: ["event.event_name"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to event record"
+            sample_values: ["rec2N69DMcrqN9PJC", "rec5XDvJLyxDsGZWc", "recEVTik3MlqbvLFi", "recGxVCwaLW3mDIa3", "recI43CzsZ0Q625ma", "recIuIXdbLe5j5vCA", "recLKj8BbTNqxFbTb", "recLrY8kyOR1PcZeF"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "event.event_id"
+            foreign_table: "event"
+      - name: "distinct_link_to_event_count"
+        title: "Distinct Link To Event Count"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["link to event"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE SUBSTRING(T1.event_date, 1, 4) = '2020' AND T1.type = 'Meeting'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to event record"
+            sample_values: ["rec2N69DMcrqN9PJC", "rec5XDvJLyxDsGZWc", "recEVTik3MlqbvLFi", "recGxVCwaLW3mDIa3", "recI43CzsZ0Q625ma", "recIuIXdbLe5j5vCA", "recLKj8BbTNqxFbTb", "recLrY8kyOR1PcZeF"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "event.event_id"
+            foreign_table: "event"
+      - name: "count_link_to_event_2"
+        title: "Count Link To Event 2"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["link to event"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE SUBSTRING(T1.event_date, 1, 4) = '2020' AND T1.type = 'Meeting'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to event record"
+            sample_values: ["rec2N69DMcrqN9PJC", "rec5XDvJLyxDsGZWc", "recEVTik3MlqbvLFi", "recGxVCwaLW3mDIa3", "recI43CzsZ0Q625ma", "recIuIXdbLe5j5vCA", "recLKj8BbTNqxFbTb", "recLrY8kyOR1PcZeF"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "event.event_id"
+            foreign_table: "event"
+      - name: "count_link_to_event_3"
+        title: "Count Link To Event 3"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["link to event"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.phone = '954-555-6240'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to event record"
+            sample_values: ["rec2N69DMcrqN9PJC", "rec5XDvJLyxDsGZWc", "recEVTik3MlqbvLFi", "recGxVCwaLW3mDIa3", "recI43CzsZ0Q625ma", "recIuIXdbLe5j5vCA", "recLKj8BbTNqxFbTb", "recLrY8kyOR1PcZeF"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "event.event_id"
+            foreign_table: "event"
+      - name: "count_link_to_event_4"
+        title: "Count Link To Event 4"
+        description: "COUNT over link_to_event extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_event"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["link to event"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.first_name = 'Luisa' AND T2.last_name = 'Guidi'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to event record"
+            sample_values: ["rec2N69DMcrqN9PJC", "rec5XDvJLyxDsGZWc", "recEVTik3MlqbvLFi", "recGxVCwaLW3mDIa3", "recI43CzsZ0Q625ma", "recIuIXdbLe5j5vCA", "recLKj8BbTNqxFbTb", "recLrY8kyOR1PcZeF"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "event.event_id"
+            foreign_table: "event"
+      - name: "count_link_to_member"
+        title: "Count Link To Member"
+        description: "COUNT over link_to_member extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_member"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["link to member"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.event_name = 'Women''s Soccer'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to member record"
+            sample_values: ["rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec75vvFxgYtHmqxY", "recD078PnS3x2doBe", "recEFd8s6pkrTt4Pz"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "member.member_id"
+            foreign_table: "member"
+      - name: "count_link_to_member_2"
+        title: "Count Link To Member 2"
+        description: "COUNT over link_to_member extracted from repeated BIRD gold SQL patterns."
+        expr: "link_to_member"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["link to member"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.event_name = 'Community Theater' AND SUBSTRING(T1.event_date, 1, 4) = '2019'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to member record"
+            sample_values: ["rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec75vvFxgYtHmqxY", "recD078PnS3x2doBe", "recEFd8s6pkrTt4Pz"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "member.member_id"
+            foreign_table: "member"
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 326
+        columns:
+          link_to_event:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to event record"
+            sample_values: ["rec2N69DMcrqN9PJC", "rec5XDvJLyxDsGZWc", "recEVTik3MlqbvLFi", "recGxVCwaLW3mDIa3", "recI43CzsZ0Q625ma", "recIuIXdbLe5j5vCA", "recLKj8BbTNqxFbTb", "recLrY8kyOR1PcZeF"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "event.event_id"
+            foreign_table: "event"
+          link_to_member:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each link to member record"
+            sample_values: ["rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec75vvFxgYtHmqxY", "recD078PnS3x2doBe", "recEFd8s6pkrTt4Pz"]
+            is_primary_key: true
+            is_foreign_key: true
+            foreign_key_ref: "member.member_id"
+            foreign_table: "member"
+  - name: "budget"
+    title: "Budget"
+    description: "BIRD table budget in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "budget"
+      dialect: "sqlite"
+      grain: ["budget_id"]
+    identifiers:
+      - name: "budget_id"
+        expr: "budget_id"
+        type: "string"
+        primary_key: true
+      - name: "link_to_event"
+        expr: "link_to_event"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "category"
+        title: "Category"
+        expr: "category"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's category"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's category"
+            sample_values: ["Advertisement", "Club T-Shirts", "Food", "Parking", "Speaker Gifts"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "spent"
+        title: "Spent"
+        expr: "spent"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing spent"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing spent"
+            sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "remaining"
+        title: "Remaining"
+        expr: "remaining"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing remaining"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing remaining"
+            sample_values: [-24.25, -23.06, -0.199999999999999, 0.409999999999997, 0.659999999999997, 0.75, 4.0, 4.88]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "amount"
+        title: "Amount"
+        expr: "amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Monetary or numeric amount for amount"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [10, 20, 25, 55, 75, 150, 155, 300]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "event_status"
+        title: "Event Status"
+        expr: "event_status"
+        type: "string"
+        synonyms: ["event status"]
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's event status"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's event status"
+            sample_values: ["Closed", "Open", "Planning"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_budget_id"
+        title: "Count Budget Id"
+        description: "COUNT over budget_id extracted from repeated BIRD gold SQL patterns."
+        expr: "budget_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["budget id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each budget record"
+            sample_values: ["rec0QmEc3cSQFQ6V2", "rec1bG6HSft7XIvTP", "rec1z6ISJU2HdIsVm", "rec33PFqxLtnp80RJ", "rec4DYUKBHMPZXWB2", "rec4yM47hEjVVsCuq", "rec59vErJo51glQRb", "rec5V70sIuIgpOzDT"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_spent"
+        title: "Count Spent"
+        description: "COUNT over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["spent"]
+        allowed_dimensions: []
+        filters:
+          - member: "category"
+            operator: "equals"
+            values: ["Food"]
+          - member: "event_status"
+            operator: "equals"
+            values: ["Closed"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE category = 'Food' AND event_status = 'Closed'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing spent"
+            sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "max_spent"
+        title: "Max Spent"
+        description: "MAX over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["spent"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing spent"
+            sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_amount"
+        title: "Sum Amount"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.event_name = 'October Speaker'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [10, 20, 25, 55, 75, 150, 155, 300]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_amount_2"
+        title: "Sum Amount 2"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.event_name = 'September Speaker'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [10, 20, 25, 55, 75, 150, 155, 300]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_amount_3"
+        title: "Sum Amount 3"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters:
+          - member: "category"
+            operator: "equals"
+            values: ["Advertisement"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.category = 'Advertisement' AND T2.type = 'Meeting'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [10, 20, 25, 55, 75, 150, 155, 300]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_amount_4"
+        title: "Sum Amount 4"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.event_name = 'November Speaker'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [10, 20, 25, 55, 75, 150, 155, 300]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_amount_5"
+        title: "Sum Amount 5"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: ["budget.category"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.event_name = 'April Speaker'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [10, 20, 25, 55, 75, 150, 155, 300]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_remaining"
+        title: "Sum Remaining"
+        description: "SUM over remaining extracted from repeated BIRD gold SQL patterns."
+        expr: "remaining"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["remaining"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing remaining"
+            sample_values: [-24.25, -23.06, -0.199999999999999, 0.409999999999997, 0.659999999999997, 0.75, 4.0, 4.88]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_spent"
+        title: "Sum Spent"
+        description: "SUM over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["spent"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing spent"
+            sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_spent_2"
+        title: "Sum Spent 2"
+        description: "SUM over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["spent"]
+        allowed_dimensions: []
+        filters:
+          - member: "category"
+            operator: "equals"
+            values: ["Food"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE category = 'Food'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing spent"
+            sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_spent_3"
+        title: "Sum Spent 3"
+        description: "SUM over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["spent"]
+        allowed_dimensions: []
+        filters:
+          - member: "category"
+            operator: "equals"
+            values: ["Food"]
+          - member: "event_status"
+            operator: "equals"
+            values: ["Closed"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE category = 'Food' AND event_status = 'Closed'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing spent"
+            sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_spent_4"
+        title: "Sum Spent 4"
+        description: "SUM over spent extracted from repeated BIRD gold SQL patterns."
+        expr: "spent"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["spent"]
+        allowed_dimensions: ["event.event_name"]
+        filters:
+          - member: "category"
+            operator: "equals"
+            values: ["Speaker Gifts"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.category = 'Speaker Gifts'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing spent"
+            sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 52
+        columns:
+          budget_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each budget record"
+            sample_values: ["rec0QmEc3cSQFQ6V2", "rec1bG6HSft7XIvTP", "rec1z6ISJU2HdIsVm", "rec33PFqxLtnp80RJ", "rec4DYUKBHMPZXWB2", "rec4yM47hEjVVsCuq", "rec59vErJo51glQRb", "rec5V70sIuIgpOzDT"]
+            is_primary_key: true
+            is_foreign_key: false
+          category:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's category"
+            sample_values: ["Advertisement", "Club T-Shirts", "Food", "Parking", "Speaker Gifts"]
+            is_primary_key: false
+            is_foreign_key: false
+          spent:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing spent"
+            sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+            is_primary_key: false
+            is_foreign_key: false
+          remaining:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing remaining"
+            sample_values: [-24.25, -23.06, -0.199999999999999, 0.409999999999997, 0.659999999999997, 0.75, 4.0, 4.88]
+            is_primary_key: false
+            is_foreign_key: false
+          amount:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [10, 20, 25, 55, 75, 150, 155, 300]
+            is_primary_key: false
+            is_foreign_key: false
+          event_status:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's event status"
+            sample_values: ["Closed", "Open", "Planning"]
+            is_primary_key: false
+            is_foreign_key: false
+          link_to_event:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing link to event"
+            sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec180D2MI4EpckHy", "rec2mJrCofveboaz6", "recAlAwtBZ0Fqbr5K", "recEVTik3MlqbvLFi", "recHaMmaKyfktt5fW", "recI43CzsZ0Q625ma"]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "event.event_id"
+            foreign_table: "event"
+  - name: "expense"
+    title: "Expense"
+    description: "BIRD table expense in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "expense"
+      dialect: "sqlite"
+      grain: ["expense_id"]
+    identifiers:
+      - name: "expense_id"
+        expr: "expense_id"
+        type: "string"
+        primary_key: true
+      - name: "link_to_member"
+        expr: "link_to_member"
+        type: "string"
+        primary_key: false
+      - name: "link_to_budget"
+        expr: "link_to_budget"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "expense_description"
+        title: "Expense Description"
+        expr: "expense_description"
+        type: "string"
+        synonyms: ["expense description"]
+        sensitivity: "public"
+        public: true
+        description: "Text value representing expense description"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing expense description"
+            sample_values: ["Alumni Glass", "Bakery - Donuts, muffins", "Club shirts", "Parking", "Pizza", "Post Cards, Posters", "Posters", "Travel Mug"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "expense_date"
+        title: "Expense Date"
+        expr: "expense_date"
+        type: "string"
+        synonyms: ["expense date"]
+        sensitivity: "public"
+        public: true
+        description: "Date value for expense date"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "date"
+            inferred_meaning: "Date value for expense date"
+            sample_values: ["2019-08-20", "2019-09-01", "2019-09-03", "2019-09-04", "2019-09-10", "2019-09-15", "2019-09-18", "2019-09-24"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "cost"
+        title: "Cost"
+        expr: "cost"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Monetary or numeric amount for cost"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "approved"
+        title: "Approved"
+        expr: "approved"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing approved"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing approved"
+            sample_values: ["true"]
+            value_format: "Text boolean flag"
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_cost"
+        title: "Avg Cost"
+        description: "AVG over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.last_name = 'Allen' AND T1.first_name = 'Elijah' AND (SUBSTRING(T2.expense_date, 6, 2) = '09' OR SUBSTRING(T2.expense_date, 6, 2) = '10')"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_cost_2"
+        title: "Avg Cost 2"
+        description: "AVG over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: ["expense.expense_description"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 3
+          distinct: false
+          where_examples: ["WHERE T2.position <> 'Member'", "WHERE T1.cost > (SELECT AVG(T1.cost) FROM expense AS T1 INNER JOIN budget AS T2 ON T1.link_to_budget = T2.budget_id INNER JOIN member AS T3 ON T3.member_id = T1.link_to_member)"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_cost_3"
+        title: "Avg Cost 3"
+        description: "AVG over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.category = 'Parking' AND T3.cost < (SELECT AVG(cost) FROM expense)"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_cost"
+        title: "Sum Cost"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: []
+        filters:
+          - member: "expense_description"
+            operator: "equals"
+            values: ["Pizza"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE expense_description = 'Pizza'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_cost_2"
+        title: "Sum Cost 2"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.event_name = 'Yearly Kickoff'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_cost_3"
+        title: "Sum Cost 3"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 4
+          distinct: false
+          where_examples: ["WHERE T1.member_id = 'rec4BLdZHS2Blfp4v'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_cost_4"
+        title: "Sum Cost 4"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.event_name = 'October Meeting'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_cost_5"
+        title: "Sum Cost 5"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: []
+        filters:
+          - member: "expense_description"
+            operator: "equals"
+            values: ["Parking"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE expense_description = 'Parking'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_cost_6"
+        title: "Sum Cost 6"
+        description: "SUM over cost extracted from repeated BIRD gold SQL patterns."
+        expr: "cost"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["cost"]
+        allowed_dimensions: []
+        filters:
+          - member: "expense_date"
+            operator: "equals"
+            values: ["2019-08-20"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE expense_date = '2019-08-20'"]
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 32
+        columns:
+          expense_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each expense record"
+            sample_values: ["rec017x6R3hQqkLAo", "rec1nIjoZKTYayqZ6", "rec1oMgNFt7Y0G40x", "rec4Zg7WEmfiHXcnC", "rec7gUiykKKW4RaJS", "recBqNAd2axwvbSUd", "recHPdtBtpThSA9lq", "recILV3eykJuWc489"]
+            is_primary_key: true
+            is_foreign_key: false
+          expense_description:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing expense description"
+            sample_values: ["Alumni Glass", "Bakery - Donuts, muffins", "Club shirts", "Parking", "Pizza", "Post Cards, Posters", "Posters", "Travel Mug"]
+            is_primary_key: false
+            is_foreign_key: false
+          expense_date:
+            type: "TEXT"
+            inferred_type: "date"
+            inferred_meaning: "Date value for expense date"
+            sample_values: ["2019-08-20", "2019-09-01", "2019-09-03", "2019-09-04", "2019-09-10", "2019-09-15", "2019-09-18", "2019-09-24"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          cost:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for cost"
+            sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+            is_primary_key: false
+            is_foreign_key: false
+          approved:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing approved"
+            sample_values: ["true"]
+            value_format: "Text boolean flag"
+            is_primary_key: false
+            is_foreign_key: false
+          link_to_member:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing link to member"
+            sample_values: ["rec4BLdZHS2Blfp4v", "recD078PnS3x2doBe", "recro8T1MPMwRadVH"]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "member.member_id"
+            foreign_table: "member"
+          link_to_budget:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing link to budget"
+            sample_values: ["rec0QmEc3cSQFQ6V2", "rec1bG6HSft7XIvTP", "rec1z6ISJU2HdIsVm", "rec5V70sIuIgpOzDT", "recJOc7f9KgpgJm5q", "recKjd7dcURsmP0KY", "recMc8TbR76rmUSHG", "recN9yY7okNrFps0Y"]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "budget.budget_id"
+            foreign_table: "budget"
+  - name: "income"
+    title: "Income"
+    description: "BIRD table income in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "income"
+      dialect: "sqlite"
+      grain: ["income_id"]
+    identifiers:
+      - name: "income_id"
+        expr: "income_id"
+        type: "string"
+        primary_key: true
+      - name: "link_to_member"
+        expr: "link_to_member"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "date_received"
+        title: "Date Received"
+        expr: "date_received"
+        type: "string"
+        synonyms: ["date received"]
+        sensitivity: "public"
+        public: true
+        description: "Date value for date received"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date received"
+            sample_values: ["2019-09-01", "2019-09-04", "2019-09-06", "2019-09-08", "2019-09-09", "2019-09-11", "2019-09-12", "2019-09-13"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "amount"
+        title: "Amount"
+        expr: "amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Monetary or numeric amount for amount"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [50, 200, 1000, 3000]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "source"
+        title: "Source"
+        expr: "source"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing source"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing source"
+            sample_values: ["Dues", "Fundraising", "School Appropration", "Sponsorship"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "notes"
+        title: "Notes"
+        expr: "notes"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing notes"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing notes"
+            sample_values: ["Ad revenue for use on flyers used to advertise upcoming events.", "Annual funding from Student Government.", "Secured donations to help pay for speaker gifts."]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_income_id"
+        title: "Count Income Id"
+        description: "COUNT over income_id extracted from repeated BIRD gold SQL patterns."
+        expr: "income_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["income id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE amount = 50"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each income record"
+            sample_values: ["rec0s9ZrO15zhzUeE", "rec7f5XMQZexgtQJo", "rec8BUJa8GXUjiglg", "rec8V9BPNIoewWt2z", "recCRWMfFqifuKMc6", "recMCFQxAiJXxrbsG", "recMFy9sJHhuPZ4cz", "recN3WFwGR0c17xe2"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_income_id_2"
+        title: "Count Income Id 2"
+        description: "COUNT over income_id extracted from repeated BIRD gold SQL patterns."
+        expr: "income_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["income id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.position = 'Member' AND T1.t_shirt_size = 'Medium'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each income record"
+            sample_values: ["rec0s9ZrO15zhzUeE", "rec7f5XMQZexgtQJo", "rec8BUJa8GXUjiglg", "rec8V9BPNIoewWt2z", "recCRWMfFqifuKMc6", "recMCFQxAiJXxrbsG", "recMFy9sJHhuPZ4cz", "recN3WFwGR0c17xe2"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "sum_amount"
+        title: "Sum Amount"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: ["income.source", "member.first_name", "member.last_name"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [50, 200, 1000, 3000]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_amount_2"
+        title: "Sum Amount 2"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.position = 'Member' AND T1.t_shirt_size = 'Medium'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [50, 200, 1000, 3000]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 36
+        columns:
+          income_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each income record"
+            sample_values: ["rec0s9ZrO15zhzUeE", "rec7f5XMQZexgtQJo", "rec8BUJa8GXUjiglg", "rec8V9BPNIoewWt2z", "recCRWMfFqifuKMc6", "recMCFQxAiJXxrbsG", "recMFy9sJHhuPZ4cz", "recN3WFwGR0c17xe2"]
+            is_primary_key: true
+            is_foreign_key: false
+          date_received:
+            type: "TEXT"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date received"
+            sample_values: ["2019-09-01", "2019-09-04", "2019-09-06", "2019-09-08", "2019-09-09", "2019-09-11", "2019-09-12", "2019-09-13"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          amount:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [50, 200, 1000, 3000]
+            is_primary_key: false
+            is_foreign_key: false
+          source:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing source"
+            sample_values: ["Dues", "Fundraising", "School Appropration", "Sponsorship"]
+            is_primary_key: false
+            is_foreign_key: false
+          notes:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing notes"
+            sample_values: ["Ad revenue for use on flyers used to advertise upcoming events.", "Annual funding from Student Government.", "Secured donations to help pay for speaker gifts."]
+            is_primary_key: false
+            is_foreign_key: false
+          link_to_member:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing link to member"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY", "recD078PnS3x2doBe"]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "member.member_id"
+            foreign_table: "member"
+  - name: "member"
+    title: "Member"
+    description: "BIRD table member in the student_club database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "member"
+      dialect: "sqlite"
+      grain: ["member_id"]
+    identifiers:
+      - name: "member_id"
+        expr: "member_id"
+        type: "string"
+        primary_key: true
+      - name: "zip"
+        expr: "zip"
+        type: "number"
+        primary_key: false
+      - name: "link_to_major"
+        expr: "link_to_major"
+        type: "string"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "first_name"
+        title: "First Name"
+        expr: "first_name"
+        type: "string"
+        synonyms: ["first name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for first name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for first name"
+            sample_values: ["Adela", "Adele", "Amy", "Angela", "Annabella", "Brent", "Carlo", "Casey"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "last_name"
+        title: "Last Name"
+        expr: "last_name"
+        type: "string"
+        synonyms: ["last name"]
+        sensitivity: "public"
+        public: true
+        description: "Name or label for last name"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for last name"
+            sample_values: ["Allen", "Balentine", "Cullen", "Deleon", "Dunlop", "Firth", "Gerke", "Gilmour"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "email"
+        title: "Email"
+        expr: "email"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Email address associated with the record"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Email address associated with the record"
+            sample_values: ["adela.o'gallagher@lpu.edu", "adele.deleon@lpu.edu", "amy.firth@lpu.edu", "angela.sanders@lpu.edu", "annabella.warren@lpu.edu", "brent.thomason@lpu.edu", "carlo.jacobs@lpu.edu", "casey.mason@lpu.edu"]
+            value_format: "Email address"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "position"
+        title: "Position"
+        expr: "position"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing position"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing position"
+            sample_values: ["Inactive", "Member", "President", "Secretary", "Treasurer", "Vice President"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "t_shirt_size"
+        title: "T Shirt Size"
+        expr: "t_shirt_size"
+        type: "string"
+        synonyms: ["t shirt size"]
+        sensitivity: "public"
+        public: true
+        description: "Text value representing t shirt size"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing t shirt size"
+            sample_values: ["Large", "Medium", "Small", "X-Large"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "phone"
+        title: "Phone"
+        expr: "phone"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing phone"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing phone"
+            sample_values: ["(651) 928-4507", "(701) 932-1903", "109-555-7016", "176-555-6720", "260-555-4328", "394-555-4909", "397-555-3444", "403-555-1310"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_member_id"
+        title: "Count Member Id"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.college = 'College of Engineering'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_2"
+        title: "Count Member Id 2"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.major_name = 'Environmental Engineering'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_3"
+        title: "Count Member Id 3"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters:
+          - member: "t_shirt_size"
+            operator: "equals"
+            values: ["Medium"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE T2.major_name = 'Business' AND T1.t_shirt_size = 'Medium'", "WHERE T1.major_name = 'Business' AND T2.t_shirt_size = 'Medium'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_4"
+        title: "Count Member Id 4"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.state = 'Maryland'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_5"
+        title: "Count Member Id 5"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters:
+          - member: "position"
+            operator: "equals"
+            values: ["President"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE position = 'President'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_6"
+        title: "Count Member Id 6"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.major_name = 'Physics Teaching'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_7"
+        title: "Count Member Id 7"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters:
+          - member: "position"
+            operator: "equals"
+            values: ["Member"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.position = 'Member'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_8"
+        title: "Count Member Id 8"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters:
+          - member: "position"
+            operator: "equals"
+            values: ["Member"]
+          - member: "t_shirt_size"
+            operator: "equals"
+            values: ["X-Large"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE position = 'Member' AND t_shirt_size = 'X-Large'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_9"
+        title: "Count Member Id 9"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters:
+          - member: "position"
+            operator: "equals"
+            values: ["Member"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.position = 'Member' AND T2.major_name LIKE '%Education%' AND T2.college = 'College of Education & Human Services'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_member_id_10"
+        title: "Count Member Id 10"
+        description: "COUNT over member_id extracted from repeated BIRD gold SQL patterns."
+        expr: "member_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["member id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_t_shirt_size"
+        title: "Count T Shirt Size"
+        description: "COUNT over t_shirt_size extracted from repeated BIRD gold SQL patterns."
+        expr: "t_shirt_size"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["t shirt size"]
+        allowed_dimensions: ["member.t_shirt_size"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing t shirt size"
+            sample_values: ["Large", "Medium", "Small", "X-Large"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 33
+        columns:
+          member_id:
+            type: "TEXT"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each member record"
+            sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+            is_primary_key: true
+            is_foreign_key: false
+          first_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for first name"
+            sample_values: ["Adela", "Adele", "Amy", "Angela", "Annabella", "Brent", "Carlo", "Casey"]
+            is_primary_key: false
+            is_foreign_key: false
+          last_name:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Name or label for last name"
+            sample_values: ["Allen", "Balentine", "Cullen", "Deleon", "Dunlop", "Firth", "Gerke", "Gilmour"]
+            is_primary_key: false
+            is_foreign_key: false
+          email:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Email address associated with the record"
+            sample_values: ["adela.o'gallagher@lpu.edu", "adele.deleon@lpu.edu", "amy.firth@lpu.edu", "angela.sanders@lpu.edu", "annabella.warren@lpu.edu", "brent.thomason@lpu.edu", "carlo.jacobs@lpu.edu", "casey.mason@lpu.edu"]
+            value_format: "Email address"
+            is_primary_key: false
+            is_foreign_key: false
+          position:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing position"
+            sample_values: ["Inactive", "Member", "President", "Secretary", "Treasurer", "Vice President"]
+            is_primary_key: false
+            is_foreign_key: false
+          t_shirt_size:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing t shirt size"
+            sample_values: ["Large", "Medium", "Small", "X-Large"]
+            is_primary_key: false
+            is_foreign_key: false
+          phone:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing phone"
+            sample_values: ["(651) 928-4507", "(701) 932-1903", "109-555-7016", "176-555-6720", "260-555-4328", "394-555-4909", "397-555-3444", "403-555-1310"]
+            is_primary_key: false
+            is_foreign_key: false
+          zip:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing zip"
+            sample_values: [1020, 7002, 7080, 8021, 8861, 10002, 11104, 11554]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "zip_code.zip_code"
+            foreign_table: "zip_code"
+          link_to_major:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing link to major"
+            sample_values: ["rec09LedkREyskCNv", "rec1N0upiVLy5esTO", "rec7BxKpjJ7bNph3O", "rec9CqGCGV8Y8rOSY", "recAiT3yTABWypvHu", "recB3VldnYdFtttTk", "recCk8lCDOTRp6rKN", "recIzqYuV3wMONTgB"]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "major.major_id"
+            foreign_table: "major"
+relationships:
+  - name: "attendance_to_event_link_to_event_event_id"
+    source: "attendance"
+    target: "event"
+    from: "attendance.link_to_event"
+    to: "event.event_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "attendance_to_member_link_to_member_member_id"
+    source: "attendance"
+    target: "member"
+    from: "attendance.link_to_member"
+    to: "member.member_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "budget_to_event_link_to_event_event_id"
+    source: "budget"
+    target: "event"
+    from: "budget.link_to_event"
+    to: "event.event_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "budget_to_expense_budget_id_link_to_budget"
+    source: "budget"
+    target: "expense"
+    from: "budget.budget_id"
+    to: "expense.link_to_budget"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "event_to_attendance_event_id_link_to_event"
+    source: "event"
+    target: "attendance"
+    from: "event.event_id"
+    to: "attendance.link_to_event"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "event_to_budget_event_id_link_to_event"
+    source: "event"
+    target: "budget"
+    from: "event.event_id"
+    to: "budget.link_to_event"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "expense_to_budget_link_to_budget_budget_id"
+    source: "expense"
+    target: "budget"
+    from: "expense.link_to_budget"
+    to: "budget.budget_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "expense_to_member_link_to_member_member_id"
+    source: "expense"
+    target: "member"
+    from: "expense.link_to_member"
+    to: "member.member_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "income_to_member_link_to_member_member_id"
+    source: "income"
+    target: "member"
+    from: "income.link_to_member"
+    to: "member.member_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "major_to_member_major_id_link_to_major"
+    source: "major"
+    target: "member"
+    from: "major.major_id"
+    to: "member.link_to_major"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "member_to_attendance_member_id_link_to_member"
+    source: "member"
+    target: "attendance"
+    from: "member.member_id"
+    to: "attendance.link_to_member"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "member_to_expense_member_id_link_to_member"
+    source: "member"
+    target: "expense"
+    from: "member.member_id"
+    to: "expense.link_to_member"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "member_to_income_member_id_link_to_member"
+    source: "member"
+    target: "income"
+    from: "member.member_id"
+    to: "income.link_to_member"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "member_to_major_link_to_major_major_id"
+    source: "member"
+    target: "major"
+    from: "member.link_to_major"
+    to: "major.major_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "member_to_zip_code_zip_zip_code"
+    source: "member"
+    target: "zip_code"
+    from: "member.zip"
+    to: "zip_code.zip_code"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "zip_code_to_member_zip_code_zip"
+    source: "zip_code"
+    target: "member"
+    from: "zip_code.zip_code"
+    to: "member.zip"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+views:
+  - name: "student_club_all"
+    title: "Student Club All"
+    description: "Governed semantic view for the BIRD student_club database."
+    public: true
+    ai_context: "Student club members, events, attendance, budgets, expenses, income, majors, and zip codes."
+    entities:
+      - join_path: "event"
+        includes:
+          measures: ["count_event_id", "count_event_id_2", "count_event_id_3", "count_event_id_4", "count_event_id_5", "distinct_event_id_count"]
+          dimensions: ["event_name", "event_date", "type", "notes", "location", "status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "major"
+        includes:
+          measures: ["count_college", "count_major_id", "count_major_name", "sum_major_name", "sum_major_name_2"]
+          dimensions: ["major_name", "department", "college"]
+          time_dimensions: []
+          segments: []
+      - join_path: "zip_code"
+        includes:
+          measures: ["count_city", "count_zip_code", "sum_state"]
+          dimensions: ["type", "city", "county", "state", "short_state"]
+          time_dimensions: []
+          segments: []
+      - join_path: "attendance"
+        includes:
+          measures: ["count_link_to_event", "distinct_link_to_event_count", "count_link_to_event_2", "count_link_to_event_3", "count_link_to_event_4", "count_link_to_member", "count_link_to_member_2"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "budget"
+        includes:
+          measures: ["count_budget_id", "count_spent", "max_spent", "sum_amount", "sum_amount_2", "sum_amount_3", "sum_amount_4", "sum_amount_5", "sum_remaining", "sum_spent", "sum_spent_2", "sum_spent_3", "sum_spent_4"]
+          dimensions: ["category", "spent", "remaining", "amount", "event_status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "expense"
+        includes:
+          measures: ["avg_cost", "avg_cost_2", "avg_cost_3", "sum_cost", "sum_cost_2", "sum_cost_3", "sum_cost_4", "sum_cost_5", "sum_cost_6"]
+          dimensions: ["expense_description", "expense_date", "cost", "approved"]
+          time_dimensions: []
+          segments: []
+      - join_path: "income"
+        includes:
+          measures: ["count_income_id", "count_income_id_2", "sum_amount", "sum_amount_2"]
+          dimensions: ["date_received", "amount", "source", "notes"]
+          time_dimensions: []
+          segments: []
+      - join_path: "member"
+        includes:
+          measures: ["count_member_id", "count_member_id_2", "count_member_id_3", "count_member_id_4", "count_member_id_5", "count_member_id_6", "count_member_id_7", "count_member_id_8", "count_member_id_9", "count_member_id_10", "count_t_shirt_size"]
+          dimensions: ["first_name", "last_name", "email", "position", "t_shirt_size", "phone"]
+          time_dimensions: []
+          segments: []
+      - join_path: "attendance.event"
+        prefix: true
+        includes:
+          measures: ["count_event_id", "count_event_id_2", "count_event_id_3", "count_event_id_4", "count_event_id_5", "distinct_event_id_count"]
+          dimensions: ["event_name", "event_date", "type", "notes", "location", "status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "attendance.member"
+        prefix: true
+        includes:
+          measures: ["count_member_id", "count_member_id_2", "count_member_id_3", "count_member_id_4", "count_member_id_5", "count_member_id_6", "count_member_id_7", "count_member_id_8", "count_member_id_9", "count_member_id_10", "count_t_shirt_size"]
+          dimensions: ["first_name", "last_name", "email", "position", "t_shirt_size", "phone"]
+          time_dimensions: []
+          segments: []
+      - join_path: "budget.event"
+        prefix: true
+        includes:
+          measures: ["count_event_id", "count_event_id_2", "count_event_id_3", "count_event_id_4", "count_event_id_5", "distinct_event_id_count"]
+          dimensions: ["event_name", "event_date", "type", "notes", "location", "status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "budget.expense"
+        prefix: true
+        includes:
+          measures: ["avg_cost", "avg_cost_2", "avg_cost_3", "sum_cost", "sum_cost_2", "sum_cost_3", "sum_cost_4", "sum_cost_5", "sum_cost_6"]
+          dimensions: ["expense_description", "expense_date", "cost", "approved"]
+          time_dimensions: []
+          segments: []
+      - join_path: "event.attendance"
+        prefix: true
+        includes:
+          measures: ["count_link_to_event", "distinct_link_to_event_count", "count_link_to_event_2", "count_link_to_event_3", "count_link_to_event_4", "count_link_to_member", "count_link_to_member_2"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "event.budget"
+        prefix: true
+        includes:
+          measures: ["count_budget_id", "count_spent", "max_spent", "sum_amount", "sum_amount_2", "sum_amount_3", "sum_amount_4", "sum_amount_5", "sum_remaining", "sum_spent", "sum_spent_2", "sum_spent_3", "sum_spent_4"]
+          dimensions: ["category", "spent", "remaining", "amount", "event_status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "expense.budget"
+        prefix: true
+        includes:
+          measures: ["count_budget_id", "count_spent", "max_spent", "sum_amount", "sum_amount_2", "sum_amount_3", "sum_amount_4", "sum_amount_5", "sum_remaining", "sum_spent", "sum_spent_2", "sum_spent_3", "sum_spent_4"]
+          dimensions: ["category", "spent", "remaining", "amount", "event_status"]
+          time_dimensions: []
+          segments: []
+      - join_path: "expense.member"
+        prefix: true
+        includes:
+          measures: ["count_member_id", "count_member_id_2", "count_member_id_3", "count_member_id_4", "count_member_id_5", "count_member_id_6", "count_member_id_7", "count_member_id_8", "count_member_id_9", "count_member_id_10", "count_t_shirt_size"]
+          dimensions: ["first_name", "last_name", "email", "position", "t_shirt_size", "phone"]
+          time_dimensions: []
+          segments: []
+      - join_path: "income.member"
+        prefix: true
+        includes:
+          measures: ["count_member_id", "count_member_id_2", "count_member_id_3", "count_member_id_4", "count_member_id_5", "count_member_id_6", "count_member_id_7", "count_member_id_8", "count_member_id_9", "count_member_id_10", "count_t_shirt_size"]
+          dimensions: ["first_name", "last_name", "email", "position", "t_shirt_size", "phone"]
+          time_dimensions: []
+          segments: []
+      - join_path: "major.member"
+        prefix: true
+        includes:
+          measures: ["count_member_id", "count_member_id_2", "count_member_id_3", "count_member_id_4", "count_member_id_5", "count_member_id_6", "count_member_id_7", "count_member_id_8", "count_member_id_9", "count_member_id_10", "count_t_shirt_size"]
+          dimensions: ["first_name", "last_name", "email", "position", "t_shirt_size", "phone"]
+          time_dimensions: []
+          segments: []
+      - join_path: "member.attendance"
+        prefix: true
+        includes:
+          measures: ["count_link_to_event", "distinct_link_to_event_count", "count_link_to_event_2", "count_link_to_event_3", "count_link_to_event_4", "count_link_to_member", "count_link_to_member_2"]
+          dimensions: []
+          time_dimensions: []
+          segments: []
+      - join_path: "member.expense"
+        prefix: true
+        includes:
+          measures: ["avg_cost", "avg_cost_2", "avg_cost_3", "sum_cost", "sum_cost_2", "sum_cost_3", "sum_cost_4", "sum_cost_5", "sum_cost_6"]
+          dimensions: ["expense_description", "expense_date", "cost", "approved"]
+          time_dimensions: []
+          segments: []
+      - join_path: "member.income"
+        prefix: true
+        includes:
+          measures: ["count_income_id", "count_income_id_2", "sum_amount", "sum_amount_2"]
+          dimensions: ["date_received", "amount", "source", "notes"]
+          time_dimensions: []
+          segments: []
+      - join_path: "member.major"
+        prefix: true
+        includes:
+          measures: ["count_college", "count_major_id", "count_major_name", "sum_major_name", "sum_major_name_2"]
+          dimensions: ["major_name", "department", "college"]
+          time_dimensions: []
+          segments: []
+      - join_path: "member.zip_code"
+        prefix: true
+        includes:
+          measures: ["count_city", "count_zip_code", "sum_state"]
+          dimensions: ["type", "city", "county", "state", "short_state"]
+          time_dimensions: []
+          segments: []
+      - join_path: "zip_code.member"
+        prefix: true
+        includes:
+          measures: ["count_member_id", "count_member_id_2", "count_member_id_3", "count_member_id_4", "count_member_id_5", "count_member_id_6", "count_member_id_7", "count_member_id_8", "count_member_id_9", "count_member_id_10", "count_t_shirt_size"]
+          dimensions: ["first_name", "last_name", "email", "position", "t_shirt_size", "phone"]
+          time_dimensions: []
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes: ["attendance.count_link_to_event", "attendance.count_link_to_event_2", "attendance.count_link_to_event_3", "attendance.count_link_to_event_4", "attendance.count_link_to_member", "attendance.count_link_to_member_2", "attendance.distinct_link_to_event_count", "budget.count_budget_id", "budget.count_spent", "budget.max_spent", "budget.sum_amount", "budget.sum_amount_2", "budget.sum_amount_3", "budget.sum_amount_4", "budget.sum_amount_5", "budget.sum_remaining", "budget.sum_spent", "budget.sum_spent_2", "budget.sum_spent_3", "budget.sum_spent_4", "event.count_event_id", "event.count_event_id_2", "event.count_event_id_3", "event.count_event_id_4", "event.count_event_id_5", "event.distinct_event_id_count", "expense.avg_cost", "expense.avg_cost_2", "expense.avg_cost_3", "expense.sum_cost", "expense.sum_cost_2", "expense.sum_cost_3", "expense.sum_cost_4", "expense.sum_cost_5", "expense.sum_cost_6", "income.count_income_id", "income.count_income_id_2", "income.sum_amount", "income.sum_amount_2", "major.count_college", "major.count_major_id", "major.count_major_name", "major.sum_major_name", "major.sum_major_name_2", "member.count_member_id", "member.count_member_id_10", "member.count_member_id_2", "member.count_member_id_3", "member.count_member_id_4", "member.count_member_id_5", "member.count_member_id_6", "member.count_member_id_7", "member.count_member_id_8", "member.count_member_id_9", "member.count_t_shirt_size", "zip_code.count_city", "zip_code.count_zip_code", "zip_code.sum_state"]
+      - name: "Frequently Used Dimensions"
+        includes: ["event.event_name", "expense.expense_description", "income.source", "member.last_name", "member.first_name", "member.t_shirt_size", "budget.category"]
+    default_time_dimension: null
+policies: []

@@ -1,0 +1,49 @@
+relationships:
+  - from_table: "attendance"
+    from_column: "link_to_member"
+    to_table: "member"
+    to_column: "member_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 326
+  - from_table: "attendance"
+    from_column: "link_to_event"
+    to_table: "event"
+    to_column: "event_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 326
+  - from_table: "budget"
+    from_column: "link_to_event"
+    to_table: "event"
+    to_column: "event_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 52
+  - from_table: "expense"
+    from_column: "link_to_member"
+    to_table: "member"
+    to_column: "member_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 32
+  - from_table: "expense"
+    from_column: "link_to_budget"
+    to_table: "budget"
+    to_column: "budget_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 32
+  - from_table: "income"
+    from_column: "link_to_member"
+    to_table: "member"
+    to_column: "member_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 33
+  - from_table: "member"
+    from_column: "zip"
+    to_table: "zip_code"
+    to_column: "zip_code"
+    relationship_type: "one_to_one"
+    sample_match_count: 33
+  - from_table: "member"
+    from_column: "link_to_major"
+    to_table: "major"
+    to_column: "major_id"
+    relationship_type: "many_to_one"
+    sample_match_count: 32

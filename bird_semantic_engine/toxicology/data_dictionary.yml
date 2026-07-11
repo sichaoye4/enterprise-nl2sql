@@ -1,0 +1,113 @@
+db_id: "toxicology"
+tables:
+  atom:
+    description: "Atom records and attributes"
+    row_count: 12333
+    columns:
+      atom_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each atom record"
+        sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+        value_format: "Short uppercase code"
+        is_primary_key: true
+        is_foreign_key: false
+      molecule_id:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related molecule"
+        sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "molecule.molecule_id"
+        foreign_table: "molecule"
+      element:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing element"
+        sample_values: ["b", "br", "c", "ca", "cl", "cu", "f", "h"]
+        is_primary_key: false
+        is_foreign_key: false
+  bond:
+    description: "Bond records and attributes"
+    row_count: 12379
+    columns:
+      bond_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each bond record"
+        sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+        value_format: "Short uppercase code"
+        is_primary_key: true
+        is_foreign_key: false
+      molecule_id:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related molecule"
+        sample_values: ["TR000", "TR001", "TR002", "TR003", "TR004", "TR005", "TR006", "TR007"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "molecule.molecule_id"
+        foreign_table: "molecule"
+      bond_type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's bond type"
+        sample_values: ["#", "-", "="]
+        is_primary_key: false
+        is_foreign_key: false
+  connected:
+    description: "Connected records and attributes"
+    row_count: 24758
+    columns:
+      atom_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each atom record"
+        sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+        value_format: "Short uppercase code"
+        is_primary_key: true
+        is_foreign_key: true
+        foreign_key_ref: "atom.atom_id"
+        foreign_table: "atom"
+      atom_id2:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each atom id2 record"
+        sample_values: ["TR000_1", "TR000_2", "TR000_3", "TR000_4", "TR000_5", "TR001_1", "TR001_10", "TR001_11"]
+        value_format: "Short uppercase code"
+        is_primary_key: true
+        is_foreign_key: true
+        foreign_key_ref: "atom.atom_id"
+        foreign_table: "atom"
+      bond_id:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related bond"
+        sample_values: ["TR000_1_2", "TR000_2_3", "TR000_2_4", "TR000_2_5", "TR001_10_11", "TR001_1_12", "TR001_1_2", "TR001_1_7"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "bond.bond_id"
+        foreign_table: "bond"
+  molecule:
+    description: "Molecule records and attributes"
+    row_count: 343
+    columns:
+      molecule_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each molecule record"
+        sample_values: ["TR000", "TR001", "TR002", "TR004", "TR006", "TR007", "TR008", "TR009"]
+        value_format: "Short uppercase code"
+        is_primary_key: true
+        is_foreign_key: false
+      label:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing label"
+        sample_values: ["+", "-"]
+        is_primary_key: false
+        is_foreign_key: false

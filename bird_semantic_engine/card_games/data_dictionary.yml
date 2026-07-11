@@ -1,0 +1,855 @@
+db_id: "card_games"
+tables:
+  cards:
+    description: "Cards records and attributes"
+    row_count: 56822
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      artist:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing artist"
+        sample_values: ["Aaron Boyd", "Aaron Forsythe", "Aaron Miller", "Aaron Reed", "Adam Paquette", "Adam Rex", "Adi Granov", "Adrian Majkrzak"]
+        is_primary_key: false
+        is_foreign_key: false
+      asciiName:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for ascii name"
+        sample_values: ["Bosium Strip", "Chicken a la King", "Dandan", "Deja Vu", "El-Hajjaj", "Ghazban Ogre", "Ghazban Ogress", "Ifh-Biff Efreet"]
+        is_primary_key: false
+        is_foreign_key: false
+      availability:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing availability"
+        sample_values: ["arena", "arena,mtgo", "arena,mtgo,paper", "arena,paper", "dreamcast", "mtgo", "mtgo,paper", "paper"]
+        is_primary_key: false
+        is_foreign_key: false
+      borderColor:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing border color"
+        sample_values: ["black", "borderless", "gold", "silver", "white"]
+        is_primary_key: false
+        is_foreign_key: false
+      cardKingdomFoilId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related card kingdom foil"
+        sample_values: ["110299", "110301", "110305", "110308", "110502", "110503", "110504", "110505"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+      cardKingdomId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related card kingdom"
+        sample_values: ["10000", "10001", "10002", "10003", "10004", "10005", "10006", "10007"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+      colorIdentity:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing color identity"
+        sample_values: ["B", "B,G", "B,G,R", "B,G,R,U", "B,G,R,U,W", "B,G,R,W", "B,G,U", "B,G,U,W"]
+        is_primary_key: false
+        is_foreign_key: false
+      colorIndicator:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing color indicator"
+        sample_values: ["B", "B,G", "B,R,U", "G", "G,R", "G,R,W", "R", "U"]
+        is_primary_key: false
+        is_foreign_key: false
+      colors:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing colors"
+        sample_values: ["B", "B,G", "B,G,R", "B,G,R,U", "B,G,R,U,W", "B,G,R,W", "B,G,U", "B,G,U,W"]
+        is_primary_key: false
+        is_foreign_key: false
+      convertedManaCost:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Monetary or numeric amount for converted mana cost"
+        sample_values: [0.0, 0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+        is_primary_key: false
+        is_foreign_key: false
+      duelDeck:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing duel deck"
+        sample_values: ["a", "b"]
+        is_primary_key: false
+        is_foreign_key: false
+      edhrecRank:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing edhrec rank"
+        sample_values: [1, 2, 8, 9, 10, 11, 12, 13]
+        is_primary_key: false
+        is_foreign_key: false
+      faceConvertedManaCost:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Monetary or numeric amount for face converted mana cost"
+        sample_values: [0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0]
+        is_primary_key: false
+        is_foreign_key: false
+      faceName:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for face name"
+        sample_values: ["Aberrant Researcher", "Abolisher of Bloodlines", "Accursed Witch", "Adanto, the First Fort", "Afflicted Deserter", "Agadeem's Awakening", "Agadeem, the Undercrypt", "Akki Lavarunner"]
+        is_primary_key: false
+        is_foreign_key: false
+      flavorName:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for flavor name"
+        sample_values: ["Anguirus, Armored Killer", "Babygodzilla, Ruin Reborn", "Battra, Dark Destroyer", "Bio-Quartz Spacegodzilla", "Biollante, Plant Beast Form", "Destoroyah, Perfect Lifeform", "Dorat, the Perfect Pet", "Ghidorah, King of the Cosmos"]
+        is_primary_key: false
+        is_foreign_key: false
+      flavorText:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing flavor text"
+        sample_values: ["\" . . . And the third little boar built his house out of rootwalla plates . . . .\"\n\u2014Skyshroud children's story", "\" . . . Cao Pi, Cao Rui, Fang, Mao, and briefly, Huan- / The Sima took the empire in their turn. . . .\"", "\" . . . Cao Pi, Cao Rui, Fang, Mao, and briefly, Huan\u2014 / The Sima took the empire in their turn. . . .\"", "\" . . . When the trees bow down their heads, / The wind is passing by.\"\n\u2014Christina Rossetti, \"Who Has Seen the Wind?\"", "\" . . . When the trees bow down their heads, The wind is passing by.\"\n\u2014Christina Rossetti, \"Who Has Seen the Wind?\"", "\" . . . and you must also apply for an application license, file documents 136(iv) and 22-C and -D in triplicate, pay all requisite fees, request a . . .\"", "\"'Air superiority?' Not while our archers scan the skies.\"\n\u2014Elvish scout", "\"'Davvol, blast those elves.' 'Davvol, transport those troops.' No one cares that today is my birthday.\""]
+        is_primary_key: false
+        is_foreign_key: false
+      frameEffects:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing frame effects"
+        sample_values: ["colorshifted", "companion,legendary", "companion,legendary,extendedart", "compasslanddfc", "devoid", "draft", "etched,legendary", "extendedart"]
+        is_primary_key: false
+        is_foreign_key: false
+      frameVersion:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing frame version"
+        sample_values: ["1993", "1997", "2003", "2015", "future"]
+        is_primary_key: false
+        is_foreign_key: false
+      hand:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing hand"
+        sample_values: ["-1", "-2", "-3", "-4", "0", "1", "2", "3"]
+        is_primary_key: false
+        is_foreign_key: false
+      hasAlternativeDeckLimit:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for has alternative deck limit"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      hasContentWarning:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for has content warning"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      hasFoil:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for has foil"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      hasNonFoil:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for has non foil"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isAlternative:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is alternative"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isFullArt:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is full art"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isOnlineOnly:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is online only"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isOversized:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is oversized"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isPromo:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is promo"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isReprint:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is reprint"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isReserved:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is reserved"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isStarter:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is starter"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isStorySpotlight:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is story spotlight"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isTextless:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is textless"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isTimeshifted:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is timeshifted"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      keywords:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing keywords"
+        sample_values: ["Adamant", "Adamant,Fight", "Adamant,Flying", "Adamant,Haste", "Adamant,Menace", "Adamant,Mill", "Adamant,Scry", "Adapt"]
+        is_primary_key: false
+        is_foreign_key: false
+      layout:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing layout"
+        sample_values: ["adventure", "aftermath", "augment", "flip", "host", "leveler", "meld", "modal_dfc"]
+        is_primary_key: false
+        is_foreign_key: false
+      leadershipSkills:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing leadership skills"
+        sample_values: ["{'brawl': False, 'commander': False, 'oathbreaker': True}", "{'brawl': False, 'commander': True, 'oathbreaker': False}", "{'brawl': False, 'commander': True, 'oathbreaker': True}", "{'brawl': True, 'commander': False, 'oathbreaker': True}", "{'brawl': True, 'commander': True, 'oathbreaker': False}"]
+        is_primary_key: false
+        is_foreign_key: false
+      life:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing life"
+        sample_values: ["-1", "-2", "-3", "-4", "-5", "-6", "-7", "-8"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      loyalty:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing loyalty"
+        sample_values: ["*", "0", "1d4+1", "2", "20", "3", "4", "5"]
+        is_primary_key: false
+        is_foreign_key: false
+      manaCost:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Monetary or numeric amount for mana cost"
+        sample_values: ["{0}", "{1000000}", "{10}", "{10}{B}", "{10}{B}{B}", "{10}{G}", "{10}{G}{G}", "{10}{G}{G}{G}{W}{W}"]
+        is_primary_key: false
+        is_foreign_key: false
+      mcmId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related mcm"
+        sample_values: ["1", "10", "100", "1000", "10000", "10001", "10002", "10003"]
+        is_primary_key: false
+        is_foreign_key: true
+      mcmMetaId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related mcm meta"
+        sample_values: ["1", "10", "100", "1000", "10000", "10001", "10002", "10003"]
+        is_primary_key: false
+        is_foreign_key: true
+      mtgArenaId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related mtg arena"
+        sample_values: ["13491", "14717", "16555", "16569", "17205", "17618", "18187", "18235"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+      mtgjsonV4Id:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related mtgjson v4"
+        sample_values: ["000031ff-f095-52c5-98a1-35bdb5e18a5b", "0001fc69-3a61-51e3-aa17-19abb29803f2", "00028782-6ec2-54fe-8633-2c906d8f1076", "0002f0df-817a-5a19-a2ca-9e7fe4c3dba9", "00040b50-3b84-5cea-b663-70038b87fa08", "000473fc-c380-58ef-a52e-c745b880b0c2", "0005e7e7-fe15-5acb-89aa-adacf0481952", "00087aa5-4199-58ba-8e06-7acb796060cb"]
+        is_primary_key: false
+        is_foreign_key: true
+      mtgoFoilId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related mtgo foil"
+        sample_values: ["10000", "10002", "10004", "10006", "10008", "10010", "10012", "10014"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+      mtgoId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related mtgo"
+        sample_values: ["10", "10001", "10003", "10005", "10007", "10009", "10011", "10013"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+      multiverseId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related multiverse"
+        sample_values: ["1", "10", "100", "1000", "1001", "1002", "1003", "1004"]
+        is_primary_key: false
+        is_foreign_key: true
+      name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for name"
+        sample_values: ["\"Ach! Hans, Run!\"", "\"Rumors of My Death . . .\"", "1996 World Champion", "A Display of My Dark Power", "A Good Thing", "A Reckoning Approaches", "AWOL", "Abandon Hope"]
+        is_primary_key: false
+        is_foreign_key: false
+      number:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Numeric count or quantity for number"
+        sample_values: ["*112", "*122", "*124", "*14", "*180", "*201", "*222", "*36"]
+        is_primary_key: false
+        is_foreign_key: false
+      originalReleaseDate:
+        type: "TEXT"
+        inferred_type: "date"
+        inferred_meaning: "Date value for original release date"
+        sample_values: ["1993/11/1", "1995/1/1", "1995/2/1", "1995/4/1", "1995/7/1", "1995/8/1", "1996/1/1", "1996/11/1"]
+        value_format: "Slash-delimited date (YYYY/MM/DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      originalText:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing original text"
+        sample_values: ["\"Until end of turn\" and \"this turn\" effects don't end.", "(An ongoing scheme remains face up until it's abandoned.)\nAs you set this scheme in motion, choose an opponent.\nCreatures the chosen player controls can't attack you or planeswalkers you control.\nAt the beginning of your opponents' end step, they may tap ", "(An ongoing scheme remains face up until it's abandoned.)\nAt the beginning of your end step, create a 3/3 black Horror creature token.\nAt the beginning of your opponents' end step, they may sacrifice two creatures. If they do, abandon this scheme.", "(An ongoing scheme remains face up until it's abandoned.)\nAt the beginning of your end step, you may put target creature card from an opponent's graveyard onto the battlefield under your control.\nWhen a creature put onto the battlefield with this scheme i", "(An ongoing scheme remains face up until it's abandoned.)\nCreatures you control get +2/+2 and have trample.\nWhen a creature you control is put into a graveyard from the battlefield, abandon this scheme.", "(An ongoing scheme remains face up until it's abandoned.)\nEach opponent can't cast more than one spell each turn.\nAt the beginning of your upkeep, if no opponent cast a spell since your last turn ended, abandon this scheme.", "(An ongoing scheme remains face up until it's abandoned.)\nIf a source an opponent controls would deal damage to you, prevent 1 of that damage.\nAt the beginning of each end step, if you've been dealt 5 or more damage this turn, abandon this scheme.", "(An ongoing scheme remains face up until it's abandoned.)\nSpells you cast cost {1} less to cast.\nAt the beginning of your opponents' end step, if they cast four or more spells this turn, abandon this scheme."]
+        is_primary_key: false
+        is_foreign_key: false
+      originalType:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's original type"
+        sample_values: ["(none)", "Artifact", "Artifact - Equipment", "Artifact - Fortification", "Artifact Creature", "Artifact Creature - Angel", "Artifact Creature - Assembly-Worker", "Artifact Creature - Beast"]
+        is_primary_key: false
+        is_foreign_key: false
+      otherFaceIds:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing other face ids"
+        sample_values: ["000a85b2-d96c-5a74-81de-5d0a3a0357b3", "00251b1c-5d5e-56c0-90e6-48dfbed4d591", "007d2f21-f6a3-5f65-9600-c2a5fa35ae36", "00810124-9bb5-5981-8385-941cb2783a74", "00e889ab-c5ba-5941-a50c-2f654e9390c8", "01630f88-1311-5984-ac13-db0d6c94c9f1", "01ab9538-c7ff-5ce7-9087-fcdb3821a633", "01c0aa6a-e34e-5e5d-a050-a401b16b5273"]
+        is_primary_key: false
+        is_foreign_key: false
+      power:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing power"
+        sample_values: ["*", "*\u00b2", "-1", "0", "0.5", "1", "1+*", "1.5"]
+        is_primary_key: false
+        is_foreign_key: false
+      printings:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing printings"
+        sample_values: ["10E,2ED,2XM,3ED,4BB,4ED,5ED,6ED,7ED,8ED,9ED,AKH,AKR,ALA,ANA,ANB,ARC,ARN,ATH,AVR,BBD,BFZ,BRB,BTD,C13,C14,C15,C16,C17,C18,C19,CED,CEI,CHK,CM2,CMA,CMD,CMR,CST,DD1,DD2,DDE,DDG,DDH,DDI,DDJ,DDK,DDL,DDN,DDP,DDS,DDT,DDU,DKM,DOM,DPA,DTK,E01,ELD,EVG,FBB,FRF,G17,GK1", "10E,2ED,2XM,3ED,4BB,4ED,5ED,6ED,7ED,8ED,9ED,AKH,AKR,ALA,ANA,ANB,ARC,ATH,AVR,BBD,BFZ,BRB,BTD,C13,C14,C15,C16,C17,C18,C19,CED,CEI,CHK,CM2,CMA,CMD,CMR,CST,DD1,DDD,DDE,DDG,DDH,DDJ,DDL,DDM,DDO,DDP,DDR,DDS,DDU,DKM,DOM,DPA,DTK,E01,ELD,EVG,FBB,FRF,G17,GK1,GK2,GN2", "10E,2ED,2XM,3ED,4BB,4ED,5ED,6ED,7ED,8ED,9ED,AKH,AKR,ALA,ANA,ANB,ARC,ATH,AVR,BBD,BFZ,BRB,BTD,C13,C14,C15,C16,C17,C18,C19,CED,CEI,CHK,CM2,CMA,CMD,CST,DDC,DDD,DDE,DDH,DDJ,DDK,DDM,DDN,DDP,DDQ,DDR,DKM,DOM,DPA,DTK,DVD,E01,ELD,FBB,FRF,G17,GK1,GK2,GN2,GNT,GRN,GVL", "10E,2ED,2XM,3ED,4BB,4ED,5ED,6ED,7ED,8ED,9ED,AKH,AKR,ALA,ANA,ANB,ARC,ATH,AVR,BBD,BFZ,BRB,C13,C14,C15,C16,C17,C18,C19,CED,CEI,CHK,CM2,CMA,CMD,CMR,CST,DDC,DDE,DDF,DDG,DDH,DDI,DDK,DDL,DDN,DDO,DDP,DDQ,DOM,DTK,DVD,E01,ELD,FBB,FRF,G17,GK1,GK2,GN2,GNT,GRN,GS1,H09", "10E,2ED,2XM,3ED,4BB,4ED,5ED,6ED,7ED,8ED,9ED,AKH,AKR,ALA,ANA,ANB,ARC,AVR,BBD,BFZ,BRB,BTD,C13,C14,C15,C16,C17,C18,C19,CED,CEI,CHK,CM2,CMA,CMD,CMR,CST,DD2,DDE,DDF,DDH,DDI,DDJ,DDM,DDN,DDO,DDQ,DDS,DDT,DDU,DOM,DPA,DTK,E01,ELD,FBB,FRF,G17,GK1,GK2,GN2,GNT,GRN,GS1", "10E,2ED,2XM,3ED,4BB,4ED,5ED,6ED,7ED,8ED,9ED,AKR,BRB,C13,CED,CEI,EMA,FBB,LEA,LEB,MP2,P07,PLIST,POR,PRM,PTC,PZ1,SUM,V14,WC00,WC03,WC04", "10E,2ED,3ED,4BB,4ED,5ED,6ED,7ED,8ED,9ED,A25,ATH,BBD,BRB,BTD,CED,CEI,DD1,DDD,DKM,DPA,E02,EVG,FBB,FNM,GVL,ICE,LEA,LEB,M10,M11,M14,MB1,ME2,ME3,ME4,P06,PJJT,PRM,PS11,PSUS,RTR,SUM,WAR,WC97,WC99", "10E,2ED,3ED,4BB,4ED,5ED,6ED,7ED,8ED,9ED,AKH,ATH,CED,CEI,DPA,FBB,GS1,LEA,LEB,M10,M11,M12,M14,M19,MB1,POR,PS11,PZ2,SUM"]
+        is_primary_key: false
+        is_foreign_key: false
+      promoTypes:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing promo types"
+        sample_values: ["arenaleague", "boosterfun", "boxtopper", "boxtopper,boosterfun", "boxtopper,godzillaseries,boosterfun", "brawldeck", "bundle", "buyabox"]
+        is_primary_key: false
+        is_foreign_key: false
+      purchaseUrls:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing purchase urls"
+        sample_values: ["{'cardKingdom': 'https://mtgjson.com/links/000088042e46f4b8', 'cardKingdomFoil': 'https://mtgjson.com/links/aef77f5fc5f86cb0', 'cardmarket': 'https://mtgjson.com/links/7955e2b8eb46acc4', 'tcgplayer': 'https://mtgjson.com/links/7eb5260246f5ed39'}", "{'cardKingdom': 'https://mtgjson.com/links/000141e3ac01d931', 'cardmarket': 'https://mtgjson.com/links/1ed178554c32ec53', 'tcgplayer': 'https://mtgjson.com/links/b43cb2ab3cb15bd1'}", "{'cardKingdom': 'https://mtgjson.com/links/000149252670828c', 'cardKingdomFoil': 'https://mtgjson.com/links/311a7d5af7ce285d', 'cardmarket': 'https://mtgjson.com/links/bfd32bc2831dae37', 'tcgplayer': 'https://mtgjson.com/links/de4173fb7ea6b31c'}", "{'cardKingdom': 'https://mtgjson.com/links/00027999e2f4bb5a', 'cardmarket': 'https://mtgjson.com/links/713d193934c276b2', 'tcgplayer': 'https://mtgjson.com/links/b2fe4fc8f0de15f6'}", "{'cardKingdom': 'https://mtgjson.com/links/0003c8e852ecb5ca', 'cardmarket': 'https://mtgjson.com/links/73fb7219948220f2', 'tcgplayer': 'https://mtgjson.com/links/e03ead68ffec51ae'}", "{'cardKingdom': 'https://mtgjson.com/links/000951162e749457', 'cardmarket': 'https://mtgjson.com/links/b711d3e106672dc3', 'tcgplayer': 'https://mtgjson.com/links/d6dd971ed84c736d'}", "{'cardKingdom': 'https://mtgjson.com/links/000b1198628bcfdc', 'cardKingdomFoil': 'https://mtgjson.com/links/f70c96617cddfd17', 'cardmarket': 'https://mtgjson.com/links/9701e6ab21b7da93', 'tcgplayer': 'https://mtgjson.com/links/69fdbac1da1b1a49'}", "{'cardKingdom': 'https://mtgjson.com/links/000c50a5e8e02288', 'tcgplayer': 'https://mtgjson.com/links/c4fb97424121d3a6'}"]
+        is_primary_key: false
+        is_foreign_key: false
+      rarity:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing rarity"
+        sample_values: ["common", "mythic", "rare", "uncommon"]
+        is_primary_key: false
+        is_foreign_key: false
+      scryfallId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related scryfall"
+        sample_values: ["0000579f-7b35-4ed3-b44c-db2a538066fe", "00006596-1166-4a79-8443-ca9f82e6db4e", "0000cd57-91fe-411f-b798-646e965eec37", "00012bd8-ed68-4978-a22d-f450c8a6e048", "0001f1ef-b957-4a55-b47f-14839cdbab6f", "00020b05-ecb9-4603-8cc1-8cfa7a14befc", "0002ab72-834b-4c81-82b1-0d2760ea96b0", "00030770-5e99-4943-819d-8d807c24cc14"]
+        is_primary_key: false
+        is_foreign_key: true
+      scryfallIllustrationId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related scryfall illustration"
+        sample_values: ["000098db-2a02-4926-b0af-d76d12167e2a", "00018cc6-18a4-4391-88e5-c60ecb2f3bfe", "0004f285-56a1-4cb6-b909-502a6687171a", "0006a333-53e2-4531-b118-7a33c3cb8eb8", "0009a206-6b9e-4d85-995c-a492c2827a67", "000acd9f-a737-47ea-a1d9-709c0ce6e737", "000e29e7-01bf-44ec-9ff4-ae5ad909e30e", "000e6e6a-1114-4cc9-84a3-964fb555640a"]
+        is_primary_key: false
+        is_foreign_key: true
+      scryfallOracleId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related scryfall oracle"
+        sample_values: ["0004ebd0-dfd6-4276-b4a6-de0003e94237", "0006faf6-7a61-426c-9034-579f2cfcfa83", "0007c283-5b7a-4c00-9ca1-b455c8dff8c3", "000d5588-5a4c-434e-988d-396632ade42c", "000e5d65-96c3-498b-bd01-72b1a1991850", "0012bc78-e69d-4a67-a302-e5fe0dfd4407", "00181784-9213-492a-ba8c-2028969b049e", "00185f3b-2777-4417-a8e0-4691f41c0ec1"]
+        is_primary_key: false
+        is_foreign_key: true
+      setCode:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing set code"
+        sample_values: ["10E", "2ED", "2XM", "3ED", "4BB", "4ED", "5DN", "5ED"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      side:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing side"
+        sample_values: ["a", "b", "c", "d", "e"]
+        is_primary_key: false
+        is_foreign_key: false
+      subtypes:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing subtypes"
+        sample_values: ["Abian", "Adventure", "Aetherborn,Artificer", "Aetherborn,Rogue", "Aetherborn,Vampire", "Aetherborn,Warrior", "Ajani", "Alara"]
+        is_primary_key: false
+        is_foreign_key: false
+      supertypes:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing supertypes"
+        sample_values: ["Basic", "Basic,Snow", "Host", "Legendary", "Legendary,Snow", "Ongoing", "Snow", "World"]
+        is_primary_key: false
+        is_foreign_key: false
+      tcgplayerProductId:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related tcgplayer product"
+        sample_values: ["100", "100009", "100010", "100014", "100015", "100016", "100021", "100029"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+      text:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing text"
+        sample_values: ["\"Until end of turn\" and \"this turn\" effects don't end.", "(An ongoing scheme remains face up until it's abandoned.)\nAs you set this scheme in motion, choose an opponent.\nCreatures the chosen player controls can't attack you or planeswalkers you control.\nAt the beginning of your opponents' end step, they may tap ", "(An ongoing scheme remains face up until it's abandoned.)\nAt the beginning of your end step, create a 3/3 black Horror creature token.\nAt the beginning of your opponents' end step, they may sacrifice two creatures. If they do, abandon this scheme.", "(An ongoing scheme remains face up until it's abandoned.)\nAt the beginning of your end step, you may put target creature card from an opponent's graveyard onto the battlefield under your control.\nWhen a creature put onto the battlefield with this scheme d", "(An ongoing scheme remains face up until it's abandoned.)\nCreatures you control get +2/+2 and have trample.\nWhen a creature you control dies, abandon this scheme.", "(An ongoing scheme remains face up until it's abandoned.)\nEach opponent can't cast more than one spell each turn.\nAt the beginning of your upkeep, if no opponent cast a spell since your last turn ended, abandon this scheme.", "(An ongoing scheme remains face up until it's abandoned.)\nIf a source an opponent controls would deal damage to you, prevent 1 of that damage.\nAt the beginning of each end step, if you've been dealt 5 or more damage this turn, abandon this scheme.", "(An ongoing scheme remains face up until it's abandoned.)\nSpells you cast cost {1} less to cast.\nAt the beginning of your opponents' end step, if they cast four or more spells this turn, abandon this scheme."]
+        is_primary_key: false
+        is_foreign_key: false
+      toughness:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing toughness"
+        sample_values: ["*", "*+1", "*\u00b2", "-1", "0", "0.5", "1", "1+*"]
+        is_primary_key: false
+        is_foreign_key: false
+      type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's type"
+        sample_values: ["Artifact", "Artifact Creature \u2014 Angel", "Artifact Creature \u2014 Assembly-Worker", "Artifact Creature \u2014 Avatar", "Artifact Creature \u2014 Beast", "Artifact Creature \u2014 Berserker", "Artifact Creature \u2014 Bird", "Artifact Creature \u2014 Bird Construct"]
+        is_primary_key: false
+        is_foreign_key: false
+      types:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing types"
+        sample_values: ["Artifact", "Artifact,Creature", "Artifact,Land", "Autobot,Character", "Conspiracy", "Creature", "Eaturecray", "Elemental,Instant"]
+        is_primary_key: false
+        is_foreign_key: false
+      uuid:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related uuid"
+        sample_values: ["00010d56-fe38-5e35-8aed-518019aa36a5", "0001e0d0-2dcd-5640-aadc-a84765cf5fc9", "0003caab-9ff5-5d1a-bc06-976dd0457f19", "0003d249-25d9-5223-af1e-1130f09622a7", "0004a4fb-92c6-59b2-bdbe-ceb584a9e401", "00054115-b2b6-5e22-a694-76fc8639eeb2", "0005d268-3fd0-5424-bc6b-573ecd713aa1", "0005f481-f2d4-53fa-ba37-cfcf5a5f87f1"]
+        is_primary_key: false
+        is_foreign_key: true
+      variations:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing variations"
+        sample_values: ["000e097b-ff5f-5a34-b4fc-a1c76e899e4f", "00115a34-5c66-5183-bb89-7f67f032ca1b", "0019b544-ed73-5c43-80d0-0826d38d709c", "00217f81-e16f-5f98-afd3-43160585826a", "0026e43f-155f-5e2e-946b-c21a86eb82b8", "002b6d24-0f2c-57a0-9707-740c7e561431,33a00e67-0984-5682-9065-d360b3f8750c", "00396ed6-b91d-5c78-8760-bb22d8f3e9ca", "0042d5c5-25f8-5df1-b6ee-0fff6f167304,1f62efe5-5950-551c-a81c-982937f1918b"]
+        is_primary_key: false
+        is_foreign_key: false
+      watermark:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing watermark"
+        sample_values: ["abzan", "agentsofsneak", "arena", "atarka", "azorius", "boros", "colorpie", "conspiracy"]
+        is_primary_key: false
+        is_foreign_key: false
+  foreign_data:
+    description: "Foreign Data records and attributes"
+    row_count: 229186
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      flavorText:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing flavor text"
+        sample_values: ["", "\" . . . e voc\u00ea tamb\u00e9m precisa solicitar uma licen\u00e7a, preencher os formul\u00e1rios 136(iv), 22-C e -D em tr\u00eas vias, pagar as taxas de servi\u00e7o, solicitar um . . .", "\" . . . y tambi\u00e9n debes solicitar una licencia para solicitar licencias, completar los documentos 136(iv) y 22-C y -D por triplicado, pagar todas las tasas requeridas, pedir un . . .\"", "\" Aqueles siren\u00eddeos perversos deveriam saber como prender o f\u00f4lego.\" \u2014 Olka, bruxa de nevoplan\u00edcie", "\" \uc774\uac78 \ud718\ub450\ub974\uac8c \ud574 \uc8fc\uae30 \uc804\uc5d0 \ub9d0\uc774\uc57c, \ud55c \ubc88 \ud53c\ud560 \uc218 \uc788\ub294\uc9c0 \ubcf4\uc790\uad6c!\"", "\"'Aqui jaz nosso amado Gartu, o mais gentil dos homens.' Ah, como eu adoro ironias.\" \u2014 Jadar, invocador de carni\u00e7ais de Nef\u00e1lia", "\"'Aqu\u00ed yace nuestro amado Gartu, el m\u00e1s noble de los hombres.' Ah, me encanta la iron\u00eda.\" \u2014Jadar, llamamuertos de Nephalia", "\"'Cheguei,' vociferou M\u00fasculos, e o plano estremeceu.\" \u2014 Pergaminho dos Prim\u00f3rdios"]
+        is_primary_key: false
+        is_foreign_key: false
+      language:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing language"
+        sample_values: ["Ancient Greek", "Arabic", "Chinese Simplified", "Chinese Traditional", "French", "German", "Hebrew", "Italian"]
+        is_primary_key: false
+        is_foreign_key: false
+      multiverseid:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related multiverseid"
+        sample_values: [73246, 73247, 73248, 73249, 73250, 73251, 73252, 73253]
+        is_primary_key: false
+        is_foreign_key: true
+      name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for name"
+        sample_values: ["100.000 Pfeile borgen", "100\uac1c\uc758 \uc190\uc744 \uac00\uc9c4 \uac70\uc778", "10\ubc88 \uad6c\uc5ed \uace0\ucc38", "10\ubc88 \uad6c\uc5ed \ub2e8\uc6d0", "10\ubc88 \uad6c\uc5ed \uc218\ube44\ub300", "10\ubc88 \uad6c\uc5ed\uc758 \ub77c\ube44\ub2c8\uc544", "13 \uacf5\ud3ec\uc99d", "1\ubc88 \uad00\ud560\uad6c\uc5ed\uc758 \uc601\uc6c5"]
+        is_primary_key: false
+        is_foreign_key: false
+      text:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing text"
+        sample_values: ["", "\"\uc774 \uc0dd\ubb3c\uc740 \ubc29\uc5b4\ud560 \uc218 \uc5c6\ub2e4.\"\ub97c \uac00\uc9c4 1/1 \uc801\uc0c9 \uc0ac\ud2f0\ub85c\uc2a4 \uc0dd\ubb3c \ud1a0\ud070 \ud55c \uac1c\ub97c \ub9cc\ub4e0\ub2e4.\n\ud0c8\ucd9c\u2014{2}{R}, \ub2f9\uc2e0\uc758 \ubb34\ub364\uc5d0\uc11c \ub2e4\ub978 \uce74\ub4dc \ub450 \uc7a5\uc744 \ucd94\ubc29\ud55c\ub2e4. (\ub2f9\uc2e0\uc740 \uc774 \uce74\ub4dc\uc758 \ud0c8\ucd9c \ube44\uc6a9\uc744 \uc9c0\ubd88\ud574 \uc774 \uce74\ub4dc\ub97c \ub2f9\uc2e0\uc758 \ubb34\ub364\uc5d0\uc11c \ubc1c\ub3d9\ud560 \uc218 \uc788\ub2e4.)", "\"\uc774 \uc0dd\ubb3c\uc774 \uc8fd\uc744 \ub54c, \uc74c\uc2dd \ud1a0\ud070 \ud55c \uac1c\ub97c \ub9cc\ub4e0\ub2e4.\"\ub97c \uac00\uc9c4 1/1 \ub179\uc0c9 \uba67\ub3fc\uc9c0 \uc0dd\ubb3c \ud1a0\ud070 \uc138 \uac1c\ub97c \ub9cc\ub4e0\ub2e4. (\uc74c\uc2dd \ud1a0\ud070\uc740 \"{2}, {T}, \uc774 \ub9c8\ubc95\ubb3c\uccb4\ub97c \ud76c\uc0dd\ud55c\ub2e4: \ub2f9\uc2e0\uc740 \uc0dd\uba85 3\uc810\uc744 \uc5bb\ub294\ub2e4.\"\ub97c \uac00\uc9c4 \ub9c8\ubc95\ubb3c\uccb4\uc774\ub2e4.)", "&gt;Morbide \u2014 Wenn der Ulvenwald-B\u00e4r ins Spiel kommt, lege zwei +1/+1-Marken auf eine Kreatur deiner Wahl, falls eine Kreatur in diesem Zug gestorben ist.", "&gt;Morbide \u2014 Wenn die Wacht\u00e4nzerin ins Spiel kommt, bringe einen 2/2 schwarzen Zombie-Kreaturenspielstein ins Spiel, falls eine Kreatur in diesem Zug gestorben ist.", "&gt;\u4e27\u5fc3\uff5e\u5f53\u6c83\u6587\u68ee\u718a\u8fdb\u6218\u573a\u65f6\uff0c\u82e5\u672c\u56de\u5408\u6709\u751f\u7269\u6b7b\u53bb\uff0c\u5728\u76ee\u6807\u751f\u7269\u4e0a\u653e\u7f6e\u4e24\u4e2a+1/+1\u6307\u793a\u7269\u3002", "&gt;\u4e27\u5fc3\uff5e\u5f53\u9192\u591c\u821e\u8005\u8fdb\u6218\u573a\u65f6\uff0c\u82e5\u672c\u56de\u5408\u6709\u751f\u7269\u6b7b\u53bb\uff0c\u5c06\u4e00\u4e2a2/2\u9ed1\u8272\u7075\u4fd1\u884d\u751f\u751f\u7269\u653e\u8fdb\u6218\u573a\u3002", "&gt;\u55aa\u5fc3\uff5e\u7576\u6c83\u6587\u68ee\u718a\u9032\u6230\u5834\u6642\uff0c\u82e5\u672c\u56de\u5408\u6709\u751f\u7269\u6b7b\u53bb\uff0c\u5728\u76ee\u6a19\u751f\u7269\u4e0a\u653e\u7f6e\u5169\u500b+1/+1\u6307\u793a\u7269\u3002"]
+        is_primary_key: false
+        is_foreign_key: false
+      type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's type"
+        sample_values: ["", "(none)", "Animal \u2014 Kavu", "Arpenteur : Ajani", "Arpenteur : Chandra", "Arpenteur : Garruk", "Arpenteur : Jace", "Arpenteur : Liliana"]
+        is_primary_key: false
+        is_foreign_key: false
+      uuid:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related uuid"
+        sample_values: ["0001e0d0-2dcd-5640-aadc-a84765cf5fc9", "0003caab-9ff5-5d1a-bc06-976dd0457f19", "0003d249-25d9-5223-af1e-1130f09622a7", "0004a4fb-92c6-59b2-bdbe-ceb584a9e401", "0005d268-3fd0-5424-bc6b-573ecd713aa1", "0005f481-f2d4-53fa-ba37-cfcf5a5f87f1", "00066e04-5677-5ca4-8bd0-f7f7781c44a1", "000b9e80-16cd-5946-9038-3fa4f7b08507"]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "cards.uuid"
+        foreign_table: "cards"
+  legalities:
+    description: "Legalities records and attributes"
+    row_count: 427907
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      format:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing format"
+        sample_values: ["brawl", "commander", "duel", "future", "gladiator", "historic", "legacy", "modern"]
+        is_primary_key: false
+        is_foreign_key: false
+      status:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's status"
+        sample_values: ["Banned", "Legal", "Restricted"]
+        is_primary_key: false
+        is_foreign_key: false
+      uuid:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related uuid"
+        sample_values: ["00010d56-fe38-5e35-8aed-518019aa36a5", "0001e0d0-2dcd-5640-aadc-a84765cf5fc9", "0003caab-9ff5-5d1a-bc06-976dd0457f19", "0003d249-25d9-5223-af1e-1130f09622a7", "0004a4fb-92c6-59b2-bdbe-ceb584a9e401", "00054115-b2b6-5e22-a694-76fc8639eeb2", "0005d268-3fd0-5424-bc6b-573ecd713aa1", "0005f481-f2d4-53fa-ba37-cfcf5a5f87f1"]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "cards.uuid"
+        foreign_table: "cards"
+  rulings:
+    description: "Rulings records and attributes"
+    row_count: 87769
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      date:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for date"
+        sample_values: ["2004-10-04", "2004-12-01", "2005-02-01", "2005-03-01", "2005-04-01", "2005-06-01", "2005-08-01", "2005-10-01"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      text:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing text"
+        sample_values: ["+1/+1 counters on The Ozolith have no effect unless it becomes a creature. Keyword counters on The Ozolith will grant it keywords that may have no practical effect. For example, flying on a noncreature artifact is just strange, but hexproof on a noncreatu", "---------- The following rulings focus on the phasing keyword ----------", "---------- The following rulings focus on the \u201cprotection from\u201d keyword ----------", "---------- The following rulings focus on what it means if your life total can\u2019t change ----------", "A Chandra planeswalker spell is a planeswalker spell with the subtype Chandra. Cards that use Chandra\u2019s name in their title or her likeness in their illustration (such as Chandra\u2019s Regulator or Chandra\u2019s Outrage) aren\u2019t Chandra planeswalker spells.", "A Curse spell targets the player it will enchant like any other Aura spell, and a Curse stays on the battlefield like any other Aura. If the enchanted player gains protection from the Curse\u2019s color (or any other characteristic the Curse has), the Curse wi", "A Gaea\u2019s Revenge spell can be targeted by spells and abilities that would counter it. The part of their effect that would counter Gaea\u2019s Revenge won\u2019t do anything, but any other effects those spells or abilities may have will still happen, if applicable.", "A Giant card is a creature card with the creature type Giant. Presumably, it will be the same size as all your other cards."]
+        is_primary_key: false
+        is_foreign_key: false
+      uuid:
+        type: "TEXT"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related uuid"
+        sample_values: ["00010d56-fe38-5e35-8aed-518019aa36a5", "0001e0d0-2dcd-5640-aadc-a84765cf5fc9", "0003caab-9ff5-5d1a-bc06-976dd0457f19", "0003d249-25d9-5223-af1e-1130f09622a7", "0004a4fb-92c6-59b2-bdbe-ceb584a9e401", "000b229e-1a7d-51ff-bd62-4f87682b69b6", "000db6b3-18f7-5108-8834-0d1f01d79c60", "000e097b-ff5f-5a34-b4fc-a1c76e899e4f"]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "cards.uuid"
+        foreign_table: "cards"
+  set_translations:
+    description: "Set Translations records and attributes"
+    row_count: 1210
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      language:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing language"
+        sample_values: ["Chinese Simplified", "Chinese Traditional", "French", "German", "Italian", "Japanese", "Korean", "Portuguese (Brazil)"]
+        is_primary_key: false
+        is_foreign_key: false
+      setCode:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing set code"
+        sample_values: ["10E", "4ED", "5DN", "5ED", "6ED", "7ED", "8ED", "9ED"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "sets.code"
+        foreign_table: "sets"
+      translation:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing translation"
+        sample_values: ["2010 Hauptset", "2010 \ucf54\uc5b4\uc138\ud2b8", "Abendk\u00fchle", "Abrechnung", "Affronta l\u2019oscurit\u00e0", "Ajani vs. Nicol Bolas", "Alara Reunida", "Alara renacida"]
+        is_primary_key: false
+        is_foreign_key: false
+  sets:
+    description: "Sets records and attributes"
+    row_count: 551
+    columns:
+      id:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: true
+        is_foreign_key: false
+      baseSetSize:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing base set size"
+        sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+        is_primary_key: false
+        is_foreign_key: false
+      block:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing block"
+        sample_values: ["Alara", "Amonkhet", "Arena League", "Battle for Zendikar", "Commander", "Core Set", "Friday Night Magic", "Guilds of Ravnica"]
+        is_primary_key: false
+        is_foreign_key: false
+      booster:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing booster"
+        sample_values: ["{'arena': {'boosters': [{'contents': {'basicOrCommonLand': 1, 'nonlandCommon': 10, 'rareMythic': 1, 'uncommon': 3}, 'weight': 1}], 'boostersTotalWeight': 1, 'name': 'Core Set 2019 Arena Booster', 'sheets': {'basicOrCommonLand': {'cards': {'101bdef2-4bec-5", "{'arena': {'boosters': [{'contents': {'basicOrCommonLand': 1, 'nonlandCommon': 10, 'rareMythic': 1, 'uncommon': 3}, 'weight': 1}], 'boostersTotalWeight': 1, 'name': 'Core Set 2020 Arena Booster', 'sheets': {'basicOrCommonLand': {'cards': {'00141b2c-2eff-5", "{'arena': {'boosters': [{'contents': {'basicOrGainland': 1, 'nongainlandCommon': 10, 'rareMythic': 1, 'uncommon': 3}, 'weight': 1}], 'boostersTotalWeight': 1, 'name': 'Core Set 2021 Arena Booster', 'sheets': {'basicOrGainland': {'cards': {'0ef985c1-e2c4-5", "{'arena': {'boosters': [{'contents': {'basicOrGainland': 1, 'regularNongainlandCommon': 10, 'regularRareMythic': 1, 'regularUncommon': 3}, 'weight': 1}], 'boostersTotalWeight': 1, 'name': 'Ikoria: Lair of Behemoths Arena Booster', 'sheets': {'basicOrGainl", "{'arena': {'boosters': [{'contents': {'basictype': 1, 'nonBasictypeCommon': 10, 'rareMythic': 1, 'uncommon': 3}, 'weight': 1}], 'boostersTotalWeight': 1, 'name': 'Kaldheim Arena Booster', 'sheets': {'basictype': {'cards': {'0d72a768-d9e2-5ce7-9669-5fb60a8", "{'arena': {'boosters': [{'contents': {'common': 10, 'land': 1, 'rareMythic': 1, 'uncommon': 3}, 'weight': 1}], 'boostersTotalWeight': 1, 'name': 'Guilds of Ravnica Arena Booster', 'sheets': {'common': {'balanceColors': True, 'cards': {'00afc5b6-4169-5049-", "{'arena': {'boosters': [{'contents': {'common': 10, 'land': 1, 'rareMythic': 1, 'uncommon': 3}, 'weight': 1}], 'boostersTotalWeight': 1, 'name': 'Ravnica Allegiance Arena Booster', 'sheets': {'common': {'balanceColors': True, 'cards': {'00aa8ab6-2c28-5cfd", "{'arena': {'boosters': [{'contents': {'common': 10, 'legendaryRareMythic': 1, 'nonlegendaryUncommon': 3}, 'weight': 4356}, {'contents': {'common': 10, 'legendaryRareMythic': 1, 'legendaryUncommon': 1, 'nonlegendaryUncommon': 2}, 'weight': 828}, {'contents"]
+        is_primary_key: false
+        is_foreign_key: false
+      code:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing code"
+        sample_values: ["10E", "2ED", "2XM", "3ED", "4BB", "4ED", "5DN", "5ED"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      isFoilOnly:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is foil only"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isForeignOnly:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is foreign only"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isNonFoilOnly:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is non foil only"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isOnlineOnly:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is online only"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      isPartialPreview:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Boolean indicator for is partial preview"
+        sample_values: [0, 1]
+        is_primary_key: false
+        is_foreign_key: false
+      keyruneCode:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing keyrune code"
+        sample_values: ["10E", "2ED", "2XM", "3ED", "4ED", "5DN", "5ED", "6ED"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      mcmId:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related mcm"
+        sample_values: [4, 5, 7, 8, 9, 10, 11, 12]
+        is_primary_key: false
+        is_foreign_key: true
+      mcmIdExtras:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing mcm id extras"
+        sample_values: [2371, 2419, 2451, 2587, 2961, 3113, 3209, 3459]
+        is_primary_key: false
+        is_foreign_key: false
+      mcmName:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for mcm name"
+        sample_values: ["Aether Revolt", "Alara Reborn", "Alliances", "Amonkhet", "Amonkhet Invocations", "Anthologies", "Antiquities", "Apocalypse"]
+        is_primary_key: false
+        is_foreign_key: false
+      mtgoCode:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing mtgo code"
+        sample_values: ["10E", "2XM", "5DN", "7E", "8ED", "9ED", "A25", "AER"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for name"
+        sample_values: ["15th Anniversary Cards", "2016 Heroes of the Realm", "2017 Gift Pack", "2017 Heroes of the Realm", "2018 Lunar New Year", "2021 Lunar New Year", "Aether Revolt", "Aether Revolt Promos"]
+        is_primary_key: false
+        is_foreign_key: false
+      parentCode:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing parent code"
+        sample_values: ["10E", "5DN", "8ED", "9ED", "AER", "AKH", "ALA", "ANA"]
+        value_format: "Short uppercase code"
+        is_primary_key: false
+        is_foreign_key: false
+      releaseDate:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for release date"
+        sample_values: ["1993-08-05", "1993-10-04", "1993-12-01", "1993-12-10", "1993-12-17", "1994-03-04", "1994-04-01", "1994-06-01"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      tcgplayerGroupId:
+        type: "INTEGER"
+        inferred_type: "foreign_key"
+        inferred_meaning: "Identifier linking this record to a related tcgplayer group"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: false
+        is_foreign_key: true
+      totalSetSize:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Monetary or numeric amount for total set size"
+        sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+        is_primary_key: false
+        is_foreign_key: false
+      type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's type"
+        sample_values: ["archenemy", "box", "commander", "core", "draft_innovation", "duel_deck", "expansion", "from_the_vault"]
+        is_primary_key: false
+        is_foreign_key: false

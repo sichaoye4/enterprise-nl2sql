@@ -1,0 +1,392 @@
+db_id: "student_club"
+tables:
+  attendance:
+    description: "Attendance records and attributes"
+    row_count: 326
+    columns:
+      link_to_event:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each link to event record"
+        sample_values: ["rec2N69DMcrqN9PJC", "rec5XDvJLyxDsGZWc", "recEVTik3MlqbvLFi", "recGxVCwaLW3mDIa3", "recI43CzsZ0Q625ma", "recIuIXdbLe5j5vCA", "recLKj8BbTNqxFbTb", "recLrY8kyOR1PcZeF"]
+        is_primary_key: true
+        is_foreign_key: true
+        foreign_key_ref: "event.event_id"
+        foreign_table: "event"
+      link_to_member:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each link to member record"
+        sample_values: ["rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec75vvFxgYtHmqxY", "recD078PnS3x2doBe", "recEFd8s6pkrTt4Pz"]
+        is_primary_key: true
+        is_foreign_key: true
+        foreign_key_ref: "member.member_id"
+        foreign_table: "member"
+  budget:
+    description: "Budget records and attributes"
+    row_count: 52
+    columns:
+      budget_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each budget record"
+        sample_values: ["rec0QmEc3cSQFQ6V2", "rec1bG6HSft7XIvTP", "rec1z6ISJU2HdIsVm", "rec33PFqxLtnp80RJ", "rec4DYUKBHMPZXWB2", "rec4yM47hEjVVsCuq", "rec59vErJo51glQRb", "rec5V70sIuIgpOzDT"]
+        is_primary_key: true
+        is_foreign_key: false
+      category:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's category"
+        sample_values: ["Advertisement", "Club T-Shirts", "Food", "Parking", "Speaker Gifts"]
+        is_primary_key: false
+        is_foreign_key: false
+      spent:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing spent"
+        sample_values: [0.0, 6.0, 13.45, 16.28, 20.2, 54.25, 67.81, 74.59]
+        is_primary_key: false
+        is_foreign_key: false
+      remaining:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing remaining"
+        sample_values: [-24.25, -23.06, -0.199999999999999, 0.409999999999997, 0.659999999999997, 0.75, 4.0, 4.88]
+        is_primary_key: false
+        is_foreign_key: false
+      amount:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Monetary or numeric amount for amount"
+        sample_values: [10, 20, 25, 55, 75, 150, 155, 300]
+        is_primary_key: false
+        is_foreign_key: false
+      event_status:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's event status"
+        sample_values: ["Closed", "Open", "Planning"]
+        is_primary_key: false
+        is_foreign_key: false
+      link_to_event:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing link to event"
+        sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec180D2MI4EpckHy", "rec2mJrCofveboaz6", "recAlAwtBZ0Fqbr5K", "recEVTik3MlqbvLFi", "recHaMmaKyfktt5fW", "recI43CzsZ0Q625ma"]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "event.event_id"
+        foreign_table: "event"
+  event:
+    description: "Event records and attributes"
+    row_count: 42
+    columns:
+      event_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each event record"
+        sample_values: ["rec0Si5cQ4rJRVzd6", "rec0akZnLLpGUloLH", "rec0dZPcWXF0QjNnE", "rec180D2MI4EpckHy", "rec2N69DMcrqN9PJC", "rec2mJrCofveboaz6", "rec5XDvJLyxDsGZWc", "recAlAwtBZ0Fqbr5K"]
+        is_primary_key: true
+        is_foreign_key: false
+      event_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for event name"
+        sample_values: ["April Meeting", "April Speaker", "Baseball game", "Community Theater", "Fall Budget Review", "Fall Elections", "February Meeting", "February Speaker"]
+        is_primary_key: false
+        is_foreign_key: false
+      event_date:
+        type: "TEXT"
+        inferred_type: "date"
+        inferred_meaning: "Date value for event date"
+        sample_values: ["2019-09-01T07:00:00", "2019-09-03T12:00:00", "2019-09-07T03:00:00", "2019-09-10T09:30:00", "2019-09-10T12:00:00", "2019-09-12T06:00:00", "2019-09-19T02:00:00", "2019-09-24T12:00:00"]
+        value_format: "Timestamp"
+        is_primary_key: false
+        is_foreign_key: false
+      type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's type"
+        sample_values: ["Budget", "Community Service", "Election", "Game", "Guest Speaker", "Meeting", "Registration", "Social"]
+        is_primary_key: false
+        is_foreign_key: false
+      notes:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing notes"
+        sample_values: ["All active members can vote for new officers between 4pm-8pm.", "Attend Women's soccer game as a group.", "Attend school Woman's Lacrosse game as a group.", "Attend school football game as a group.", "Attend school teams Lacrosse game as a group.", "Attend school teams baseball game as a group.", "Members and alumni can attend a community theater play at a reduced price. Active membership required.", "Monthly officers meeting"]
+        is_primary_key: false
+        is_foreign_key: false
+      location:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing location"
+        sample_values: ["100 W. Main Street", "1308 106th Ave.", "258 S. Maple St.", "45 N. Smith St.", "900 E. Washington St.", "Campus Baseball Stadium", "Campus Common", "Campus Football stadium"]
+        is_primary_key: false
+        is_foreign_key: false
+      status:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's status"
+        sample_values: ["Closed", "Open", "Planning"]
+        is_primary_key: false
+        is_foreign_key: false
+  expense:
+    description: "Expense records and attributes"
+    row_count: 32
+    columns:
+      expense_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each expense record"
+        sample_values: ["rec017x6R3hQqkLAo", "rec1nIjoZKTYayqZ6", "rec1oMgNFt7Y0G40x", "rec4Zg7WEmfiHXcnC", "rec7gUiykKKW4RaJS", "recBqNAd2axwvbSUd", "recHPdtBtpThSA9lq", "recILV3eykJuWc489"]
+        is_primary_key: true
+        is_foreign_key: false
+      expense_description:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing expense description"
+        sample_values: ["Alumni Glass", "Bakery - Donuts, muffins", "Club shirts", "Parking", "Pizza", "Post Cards, Posters", "Posters", "Travel Mug"]
+        is_primary_key: false
+        is_foreign_key: false
+      expense_date:
+        type: "TEXT"
+        inferred_type: "date"
+        inferred_meaning: "Date value for expense date"
+        sample_values: ["2019-08-20", "2019-09-01", "2019-09-03", "2019-09-04", "2019-09-10", "2019-09-15", "2019-09-18", "2019-09-24"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      cost:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Monetary or numeric amount for cost"
+        sample_values: [6.0, 13.45, 16.28, 20.2, 28.15, 50.13, 51.81, 54.25]
+        is_primary_key: false
+        is_foreign_key: false
+      approved:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing approved"
+        sample_values: ["true"]
+        value_format: "Text boolean flag"
+        is_primary_key: false
+        is_foreign_key: false
+      link_to_member:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing link to member"
+        sample_values: ["rec4BLdZHS2Blfp4v", "recD078PnS3x2doBe", "recro8T1MPMwRadVH"]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "member.member_id"
+        foreign_table: "member"
+      link_to_budget:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing link to budget"
+        sample_values: ["rec0QmEc3cSQFQ6V2", "rec1bG6HSft7XIvTP", "rec1z6ISJU2HdIsVm", "rec5V70sIuIgpOzDT", "recJOc7f9KgpgJm5q", "recKjd7dcURsmP0KY", "recMc8TbR76rmUSHG", "recN9yY7okNrFps0Y"]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "budget.budget_id"
+        foreign_table: "budget"
+  income:
+    description: "Income records and attributes"
+    row_count: 36
+    columns:
+      income_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each income record"
+        sample_values: ["rec0s9ZrO15zhzUeE", "rec7f5XMQZexgtQJo", "rec8BUJa8GXUjiglg", "rec8V9BPNIoewWt2z", "recCRWMfFqifuKMc6", "recMCFQxAiJXxrbsG", "recMFy9sJHhuPZ4cz", "recN3WFwGR0c17xe2"]
+        is_primary_key: true
+        is_foreign_key: false
+      date_received:
+        type: "TEXT"
+        inferred_type: "date"
+        inferred_meaning: "Date value for date received"
+        sample_values: ["2019-09-01", "2019-09-04", "2019-09-06", "2019-09-08", "2019-09-09", "2019-09-11", "2019-09-12", "2019-09-13"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      amount:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Monetary or numeric amount for amount"
+        sample_values: [50, 200, 1000, 3000]
+        is_primary_key: false
+        is_foreign_key: false
+      source:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing source"
+        sample_values: ["Dues", "Fundraising", "School Appropration", "Sponsorship"]
+        is_primary_key: false
+        is_foreign_key: false
+      notes:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing notes"
+        sample_values: ["Ad revenue for use on flyers used to advertise upcoming events.", "Annual funding from Student Government.", "Secured donations to help pay for speaker gifts."]
+        is_primary_key: false
+        is_foreign_key: false
+      link_to_member:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing link to member"
+        sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY", "recD078PnS3x2doBe"]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "member.member_id"
+        foreign_table: "member"
+  major:
+    description: "Major records and attributes"
+    row_count: 113
+    columns:
+      major_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each major record"
+        sample_values: ["rec06DF6vZ1CyPKpc", "rec09LedkREyskCNv", "rec0Eanv576RhQllI", "rec0xRZtkzxrg8kj2", "rec1N0upiVLy5esTO", "rec1SiX2nFrkbTleH", "rec2joRXA5HOSHE9a", "rec3pZhvStMoNbVgy"]
+        is_primary_key: true
+        is_foreign_key: false
+      major_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for major name"
+        sample_values: ["Accounting", "Aerospace Studies", "Agribusiness", "Agricultural Communication", "Agricultural Education", "Agricultural Machinery Technology", "Agricultural Science", "Agricultural Systems Technology"]
+        is_primary_key: false
+        is_foreign_key: false
+      department:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing department"
+        sample_values: ["Aerospace Studies Program", "Animal, Dairy, and Veterinary Sciences Department", "Applied Economics Department", "Art and Design Department", "Asian Studies Program", "Biological Engineering Department", "Biology Department", "Chemistry and Biochemistry Department"]
+        is_primary_key: false
+        is_foreign_key: false
+      college:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing college"
+        sample_values: ["College of Agriculture and Applied Sciences", "College of Education & Human Services", "College of Engineering", "College of Humanities and Social Sciences", "College of Natural Resources", "College of Science", "College of the Arts", "School of Business"]
+        is_primary_key: false
+        is_foreign_key: false
+  member:
+    description: "Member records and attributes"
+    row_count: 33
+    columns:
+      member_id:
+        type: "TEXT"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each member record"
+        sample_values: ["rec1x5zBFIqoOuPW8", "rec280Sk7o31iG0Tx", "rec28ORZgcm1dtqBZ", "rec2a03QXbFQAUZ7X", "rec3pH4DxMcWHMRB7", "rec4BLdZHS2Blfp4v", "rec4O9rmGnLx3j8vt", "rec75vvFxgYtHmqxY"]
+        is_primary_key: true
+        is_foreign_key: false
+      first_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for first name"
+        sample_values: ["Adela", "Adele", "Amy", "Angela", "Annabella", "Brent", "Carlo", "Casey"]
+        is_primary_key: false
+        is_foreign_key: false
+      last_name:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Name or label for last name"
+        sample_values: ["Allen", "Balentine", "Cullen", "Deleon", "Dunlop", "Firth", "Gerke", "Gilmour"]
+        is_primary_key: false
+        is_foreign_key: false
+      email:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Email address associated with the record"
+        sample_values: ["adela.o'gallagher@lpu.edu", "adele.deleon@lpu.edu", "amy.firth@lpu.edu", "angela.sanders@lpu.edu", "annabella.warren@lpu.edu", "brent.thomason@lpu.edu", "carlo.jacobs@lpu.edu", "casey.mason@lpu.edu"]
+        value_format: "Email address"
+        is_primary_key: false
+        is_foreign_key: false
+      position:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing position"
+        sample_values: ["Inactive", "Member", "President", "Secretary", "Treasurer", "Vice President"]
+        is_primary_key: false
+        is_foreign_key: false
+      t_shirt_size:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing t shirt size"
+        sample_values: ["Large", "Medium", "Small", "X-Large"]
+        is_primary_key: false
+        is_foreign_key: false
+      phone:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing phone"
+        sample_values: ["(651) 928-4507", "(701) 932-1903", "109-555-7016", "176-555-6720", "260-555-4328", "394-555-4909", "397-555-3444", "403-555-1310"]
+        is_primary_key: false
+        is_foreign_key: false
+      zip:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing zip"
+        sample_values: [1020, 7002, 7080, 8021, 8861, 10002, 11104, 11554]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "zip_code.zip_code"
+        foreign_table: "zip_code"
+      link_to_major:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing link to major"
+        sample_values: ["rec09LedkREyskCNv", "rec1N0upiVLy5esTO", "rec7BxKpjJ7bNph3O", "rec9CqGCGV8Y8rOSY", "recAiT3yTABWypvHu", "recB3VldnYdFtttTk", "recCk8lCDOTRp6rKN", "recIzqYuV3wMONTgB"]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "major.major_id"
+        foreign_table: "major"
+  zip_code:
+    description: "Zip Code records and attributes"
+    row_count: 41877
+    columns:
+      zip_code:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each zip code record"
+        sample_values: [501, 544, 601, 602, 603, 604, 605, 606]
+        is_primary_key: true
+        is_foreign_key: false
+      type:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Categorical value describing the record's type"
+        sample_values: ["PO Box", "Standard", "Unique"]
+        is_primary_key: false
+        is_foreign_key: false
+      city:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing city"
+        sample_values: ["Aaronsburg", "Abbeville", "Abbot", "Abbotsford", "Abbott", "Abbottstown", "Abbyville", "Abell"]
+        is_primary_key: false
+        is_foreign_key: false
+      county:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing county"
+        sample_values: ["Abbeville County", "Acadia Parish", "Accomack County", "Ada County", "Adair County", "Adams County", "Addison County", "Adjuntas Municipio"]
+        is_primary_key: false
+        is_foreign_key: false
+      state:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing state"
+        sample_values: ["Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", "Delaware"]
+        is_primary_key: false
+        is_foreign_key: false
+      short_state:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing short state"
+        sample_values: ["AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC"]
+        value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+        is_primary_key: false
+        is_foreign_key: false

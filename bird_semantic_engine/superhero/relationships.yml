@@ -1,0 +1,67 @@
+relationships:
+  - from_table: "hero_attribute"
+    from_column: "hero_id"
+    to_table: "superhero"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 3738
+  - from_table: "hero_attribute"
+    from_column: "attribute_id"
+    to_table: "attribute"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 3738
+  - from_table: "hero_power"
+    from_column: "power_id"
+    to_table: "superpower"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 5825
+  - from_table: "hero_power"
+    from_column: "hero_id"
+    to_table: "superhero"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 5825
+  - from_table: "superhero"
+    from_column: "skin_colour_id"
+    to_table: "colour"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 750
+  - from_table: "superhero"
+    from_column: "race_id"
+    to_table: "race"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 746
+  - from_table: "superhero"
+    from_column: "publisher_id"
+    to_table: "publisher"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 747
+  - from_table: "superhero"
+    from_column: "hair_colour_id"
+    to_table: "colour"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 750
+  - from_table: "superhero"
+    from_column: "gender_id"
+    to_table: "gender"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 750
+  - from_table: "superhero"
+    from_column: "eye_colour_id"
+    to_table: "colour"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 750
+  - from_table: "superhero"
+    from_column: "alignment_id"
+    to_table: "alignment"
+    to_column: "id"
+    relationship_type: "many_to_one"
+    sample_match_count: 744

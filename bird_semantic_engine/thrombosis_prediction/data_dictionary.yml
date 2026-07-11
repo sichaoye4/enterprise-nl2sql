@@ -1,0 +1,471 @@
+db_id: "thrombosis_prediction"
+tables:
+  Examination:
+    description: "Examination records and attributes"
+    row_count: 806
+    columns:
+      ID:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing id"
+        sample_values: [14872, 48473, 102490, 108788, 122405, 133382, 163109, 174116]
+        is_primary_key: false
+        is_foreign_key: true
+        foreign_key_ref: "Patient.ID"
+        foreign_table: "Patient"
+      Examination Date:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for examination date"
+        sample_values: ["1989-04-18", "1989-11-09", "1991-11-14", "1992-01-08", "1992-03-16", "1992-06-01", "1992-06-08", "1992-06-23"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      aCL IgG:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing a cl ig g"
+        sample_values: [0.0, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+        is_primary_key: false
+        is_foreign_key: false
+      aCL IgM:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing a cl ig m"
+        sample_values: [0.0, 0.1, 0.3, 0.5, 0.6, 0.7, 0.8, 0.9]
+        is_primary_key: false
+        is_foreign_key: false
+      ANA:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing ana"
+        sample_values: [0, 4, 16, 64, 256, 1024, 4094, 4096]
+        is_primary_key: false
+        is_foreign_key: false
+      ANA Pattern:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing ana pattern"
+        sample_values: ["D", "D,P", "D,P,S", "D,S", "N", "P", "P,D", "P,S"]
+        is_primary_key: false
+        is_foreign_key: false
+      aCL IgA:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing a cl ig a"
+        sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+        is_primary_key: false
+        is_foreign_key: false
+      Diagnosis:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing diagnosis"
+        sample_values: ["AGA", "AGA, meningitis", "ANA x5096", "ANA(+)", "ANA, BFP", "ANA\u00f9z\u00c9\u00bd\u00e9\u00de\u00e9\u0153", "APS", "APS susp"]
+        is_primary_key: false
+        is_foreign_key: false
+      KCT:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing kct"
+        sample_values: ["+", "-"]
+        is_primary_key: false
+        is_foreign_key: false
+      RVVT:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing rvvt"
+        sample_values: ["+", "-"]
+        is_primary_key: false
+        is_foreign_key: false
+      LAC:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing lac"
+        sample_values: ["+", "-"]
+        is_primary_key: false
+        is_foreign_key: false
+      Symptoms:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing symptoms"
+        sample_values: ["AMI", "AP", "Abortion", "Apo", "Apo, convulsion", "Budd-Chiari", "CMS lupus", "CNS lupus"]
+        is_primary_key: false
+        is_foreign_key: false
+      Thrombosis:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing thrombosis"
+        sample_values: [0, 1, 2, 3]
+        is_primary_key: false
+        is_foreign_key: false
+  Laboratory:
+    description: "Laboratory records and attributes"
+    row_count: 13908
+    columns:
+      ID:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [27654, 30609, 43003, 48473, 52199, 57266, 58139, 71417]
+        is_primary_key: true
+        is_foreign_key: true
+        foreign_key_ref: "Patient.ID"
+        foreign_table: "Patient"
+      Date:
+        type: "DATE"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each date record"
+        sample_values: ["1981-01-27", "1981-01-28", "1981-02-02", "1981-02-03", "1981-02-04", "1981-02-05", "1981-02-06", "1981-02-17"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: true
+        is_foreign_key: false
+      GOT:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing got"
+        sample_values: [3, 6, 7, 8, 9, 10, 11, 12]
+        is_primary_key: false
+        is_foreign_key: false
+      GPT:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing gpt"
+        sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+        is_primary_key: false
+        is_foreign_key: false
+      LDH:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing ldh"
+        sample_values: [25, 27, 30, 43, 78, 82, 83, 84]
+        is_primary_key: false
+        is_foreign_key: false
+      ALP:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing alp"
+        sample_values: [11, 22, 23, 24, 26, 27, 28, 29]
+        is_primary_key: false
+        is_foreign_key: false
+      TP:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing tp"
+        sample_values: [0.0, 1.4, 1.8, 3.8, 3.9, 4.0, 4.1, 4.2]
+        is_primary_key: false
+        is_foreign_key: false
+      ALB:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing alb"
+        sample_values: [1.0, 2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6]
+        is_primary_key: false
+        is_foreign_key: false
+      UA:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing ua"
+        sample_values: [0.4, 0.6, 0.7, 0.8, 0.9, 1.0, 1.1, 1.2]
+        is_primary_key: false
+        is_foreign_key: false
+      UN:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing un"
+        sample_values: [0, 3, 4, 5, 6, 7, 8, 9]
+        is_primary_key: false
+        is_foreign_key: false
+      CRE:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing cre"
+        sample_values: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+        is_primary_key: false
+        is_foreign_key: false
+      T-BIL:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing t bil"
+        sample_values: [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8]
+        is_primary_key: false
+        is_foreign_key: false
+      T-CHO:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing t cho"
+        sample_values: [37, 80, 82, 85, 88, 89, 90, 93]
+        is_primary_key: false
+        is_foreign_key: false
+      TG:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing tg"
+        sample_values: [1, 24, 26, 28, 29, 30, 31, 32]
+        is_primary_key: false
+        is_foreign_key: false
+      CPK:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing cpk"
+        sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+        is_primary_key: false
+        is_foreign_key: false
+      GLU:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing glu"
+        sample_values: [62, 63, 65, 66, 67, 68, 69, 70]
+        is_primary_key: false
+        is_foreign_key: false
+      WBC:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing wbc"
+        sample_values: [0.9, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8]
+        is_primary_key: false
+        is_foreign_key: false
+      RBC:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing rbc"
+        sample_values: [0.4, 0.5, 0.6, 0.8, 1.0, 1.1, 1.2, 1.3]
+        is_primary_key: false
+        is_foreign_key: false
+      HGB:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing hgb"
+        sample_values: [1.3, 1.6, 2.0, 2.8, 3.1, 3.4, 4.1, 4.6]
+        is_primary_key: false
+        is_foreign_key: false
+      HCT:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing hct"
+        sample_values: [3.0, 3.2, 3.3, 3.4, 4.3, 4.5, 5.8, 8.1]
+        is_primary_key: false
+        is_foreign_key: false
+      PLT:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing plt"
+        sample_values: [5, 13, 15, 17, 20, 21, 23, 24]
+        is_primary_key: false
+        is_foreign_key: false
+      PT:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing pt"
+        sample_values: [10.1, 10.3, 10.4, 10.5, 10.6, 10.7, 10.8, 10.9]
+        is_primary_key: false
+        is_foreign_key: false
+      APTT:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing aptt"
+        sample_values: [57, 60, 76, 84, 86, 87, 88, 89]
+        is_primary_key: false
+        is_foreign_key: false
+      FG:
+        type: "REAL"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing fg"
+        sample_values: [23.8, 23.9, 24.1, 24.5, 24.7, 24.8, 25.4, 25.5]
+        is_primary_key: false
+        is_foreign_key: false
+      PIC:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing pic"
+        sample_values: [114, 138, 150, 155, 157, 165, 176, 193]
+        is_primary_key: false
+        is_foreign_key: false
+      TAT:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing tat"
+        sample_values: [63, 64, 65, 67, 68, 71, 77, 78]
+        is_primary_key: false
+        is_foreign_key: false
+      TAT2:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing tat2"
+        sample_values: [59, 64, 68, 69, 71, 75, 78, 84]
+        is_primary_key: false
+        is_foreign_key: false
+      U-PRO:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing u pro"
+        sample_values: ["%%", "+1(30)", "+2(100)", "-", "-15", "0", "1", "100"]
+        is_primary_key: false
+        is_foreign_key: false
+      IGG:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing igg"
+        sample_values: [3, 8, 55, 310, 315, 339, 430, 505]
+        is_primary_key: false
+        is_foreign_key: false
+      IGA:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing iga"
+        sample_values: [1, 6, 20, 31, 32, 34, 36, 39]
+        is_primary_key: false
+        is_foreign_key: false
+      IGM:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing igm"
+        sample_values: [0, 4, 12, 21, 22, 23, 26, 28]
+        is_primary_key: false
+        is_foreign_key: false
+      CRP:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing crp"
+        sample_values: ["+", "-", "0", "0.03", "0.04", "0.05", "0.06", "0.07"]
+        is_primary_key: false
+        is_foreign_key: false
+      RA:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing ra"
+        sample_values: ["+", "+-", "-", "2+", "7-"]
+        is_primary_key: false
+        is_foreign_key: false
+      RF:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing rf"
+        sample_values: ["100.2", "100.3", "100.4", "101", "101.2", "1017.6", "102.3", "102.4"]
+        is_primary_key: false
+        is_foreign_key: false
+      C3:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing c3"
+        sample_values: [15, 17, 18, 19, 20, 21, 22, 23]
+        is_primary_key: false
+        is_foreign_key: false
+      C4:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing c4"
+        sample_values: [3, 4, 5, 6, 7, 8, 9, 10]
+        is_primary_key: false
+        is_foreign_key: false
+      RNP:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing rnp"
+        sample_values: ["0", "1", "15", "16", "256", "4", "64", "negative"]
+        is_primary_key: false
+        is_foreign_key: false
+      SM:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing sm"
+        sample_values: ["0", "1", "2", "8", "negative"]
+        is_primary_key: false
+        is_foreign_key: false
+      SC170:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing sc170"
+        sample_values: ["0", "1", "16", "4", "negative"]
+        is_primary_key: false
+        is_foreign_key: false
+      SSA:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing ssa"
+        sample_values: ["0", "1", "16", "256", "4", "64", "negative"]
+        is_primary_key: false
+        is_foreign_key: false
+      SSB:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing ssb"
+        sample_values: ["0", "1", "2", "32", "8", "negative"]
+        is_primary_key: false
+        is_foreign_key: false
+      CENTROMEA:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing centromea"
+        sample_values: ["0", "negative"]
+        is_primary_key: false
+        is_foreign_key: false
+      DNA:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing dna"
+        sample_values: ["0.56", "0.58", "10.1", "10.2", "100", "11", "110", "117"]
+        is_primary_key: false
+        is_foreign_key: false
+      DNA-II:
+        type: "INTEGER"
+        inferred_type: "numeric"
+        inferred_meaning: "Numeric value representing dna ii"
+        sample_values: []
+        is_primary_key: false
+        is_foreign_key: false
+  Patient:
+    description: "Patient records and attributes"
+    row_count: 1238
+    columns:
+      ID:
+        type: "INTEGER"
+        inferred_type: "primary_key"
+        inferred_meaning: "Unique identifier for each id record"
+        sample_values: [2110, 11408, 12052, 14872, 27654, 30609, 43003, 48473]
+        is_primary_key: true
+        is_foreign_key: false
+      SEX:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing sex"
+        sample_values: ["", "F", "M"]
+        is_primary_key: false
+        is_foreign_key: false
+      Birthday:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for birthday"
+        sample_values: ["1912-08-28", "1917-04-18", "1918-03-20", "1919-02-13", "1919-12-30", "1920-01-08", "1920-05-09", "1920-08-22"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      Description:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for description"
+        sample_values: ["1991-06-10", "1991-08-12", "1991-08-13", "1992-01-20", "1992-02-28", "1992-03-20", "1992-07-24", "1992-08-31"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      First Date:
+        type: "DATE"
+        inferred_type: "date"
+        inferred_meaning: "Date value for first date"
+        sample_values: ["1972-08-02", "1972-10-19", "1973-01-01", "1973-01-30", "1973-04-08", "1973-11-01", "1974-07-23", "1975-03-06"]
+        value_format: "ISO date (YYYY-MM-DD)"
+        is_primary_key: false
+        is_foreign_key: false
+      Admission:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing admission"
+        sample_values: ["", "+", "+(", "-"]
+        is_primary_key: false
+        is_foreign_key: false
+      Diagnosis:
+        type: "TEXT"
+        inferred_type: "text"
+        inferred_meaning: "Text value representing diagnosis"
+        sample_values: ["", "AGA", "ANA", "ANA (+)", "ANAPHYLACTOID PURPURA NEPHRITIS", "ANCA", "AORTITIS", "AORTITIS susp"]
+        is_primary_key: false
+        is_foreign_key: false

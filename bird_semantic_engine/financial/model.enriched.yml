@@ -1,0 +1,2848 @@
+version: 1
+domain: "financial"
+metadata:
+  source: "BIRD dev_20240627"
+  generator: "build_bird_semantic_engine_models.py"
+  data_dictionary:
+    db_id: "financial"
+    tables: ["account", "card", "client", "disp", "district", "loan", "order", "trans"]
+entities:
+  - name: "account"
+    title: "Account"
+    description: "BIRD table account in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "account"
+      dialect: "sqlite"
+      grain: ["account_id"]
+    identifiers:
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: true
+      - name: "district_id"
+        expr: "district_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from account."
+        expr: "date"
+        type: "date"
+        default: true
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["1993-01-01", "1993-01-02", "1993-01-03", "1993-01-04", "1993-01-05", "1993-01-06", "1993-01-07", "1993-01-08"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "frequency"
+        title: "Frequency"
+        expr: "frequency"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing frequency"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing frequency"
+            sample_values: ["POPLATEK MESICNE", "POPLATEK PO OBRATU", "POPLATEK TYDNE"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_account_id"
+        title: "Count Account Id"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters:
+          - member: "frequency"
+            operator: "equals"
+            values: ["POPLATEK PO OBRATU"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.A3 = 'east Bohemia' AND T2.frequency = 'POPLATEK PO OBRATU'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_2"
+        title: "Count Account Id 2"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.A3 = 'Prague'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_3"
+        title: "Count Account Id 3"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters:
+          - member: "frequency"
+            operator: "equals"
+            values: ["POPLATEK TYDNE"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.type = 'OWNER' AND T1.frequency = 'POPLATEK TYDNE'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_4"
+        title: "Count Account Id 4"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', T2.date) = '1996' AND T1.A2 = 'Litomerice'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_5"
+        title: "Count Account Id 5"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: ["district.a16"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_6"
+        title: "Count Account Id 6"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters:
+          - member: "frequency"
+            operator: "equals"
+            values: ["POPLATEK MESICNE"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.date BETWEEN '1995-01-01' AND '1997-12-31' AND T1.frequency = 'POPLATEK MESICNE' AND T2.amount >= 250000"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_7"
+        title: "Count Account Id 7"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.district_id = 1 AND (T3.status = 'C' OR T3.status = 'D')"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_8"
+        title: "Count Account Id 8"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.A2 = 'Pisek'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_9"
+        title: "Count Account Id 9"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.bank = 'AB' AND T1.A3 = 'north Bohemia'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_10"
+        title: "Count Account Id 10"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.status = 'A'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_11"
+        title: "Count Account Id 11"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.A2 = 'Jesenik'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_account_id_12"
+        title: "Count Account Id 12"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters:
+          - member: "frequency"
+            operator: "equals"
+            values: ["POPLATEK PO OBRATU"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.type = 'OWNER' AND T1.frequency = 'POPLATEK PO OBRATU'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 4500
+        columns:
+          account_id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each account record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          district_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related district"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "district.district_id"
+            foreign_table: "district"
+          frequency:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing frequency"
+            sample_values: ["POPLATEK MESICNE", "POPLATEK PO OBRATU", "POPLATEK TYDNE"]
+            is_primary_key: false
+            is_foreign_key: false
+          date:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["1993-01-01", "1993-01-02", "1993-01-03", "1993-01-04", "1993-01-05", "1993-01-06", "1993-01-07", "1993-01-08"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "card"
+    title: "Card"
+    description: "BIRD table card in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "card"
+      dialect: "sqlite"
+      grain: ["card_id"]
+    identifiers:
+      - name: "card_id"
+        expr: "card_id"
+        type: "number"
+        primary_key: true
+      - name: "disp_id"
+        expr: "disp_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "issued"
+        title: "Issued"
+        description: "Time column issued from card."
+        expr: "issued"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for issued"
+            sample_values: ["1993-11-07", "1994-01-19", "1994-02-05", "1994-02-08", "1994-02-15", "1994-03-03", "1994-04-05", "1994-06-01"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's type"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["classic", "gold", "junior"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_card_id"
+        title: "Count Card Id"
+        description: "COUNT over card_id extracted from repeated BIRD gold SQL patterns."
+        expr: "card_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["card id"]
+        allowed_dimensions: []
+        filters:
+          - member: "type"
+            operator: "equals"
+            values: ["OWNER"]
+          - member: "type"
+            operator: "equals"
+            values: ["gold"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.type = 'gold' AND T2.type = 'OWNER'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each card record"
+            sample_values: [1, 2, 3, 4, 5, 7, 8, 9]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_card_id_2"
+        title: "Count Card Id 2"
+        description: "COUNT over card_id extracted from repeated BIRD gold SQL patterns."
+        expr: "card_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["card id"]
+        allowed_dimensions: []
+        filters:
+          - member: "type"
+            operator: "equals"
+            values: ["OWNER"]
+          - member: "type"
+            operator: "equals"
+            values: ["classic"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.type = 'classic' AND T2.type = 'OWNER'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each card record"
+            sample_values: [1, 2, 3, 4, 5, 7, 8, 9]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_card_id_3"
+        title: "Count Card Id 3"
+        description: "COUNT over card_id extracted from repeated BIRD gold SQL patterns."
+        expr: "card_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["card id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each card record"
+            sample_values: [1, 2, 3, 4, 5, 7, 8, 9]
+            is_primary_key: true
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 892
+        columns:
+          card_id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each card record"
+            sample_values: [1, 2, 3, 4, 5, 7, 8, 9]
+            is_primary_key: true
+            is_foreign_key: false
+          disp_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related disp"
+            sample_values: [9, 19, 41, 42, 51, 56, 60, 76]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "disp.disp_id"
+            foreign_table: "disp"
+          type:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["classic", "gold", "junior"]
+            is_primary_key: false
+            is_foreign_key: false
+          issued:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for issued"
+            sample_values: ["1993-11-07", "1994-01-19", "1994-02-05", "1994-02-08", "1994-02-15", "1994-03-03", "1994-04-05", "1994-06-01"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "client"
+    title: "Client"
+    description: "BIRD table client in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "client"
+      dialect: "sqlite"
+      grain: ["client_id"]
+    identifiers:
+      - name: "client_id"
+        expr: "client_id"
+        type: "number"
+        primary_key: true
+      - name: "district_id"
+        expr: "district_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "birth_date"
+        title: "Birth Date"
+        description: "Time column birth_date from client."
+        expr: "birth_date"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birth date"
+            sample_values: ["1911-08-20", "1911-12-09", "1912-03-02", "1913-07-13", "1913-09-12", "1913-12-06", "1914-03-01", "1914-05-19"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "gender"
+        title: "Gender"
+        expr: "gender"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing gender"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_client_id"
+        title: "Count Client Id"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.gender = 'M' AND T2.A3 = 'north Bohemia' AND T2.A11 > 8000"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_2"
+        title: "Count Client Id 2"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.gender = 'F' AND STRFTIME('%Y', T2.birth_date) < '1950' AND T1.A2 = 'Sokolov'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_3"
+        title: "Count Client Id 3"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.gender = 'F' AND T2.A2 = 'Jesenik'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_4"
+        title: "Count Client Id 4"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: ["district.a4"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.A3 = 'south Bohemia'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_5"
+        title: "Count Client Id 5"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: ["district.a2"]
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.gender = 'F'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_6"
+        title: "Count Client Id 6"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.gender = 'M' AND T2.A15 = (SELECT T3.A15 FROM district AS T3 ORDER BY T3.A15 DESC LIMIT 1 OFFSET 1)"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_7"
+        title: "Count Client Id 7"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.gender = 'F' AND T2.A3 = 'south Bohemia'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_8"
+        title: "Count Client Id 8"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values: ["M"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.gender = 'M' AND T2.A2 = 'Hl.m. Praha'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_9"
+        title: "Count Client Id 9"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.A11 > 10000"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_10"
+        title: "Count Client Id 10"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters:
+          - member: "gender"
+            operator: "equals"
+            values: ["F"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.gender = 'F' AND T3.type = 'junior'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_11"
+        title: "Count Client Id 11"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.A3 = 'Prague'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_12"
+        title: "Count Client Id 12"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.frequency = 'POPLATEK TYDNE'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "count_client_id_13"
+        title: "Count Client Id 13"
+        description: "COUNT over client_id extracted from repeated BIRD gold SQL patterns."
+        expr: "client_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["client id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', T1.birth_date) = '1920' AND T2.A3 = 'east Bohemia'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "sum_gender"
+        title: "Sum Gender"
+        description: "SUM over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["gender"]
+        allowed_dimensions: ["district.a4"]
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.A3 = 'south Bohemia'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_gender_2"
+        title: "Sum Gender 2"
+        description: "SUM over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["gender"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.A11 > 10000"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_gender_3"
+        title: "Sum Gender 3"
+        description: "SUM over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["gender"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.A3 = 'Prague'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_gender_4"
+        title: "Sum Gender 4"
+        description: "SUM over gender extracted from repeated BIRD gold SQL patterns."
+        expr: "gender"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["gender"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.frequency = 'POPLATEK TYDNE'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 5369
+        columns:
+          client_id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each client record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          gender:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing gender"
+            sample_values: ["F", "M"]
+            is_primary_key: false
+            is_foreign_key: false
+          birth_date:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for birth date"
+            sample_values: ["1911-08-20", "1911-12-09", "1912-03-02", "1913-07-13", "1913-09-12", "1913-12-06", "1914-03-01", "1914-05-19"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          district_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related district"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "district.district_id"
+            foreign_table: "district"
+  - name: "disp"
+    title: "Disp"
+    description: "BIRD table disp in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "disp"
+      dialect: "sqlite"
+      grain: ["disp_id"]
+    identifiers:
+      - name: "disp_id"
+        expr: "disp_id"
+        type: "number"
+        primary_key: true
+      - name: "client_id"
+        expr: "client_id"
+        type: "number"
+        primary_key: false
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's type"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["DISPONENT", "OWNER"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "count_account_id"
+        title: "Count Account Id"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.A3 = 'south Bohemia' AND T3.type <> 'OWNER'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+      - name: "count_account_id_2"
+        title: "Count Account Id 2"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters:
+          - member: "type"
+            operator: "equals"
+            values: ["OWNER"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.frequency = 'POPLATEK TYDNE' AND T2.type = 'OWNER'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 5369
+        columns:
+          disp_id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each disp record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          client_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related client"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "client.client_id"
+            foreign_table: "client"
+          account_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+          type:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["DISPONENT", "OWNER"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "district"
+    title: "District"
+    description: "BIRD table district in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "district"
+      dialect: "sqlite"
+      grain: ["district_id"]
+    identifiers:
+      - name: "district_id"
+        expr: "district_id"
+        type: "number"
+        primary_key: true
+    time_dimensions: []
+    dimensions:
+      - name: "a2"
+        title: "A2"
+        expr: "A2"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing a2"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a2"
+            sample_values: ["Benesov", "Beroun", "Blansko", "Breclav", "Brno - mesto", "Brno - venkov", "Bruntal", "Ceska Lipa"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a3"
+        title: "A3"
+        expr: "A3"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing a3"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a3"
+            sample_values: ["Prague", "central Bohemia", "east Bohemia", "north Bohemia", "north Moravia", "south Bohemia", "south Moravia", "west Bohemia"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a4"
+        title: "A4"
+        expr: "A4"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing a4"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a4"
+            sample_values: ["102609", "103347", "105058", "105606", "106054", "107870", "107911", "108871"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a6"
+        title: "A6"
+        expr: "A6"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing a6"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a6"
+            sample_values: ["0", "10", "11", "12", "13", "14", "15", "16"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a7"
+        title: "A7"
+        expr: "A7"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing a7"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a7"
+            sample_values: ["0", "1", "10", "11", "12", "13", "14", "18"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a11"
+        title: "A11"
+        expr: "A11"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing a11"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a11"
+            sample_values: [8110, 8114, 8173, 8187, 8208, 8240, 8254, 8288]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a12"
+        title: "A12"
+        expr: "A12"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing a12"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a12"
+            sample_values: [0.2, 0.4, 0.5, 0.6, 1.0, 1.1, 1.2, 1.3]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a13"
+        title: "A13"
+        expr: "A13"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing a13"
+        metadata:
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a13"
+            sample_values: [0.43, 0.54, 0.59, 1.21, 1.25, 1.29, 1.44, 1.54]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a15"
+        title: "A15"
+        expr: "A15"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing a15"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a15"
+            sample_values: [818, 999, 1003, 1029, 1089, 1328, 1562, 1563]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "a16"
+        title: "A16"
+        expr: "A16"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing a16"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a16"
+            sample_values: [888, 1099, 1117, 1127, 1181, 1358, 1452, 1460]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_a12"
+        title: "Avg A12"
+        description: "AVG over A12 extracted from repeated BIRD gold SQL patterns."
+        expr: "A12"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["a12"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a12"
+            sample_values: [0.2, 0.4, 0.5, 0.6, 1.0, 1.1, 1.2, 1.3]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_a13"
+        title: "Avg A13"
+        description: "AVG over A13 extracted from repeated BIRD gold SQL patterns."
+        expr: "A13"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["a13"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a13"
+            sample_values: [0.43, 0.54, 0.59, 1.21, 1.25, 1.29, 1.44, 1.54]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_a15"
+        title: "Avg A15"
+        description: "AVG over A15 extracted from repeated BIRD gold SQL patterns."
+        expr: "A15"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["a15"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', T2.date) >= '1997' AND T1.A15 > 4000"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a15"
+            sample_values: [818, 999, 1003, 1029, 1089, 1328, 1562, 1563]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "distinct_district_id_count"
+        title: "Distinct District Id Count"
+        description: "COUNT over district_id extracted from repeated BIRD gold SQL patterns."
+        expr: "district_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["district id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: true
+          where_examples: ["WHERE T1.gender = 'F' AND T2.A11 BETWEEN 6000 AND 10000"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each district record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+      - name: "max_a11"
+        title: "Max A11"
+        description: "MAX over A11 extracted from repeated BIRD gold SQL patterns."
+        expr: "A11"
+        aggregation: "max"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["a11"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.district_id = (SELECT district_id FROM client WHERE gender = 'F' ORDER BY birth_date ASC LIMIT 1)"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a11"
+            sample_values: [8110, 8114, 8173, 8187, 8208, 8240, 8254, 8288]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "min_a11"
+        title: "Min A11"
+        description: "MIN over A11 extracted from repeated BIRD gold SQL patterns."
+        expr: "A11"
+        aggregation: "min"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["a11"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.district_id = (SELECT district_id FROM client WHERE gender = 'F' ORDER BY birth_date ASC LIMIT 1)"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a11"
+            sample_values: [8110, 8114, 8173, 8187, 8208, 8240, 8254, 8288]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_a16"
+        title: "Sum A16"
+        description: "SUM over A16 extracted from repeated BIRD gold SQL patterns."
+        expr: "A16"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["a16"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: []
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a16"
+            sample_values: [888, 1099, 1117, 1127, 1181, 1358, 1452, 1460]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_a2"
+        title: "Sum A2"
+        description: "SUM over A2 extracted from repeated BIRD gold SQL patterns."
+        expr: "A2"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["a2"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', T2.date) = '1993'"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a2"
+            sample_values: ["Benesov", "Beroun", "Blansko", "Breclav", "Brno - mesto", "Brno - venkov", "Bruntal", "Ceska Lipa"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 77
+        columns:
+          district_id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each district record"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: true
+            is_foreign_key: false
+          A2:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a2"
+            sample_values: ["Benesov", "Beroun", "Blansko", "Breclav", "Brno - mesto", "Brno - venkov", "Bruntal", "Ceska Lipa"]
+            is_primary_key: false
+            is_foreign_key: false
+          A3:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a3"
+            sample_values: ["Prague", "central Bohemia", "east Bohemia", "north Bohemia", "north Moravia", "south Bohemia", "south Moravia", "west Bohemia"]
+            is_primary_key: false
+            is_foreign_key: false
+          A4:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a4"
+            sample_values: ["102609", "103347", "105058", "105606", "106054", "107870", "107911", "108871"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: false
+          A5:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a5"
+            sample_values: ["0", "10", "101", "11", "139", "15", "151", "17"]
+            is_primary_key: false
+            is_foreign_key: false
+          A6:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a6"
+            sample_values: ["0", "10", "11", "12", "13", "14", "15", "16"]
+            is_primary_key: false
+            is_foreign_key: false
+          A7:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing a7"
+            sample_values: ["0", "1", "10", "11", "12", "13", "14", "18"]
+            is_primary_key: false
+            is_foreign_key: false
+          A8:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a8"
+            sample_values: [0, 1, 2, 3, 4, 5]
+            is_primary_key: false
+            is_foreign_key: false
+          A9:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a9"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: false
+          A10:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a10"
+            sample_values: [33.9, 36.5, 36.9, 40.7, 41.3, 41.7, 43.7, 43.8]
+            is_primary_key: false
+            is_foreign_key: false
+          A11:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a11"
+            sample_values: [8110, 8114, 8173, 8187, 8208, 8240, 8254, 8288]
+            is_primary_key: false
+            is_foreign_key: false
+          A12:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a12"
+            sample_values: [0.2, 0.4, 0.5, 0.6, 1.0, 1.1, 1.2, 1.3]
+            is_primary_key: false
+            is_foreign_key: false
+          A13:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a13"
+            sample_values: [0.43, 0.54, 0.59, 1.21, 1.25, 1.29, 1.44, 1.54]
+            is_primary_key: false
+            is_foreign_key: false
+          A14:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a14"
+            sample_values: [81, 87, 90, 94, 96, 97, 99, 100]
+            is_primary_key: false
+            is_foreign_key: false
+          A15:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a15"
+            sample_values: [818, 999, 1003, 1029, 1089, 1328, 1562, 1563]
+            is_primary_key: false
+            is_foreign_key: false
+          A16:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing a16"
+            sample_values: [888, 1099, 1117, 1127, 1181, 1358, 1452, 1460]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "loan"
+    title: "Loan"
+    description: "BIRD table loan in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "loan"
+      dialect: "sqlite"
+      grain: ["loan_id"]
+    identifiers:
+      - name: "loan_id"
+        expr: "loan_id"
+        type: "number"
+        primary_key: true
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from loan."
+        expr: "date"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["1993-07-05", "1993-07-11", "1993-07-28", "1993-08-03", "1993-09-06", "1993-09-13", "1993-09-15", "1993-09-24"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "amount"
+        title: "Amount"
+        expr: "amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Monetary or numeric amount for amount"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [4980, 5148, 7656, 8616, 10944, 11400, 11736, 12540]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "duration"
+        title: "Duration"
+        expr: "duration"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Numeric value representing duration"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing duration"
+            sample_values: [12, 24, 36, 48, 60]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "status"
+        title: "Status"
+        expr: "status"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's status"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["A", "B", "C", "D"]
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_amount"
+        title: "Avg Amount"
+        description: "AVG over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.gender = 'M'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [4980, 5148, 7656, 8616, 10944, 11400, 11736, 12540]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "avg_amount_2"
+        title: "Avg Amount 2"
+        description: "AVG over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters:
+          - member: "status"
+            operator: "equals"
+            values: ["C", "D"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.status IN ('C', 'D') AND T1.frequency = 'POPLATEK PO OBRATU'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [4980, 5148, 7656, 8616, 10944, 11400, 11736, 12540]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_account_id"
+        title: "Count Account Id"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.frequency = 'POPLATEK TYDNE' AND T1.amount < 200000"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [2, 19, 25, 37, 38, 67, 97, 103]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+      - name: "count_account_id_2"
+        title: "Count Account Id 2"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters:
+          - member: "duration"
+            operator: "equals"
+            values: [24]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T2.duration = 24 AND T1.frequency = 'POPLATEK TYDNE'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [2, 19, 25, 37, 38, 67, 97, 103]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+      - name: "sum_amount"
+        title: "Sum Amount"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: ["district.a3"]
+        filters:
+          - member: "status"
+            operator: "equals"
+            values: ["C", "D"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T3.status IN ('C', 'D')"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [4980, 5148, 7656, 8616, 10944, 11400, 11736, 12540]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_amount_2"
+        title: "Sum Amount 2"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T4.gender = 'M' AND T3.type = 'OWNER'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [4980, 5148, 7656, 8616, 10944, 11400, 11736, 12540]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_status"
+        title: "Sum Status"
+        description: "SUM over status extracted from repeated BIRD gold SQL patterns."
+        expr: "status"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["status"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE amount < 100000"]
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["A", "B", "C", "D"]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 682
+        columns:
+          loan_id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each loan record"
+            sample_values: [4959, 4961, 4962, 4967, 4968, 4973, 4986, 4988]
+            is_primary_key: true
+            is_foreign_key: false
+          account_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [2, 19, 25, 37, 38, 67, 97, 103]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+          date:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["1993-07-05", "1993-07-11", "1993-07-28", "1993-08-03", "1993-09-06", "1993-09-13", "1993-09-15", "1993-09-24"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          amount:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [4980, 5148, 7656, 8616, 10944, 11400, 11736, 12540]
+            is_primary_key: false
+            is_foreign_key: false
+          duration:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing duration"
+            sample_values: [12, 24, 36, 48, 60]
+            is_primary_key: false
+            is_foreign_key: false
+          payments:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing payments"
+            sample_values: [304.0, 312.0, 319.0, 334.0, 359.0, 371.0, 403.0, 415.0]
+            is_primary_key: false
+            is_foreign_key: false
+          status:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's status"
+            sample_values: ["A", "B", "C", "D"]
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "order"
+    title: "Order"
+    description: "BIRD table order in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "order"
+      dialect: "sqlite"
+      grain: ["order_id"]
+    identifiers:
+      - name: "order_id"
+        expr: "order_id"
+        type: "number"
+        primary_key: true
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: false
+    time_dimensions: []
+    dimensions:
+      - name: "bank_to"
+        title: "Bank To"
+        expr: "bank_to"
+        type: "string"
+        synonyms: ["bank to"]
+        sensitivity: "public"
+        public: true
+        description: "Text value representing bank to"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing bank to"
+            sample_values: ["AB", "CD", "EF", "GH", "IJ", "KL", "MN", "OP"]
+            value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "k_symbol"
+        title: "K Symbol"
+        expr: "k_symbol"
+        type: "string"
+        synonyms: ["k symbol"]
+        sensitivity: "public"
+        public: true
+        description: "Text value representing k symbol"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing k symbol"
+            sample_values: ["", "LEASING", "POJISTNE", "SIPO", "UVER"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: false
+    measures: []
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 6471
+        columns:
+          order_id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each order record"
+            sample_values: [29401, 29402, 29403, 29404, 29405, 29406, 29407, 29408]
+            is_primary_key: true
+            is_foreign_key: false
+          account_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+          bank_to:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing bank to"
+            sample_values: ["AB", "CD", "EF", "GH", "IJ", "KL", "MN", "OP"]
+            value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+            is_primary_key: false
+            is_foreign_key: false
+          account_to:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing account to"
+            sample_values: [399, 1460, 15318, 48101, 48310, 54032, 87464, 112665]
+            is_primary_key: false
+            is_foreign_key: false
+          amount:
+            type: "REAL"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0]
+            is_primary_key: false
+            is_foreign_key: false
+          k_symbol:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing k symbol"
+            sample_values: ["", "LEASING", "POJISTNE", "SIPO", "UVER"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: false
+  - name: "trans"
+    title: "Trans"
+    description: "BIRD table trans in the financial database."
+    status: "certified"
+    owner: "bird_benchmark"
+    public: false
+    physical:
+      table: "trans"
+      dialect: "sqlite"
+      grain: ["trans_id"]
+    identifiers:
+      - name: "trans_id"
+        expr: "trans_id"
+        type: "number"
+        primary_key: true
+      - name: "account_id"
+        expr: "account_id"
+        type: "number"
+        primary_key: false
+    time_dimensions:
+      - name: "date"
+        title: "Date"
+        description: "Time column date from trans."
+        expr: "date"
+        type: "date"
+        default: false
+        granularities: ["day", "week", "month", "quarter", "year"]
+        sensitivity: "public"
+        public: true
+        metadata:
+          data_dictionary:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["1993-01-01", "1993-01-02", "1993-01-03", "1993-01-04", "1993-01-05", "1993-01-06", "1993-01-07", "1993-01-08"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+    dimensions:
+      - name: "type"
+        title: "Type"
+        expr: "type"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Categorical value describing the record's type"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["PRIJEM", "VYBER", "VYDAJ"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "operation"
+        title: "Operation"
+        expr: "operation"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing operation"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing operation"
+            sample_values: ["PREVOD NA UCET", "PREVOD Z UCTU", "VKLAD", "VYBER", "VYBER KARTOU"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "amount"
+        title: "Amount"
+        expr: "amount"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Monetary or numeric amount for amount"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "balance"
+        title: "Balance"
+        expr: "balance"
+        type: "number"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Monetary or numeric amount for balance"
+        metadata:
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for balance"
+            sample_values: [-41126, -40938, -40817, -40581, -40381, -40145, -38513, -35457]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "k_symbol"
+        title: "K Symbol"
+        expr: "k_symbol"
+        type: "string"
+        synonyms: ["k symbol"]
+        sensitivity: "public"
+        public: true
+        description: "Text value representing k symbol"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing k symbol"
+            sample_values: [" ", "DUCHOD", "POJISTNE", "SANKC. UROK", "SIPO", "SLUZBY", "UROK", "UVER"]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "bank"
+        title: "Bank"
+        expr: "bank"
+        type: "string"
+        synonyms: []
+        sensitivity: "public"
+        public: true
+        description: "Text value representing bank"
+        metadata:
+          data_dictionary:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing bank"
+            sample_values: ["AB", "CD", "EF", "GH", "IJ", "KL", "MN", "OP"]
+            value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+            is_primary_key: false
+            is_foreign_key: false
+    measures:
+      - name: "avg_amount"
+        title: "Avg Amount"
+        description: "AVG over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "avg"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters:
+          - member: "operation"
+            operator: "equals"
+            values: ["VYBER KARTOU"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', T4.date) = '1998' AND T4.operation = 'VYBER KARTOU'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "count_account_id"
+        title: "Count Account Id"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters:
+          - member: "operation"
+            operator: "equals"
+            values: ["VYBER KARTOU"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.balance < 0 AND T1.operation = 'VYBER KARTOU' AND T2.frequency = 'POPLATEK MESICNE'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+      - name: "count_account_id_2"
+        title: "Count Account Id 2"
+        description: "COUNT over account_id extracted from repeated BIRD gold SQL patterns."
+        expr: "account_id"
+        aggregation: "count"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["account id"]
+        allowed_dimensions: []
+        filters:
+          - member: "k_symbol"
+            operator: "equals"
+            values: ["SIPO"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', T3.birth_date) BETWEEN '1974' AND '1976' AND T3.gender = 'M' AND T1.amount > 4000 AND T1.k_symbol = 'SIPO'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+      - name: "sum_amount"
+        title: "Sum Amount"
+        description: "SUM over amount extracted from repeated BIRD gold SQL patterns."
+        expr: "amount"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["amount"]
+        allowed_dimensions: []
+        filters: []
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 2
+          distinct: false
+          where_examples: ["WHERE STRFTIME('%Y', T3.date) = '1997'", "WHERE STRFTIME('%Y', T3.date) = '1998' AND T1.client_id = 617"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+      - name: "sum_balance"
+        title: "Sum Balance"
+        description: "SUM over balance extracted from repeated BIRD gold SQL patterns."
+        expr: "balance"
+        aggregation: "sum"
+        type: "number"
+        status: "certified"
+        owner: "bird_benchmark"
+        public: true
+        synonyms: ["balance"]
+        allowed_dimensions: []
+        filters:
+          - member: "date"
+            operator: "equals"
+            values: ["1993-07-05"]
+        metadata:
+          source: "bird_gold_sql"
+          question_count: 1
+          distinct: false
+          where_examples: ["WHERE T1.date = '1993-07-05'"]
+          data_dictionary:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for balance"
+            sample_values: [-41126, -40938, -40817, -40581, -40381, -40145, -38513, -35457]
+            is_primary_key: false
+            is_foreign_key: false
+    segments: []
+    metadata:
+      data_dictionary:
+        row_count: 1056320
+        columns:
+          trans_id:
+            type: "INTEGER"
+            inferred_type: "primary_key"
+            inferred_meaning: "Unique identifier for each trans record"
+            sample_values: [1, 5, 6, 7, 8, 9, 10, 11]
+            is_primary_key: true
+            is_foreign_key: false
+          account_id:
+            type: "INTEGER"
+            inferred_type: "foreign_key"
+            inferred_meaning: "Identifier linking this record to a related account"
+            sample_values: [1, 2, 3, 4, 5, 6, 7, 8]
+            is_primary_key: false
+            is_foreign_key: true
+            foreign_key_ref: "account.account_id"
+            foreign_table: "account"
+          date:
+            type: "DATE"
+            inferred_type: "date"
+            inferred_meaning: "Date value for date"
+            sample_values: ["1993-01-01", "1993-01-02", "1993-01-03", "1993-01-04", "1993-01-05", "1993-01-06", "1993-01-07", "1993-01-08"]
+            value_format: "ISO date (YYYY-MM-DD)"
+            is_primary_key: false
+            is_foreign_key: false
+          type:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Categorical value describing the record's type"
+            sample_values: ["PRIJEM", "VYBER", "VYDAJ"]
+            value_format: "Short uppercase code"
+            is_primary_key: false
+            is_foreign_key: false
+          operation:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing operation"
+            sample_values: ["PREVOD NA UCET", "PREVOD Z UCTU", "VKLAD", "VYBER", "VYBER KARTOU"]
+            is_primary_key: false
+            is_foreign_key: false
+          amount:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for amount"
+            sample_values: [0, 1, 2, 3, 4, 5, 6, 7]
+            is_primary_key: false
+            is_foreign_key: false
+          balance:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Monetary or numeric amount for balance"
+            sample_values: [-41126, -40938, -40817, -40581, -40381, -40145, -38513, -35457]
+            is_primary_key: false
+            is_foreign_key: false
+          k_symbol:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing k symbol"
+            sample_values: [" ", "DUCHOD", "POJISTNE", "SANKC. UROK", "SIPO", "SLUZBY", "UROK", "UVER"]
+            is_primary_key: false
+            is_foreign_key: false
+          bank:
+            type: "TEXT"
+            inferred_type: "text"
+            inferred_meaning: "Text value representing bank"
+            sample_values: ["AB", "CD", "EF", "GH", "IJ", "KL", "MN", "OP"]
+            value_format: "Two-letter ISO 3166-1 alpha-2 country code"
+            is_primary_key: false
+            is_foreign_key: false
+          account:
+            type: "INTEGER"
+            inferred_type: "numeric"
+            inferred_meaning: "Numeric value representing account"
+            sample_values: [0, 399, 1460, 15318, 18376, 48101, 48310, 54032]
+            is_primary_key: false
+            is_foreign_key: false
+relationships:
+  - name: "account_to_disp_account_id_account_id"
+    source: "account"
+    target: "disp"
+    from: "account.account_id"
+    to: "disp.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "account_to_district_district_id_district_id"
+    source: "account"
+    target: "district"
+    from: "account.district_id"
+    to: "district.district_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "account_to_loan_account_id_account_id"
+    source: "account"
+    target: "loan"
+    from: "account.account_id"
+    to: "loan.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "account_to_trans_account_id_account_id"
+    source: "account"
+    target: "trans"
+    from: "account.account_id"
+    to: "trans.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "card_to_disp_disp_id_disp_id"
+    source: "card"
+    target: "disp"
+    from: "card.disp_id"
+    to: "disp.disp_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "client_to_disp_client_id_client_id"
+    source: "client"
+    target: "disp"
+    from: "client.client_id"
+    to: "disp.client_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "client_to_district_district_id_district_id"
+    source: "client"
+    target: "district"
+    from: "client.district_id"
+    to: "district.district_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "disp_to_account_account_id_account_id"
+    source: "disp"
+    target: "account"
+    from: "disp.account_id"
+    to: "account.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "disp_to_card_disp_id_disp_id"
+    source: "disp"
+    target: "card"
+    from: "disp.disp_id"
+    to: "card.disp_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "disp_to_client_client_id_client_id"
+    source: "disp"
+    target: "client"
+    from: "disp.client_id"
+    to: "client.client_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "disp_to_loan_account_id_account_id"
+    source: "disp"
+    target: "loan"
+    from: "disp.account_id"
+    to: "loan.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "district_to_account_district_id_district_id"
+    source: "district"
+    target: "account"
+    from: "district.district_id"
+    to: "account.district_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "district_to_client_district_id_district_id"
+    source: "district"
+    target: "client"
+    from: "district.district_id"
+    to: "client.district_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["gold_sql_join"]
+  - name: "loan_to_account_account_id_account_id"
+    source: "loan"
+    target: "account"
+    from: "loan.account_id"
+    to: "account.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "order_to_account_account_id_account_id"
+    source: "order"
+    target: "account"
+    from: "order.account_id"
+    to: "account.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+  - name: "trans_to_account_account_id_account_id"
+    source: "trans"
+    target: "account"
+    from: "trans.account_id"
+    to: "account.account_id"
+    relationship: "many_to_one"
+    join_type: "left"
+    row_preserving: "source"
+    fanout_risk: "low"
+    evidence: ["dev_tables_foreign_key", "gold_sql_join"]
+views:
+  - name: "financial_all"
+    title: "Financial All"
+    description: "Governed semantic view for the BIRD financial database."
+    public: true
+    ai_context: "Banking accounts, clients, cards, loans, transactions, dispositions, districts, and orders."
+    entities:
+      - join_path: "account"
+        includes:
+          measures: ["count_account_id", "count_account_id_2", "count_account_id_3", "count_account_id_4", "count_account_id_5", "count_account_id_6", "count_account_id_7", "count_account_id_8", "count_account_id_9", "count_account_id_10", "count_account_id_11", "count_account_id_12"]
+          dimensions: ["frequency"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "card"
+        includes:
+          measures: ["count_card_id", "count_card_id_2", "count_card_id_3"]
+          dimensions: ["type"]
+          time_dimensions: ["issued"]
+          segments: []
+      - join_path: "client"
+        includes:
+          measures: ["count_client_id", "count_client_id_2", "count_client_id_3", "count_client_id_4", "count_client_id_5", "count_client_id_6", "count_client_id_7", "count_client_id_8", "count_client_id_9", "count_client_id_10", "count_client_id_11", "count_client_id_12", "count_client_id_13", "sum_gender", "sum_gender_2", "sum_gender_3", "sum_gender_4"]
+          dimensions: ["gender"]
+          time_dimensions: ["birth_date"]
+          segments: []
+      - join_path: "disp"
+        includes:
+          measures: ["count_account_id", "count_account_id_2"]
+          dimensions: ["type"]
+          time_dimensions: []
+          segments: []
+      - join_path: "district"
+        includes:
+          measures: ["avg_a12", "avg_a13", "avg_a15", "distinct_district_id_count", "max_a11", "min_a11", "sum_a16", "sum_a2"]
+          dimensions: ["a2", "a3", "a4", "a6", "a7", "a11", "a12", "a13", "a15", "a16"]
+          time_dimensions: []
+          segments: []
+      - join_path: "loan"
+        includes:
+          measures: ["avg_amount", "avg_amount_2", "count_account_id", "count_account_id_2", "sum_amount", "sum_amount_2", "sum_status"]
+          dimensions: ["amount", "duration", "status"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "order"
+        includes:
+          measures: []
+          dimensions: ["bank_to", "k_symbol"]
+          time_dimensions: []
+          segments: []
+      - join_path: "trans"
+        includes:
+          measures: ["avg_amount", "count_account_id", "count_account_id_2", "sum_amount", "sum_balance"]
+          dimensions: ["type", "operation", "amount", "balance", "k_symbol", "bank"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "account.disp"
+        prefix: true
+        includes:
+          measures: ["count_account_id", "count_account_id_2"]
+          dimensions: ["type"]
+          time_dimensions: []
+          segments: []
+      - join_path: "account.district"
+        prefix: true
+        includes:
+          measures: ["avg_a12", "avg_a13", "avg_a15", "distinct_district_id_count", "max_a11", "min_a11", "sum_a16", "sum_a2"]
+          dimensions: ["a2", "a3", "a4", "a6", "a7", "a11", "a12", "a13", "a15", "a16"]
+          time_dimensions: []
+          segments: []
+      - join_path: "account.loan"
+        prefix: true
+        includes:
+          measures: ["avg_amount", "avg_amount_2", "count_account_id", "count_account_id_2", "sum_amount", "sum_amount_2", "sum_status"]
+          dimensions: ["amount", "duration", "status"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "account.trans"
+        prefix: true
+        includes:
+          measures: ["avg_amount", "count_account_id", "count_account_id_2", "sum_amount", "sum_balance"]
+          dimensions: ["type", "operation", "amount", "balance", "k_symbol", "bank"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "card.disp"
+        prefix: true
+        includes:
+          measures: ["count_account_id", "count_account_id_2"]
+          dimensions: ["type"]
+          time_dimensions: []
+          segments: []
+      - join_path: "client.disp"
+        prefix: true
+        includes:
+          measures: ["count_account_id", "count_account_id_2"]
+          dimensions: ["type"]
+          time_dimensions: []
+          segments: []
+      - join_path: "client.district"
+        prefix: true
+        includes:
+          measures: ["avg_a12", "avg_a13", "avg_a15", "distinct_district_id_count", "max_a11", "min_a11", "sum_a16", "sum_a2"]
+          dimensions: ["a2", "a3", "a4", "a6", "a7", "a11", "a12", "a13", "a15", "a16"]
+          time_dimensions: []
+          segments: []
+      - join_path: "disp.account"
+        prefix: true
+        includes:
+          measures: ["count_account_id", "count_account_id_2", "count_account_id_3", "count_account_id_4", "count_account_id_5", "count_account_id_6", "count_account_id_7", "count_account_id_8", "count_account_id_9", "count_account_id_10", "count_account_id_11", "count_account_id_12"]
+          dimensions: ["frequency"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "disp.card"
+        prefix: true
+        includes:
+          measures: ["count_card_id", "count_card_id_2", "count_card_id_3"]
+          dimensions: ["type"]
+          time_dimensions: ["issued"]
+          segments: []
+      - join_path: "disp.client"
+        prefix: true
+        includes:
+          measures: ["count_client_id", "count_client_id_2", "count_client_id_3", "count_client_id_4", "count_client_id_5", "count_client_id_6", "count_client_id_7", "count_client_id_8", "count_client_id_9", "count_client_id_10", "count_client_id_11", "count_client_id_12", "count_client_id_13", "sum_gender", "sum_gender_2", "sum_gender_3", "sum_gender_4"]
+          dimensions: ["gender"]
+          time_dimensions: ["birth_date"]
+          segments: []
+      - join_path: "disp.loan"
+        prefix: true
+        includes:
+          measures: ["avg_amount", "avg_amount_2", "count_account_id", "count_account_id_2", "sum_amount", "sum_amount_2", "sum_status"]
+          dimensions: ["amount", "duration", "status"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "district.account"
+        prefix: true
+        includes:
+          measures: ["count_account_id", "count_account_id_2", "count_account_id_3", "count_account_id_4", "count_account_id_5", "count_account_id_6", "count_account_id_7", "count_account_id_8", "count_account_id_9", "count_account_id_10", "count_account_id_11", "count_account_id_12"]
+          dimensions: ["frequency"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "district.client"
+        prefix: true
+        includes:
+          measures: ["count_client_id", "count_client_id_2", "count_client_id_3", "count_client_id_4", "count_client_id_5", "count_client_id_6", "count_client_id_7", "count_client_id_8", "count_client_id_9", "count_client_id_10", "count_client_id_11", "count_client_id_12", "count_client_id_13", "sum_gender", "sum_gender_2", "sum_gender_3", "sum_gender_4"]
+          dimensions: ["gender"]
+          time_dimensions: ["birth_date"]
+          segments: []
+      - join_path: "loan.account"
+        prefix: true
+        includes:
+          measures: ["count_account_id", "count_account_id_2", "count_account_id_3", "count_account_id_4", "count_account_id_5", "count_account_id_6", "count_account_id_7", "count_account_id_8", "count_account_id_9", "count_account_id_10", "count_account_id_11", "count_account_id_12"]
+          dimensions: ["frequency"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "order.account"
+        prefix: true
+        includes:
+          measures: ["count_account_id", "count_account_id_2", "count_account_id_3", "count_account_id_4", "count_account_id_5", "count_account_id_6", "count_account_id_7", "count_account_id_8", "count_account_id_9", "count_account_id_10", "count_account_id_11", "count_account_id_12"]
+          dimensions: ["frequency"]
+          time_dimensions: ["date"]
+          segments: []
+      - join_path: "trans.account"
+        prefix: true
+        includes:
+          measures: ["count_account_id", "count_account_id_2", "count_account_id_3", "count_account_id_4", "count_account_id_5", "count_account_id_6", "count_account_id_7", "count_account_id_8", "count_account_id_9", "count_account_id_10", "count_account_id_11", "count_account_id_12"]
+          dimensions: ["frequency"]
+          time_dimensions: ["date"]
+          segments: []
+    folders:
+      - name: "Certified Measures"
+        includes: ["account.count_account_id", "account.count_account_id_10", "account.count_account_id_11", "account.count_account_id_12", "account.count_account_id_2", "account.count_account_id_3", "account.count_account_id_4", "account.count_account_id_5", "account.count_account_id_6", "account.count_account_id_7", "account.count_account_id_8", "account.count_account_id_9", "card.count_card_id", "card.count_card_id_2", "card.count_card_id_3", "client.count_client_id", "client.count_client_id_10", "client.count_client_id_11", "client.count_client_id_12", "client.count_client_id_13", "client.count_client_id_2", "client.count_client_id_3", "client.count_client_id_4", "client.count_client_id_5", "client.count_client_id_6", "client.count_client_id_7", "client.count_client_id_8", "client.count_client_id_9", "client.sum_gender", "client.sum_gender_2", "client.sum_gender_3", "client.sum_gender_4", "disp.count_account_id", "disp.count_account_id_2", "district.avg_a12", "district.avg_a13", "district.avg_a15", "district.distinct_district_id_count", "district.max_a11", "district.min_a11", "district.sum_a16", "district.sum_a2", "loan.avg_amount", "loan.avg_amount_2", "loan.count_account_id", "loan.count_account_id_2", "loan.sum_amount", "loan.sum_amount_2", "loan.sum_status", "trans.avg_amount", "trans.count_account_id", "trans.count_account_id_2", "trans.sum_amount", "trans.sum_balance"]
+      - name: "Frequently Used Dimensions"
+        includes: ["district.a4", "district.a2", "district.a3", "district.a16"]
+    default_time_dimension: "account.date"
+policies: []

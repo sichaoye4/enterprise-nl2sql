@@ -1,0 +1,13 @@
+relationships:
+  - from_table: "Examination"
+    from_column: "ID"
+    to_table: "Patient"
+    to_column: "ID"
+    relationship_type: "many_to_one"
+    sample_match_count: 70
+  - from_table: "Laboratory"
+    from_column: "ID"
+    to_table: "Patient"
+    to_column: "ID"
+    relationship_type: "many_to_one"
+    sample_match_count: 13908
