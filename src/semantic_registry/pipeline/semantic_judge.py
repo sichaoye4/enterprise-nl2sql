@@ -11,6 +11,10 @@ from typing import Any
 DEFAULT_DASHSCOPE_BASE_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1"
 DEFAULT_DASHSCOPE_MODEL = "qwen3.5-plus"
 DEFAULT_DASHSCOPE_CONFIG_PATH = Path.home() / ".hermes" / "skills" / "mlops" / "multimodal-vision" / "config.json"
+JUDGE_SYSTEM_PROMPT = (
+    "You are an independent SQL semantic judge. Return only JSON with keys: "
+    "pass, reasoning, confidence."
+)
 
 
 @dataclass(frozen=True)
@@ -49,10 +53,7 @@ class DashScopeLLMClient:
             messages=[
                 {
                     "role": "system",
-                    "content": (
-                        "You are an independent SQL semantic judge. Return only JSON with keys: "
-                        "pass, reasoning, confidence."
-                    ),
+                    "content": JUDGE_SYSTEM_PROMPT,
                 },
                 {"role": "user", "content": prompt},
             ],
@@ -110,12 +111,21 @@ def parse_judge_response(text: str) -> JudgeResult:
 
 
 class LLMJudge:
-    def __init__(self, client: DashScopeLLMClient | None = None) -> None:
+    def __init__(self, client: Any | None = None) -> None:
         self.client = client or DashScopeLLMClient()
+
+    def generate_response(self, prompt: str) -> str:
+        generate_text = getattr(self.client, "generate_text", None)
+        if callable(generate_text):
+            return generate_text(prompt, system_prompt=JUDGE_SYSTEM_PROMPT)
+        generate = getattr(self.client, "generate", None)
+        if callable(generate):
+            return generate(prompt)
+        raise TypeError("LLM judge client must provide generate(prompt) or generate_text(prompt, system_prompt=...).")
 
     def judge(self, question: str, sql: str, route_type: str | None, semantic_plan: Any | None) -> JudgeResult:
         prompt = build_judge_prompt(question, sql, route_type, semantic_plan)
-        return parse_judge_response(self.client.generate(prompt))
+        return parse_judge_response(self.generate_response(prompt))
 
 
 def _jsonable(value: Any) -> Any:

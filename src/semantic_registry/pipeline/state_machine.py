@@ -249,6 +249,7 @@ class NL2SQLPipeline:
         explainer: SQLExplainer | None = None,
         response_builder: ResponseBuilder | None = None,
         llm_judge: Any | None = None,
+        router_llm_gateway: Any | None = None,
         semantic_engine: Any | None = None,
         semantic_model_path: str | Path | None = None,
     ) -> None:
@@ -269,6 +270,7 @@ class NL2SQLPipeline:
         self.explainer = explainer or SQLExplainer()
         self.response_builder = response_builder or ResponseBuilder()
         self.llm_judge = llm_judge or LLMJudge()
+        self.router_llm_gateway = router_llm_gateway
         self.clarification_builder = ClarificationBuilder()
         self.semantic_model_path = Path(semantic_model_path) if semantic_model_path else self._default_semantic_model_path()
         self.semantic_engine = semantic_engine
@@ -528,7 +530,11 @@ class NL2SQLPipeline:
         if context.semantic_plan is None or context.retrieved_metadata is None:
             context.error = "Cannot build context without semantic plan and retrieved metadata."
             return context
-        context.context_prompt = self.context_builder.build(context.question, context.semantic_plan, context.retrieved_metadata)
+        raw_schema = self._bird_raw_schema(context.domain)
+        context.context_prompt = self.context_builder.build(
+            context.question, context.semantic_plan, context.retrieved_metadata,
+            raw_schema=raw_schema,
+        )
         if context.semantic_context:
             context.context_prompt = self._inject_semantic_context(context.context_prompt, context.semantic_context)
         if context.semantic_route == "SEMANTIC_ASSISTED_LLM" and context.guardrail_contract:
@@ -687,8 +693,9 @@ class NL2SQLPipeline:
             prompt = build_judge_prompt(context.question, context.selected_sql.sql, route_type, judge_context)
             stage = self._judge_trace_stage(context)
             self._record_llm_trace(context, stage, prompt=prompt)
-            if hasattr(self.llm_judge, "client") and hasattr(self.llm_judge.client, "generate"):
-                raw = self.llm_judge.client.generate(prompt)
+            generate_response = getattr(self.llm_judge, "generate_response", None)
+            if callable(generate_response):
+                raw = generate_response(prompt)
                 self._record_llm_trace(context, stage, response=str(raw))
                 return parse_judge_response(raw)
             result = self.llm_judge.judge(
@@ -913,7 +920,7 @@ class NL2SQLPipeline:
         return listing
 
     def _llm_router_generate(self, prompt: str, context: PipelineContext | None = None) -> str:
-        gateway = getattr(self.candidate_generator, "llm_gateway", None)
+        gateway = self.router_llm_gateway or getattr(self.candidate_generator, "llm_gateway", None)
         system_prompt = (
             "Return ONLY the requested semantic-router JSON object. "
             "Do not generate SQL and do not include markdown."
@@ -1382,6 +1389,20 @@ class NL2SQLPipeline:
         if isinstance(value, dict):
             return value.get(key)
         return getattr(value, key, None)
+
+    def _bird_raw_schema(self, domain: str | None) -> str | None:
+        if not domain:
+            return None
+        try:
+            from scripts.bird_eval import build_schema_prompt
+            dev_tables = Path(__file__).resolve().parent.parent.parent.parent / "bird_bench" / "dev" / "dev_20240627" / "dev_tables.json"
+            if not dev_tables.exists():
+                return None
+            import json
+            tables_data = json.loads(dev_tables.read_text())
+            return build_schema_prompt(tables_data, domain)
+        except Exception:
+            return None
 
 
 __all__ = ["NL2SQLPipeline", "PipelineContext", "RegistryMetadataProvider"]

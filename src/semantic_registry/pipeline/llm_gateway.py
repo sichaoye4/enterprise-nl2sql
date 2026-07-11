@@ -299,7 +299,7 @@ class DeepSeekProvider:
         model: str | None = None,
         api_key: str | None = None,
         base_url: str | None = None,
-        reasoning_effort: str = "high",
+        reasoning_effort: str | None = "high",
     ) -> None:
         self.model = model or os.getenv("LLM_MODEL", "deepseek-chat")
         self.api_key = api_key or os.getenv("DEEPSEEK_API_KEY")
@@ -320,6 +320,9 @@ class DeepSeekProvider:
         try:
             client = self._client or self._build_client()
             self._client = client
+            kwargs: dict[str, Any] = {}
+            if self.reasoning_effort:
+                kwargs["extra_body"] = {"reasoning_effort": self.reasoning_effort}
             response = client.chat.completions.create(
                 model=self.model,
                 messages=[
@@ -329,7 +332,7 @@ class DeepSeekProvider:
                     },
                     {"role": "user", "content": prompt},
                 ],
-                extra_body={"reasoning_effort": self.reasoning_effort},
+                **kwargs,
             )
         except self._transient_errors() as exc:
             raise TransientLLMError(f"DeepSeek API transient error: {exc}") from exc
