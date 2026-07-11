@@ -53,3 +53,31 @@ def test_context_prompt_includes_question_schema_semantics_and_rules(registry_da
     assert "<generation_context>" not in prompt
     assert "Output JSON format:" not in prompt
     assert "email" not in prompt.lower()
+
+
+def test_bird_context_prompt_includes_targeted_generation_rules(registry_data) -> None:
+    builder = ContextBuilder(registry_data=registry_data)
+    semantic_plan = SemanticQueryPlan(domain="card_games")
+    raw_schema = """Database Schema for: card_games
+
+CREATE TABLE cards (
+  id TEXT,
+  name TEXT,
+  borderColor TEXT,
+  isFullArt INTEGER
+)"""
+
+    prompt = builder.build(
+        "Among black card borders, which card has full artwork?",
+        semantic_plan,
+        RetrievalResult(),
+        raw_schema=raw_schema,
+        evidence="Use id for card identity.",
+    )
+
+    assert "IMPORTANT:" in prompt
+    assert "Return ONLY the columns explicitly mentioned in the question" in prompt
+    assert "When asked for a 'full name', return the component name columns separately" in prompt
+    assert "return the identifying column, usually id" in prompt
+    assert "WHERE column LIKE '2010-07-19 19:37:33%'" in prompt
+    assert "Return ONLY a JSON object:" in prompt

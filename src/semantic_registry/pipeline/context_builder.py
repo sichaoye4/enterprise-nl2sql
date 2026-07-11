@@ -56,6 +56,11 @@ class ContextBuilder:
                 [
                     "Database Schema:",
                     raw_schema,
+                    "IMPORTANT:",
+                    "- Return ONLY the columns explicitly mentioned in the question. Do not add extra columns.",
+                    "- When asked for a 'full name', return the component name columns separately, such as forename and surname.",
+                    "- When asked to 'name' or 'list' something, return the identifying column, usually id, unless the question explicitly asks for names. Check the evidence for column guidance.",
+                    "- When filtering by datetime, use LIKE to match the date prefix, for example WHERE column LIKE '2010-07-19 19:37:33%' instead of exact equality, to handle varying datetime formats.",
                 ]
             )
             safe_evidence = self._redact_sensitive_values(evidence)

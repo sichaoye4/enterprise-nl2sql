@@ -93,6 +93,34 @@ def safe_rows(rows: list[tuple[Any, ...]], limit: int = 5) -> list[list[Any]]:
     return [list(row) for row in rows[:limit]]
 
 
+def result_set_match_detail(predicted: dict[str, Any], gold: dict[str, Any]) -> dict[str, Any]:
+    if not predicted["ok"] or not gold["ok"]:
+        return {
+            "reason": "execution_error",
+            "predicted_error": predicted.get("error", ""),
+            "gold_error": gold.get("error", ""),
+        }
+
+    predicted_rows = predicted["rows"]
+    gold_rows = gold["rows"]
+    predicted_set = set(predicted_rows)
+    gold_set = set(gold_rows)
+    if predicted_set == gold_set:
+        return {
+            "reason": "matched",
+            "predicted_row_count": len(predicted_rows),
+            "gold_row_count": len(gold_rows),
+        }
+
+    return {
+        "reason": "result_set_diff",
+        "predicted_row_count": len(predicted_rows),
+        "gold_row_count": len(gold_rows),
+        "predicted_only_sample": safe_rows(sorted(predicted_set - gold_set, key=repr)),
+        "gold_only_sample": safe_rows(sorted(gold_set - predicted_set, key=repr)),
+    }
+
+
 class PipelineCache:
     def __init__(self, registry_root: Path, semantic_model_path: Path) -> None:
         self.registry_root = registry_root
@@ -137,6 +165,7 @@ def evaluate_pipeline_question(
     predicted = execute_sql(db_path, sql)
     gold = execute_sql(db_path, question["SQL"])
     match = result_sets_match(predicted, gold)
+    match_detail = result_set_match_detail(predicted, gold)
     semantic_route = getattr(context, "semantic_route", None)
     route = semantic_route or "NOT_RUN"
     route_source = "semantic_engine" if semantic_route else "pre_semantic_pipeline"
@@ -151,6 +180,7 @@ def evaluate_pipeline_question(
         "route": route,
         "route_source": route_source,
         "match": match,
+        "match_detail": match_detail,
         "sql": sql,
         "gold_sql": question["SQL"],
         "execution": {
@@ -199,6 +229,7 @@ def evaluate_baseline(
         predicted = execute_sql(db_path, sql)
         gold = execute_sql(db_path, question["SQL"])
         match = result_sets_match(predicted, gold)
+        match_detail = result_set_match_detail(predicted, gold)
         results.append(
             {
                 "idx": local_idx,
@@ -208,6 +239,7 @@ def evaluate_baseline(
                 "baseline_recorded_db_id": baseline_row.get("db_id"),
                 "baseline_recorded_match": baseline_row.get("match"),
                 "match": match,
+                "match_detail": match_detail,
                 "sql": sql,
                 "execution": {
                     "ok": predicted["ok"],
@@ -309,6 +341,7 @@ def main() -> int:
                 "route": "ERROR",
                 "route_source": "script",
                 "match": False,
+                "match_detail": {"reason": "script_error", "error": str(exc)},
                 "sql": "",
                 "gold_sql": question["SQL"],
                 "execution": {"ok": False, "row_count": 0, "error": str(exc)},
