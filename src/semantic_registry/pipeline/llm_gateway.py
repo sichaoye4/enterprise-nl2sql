@@ -223,6 +223,14 @@ class DeepSeekProvider:
         self._client: Any | None = None
 
     def generate(self, prompt: str) -> str:
+        system_prompt = (
+            "Return JSON only with fields: sql, assumptions, tables_used, columns_used, "
+            "confidence, reasoning_summary. Generate exactly one read-only SELECT statement. "
+            "Do not use SELECT *. Do not generate write, DDL, or multi-statement SQL."
+        )
+        return self.generate_text(prompt, system_prompt=system_prompt)
+
+    def generate_text(self, prompt: str, system_prompt: str | None = None) -> str:
         if not self.api_key:
             raise RuntimeError("DEEPSEEK_API_KEY is required to use DeepSeekProvider.")
         try:
@@ -233,11 +241,7 @@ class DeepSeekProvider:
                 messages=[
                     {
                         "role": "system",
-                        "content": (
-                            "Return JSON only with fields: sql, assumptions, tables_used, columns_used, "
-                            "confidence, reasoning_summary. Generate exactly one read-only SELECT statement. "
-                            "Do not use SELECT *. Do not generate write, DDL, or multi-statement SQL."
-                        ),
+                        "content": system_prompt or "Return only valid JSON.",
                     },
                     {"role": "user", "content": prompt},
                 ],
@@ -310,6 +314,17 @@ class LLMGateway:
         valid_confidence = {"high", "medium", "low"}
         if response.confidence not in valid_confidence:
             raise ValueError(f"confidence must be one of {sorted(valid_confidence)}")
+
+    def generate_text(self, prompt: str, system_prompt: str | None = None) -> str:
+        provider_generate_text = getattr(self.provider, "generate_text", None)
+        if callable(provider_generate_text):
+            return provider_generate_text(prompt, system_prompt=system_prompt)
+        raw = self.provider.generate(self._with_contract(prompt, system_prompt))
+        if isinstance(raw, str):
+            return raw
+        if hasattr(raw, "model_dump_json"):
+            return raw.model_dump_json()
+        return json.dumps(raw)
 
 
 __all__ = [

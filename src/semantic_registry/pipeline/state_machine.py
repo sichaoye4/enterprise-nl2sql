@@ -19,6 +19,7 @@ from src.semantic_registry.pipeline.classifier import QuestionClassification, Qu
 from src.semantic_registry.pipeline.context_builder import ContextBuilder
 from src.semantic_registry.pipeline.explainer import SQLExplainer, SQLExplanation
 from src.semantic_registry.pipeline.response import PipelineResponse, ResponseBuilder
+from src.semantic_registry.pipeline.semantic_router import SemanticRouter, compile_from_router
 from src.semantic_registry.repair.repair_loop import RepairLoop
 from src.semantic_registry.repair.selector import CandidateSelector
 from src.semantic_registry.evaluation.pilot import PilotManager
@@ -264,6 +265,7 @@ class NL2SQLPipeline:
             self.classify,
             self.run_semantic_engine,
             self.run_semantic_quality_gate,
+            self.run_semantic_llm_router,
             self.extract_terms,
             self.resolve_semantics,
             self.retrieve_metadata,
@@ -287,6 +289,17 @@ class NL2SQLPipeline:
         return context
 
     def _should_skip_stage(self, stage_name: str, context: PipelineContext) -> bool:
+        if context.semantic_route == "SEMANTIC_SQL" and context.selected_sql is not None and stage_name in {
+            "extract_terms",
+            "resolve_semantics",
+            "retrieve_metadata",
+            "build_context",
+            "generate_candidates",
+            "validate",
+            "repair",
+            "select",
+        }:
+            return True
         if context.semantic_route == "SEMANTIC_SQL" and stage_name in {
             "extract_terms",
             "resolve_semantics",
@@ -386,10 +399,59 @@ class NL2SQLPipeline:
         context.selected_sql = None
         return context
 
-    def _semantic_quality_gate(self, sql: str, question: str) -> list[str]:
+    def run_semantic_llm_router(self, context: PipelineContext) -> PipelineContext:
+        context.trace.append("run_semantic_llm_router")
+        if context.semantic_route not in ("CLARIFY", None):
+            return context
+        try:
+            snapshot = self._load_semantic_snapshot(context.domain)
+            if snapshot is None:
+                return context
+            self._build_catalog_listing(snapshot)
+            router = SemanticRouter(snapshot, self._llm_router_generate)
+            result = router.route(context.question, db_id=context.domain)
+            if result is None:
+                return context
+            compiled = compile_from_router(snapshot, result, context.question)
+            if compiled is None:
+                return context
+            orphan_filters = self._semantic_quality_gate(compiled.sql, context.question, compiled.parameters)
+            if orphan_filters:
+                context.gap_report = dict(context.gap_report or {})
+                context.gap_report["semantic_router_quality_gate"] = {
+                    "status": "failed",
+                    "orphan_filters": orphan_filters,
+                }
+                return context
+            context.semantic_route = "SEMANTIC_SQL"
+            context.semantic_compiled_sql = compiled.sql
+            context.semantic_plan = SemanticQueryPlan(
+                metric=self._normalize_registry_member_name(result.measure),
+                dimension=(
+                    self._normalize_registry_member_name(result.dimensions[0])
+                    if result.dimensions
+                    else None
+                ),
+                time_semantics=self._normalize_registry_member_name(result.time_dimension),
+                domain=context.domain,
+                filters=[filter_.model_dump(mode="json") for filter_ in result.filters],
+                requires_clarification=False,
+                confidence=result.confidence,
+            )
+            context.guardrail_contract = self._semantic_guardrail_contract({}, compiled)
+            candidate = self._semantic_sql_candidate(compiled.sql, compiled)
+            context.sql_candidates = [candidate]
+            context.selected_sql = candidate
+        except Exception:
+            logger.exception("Semantic LLM router failed; falling back to existing pipeline.")
+        return context
+
+    def _semantic_quality_gate(self, sql: str, question: str, parameters: list[Any] | None = None) -> list[str]:
         question_text = question.lower()
         orphan_filters: list[str] = []
-        for value in self._filter_literal_values(sql):
+        filter_values = [*self._filter_literal_values(sql)]
+        filter_values.extend(str(value) for value in parameters or [] if isinstance(value, str))
+        for value in filter_values:
             normalized = value.lower()
             candidates = {
                 normalized,
@@ -618,6 +680,80 @@ class NL2SQLPipeline:
         root = Path.home() / "semantic_modeling" / "semantic_models"
         commerce = root / "commerce"
         return commerce if commerce.exists() else root
+
+    def _load_semantic_snapshot(self, domain: str | None = None) -> Any | None:
+        pipeline = self._semantic_pipeline(domain)
+        snapshot = getattr(pipeline, "snapshot", None)
+        if snapshot is not None:
+            return snapshot
+        if isinstance(pipeline, dict):
+            return pipeline.get("snapshot")
+        return None
+
+    def _build_catalog_listing(self, snapshot: Any) -> dict[str, list[dict[str, Any]]]:
+        listing: dict[str, list[dict[str, Any]]] = {
+            "measures": [],
+            "dimensions": [],
+            "time_dimensions": [],
+            "segments": [],
+        }
+        for entity in getattr(snapshot, "entities", {}).values():
+            for measure in getattr(entity, "measures", []):
+                listing["measures"].append(
+                    {
+                        "name": measure.name,
+                        "entity": entity.name,
+                        "aggregation": measure.aggregation,
+                        "column": measure.expr,
+                    }
+                )
+            for dimension in getattr(entity, "dimensions", []):
+                listing["dimensions"].append(
+                    {
+                        "name": dimension.name,
+                        "entity": entity.name,
+                        "column": dimension.expr,
+                    }
+                )
+            for dimension in getattr(entity, "time_dimensions", []):
+                listing["time_dimensions"].append(
+                    {
+                        "name": dimension.name,
+                        "entity": entity.name,
+                        "column": dimension.expr,
+                        "granularities": dimension.granularities,
+                    }
+                )
+            for segment in getattr(entity, "segments", []):
+                listing["segments"].append(
+                    {
+                        "name": segment.name,
+                        "entity": entity.name,
+                        "filters": [filter_.model_dump(mode="json") for filter_ in segment.filters],
+                    }
+                )
+        return listing
+
+    def _llm_router_generate(self, prompt: str) -> str:
+        gateway = getattr(self.candidate_generator, "llm_gateway", None)
+        system_prompt = (
+            "Return ONLY the requested semantic-router JSON object. "
+            "Do not generate SQL and do not include markdown."
+        )
+        if gateway is not None and hasattr(gateway, "generate_text"):
+            return gateway.generate_text(prompt, system_prompt=system_prompt)
+        provider = getattr(gateway, "provider", None)
+        if provider is not None:
+            raw = provider.generate("\n\n".join([system_prompt, prompt]))
+            if isinstance(raw, str):
+                return raw
+            if hasattr(raw, "model_dump_json"):
+                return raw.model_dump_json()
+            return json.dumps(raw)
+        if gateway is not None:
+            response = gateway.generate(prompt)
+            return response.model_dump_json()
+        raise RuntimeError("No LLM gateway is available for semantic routing.")
 
     def _semantic_sql_candidate(self, sql: str, compiled_query: Any) -> SQLCandidate:
         lineage = self._model_dump(self._result_value(compiled_query, "lineage")) or {}
