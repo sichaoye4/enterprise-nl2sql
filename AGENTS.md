@@ -201,10 +201,9 @@ The BIRD benchmarking infrastructure is functional:
 - ✅ PostgreSQL Docker container for metadata storage
 - ✅ Benchmark scripts running end-to-end
 
-Known engineering gaps (0% EX on semantic-only routes):
-- ⚠️ SQL compiler emits PostgreSQL syntax but BIRD uses SQLite
-- ⚠️ Term resolution has 100% CLARIFY rate (synonyms don't match BIRD natural language)
-- ⚠️ Quality gate orphan filter problem (gold-SQL-mined measures carry hardcoded filters)
+Known engineering gaps:
+- ⚠️ SQL compiler defaults to PostgreSQL dialect (`dialect="postgres"` in SQLCompiler.__init__). BIRD benchmarks use SQLite — semantic-compiled SQL won't execute. Fix: pass `dialect="sqlite"` when running BIRD benchmarks. Affects semantic-only route EX.
+- ⚠️ Synonym coverage for BIRD natural language is poor — entity-scoping fix (commit `06bdf62`) resolved the CLARIFY dead-end, but most questions still can't match BIRD's phrasing to semantic model terms. Only ~2/110 questions reach `SEMANTIC_SQL`; the rest fall through to LLM fallback. Needs model enrichment with BIRD-specific synonyms.
 
 ## Environment Configuration
 
