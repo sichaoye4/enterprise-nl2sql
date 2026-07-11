@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import json
 import re
 from typing import Any
 
@@ -31,34 +30,15 @@ class ContextBuilder:
     ) -> str:
         safe_question = self._redact_sensitive_values(question)
         tables = self._candidate_tables(semantic_plan, retrieved_metadata)
-        physical_mapping = self._physical_mapping(semantic_plan)
-        join_paths = self._join_paths(tables)
-        context_json = {
-            "question": safe_question,
-            "semantic_plan": {
-                "metric": semantic_plan.metric,
-                "dimension": semantic_plan.dimension,
-                "time_range": semantic_plan.time_range,
-                "time_semantics": semantic_plan.time_semantics,
-                "domain": semantic_plan.domain,
-                "filters": semantic_plan.filters,
-            },
-            "physical_mapping": physical_mapping,
-            "candidate_tables": [table.table_name for table in tables],
-            "join_paths": join_paths,
-            "known_caveats": retrieved_metadata.known_caveats,
-        }
         sections = [
-            "You are generating SQL from a governed semantic registry context.",
-            self._question_section(safe_question),
+            "You are generating SQL from a governed semantic registry context. Use SQLite syntax.",
+            self._ddl_section(tables),
+            self._domain_knowledge_section(retrieved_metadata.known_caveats),
             self._semantic_plan_section(semantic_plan),
-            self._tables_section(tables, retrieved_metadata),
             self._metrics_section(semantic_plan, retrieved_metadata),
             self._join_paths_section(tables),
-            self._caveats_section(retrieved_metadata.known_caveats),
+            self._question_section(safe_question),
             self._rules_section(),
-            self._output_contract_section(),
-            "<generation_context>\n" + json.dumps(context_json, sort_keys=True) + "\n</generation_context>",
         ]
         return "\n\n".join(section for section in sections if section)
 
@@ -69,14 +49,94 @@ class ContextBuilder:
         metric = self._business_name(semantic_plan.metric)
         dimension = self._business_name(semantic_plan.dimension)
         time_semantics = self._business_name(semantic_plan.time_semantics)
-        lines = [
-            "Resolved semantic plan:",
-            f"- Metric: {metric or 'None'}",
-            f"- Dimension: {dimension or 'None'}",
-            f"- Time range: {semantic_plan.time_range or 'None'}",
-            f"- Time semantics: {time_semantics or 'None'}",
-            f"- Domain: {semantic_plan.domain or 'None'}",
+        plan_fields = [
+            ("Metric", metric),
+            ("Dimension", dimension),
+            ("Time range", semantic_plan.time_range),
+            ("Time semantics", time_semantics),
+            ("Domain", semantic_plan.domain),
         ]
+        lines = ["Resolved semantic plan:"]
+        lines.extend(f"- {label}: {value}" for label, value in plan_fields if value not in (None, "", [], {}))
+        if semantic_plan.filters:
+            lines.append(f"- Filters: {semantic_plan.filters}")
+        if len(lines) == 1:
+            return ""
+        return "\n".join(lines)
+
+    def _ddl_section(self, tables: list[TableMetadata]) -> str:
+        if not tables:
+            return "DDL Schema:\n- None"
+        statements = [self._create_table_ddl(table) for table in tables]
+        return "DDL Schema:\n```sql\n" + "\n\n".join(statements) + "\n```"
+
+    def _create_table_ddl(self, table: TableMetadata) -> str:
+        lines = [f"CREATE TABLE {self._quote_identifier(table.table_name)} ("]
+        visible_columns = [column for column in table.columns if not column.is_pii]
+        column_lines = [f"  {self._column_definition(column)}" for column in visible_columns]
+        column_lines.extend(f"  {constraint}" for constraint in self._foreign_key_constraints(table))
+        if not column_lines:
+            column_lines.append("  -- No non-PII columns available in metadata")
+        lines.append(",\n".join(column_lines))
+        lines.append(");")
+        return "\n".join(lines)
+
+    def _column_definition(self, column: ColumnMetadata) -> str:
+        parts = [self._quote_identifier(column.column_name), self._sqlite_type(column.data_type)]
+        if not column.nullable:
+            parts.append("NOT NULL")
+        if column.default_value not in (None, ""):
+            parts.append(f"DEFAULT {column.default_value}")
+        return " ".join(parts)
+
+    def _foreign_key_constraints(self, table: TableMetadata) -> list[str]:
+        constraints: list[str] = []
+        for join in table.join_paths:
+            parsed = self._parse_simple_join_condition(join.join_condition, join.from_table, join.to_table)
+            if parsed is None:
+                continue
+            from_column, to_column = parsed
+            constraints.append(
+                f"FOREIGN KEY ({self._quote_identifier(from_column)}) "
+                f"REFERENCES {self._quote_identifier(join.to_table)} ({self._quote_identifier(to_column)})"
+            )
+        return constraints
+
+    def _parse_simple_join_condition(self, condition: str, from_table: str, to_table: str) -> tuple[str, str] | None:
+        identifier = r"`?([A-Za-z_][A-Za-z0-9_ .]*)`?"
+        match = re.fullmatch(rf"\s*{identifier}\.{identifier}\s*=\s*{identifier}\.{identifier}\s*", condition)
+        if not match:
+            return None
+        left_table, left_column, right_table, right_column = [part.strip("` ") for part in match.groups()]
+        if left_table == from_table and right_table == to_table:
+            return left_column, right_column
+        if left_table == to_table and right_table == from_table:
+            return right_column, left_column
+        return None
+
+    def _sqlite_type(self, data_type: str | None) -> str:
+        normalized = (data_type or "").strip().lower()
+        if not normalized:
+            return "TEXT"
+        if any(token in normalized for token in ("int", "serial", "bool")):
+            return "INTEGER"
+        if any(token in normalized for token in ("real", "double", "float", "numeric", "decimal", "number")):
+            return "REAL"
+        if any(token in normalized for token in ("date", "time")):
+            return "TEXT"
+        if "blob" in normalized or "binary" in normalized:
+            return "BLOB"
+        return "TEXT"
+
+    def _quote_identifier(self, identifier: str) -> str:
+        escaped_parts = [part.replace("`", "``") for part in identifier.split(".")]
+        return ".".join(f"`{part}`" for part in escaped_parts if part)
+
+    def _domain_knowledge_section(self, caveats: list[str]) -> str:
+        if not caveats:
+            return ""
+        lines = ["Domain Knowledge / Hint:"]
+        lines.extend(f"- {self._redact_sensitive_values(caveat)}" for caveat in caveats)
         return "\n".join(lines)
 
     def _tables_section(self, tables: list[TableMetadata], retrieved_metadata: RetrievalResult) -> str:
@@ -122,6 +182,8 @@ class ContextBuilder:
             lines.append(f"- {self._business_name(metric.metric)}: {metric.description}")
             if metric.measure:
                 lines.append(f"  Physical mapping: {metric.measure.table}.{metric.measure.column}")
+            if metric.physical_time_column:
+                lines.append(f"  Time column: {metric.physical_time_column}")
             if metric.expression:
                 lines.append(f"  Expression: {metric.expression}")
             if metric.aggregation:
@@ -135,10 +197,7 @@ class ContextBuilder:
             lines.append("- None required or none available")
             return "\n".join(lines)
         for join in joins:
-            lines.append(
-                f"- {join['from_table']} -> {join['to_table']}: {join['join_condition']} "
-                f"({join['relationship']}, fanout risk {join['fanout_risk']})"
-            )
+            lines.append(f"- {join['from_table']} -> {join['to_table']}: {join['join_condition']}")
         return "\n".join(lines)
 
     def _join_paths(self, tables: list[TableMetadata]) -> list[dict[str, Any]]:
@@ -146,10 +205,7 @@ class ContextBuilder:
             {
                 "from_table": join.from_table,
                 "to_table": join.to_table,
-                "relationship": str(join.relationship),
                 "join_condition": join.join_condition,
-                "safe_for_metrics": join.safe_for_metrics,
-                "fanout_risk": str(join.fanout_risk),
             }
             for table in tables
             for join in table.join_paths
@@ -166,22 +222,14 @@ class ContextBuilder:
         return "\n".join(
             [
                 "Generation rules:",
+                "- Use SQLite dialect.",
+                "- Use backtick quoting for table or column names that contain spaces or special characters.",
                 "- Generate exactly one SELECT statement.",
-                "- Do not generate INSERT, UPDATE, DELETE, CREATE, DROP, ALTER, or other write statements.",
                 "- Do not use SELECT *.",
-                "- Do not invent tables, columns, metrics, filters, or joins.",
-                "- Use only the candidate tables, columns, metric mappings, and join paths listed above.",
-                "- Prefer certified metric definitions and the resolved semantic plan.",
-                "- Return business assumptions separately from the SQL.",
-            ]
-        )
-
-    def _output_contract_section(self) -> str:
-        return "\n".join(
-            [
-                "Output JSON format:",
-                '{"sql": "...", "assumptions": [], "tables_used": [], "columns_used": [], '
-                '"confidence": "high|medium|low", "reasoning_summary": "..."}',
+                "- Use only tables, columns, metric mappings, and join paths listed above.",
+                "- When a filtered column name appears in the question or semantic plan, add the matching WHERE predicate.",
+                "- For time-based questions, add a WHERE time-range filter using the resolved time column.",
+                "- Prefer certified metric definitions and return business assumptions separately from the SQL.",
             ]
         )
 

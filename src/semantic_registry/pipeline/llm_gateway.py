@@ -56,7 +56,7 @@ class MockLLMProvider:
     def _extract_generation_context(self, prompt: str) -> dict:
         match = re.search(r"<generation_context>\s*(.*?)\s*</generation_context>", prompt, flags=re.DOTALL)
         if not match:
-            return {}
+            return self._extract_text_context(prompt)
         try:
             data = json.loads(match.group(1))
         except json.JSONDecodeError:
@@ -78,6 +78,57 @@ class MockLLMProvider:
             "aggregation": mapping.get("aggregation") or "sum",
             "join_paths": join_paths if isinstance(join_paths, list) else [],
         }
+
+    def _extract_text_context(self, prompt: str) -> dict:
+        physical_mapping = re.search(r"^\s*Physical mapping:\s*([^\s]+)\.([^\s]+)\s*$", prompt, flags=re.MULTILINE)
+        aggregation = re.search(r"^\s*Aggregation:\s*([A-Za-z_]+)\s*$", prompt, flags=re.MULTILINE)
+        time_column = re.search(r"^\s*Time column:\s*([^\s]+)\s*$", prompt, flags=re.MULTILINE)
+        return {
+            "metric": self._machine_name(self._section_value(prompt, "Metric") or "metric_value"),
+            "dimension": self._machine_name(self._section_value(prompt, "Dimension")),
+            "time_range": self._section_value(prompt, "Time range"),
+            "time_semantics": self._section_value(prompt, "Time semantics"),
+            "table": self._strip_identifier(physical_mapping.group(1)) if physical_mapping else None,
+            "metric_expression": self._strip_identifier(physical_mapping.group(2)) if physical_mapping else None,
+            "metric_column": self._strip_identifier(physical_mapping.group(2)) if physical_mapping else None,
+            "dimension_column": self._text_dimension_column(prompt),
+            "dimension_table": None,
+            "time_column": self._strip_identifier(time_column.group(1)) if time_column else None,
+            "aggregation": aggregation.group(1).lower() if aggregation else "sum",
+            "join_paths": self._text_join_paths(prompt),
+        }
+
+    def _section_value(self, prompt: str, label: str) -> str | None:
+        match = re.search(rf"^\s*-\s*{re.escape(label)}:\s*(.+?)\s*$", prompt, flags=re.MULTILINE)
+        return match.group(1).strip() if match else None
+
+    def _text_dimension_column(self, prompt: str) -> str | None:
+        dimension = self._machine_name(self._section_value(prompt, "Dimension"))
+        if not dimension:
+            return None
+        columns = [self._strip_identifier(column) for column in re.findall(r"^\s*`([^`]+)`\s+[A-Z]+", prompt, flags=re.MULTILINE)]
+        return dimension if dimension in columns else None
+
+    def _text_join_paths(self, prompt: str) -> list[dict[str, str]]:
+        joins: list[dict[str, str]] = []
+        pattern = r"^\s*-\s*([^:\s]+)\s*->\s*([^:\s]+):\s*(.+?)\s*$"
+        for from_table, to_table, condition in re.findall(pattern, prompt, flags=re.MULTILINE):
+            joins.append(
+                {
+                    "from_table": self._strip_identifier(from_table),
+                    "to_table": self._strip_identifier(to_table),
+                    "join_condition": condition.strip(),
+                }
+            )
+        return joins
+
+    def _machine_name(self, value: str | None) -> str | None:
+        if not value:
+            return None
+        return re.sub(r"[^A-Za-z0-9_]+", "_", value.strip().lower()).strip("_") or None
+
+    def _strip_identifier(self, value: str) -> str:
+        return value.strip().strip("`")
 
     def _build_sql(self, context: dict) -> str:
         metric_alias = self._identifier(context.get("metric") or "metric_value")
@@ -224,9 +275,8 @@ class DeepSeekProvider:
 
     def generate(self, prompt: str) -> str:
         system_prompt = (
-            "Return JSON only with fields: sql, assumptions, tables_used, columns_used, "
-            "confidence, reasoning_summary. Generate exactly one read-only SELECT statement. "
-            "Do not use SELECT *. Do not generate write, DDL, or multi-statement SQL."
+            "You are a SQL generation engine. Follow the user's output contract exactly. "
+            "Generate exactly one read-only SQLite SELECT statement."
         )
         return self.generate_text(prompt, system_prompt=system_prompt)
 
@@ -300,11 +350,19 @@ class LLMGateway:
         raise RuntimeError("LLM generation failed")
 
     def _with_contract(self, prompt: str, system_prompt: str | None) -> str:
-        contract = (
-            "Return JSON only with fields: sql, assumptions, tables_used, columns_used, "
-            "confidence, reasoning_summary. Generate SELECT-only SQL. Do not use SELECT *."
+        contract = "\n".join(
+            [
+                "Output JSON format:",
+                '{"sql": "...", "assumptions": [], "tables_used": [], "columns_used": [], '
+                '"confidence": "high|medium|low", "reasoning_summary": "..."}',
+                "Return JSON only.",
+            ]
         )
-        parts = [system_prompt, contract, prompt]
+        if "\nGeneration rules:" in prompt:
+            prompt = prompt.replace("\nGeneration rules:", f"\n{contract}\n\nGeneration rules:", 1)
+        else:
+            prompt = "\n\n".join(part for part in (prompt, contract) if part)
+        parts = [system_prompt, prompt]
         return "\n\n".join(part for part in parts if part)
 
     def _validate_response(self, response: LLMResponse) -> None:

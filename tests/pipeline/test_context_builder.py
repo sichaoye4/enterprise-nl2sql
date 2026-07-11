@@ -13,7 +13,7 @@ from tests.resolver.conftest import (  # noqa: F401
 )
 
 
-def test_context_prompt_includes_question_semantics_rules_and_output_contract(registry_data) -> None:
+def test_context_prompt_includes_question_schema_semantics_and_rules(registry_data) -> None:
     provider = RegistryMetadataProvider(registry_data)
     builder = ContextBuilder(registry_data=registry_data, metadata_provider=provider)
     semantic_plan = SemanticQueryPlan(
@@ -41,9 +41,13 @@ def test_context_prompt_includes_question_semantics_rules_and_output_contract(re
 
     assert "show paid GMV by channel last month" in prompt
     assert "Paid GMV" in prompt
+    assert "DDL Schema:" in prompt
+    assert "CREATE TABLE `orders`" in prompt
+    assert "`paid_gmv_amt` REAL" in prompt
+    assert "Use SQLite dialect." in prompt
     assert "Generation rules:" in prompt
     assert "Generate exactly one SELECT statement." in prompt
-    assert "Do not invent tables" in prompt
-    assert "Output JSON format:" in prompt
-    assert '"sql":' in prompt
+    assert "When a filtered column name appears" in prompt
+    assert "<generation_context>" not in prompt
+    assert "Output JSON format:" not in prompt
     assert "email" not in prompt.lower()
