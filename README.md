@@ -26,6 +26,42 @@ This is the development repository for the Enterprise NL2SQL Copilot project —
 | Phase 6 | [Repair, Selection, and Feedback](./phases/phase-06-repair-selection-and-feedback.md) | 1–2 weeks | Repair loop, candidate selection, feedback capture |
 | Phase 7 | [Evaluation Runner and Pilot](./phases/phase-07-evaluation-runner-and-pilot.md) | 2 weeks | Offline eval, regression tests, pilot onboarding |
 
+## Setup
+
+### 1. Environment Configuration
+
+Copy and configure the `.env` file with your API keys:
+
+```bash
+cp .env.example .env  # or create .env manually
+```
+
+Required environment variables:
+- `DEEPSEEK_API_KEY` — Primary LLM provider
+- `DASHSCOPE_API_KEY` — LLM judge (Qwen via DashScope)
+- `DATABASE_URL` — PostgreSQL connection string
+
+See `.env` for the full list of configurable variables.
+
+### 2. Dependencies
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+```
+
+### 3. Database
+
+```bash
+docker run -d --name nl2sql-postgres \
+  -e POSTGRES_USER=postgres \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=enterprise_nl2sql \
+  -p 5432:5432 \
+  postgres:15-alpine
+```
+
 ## Rules
 
 - **No hand-written code.** All implementation must be done through Codex with requirements-only documents.
