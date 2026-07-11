@@ -424,6 +424,11 @@ class NL2SQLPipeline:
 
     def run_semantic_llm_router(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("run_semantic_llm_router")
+        # BIRD mode: skip semantic router (saves 1 API call, rarely produces
+        # SEMANTIC_SQL for BIRD questions, and the LLM generation path produces
+        # better SQL with the enriched schema context)
+        if self._bird_raw_schema(context.domain, context.evidence):
+            return context
         if context.semantic_route not in ("SEMANTIC_ASSISTED_LLM", "BASELINE_LLM", None):
             return context
         try:
@@ -555,9 +560,7 @@ class NL2SQLPipeline:
     def generate_candidates(self, context: PipelineContext, trace_prefix: str = "") -> PipelineContext:
         context.trace.append("generate_candidates")
         prompt_a = context.context_prompt or ""
-        prompt_b = self._candidate_plan_first_prompt(prompt_a)
         self._record_llm_trace(context, f"{trace_prefix}candidate_a", prompt=prompt_a)
-        self._record_llm_trace(context, f"{trace_prefix}candidate_b", prompt=prompt_b)
         context.sql_candidates = self.candidate_generator.generate_candidates(context)
         for candidate in context.sql_candidates:
             stage = f"{trace_prefix}candidate_{candidate.candidate_id.lower()}"
@@ -1432,7 +1435,8 @@ class NL2SQLPipeline:
         try:
             from scripts.bird_schema_context import build_schema_context
             db_root = Path(__file__).resolve().parent.parent.parent.parent / "bird_bench" / "dev" / "dev_20240627" / "databases" / "dev_databases"
-            if not db_root.exists():
+            db_path = db_root / domain / f"{domain}.sqlite"
+            if not db_path.exists():
                 return None
             return build_schema_context(db_root, domain, "", evidence or "")
         except Exception:

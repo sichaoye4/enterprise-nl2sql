@@ -33,10 +33,20 @@ class CandidateGenerator:
 
     def generate_candidates(self, context: "PipelineContext") -> list[SQLCandidate]:
         prompt = context.context_prompt or ""
-        return [
-            self._generate("A", "direct", prompt, context),
-            self._generate("B", "plan_first", self._plan_first_prompt(prompt), context),
-        ]
+        candidates = [self._generate("A", "direct", prompt, context)]
+        # BIRD mode: skip plan-first candidate to save an API call
+        if not self._is_bird_mode(context):
+            candidates.append(self._generate("B", "plan_first", self._plan_first_prompt(prompt), context))
+        return candidates
+
+    @staticmethod
+    def _is_bird_mode(context: "PipelineContext") -> bool:
+        """Check if we're in BIRD benchmark mode (domain is a BIRD database)."""
+        if not context.domain:
+            return False
+        from pathlib import Path
+        db_root = Path(__file__).resolve().parent.parent.parent.parent / "bird_bench" / "dev" / "dev_20240627" / "databases" / "dev_databases"
+        return (db_root / context.domain).exists()
 
     def _generate(
         self,
