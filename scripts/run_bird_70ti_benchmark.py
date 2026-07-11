@@ -84,6 +84,13 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
     parser.add_argument("--env-file", type=Path, default=Path.home() / ".hermes" / ".env")
     parser.add_argument("--no-env-file", action="store_true", help="Do not load ~/.hermes/.env.")
+    parser.add_argument(
+        "--reasoning-effort",
+        type=str,
+        default="xhigh",
+        choices=["low", "medium", "high", "xhigh"],
+        help="Reasoning effort for generation and judge calls.",
+    )
     return parser
 
 
@@ -93,8 +100,10 @@ def main() -> int:
         load_env_file(args.env_file)
 
     router_gateway = LLMGateway(provider=DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort=None))
-    generation_gateway = LLMGateway(provider=DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort="xhigh"))
-    judge_client = DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort="xhigh")
+    generation_gateway = LLMGateway(
+        provider=DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort=args.reasoning_effort)
+    )
+    judge_client = DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort=args.reasoning_effort)
     judge = LLMJudge(client=judge_client)
 
     dev = load_json(args.dev_json)
@@ -111,8 +120,8 @@ def main() -> int:
     print("BIRD 70TI split-model benchmark")
     print(f"  questions: {len(questions)} from {args.indices}")
     print("  router: deepseek-v4-flash")
-    print("  generation: deepseek-v4-flash reasoning_effort=xhigh")
-    print("  judge: deepseek-v4-flash reasoning_effort=xhigh")
+    print(f"  generation: deepseek-v4-flash reasoning_effort={args.reasoning_effort}")
+    print(f"  judge: deepseek-v4-flash reasoning_effort={args.reasoning_effort}")
     print(f"  output: {args.output}")
 
     started = time.time()
@@ -168,9 +177,9 @@ def main() -> int:
             "router_model": "deepseek-v4-flash",
             "router_reasoning_effort": None,
             "generation_model": "deepseek-v4-pro",
-            "generation_reasoning_effort": "high",
+            "generation_reasoning_effort": args.reasoning_effort,
             "judge_model": "deepseek-v4-pro",
-            "judge_reasoning_effort": "high",
+            "judge_reasoning_effort": args.reasoning_effort,
             "semantic_model_path": str(args.semantic_model_path),
             "semantic_registry_root": str(args.semantic_registry_root),
             "indices": str(args.indices),
