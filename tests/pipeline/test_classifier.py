@@ -23,7 +23,7 @@ def test_write_intent_false_for_read_question(classifier: QuestionClassifier) ->
     assert classification.write_intent is False
 
 
-@pytest.mark.parametrize("question", ["show user email", "list phone numbers", "find ssn values"])
+@pytest.mark.parametrize("question", ["show user email", "list phone number", "find ssn values"])
 def test_sensitive_data_intent_detected(classifier: QuestionClassifier, question: str) -> None:
     classification = classifier.classify(question)
 
