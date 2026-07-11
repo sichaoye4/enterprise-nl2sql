@@ -7,6 +7,7 @@ import sqlglot
 import pytest
 
 from src.semantic_registry.pipeline.semantic_router import (
+    SUPPORTED_FILTER_OPERATORS,
     SemanticRouter,
     build_router_prompt,
     compile_from_router,
@@ -90,6 +91,29 @@ def test_router_includes_filters(debit_card_snapshot) -> None:
     ]
 
 
+def test_supported_filter_operators() -> None:
+    assert SUPPORTED_FILTER_OPERATORS == {
+        "equals",
+        "not_equals",
+        "not equals",
+        "like",
+        "not_like",
+        "not like",
+        "contains",
+        "starts_with",
+        "ends_with",
+        "gt",
+        "greater_than",
+        "gte",
+        ">=",
+        "lt",
+        "less_than",
+        "lte",
+        "<=",
+        "between",
+    }
+
+
 def test_router_compile_success(debit_card_snapshot) -> None:
     router = SemanticRouter(debit_card_snapshot, lambda _prompt: router_json())
     result = router.route("How many gas stations in CZE?")
@@ -99,8 +123,80 @@ def test_router_compile_success(debit_card_snapshot) -> None:
     assert compiled is not None
     assert "FROM gasstations" in compiled.sql
     assert "COUNT(" in compiled.sql
-    assert compiled.parameters == ["CZE", "CZE"]
+    assert "CASE WHEN" not in compiled.sql
+    assert compiled.parameters == ["CZE"]
     sqlglot.parse_one(compiled.sql.replace("%s", "NULL"))
+
+
+def test_router_strips_measure_filters_when_router_filters_are_provided(debit_card_snapshot) -> None:
+    router = SemanticRouter(
+        debit_card_snapshot,
+        lambda _prompt: router_json(
+            filters=[
+                {"member": "gasstations.country", "operator": "equals", "values": ["CZE"]},
+                {"member": "gasstations.segment", "operator": "equals", "values": ["Premium"]},
+            ]
+        ),
+    )
+    result = router.route("How many gas stations in CZE have Premium gasoline?")
+
+    compiled = compile_from_router(
+        debit_card_snapshot,
+        result,
+        "How many gas stations in CZE have Premium gasoline?",
+    )
+
+    assert compiled is not None
+    assert "CASE WHEN" not in compiled.sql
+    assert "WHERE t0.Country = %s AND t0.Segment = %s" in compiled.sql
+    assert compiled.parameters == ["CZE", "Premium"]
+
+
+def test_router_compiles_between_filter_on_identifier(debit_card_snapshot) -> None:
+    router = SemanticRouter(
+        debit_card_snapshot,
+        lambda _prompt: router_json(
+            measure="yearmonth.sum_consumption",
+            filters=[
+                {"member": "yearmonth.customerid", "operator": "equals", "values": ["6"]},
+                {"member": "yearmonth.date", "operator": "between", "values": ["201308", "201311"]},
+            ],
+        ),
+    )
+    result = router.route("How much did customer 6 consume in total between August and November 2013?")
+
+    compiled = compile_from_router(
+        debit_card_snapshot,
+        result,
+        "How much did customer 6 consume in total between August and November 2013?",
+    )
+
+    assert compiled is not None
+    assert "t0.Date BETWEEN %s AND %s" in compiled.sql
+    assert compiled.parameters == ["6", "201308", "201311"]
+
+
+def test_router_compiles_like_filter_on_time_dimension(debit_card_snapshot) -> None:
+    router = SemanticRouter(
+        debit_card_snapshot,
+        lambda _prompt: router_json(
+            measure="transactions_1k.avg_amount",
+            filters=[
+                {"member": "transactions_1k.date", "operator": "like", "values": ["2012-01%"]},
+            ],
+        ),
+    )
+    result = router.route("What was the average total price of transactions that occurred in January 2012?")
+
+    compiled = compile_from_router(
+        debit_card_snapshot,
+        result,
+        "What was the average total price of transactions that occurred in January 2012?",
+    )
+
+    assert compiled is not None
+    assert "t0.Date LIKE %s" in compiled.sql
+    assert compiled.parameters == ["2012-01%"]
 
 
 def test_router_quality_gate(debit_card_snapshot, registry_data) -> None:
@@ -144,4 +240,7 @@ def test_router_prompt_lists_catalog(debit_card_snapshot) -> None:
 
     assert "gasstations.count_gasstationid" in prompt
     assert "gasstations.country" in prompt
+    assert "Available identifiers for filters" in prompt
+    assert "between with inclusive bounds" in prompt
+    assert "starts_with" in prompt
     assert "Respond with ONLY valid JSON" in prompt
