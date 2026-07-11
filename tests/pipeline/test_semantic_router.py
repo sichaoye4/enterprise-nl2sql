@@ -43,6 +43,21 @@ class RecordingCandidateGenerator:
         return []
 
 
+class RecordingGateway:
+    def __init__(self, response: str) -> None:
+        self.response = response
+        self.calls: list[dict[str, str | None]] = []
+
+    def generate_text(self, prompt: str, system_prompt: str | None = None) -> str:
+        self.calls.append({"prompt": prompt, "system_prompt": system_prompt})
+        return self.response
+
+
+class GatewayBackedCandidateGenerator:
+    def __init__(self, llm_gateway: RecordingGateway) -> None:
+        self.llm_gateway = llm_gateway
+
+
 @pytest.fixture
 def debit_card_snapshot():
     path = Path("bird_semantic_engine/debit_card_specializing/model.yml")
@@ -238,6 +253,30 @@ def test_pipeline_integration(debit_card_snapshot, registry_data) -> None:
     assert context.llm_trace["semantic_router"]["prompt"] is not None
     assert "How many gas stations in CZE?" in context.llm_trace["semantic_router"]["prompt"]
     assert context.llm_trace["semantic_router"]["response"] == router_json()
+
+
+def test_pipeline_router_uses_dedicated_router_gateway(registry_data) -> None:
+    fallback_gateway = RecordingGateway('{"fallback": true}')
+    router_gateway = RecordingGateway(router_json())
+    pipeline = NL2SQLPipeline(
+        registry_data=registry_data,
+        candidate_generator=GatewayBackedCandidateGenerator(fallback_gateway),
+        router_llm_gateway=router_gateway,
+    )
+
+    response = pipeline._llm_router_generate("route this")
+
+    assert response == router_json()
+    assert router_gateway.calls == [
+        {
+            "prompt": "route this",
+            "system_prompt": (
+                "Return ONLY the requested semantic-router JSON object. "
+                "Do not generate SQL and do not include markdown."
+            ),
+        }
+    ]
+    assert fallback_gateway.calls == []
 
 
 def test_router_prompt_lists_catalog(debit_card_snapshot) -> None:

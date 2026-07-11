@@ -74,19 +74,28 @@ class ContextBuilder:
 
     def _tables_section(self, tables: list[TableMetadata], retrieved_metadata: RetrievalResult) -> str:
         if not tables and not retrieved_metadata.candidate_tables:
-            return "Candidate tables:\n- None"
-        lines = ["Candidate tables:"]
+            return "Database Schema:\n- None"
+        lines = ["Database Schema:"]
         rendered = set()
         for table in tables:
             rendered.add(table.table_name)
-            lines.append(f"- {table.table_name}: {self._enriched_table_description(table)}")
-            if table.grain:
-                lines.append(f"  Grain: {', '.join(table.grain)}")
-            if table.partition_column:
-                lines.append(f"  Partition column: {table.partition_column}")
+            lines.append(f"CREATE TABLE {table.table_name} (")
+            visible_columns = [column for column in table.columns if not column.is_pii]
+            col_lines = []
+            for column in visible_columns:
+                col_type = column.data_type or "TEXT"
+                description = self._redact_sensitive_values(column.description)
+                col_def = f"  {column.column_name} {col_type}"
+                if description:
+                    col_def += f"  -- {description}"
+                col_lines.append(col_def)
+            lines.append(",\n".join(col_lines))
+            lines.append(")")
+            if table.description:
+                lines.append(f"  -- Description: {self._redact_sensitive_values(table.description)}")
         for candidate in retrieved_metadata.candidate_tables:
             if candidate.name not in rendered:
-                lines.append(f"- {candidate.name}: {self._redact_sensitive_values(candidate.description)}")
+                lines.append(f"-- {candidate.name}: {self._redact_sensitive_values(candidate.description)}")
         if retrieved_metadata.candidate_columns:
             lines.append("Candidate columns:")
             for column in retrieved_metadata.candidate_columns:

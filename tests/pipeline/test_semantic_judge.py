@@ -42,6 +42,16 @@ class FakeJudgeClient:
         return self.responses[min(len(self.prompts) - 1, len(self.responses) - 1)]
 
 
+class FakeGenerateTextJudgeClient:
+    def __init__(self, response: str) -> None:
+        self.response = response
+        self.calls: list[dict[str, str | None]] = []
+
+    def generate_text(self, prompt: str, system_prompt: str | None = None) -> str:
+        self.calls.append({"prompt": prompt, "system_prompt": system_prompt})
+        return self.response
+
+
 class RetryCandidateGenerator:
     def __init__(self) -> None:
         self.calls = 0
@@ -104,6 +114,22 @@ def test_llm_judge_accepts_and_rejects_sql_from_structured_response() -> None:
     assert accepted.pass_ is True
     assert rejected.pass_ is False
     assert "missing channel" in rejected.reasoning
+
+
+def test_llm_judge_uses_generate_text_with_judge_system_prompt() -> None:
+    client = FakeGenerateTextJudgeClient('{"pass": true, "reasoning": "matches", "confidence": 0.86}')
+
+    result = LLMJudge(client=client).judge(
+        "show paid GMV",
+        "SELECT SUM(paid_gmv_amt) AS paid_gmv FROM orders",
+        "LLM",
+        None,
+    )
+
+    assert result.pass_ is True
+    assert client.calls
+    assert "independent SQL semantic judge" in (client.calls[0]["system_prompt"] or "")
+    assert "SQL generation engine" not in (client.calls[0]["system_prompt"] or "")
 
 
 def test_judge_prompt_includes_question_sql_route_and_plan() -> None:
