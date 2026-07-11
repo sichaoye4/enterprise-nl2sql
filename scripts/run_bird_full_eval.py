@@ -130,7 +130,7 @@ def evaluate_pipeline_question(
     db_path: Path,
 ) -> dict[str, Any]:
     started = time.time()
-    context = pipeline.run(question["question"], domain=question["db_id"])
+    context = pipeline.run(question["question"], domain=question["db_id"], evidence=question.get("evidence"))
     elapsed = time.time() - started
 
     sql = selected_sql(context)

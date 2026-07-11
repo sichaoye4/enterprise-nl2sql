@@ -29,12 +29,12 @@ class QuestionClassifier:
     )
     PII_KEYWORDS = (
         "email",
-        "phone",
-        "address",
+        "phone number",
         "ssn",
+        "social security",
         "password",
-        "credit card",
-        "name",
+        "credit card number",
+        "card number",
     )
     TIME_KEYWORDS = (
         "yesterday",

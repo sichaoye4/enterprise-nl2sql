@@ -47,6 +47,7 @@ class PipelineContext(BaseModel):
     question: str
     domain: str | None = None
     user: str | None = None
+    evidence: str | None = None
     classification: QuestionClassification | None = None
     extracted_terms: list[ExtractedTerm] = Field(default_factory=list)
     semantic_plan: SemanticQueryPlan | None = None
@@ -276,8 +277,8 @@ class NL2SQLPipeline:
         self.semantic_engine = semantic_engine
         self._semantic_engine_cache: dict[Path, Any] = {}
 
-    def run(self, question: str, domain: str | None = None, user: str | None = None) -> PipelineContext:
-        context = PipelineContext(question=question, domain=domain, user=user)
+    def run(self, question: str, domain: str | None = None, user: str | None = None, evidence: str | None = None) -> PipelineContext:
+        context = PipelineContext(question=question, domain=domain, user=user, evidence=evidence)
         pilot = PilotManager()
         if user is not None and not pilot.is_pilot_user(user):
             context.error = "User is not enabled for the NL2SQL pilot."
@@ -530,20 +531,25 @@ class NL2SQLPipeline:
         if context.semantic_plan is None or context.retrieved_metadata is None:
             context.error = "Cannot build context without semantic plan and retrieved metadata."
             return context
-        raw_schema = self._bird_raw_schema(context.domain)
+        raw_schema = self._bird_raw_schema(context.domain, context.evidence)
         context.context_prompt = self.context_builder.build(
             context.question, context.semantic_plan, context.retrieved_metadata,
             raw_schema=raw_schema,
         )
-        if context.semantic_context:
-            context.context_prompt = self._inject_semantic_context(context.context_prompt, context.semantic_context)
-        if context.semantic_route == "SEMANTIC_ASSISTED_LLM" and context.guardrail_contract:
-            context.context_prompt = self._inject_guardrail_contract(
-                context.context_prompt,
-                context.guardrail_contract,
-            )
-        if context.semantic_route in {"SEMANTIC_ASSISTED_LLM", "BASELINE_LLM"} and context.gap_report:
-            context.context_prompt = self._inject_gap_report(context.context_prompt, context.gap_report)
+        # In BIRD mode (raw_schema present), the enriched schema context already
+        # contains all necessary information (DDL, samples, join paths, evidence).
+        # Skip injecting semantic_context/guardrail_contract/gap_report which would
+        # bloat the prompt to 44K+ chars and slow down API calls.
+        if not raw_schema:
+            if context.semantic_context:
+                context.context_prompt = self._inject_semantic_context(context.context_prompt, context.semantic_context)
+            if context.semantic_route == "SEMANTIC_ASSISTED_LLM" and context.guardrail_contract:
+                context.context_prompt = self._inject_guardrail_contract(
+                    context.context_prompt,
+                    context.guardrail_contract,
+                )
+            if context.semantic_route in {"SEMANTIC_ASSISTED_LLM", "BASELINE_LLM"} and context.gap_report:
+                context.context_prompt = self._inject_gap_report(context.context_prompt, context.gap_report)
         return context
 
     def generate_candidates(self, context: PipelineContext, trace_prefix: str = "") -> PipelineContext:
@@ -578,11 +584,33 @@ class NL2SQLPipeline:
         if context.semantic_plan is None:
             context.error = "Cannot validate SQL without a semantic plan."
             return context
+        # BIRD mode: only run static validation (parse + select-only).
+        # Enterprise rules (allowed_columns, metric matching, partition filters)
+        # don't apply to BIRD questions and cause false rejections + repair loops.
+        raw_schema = self._bird_raw_schema(context.domain, context.evidence)
+        if raw_schema:
+            self._validate_candidates_bird(context)
+            return context
         allowed_tables, allowed_columns = self._allowed_metadata(context)
         self._validate_candidates(context, allowed_tables, allowed_columns)
         if self._should_retry_without_guardrails(context):
             self._retry_without_guardrails(context, allowed_tables, allowed_columns)
         return context
+
+    def _validate_candidates_bird(self, context: PipelineContext) -> None:
+        """BIRD-mode validation: only check parse success and basic SQL rules.
+
+        Skips enterprise semantic validation (metric matching, allowed columns,
+        partition filters) which doesn't apply to BIRD benchmark questions.
+        """
+        from src.semantic_registry.validation.static_validator import StaticValidator
+        static = StaticValidator(require_limit=False)
+        for candidate in context.sql_candidates:
+            result = static.validate(candidate.sql, set(), {})
+            candidate.parse_success = result.passed
+            candidate.validation_errors = list(result.errors) if not result.passed else []
+            candidate.validation_results = {"passed": result.passed, "static": result.model_dump(mode="json")}
+            context.validation_results[candidate.candidate_id] = candidate.validation_results
 
     def _validate_candidates(
         self,
@@ -633,6 +661,10 @@ class NL2SQLPipeline:
         if context.semantic_route == "SEMANTIC_SQL" and any(candidate.validation_errors for candidate in context.sql_candidates):
             self._fallback_from_semantic_sql(context, "The deterministic semantic SQL failed shared validation.")
             return context
+        # BIRD mode: skip repair loop (validation already passed with static rules,
+        # and enterprise semantic repair would make unnecessary LLM API calls)
+        if self._bird_raw_schema(context.domain, context.evidence):
+            return context
         self.repair_loop.repair(context, self.sql_validator)
         return context
 
@@ -645,6 +677,10 @@ class NL2SQLPipeline:
     def run_llm_judge(self, context: PipelineContext) -> PipelineContext:
         context.trace.append("run_llm_judge")
         if context.selected_sql is None or not context.selected_sql.sql:
+            return context
+        # BIRD mode: skip LLM judge (same model reviewing its own SQL adds
+        # 30s+ per question without cross-model validation benefit)
+        if self._bird_raw_schema(context.domain, context.evidence):
             return context
 
         while True:
@@ -1390,17 +1426,15 @@ class NL2SQLPipeline:
             return value.get(key)
         return getattr(value, key, None)
 
-    def _bird_raw_schema(self, domain: str | None) -> str | None:
+    def _bird_raw_schema(self, domain: str | None, evidence: str | None = None) -> str | None:
         if not domain:
             return None
         try:
-            from scripts.bird_eval import build_schema_prompt
-            dev_tables = Path(__file__).resolve().parent.parent.parent.parent / "bird_bench" / "dev" / "dev_20240627" / "dev_tables.json"
-            if not dev_tables.exists():
+            from scripts.bird_schema_context import build_schema_context
+            db_root = Path(__file__).resolve().parent.parent.parent.parent / "bird_bench" / "dev" / "dev_20240627" / "databases" / "dev_databases"
+            if not db_root.exists():
                 return None
-            import json
-            tables_data = json.loads(dev_tables.read_text())
-            return build_schema_prompt(tables_data, domain)
+            return build_schema_context(db_root, domain, "", evidence or "")
         except Exception:
             return None
 
