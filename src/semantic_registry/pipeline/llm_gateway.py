@@ -343,7 +343,7 @@ class DeepSeekProvider:
             from openai import OpenAI
         except ImportError as exc:
             raise RuntimeError("The openai package is required to use DeepSeekProvider. Install openai>=1.0.") from exc
-        return OpenAI(base_url=self.base_url, api_key=self.api_key)
+        return OpenAI(base_url=self.base_url, api_key=self.api_key, timeout=300)
 
     def _transient_errors(self) -> tuple[type[BaseException], ...]:
         try:
