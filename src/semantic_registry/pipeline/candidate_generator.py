@@ -34,9 +34,8 @@ class CandidateGenerator:
     def generate_candidates(self, context: "PipelineContext") -> list[SQLCandidate]:
         prompt = context.context_prompt or ""
         candidates = [self._generate("A", "direct", prompt, context)]
-        # BIRD mode: skip plan-first candidate to save an API call
-        if not self._is_bird_mode(context):
-            candidates.append(self._generate("B", "plan_first", self._plan_first_prompt(prompt), context))
+        # Always generate plan-first candidate - gives selector a second option
+        candidates.append(self._generate("B", "plan_first", self._plan_first_prompt(prompt), context))
         return candidates
 
     @staticmethod

@@ -678,10 +678,9 @@ class NL2SQLPipeline:
         if context.semantic_route == "SEMANTIC_SQL" and any(candidate.validation_errors for candidate in context.sql_candidates):
             self._fallback_from_semantic_sql(context, "The deterministic semantic SQL failed shared validation.")
             return context
-        # BIRD mode: lightweight repair (execution errors only)
+        # BIRD mode: skip repair for fast benchmarking
         raw_schema = self._bird_raw_schema(context.domain, context.evidence, context.question)
         if raw_schema:
-            self._repair_bird_candidate(context, raw_schema)
             return context
         self.repair_loop.repair(context, self.sql_validator)
         return context
