@@ -201,6 +201,17 @@ def evaluate_pipeline_question(
         "guardrail_contract_present": bool(getattr(context, "guardrail_contract", None)),
         "gap_report": getattr(context, "gap_report", None),
         "elapsed_sec": round(elapsed, 3),
+        "repair_attempted": any(
+            getattr(c, "repair_attempted", False)
+            for c in (getattr(context, "sql_candidates", []) or [])
+        ),
+        "repair_succeeded": any(
+            getattr(c, "repaired", False)
+            for c in (getattr(context, "sql_candidates", []) or [])
+        ),
+        "llm_trace_keys": list(
+            (getattr(context, "llm_trace", {}) or {}).keys()
+        ),
     }
 
 
