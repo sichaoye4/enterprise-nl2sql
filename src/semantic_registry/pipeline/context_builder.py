@@ -57,9 +57,13 @@ class ContextBuilder:
                     "Database Schema:",
                     raw_schema,
                     "IMPORTANT:",
-                    "- Return ONLY the columns explicitly mentioned in the question. Do not add extra columns.",
+                    "- Return ONLY the columns the question explicitly asks for. Never add extra columns like id, date, or height unless explicitly requested. If the question says 'indicate his name', return only the name column. If the question says 'describe the information', return only the information column.",
                     "- When asked for a 'full name', return the component name columns separately, such as forename and surname.",
-                    "- When asked to 'name', 'list', or 'which' entities (cards, schools, users, etc.) WITHOUT explicitly asking for 'names', return the id column. Only return the name column when the question explicitly says 'names' or 'name of'.",
+                    "- When asked to 'name', 'list', or 'which' entities (cards, schools, users, etc.) WITHOUT explicitly asking for 'names', return the id column. Only return the name column when the question explicitly says 'names' or 'name of'. When the question says 'Name all cards' or 'List cards', return the id column from the cards table, NOT the name column; 'name' is a verb meaning identify, not a request for the name column.",
+                    "- When filtering by string values, use the exact case shown in sample values. If unsure, use the value as it appears in the evidence.",
+                    "- When evidence says 'introduction refers to url', return the url from the table that is the subject of the question, for example circuits.url for circuit questions, not races.url.",
+                    "- Use COUNT(*) or COUNT(column) to count rows. Only use COUNT(DISTINCT column) when the question explicitly asks for distinct or unique counts.",
+                    "- Do not add IS NOT NULL filters unless the question explicitly mentions null or missing values. SQLite sorts NULL values first in ASC order.",
                     "- When filtering by datetime, use LIKE to match the date prefix, for example WHERE column LIKE '2010-07-19 19:37:33%' instead of exact equality, to handle varying datetime formats.",
                 ]
             )
