@@ -76,8 +76,14 @@ CREATE TABLE cards (
     )
 
     assert "IMPORTANT:" in prompt
-    assert "Return ONLY the columns explicitly mentioned in the question" in prompt
+    assert "Return ONLY the columns the question explicitly asks for" in prompt
+    assert "Never add extra columns like id, date, or height unless explicitly requested" in prompt
     assert "When asked for a 'full name', return the component name columns separately" in prompt
-    assert "return the identifying column, usually id" in prompt
+    assert "Name all cards" in prompt
+    assert "return the id column from the cards table, NOT the name column" in prompt
+    assert "use the exact case shown in sample values" in prompt
+    assert "introduction refers to url" in prompt
+    assert "Only use COUNT(DISTINCT column)" in prompt
+    assert "Do not add IS NOT NULL filters unless the question explicitly mentions null or missing values" in prompt
     assert "WHERE column LIKE '2010-07-19 19:37:33%'" in prompt
     assert "Return ONLY a JSON object:" in prompt
