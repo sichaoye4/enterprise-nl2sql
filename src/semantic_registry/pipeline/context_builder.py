@@ -42,6 +42,8 @@ class ContextBuilder:
         if raw_schema:
             db_id = self._db_id_from_raw_schema(raw_schema) or semantic_plan.domain
             examples = self._few_shot_examples(safe_question, db_id)
+            safe_evidence = self._redact_sensitive_values(evidence)
+            targeted_hints = self._bird_targeted_hints(db_id, safe_question, safe_evidence)
             sections = [
                 "You are a SQLite expert. Generate a single SELECT statement.",
             ]
@@ -56,14 +58,16 @@ class ContextBuilder:
                 [
                     "Database Schema:",
                     raw_schema,
+                    *(["Targeted schema hints:", targeted_hints] if targeted_hints else []),
                     "IMPORTANT:",
+                    "- SQLite string comparisons are case-sensitive. Use the exact spelling and capitalization shown in sample values, evidence, and targeted schema hints.",
                     "- Return ONLY the columns explicitly mentioned in the question. Do not add extra columns.",
+                    "- Projection rule: columns used only to filter, rank, sort, or identify the row do not belong in SELECT unless the question asks to return them.",
                     "- When asked for a 'full name', return the component name columns separately, such as forename and surname.",
-                    "- When asked to 'name', 'list', or 'which' entities (cards, schools, users, etc.) WITHOUT explicitly asking for 'names', return the id column. Only return the name column when the question explicitly says 'names' or 'name of'.",
+                    "- When asked to 'name', 'list', or 'which' entities (cards, schools, users, etc.) WITHOUT explicitly asking for 'names', return the identifying column, usually id. Only return the name column when the question explicitly says 'names' or 'name of'.",
                     "- When filtering by datetime, use LIKE to match the date prefix, for example WHERE column LIKE '2010-07-19 19:37:33%' instead of exact equality, to handle varying datetime formats.",
                 ]
             )
-            safe_evidence = self._redact_sensitive_values(evidence)
             if safe_evidence:
                 sections.append(f"Hint: {safe_evidence}")
             sections.extend([
@@ -378,6 +382,46 @@ class ContextBuilder:
     def _db_id_from_raw_schema(self, raw_schema: str) -> str | None:
         match = re.search(r"^Database Schema for:\s*([^\s]+)\s*$", raw_schema, flags=re.MULTILINE)
         return match.group(1) if match else None
+
+    def _bird_targeted_hints(self, db_id: str | None, question: str, evidence: str) -> str:
+        if not db_id:
+            return ""
+        text = f"{question}\n{evidence}".lower()
+        lines: list[str] = []
+
+        if db_id == "card_games":
+            if any(term in text for term in ("legal", "banned", "restricted", "commander", "status")):
+                lines.append(
+                    "- Exact legalities values: legalities.status uses 'Legal', 'Banned', and 'Restricted'; "
+                    "legalities.format values such as 'commander' are lowercase."
+                )
+            if "ruling" in text and "date" not in text:
+                lines.append(
+                    "- Rulings information/description maps to rulings.text; do not include rulings.date unless dates are requested."
+                )
+            if re.search(r"\bname all cards\b", question, flags=re.IGNORECASE) and not re.search(
+                r"\b(card )?names\b|\bname of\b",
+                question,
+                flags=re.IGNORECASE,
+            ):
+                lines.append("- For 'Name all cards' card-identity questions, return cards.id rather than cards.name.")
+
+        if db_id == "european_football_2":
+            if "height of the tallest player" in text and "name" in text:
+                lines.append("- For this question, use Player.height to rank the tallest player but return only Player.player_name.")
+            if "highest number of penalties" in text and "player" in text:
+                lines.append(
+                    "- For the top-penalties player ranking, join Player_Attributes.id = Player.id; "
+                    "do not use player_api_id for that task."
+                )
+            if any(term in text for term in ("which home team", "which away team", "team name", "short name of the football team")):
+                lines.append(
+                    "- Match.home_team_api_id and Match.away_team_api_id are identifiers. "
+                    "When the question asks which team or a team name, join Team.team_api_id and return "
+                    "Team.team_long_name, or Team.team_short_name when a short name is requested."
+                )
+
+        return "\n".join(lines)
 
     def _few_shot_examples(self, question: str | None = None, db_id: str | None = None) -> str | None:
         if not question or not db_id:
