@@ -365,7 +365,9 @@ class NL2SQLPipeline:
         try:
             result = self._semantic_pipeline(context.domain).process(context.question)
         except Exception as exc:
-            context.error = f"Semantic engine failed: {exc}"
+            # Log but don't fail - fall through to LLM generation
+            logger.warning("Semantic engine failed: %s; falling back to LLM generation.", exc)
+            context.semantic_route = "BASELINE_LLM"
             return context
 
         route = self._result_value(result, "route")

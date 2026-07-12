@@ -59,7 +59,7 @@ class ContextBuilder:
                     "IMPORTANT:",
                     "- Return ONLY the columns explicitly mentioned in the question. Do not add extra columns.",
                     "- When asked for a 'full name', return the component name columns separately, such as forename and surname.",
-                    "- When asked to 'name' or 'list' something, return the identifying column, usually id, unless the question explicitly asks for names. Check the evidence for column guidance.",
+                    "- When asked to 'name', 'list', or 'which' entities (cards, schools, users, etc.) WITHOUT explicitly asking for 'names', return the id column. Only return the name column when the question explicitly says 'names' or 'name of'.",
                     "- When filtering by datetime, use LIKE to match the date prefix, for example WHERE column LIKE '2010-07-19 19:37:33%' instead of exact equality, to handle varying datetime formats.",
                 ]
             )
