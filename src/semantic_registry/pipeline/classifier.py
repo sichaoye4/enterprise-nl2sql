@@ -29,7 +29,6 @@ class QuestionClassifier:
     )
     PII_KEYWORDS = (
         "email",
-        "phone number",
         "ssn",
         "social security",
         "password",
