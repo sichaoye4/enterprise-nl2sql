@@ -747,8 +747,9 @@ class NL2SQLPipeline:
             processed = self._replace_select_list(processed, "teamDetails.team_long_name")
             join = f" INNER JOIN Team AS teamDetails ON {match_ref}.{side}_team_api_id = teamDetails.team_api_id"
             processed = self._insert_join_after_table(processed, "Match", join)
+            return self._rewrite_team_display_group_by(processed, match_ref, side)
 
-        return self._rewrite_team_display_group_by(processed, match_ref, side)
+        return processed
 
     def _rewrite_team_display_group_by(self, sql: str, match_ref: str, side: str) -> str:
         return re.sub(
