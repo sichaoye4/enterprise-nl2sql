@@ -14,7 +14,7 @@ Run:
   # Opens at http://localhost:8765
 """
 
-import sys, os, json, time, sqlite3, re as regex
+import sys, os, json, time, sqlite3, re as regex, threading, uuid
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 # Load env
@@ -27,8 +27,14 @@ if os.path.exists(env_path):
             if k == "DEEPSEEK_API_KEY" and not os.environ.get("DEEPSEEK_API_KEY"):
                 os.environ[k] = v
 
-from http.server import HTTPServer, BaseHTTPRequestHandler
+from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import parse_qs, urlparse
+
+from src.semantic_registry.pipeline.semantic_judge import (
+    DashScopeLLMClient,
+    build_judge_prompt,
+    parse_judge_response,
+)
 
 PORT = 8765
 BIRD_ROOT = os.path.join(os.path.dirname(__file__), "..", "bird_bench", 
@@ -37,6 +43,16 @@ BIRD_ROOT = os.path.join(os.path.dirname(__file__), "..", "bird_bench",
 # Lazy-loaded singletons
 _mem = None
 _prov = None
+_tasks = {}
+
+EXPECTED_PIPELINE_STAGES = [
+    ("schema_context", "Schema context"),
+    ("pattern_retrieval", "Pattern & semantic retrieval"),
+    ("sql_generation", "SQL candidate generation"),
+    ("llm_judge", "Cross-model LLM judge"),
+    ("sql_validation", "SQL validation"),
+    ("preview_execution", "Preview execution"),
+]
 
 
 class UnavailablePatternMemory:
@@ -75,6 +91,217 @@ def prov():
         from src.semantic_registry.pipeline.llm_gateway import DeepSeekProvider
         _prov = DeepSeekProvider(model="deepseek-v4-flash", reasoning_effort="xhigh")
     return _prov
+
+# Lazy-loaded cross-model judge (DashScope Qwen)
+_judge = None
+
+def get_judge():
+    global _judge
+    if _judge is None:
+        try:
+            _judge = DashScopeLLMClient(model="qwen3.5-plus")
+        except Exception as exc:
+            _judge = exc
+    return _judge
+
+
+def pending_pipeline_stages():
+    return [
+        {
+            "id": stage_id,
+            "title": title,
+            "status": "pending",
+            "summary": "Waiting to start.",
+            "detail": "",
+        }
+        for stage_id, title in EXPECTED_PIPELINE_STAGES
+    ]
+
+
+def update_stage(task_id, stage_id, status, summary, detail=""):
+    task = _tasks.get(task_id)
+    if not task:
+        return
+    task["stages"] = [
+        {
+            **stage,
+            "status": status,
+            "summary": summary,
+            "detail": detail,
+        }
+        if stage["id"] == stage_id else stage
+        for stage in task["stages"]
+    ]
+    task["updated_at"] = time.time()
+
+
+def snapshot_task(task_id):
+    task = _tasks.get(task_id)
+    if not task:
+        return None
+    return {
+        "task_id": task_id,
+        "status": task.get("status", "running"),
+        "stages": [dict(stage) for stage in task.get("stages", [])],
+        "result": task.get("result"),
+        "error": task.get("error"),
+    }
+
+
+def run_query_task(task_id, question, db_id):
+    start = time.time()
+    try:
+        update_stage(task_id, "schema_context", "loading", "Loading SQLite schema context.")
+        schema = get_schema(db_id) if db_id else ""
+        update_stage(
+            task_id,
+            "schema_context",
+            "complete" if schema else "warning",
+            f"Loaded {len(schema.splitlines())} schema lines for {db_id or 'no database'}.",
+            schema[:12000],
+        )
+
+        update_stage(task_id, "pattern_retrieval", "loading", "Retrieving matching prior query patterns.")
+        patterns = mem().retrieve(question, db_id=db_id, top_k=3) if db_id else []
+        update_stage(
+            task_id,
+            "pattern_retrieval",
+            "complete",
+            f"Found {len(patterns)} relevant prior query patterns.",
+            "\n".join(f"- {p.question}" for p in patterns) or "No prior patterns matched; using schema context.",
+        )
+
+        if patterns:
+            prompt = mem().build_few_shot_prompt(question, schema, patterns)
+        else:
+            parts = [
+                "You are a SQLite expert. Generate a single SELECT statement.",
+                f"Database Schema:\n{schema}" if schema else "",
+                f"Question: {question}",
+                'Return ONLY: {"sql":"SELECT...","assumptions":[],"tables_used":[],"columns_used":[],"confidence":"high|medium|low","reasoning_summary":"..."}',
+            ]
+            prompt = "\n\n".join(p for p in parts if p)
+
+        sql, error = "", None
+        update_stage(task_id, "sql_generation", "loading", "Generating a SQLite SQL candidate.")
+        try:
+            raw = prov().generate(f"Return ONLY valid JSON.\n\n{prompt}")
+            sql = extract_sql(raw)
+            if not sql:
+                error = "Could not extract SQL"
+        except Exception as e:
+            error = str(e)
+        update_stage(
+            task_id,
+            "sql_generation",
+            "error" if error else "complete",
+            error or "Generated one SQLite SQL candidate.",
+            sql or error or "No SQL was produced.",
+        )
+
+        judge_result = None
+        if sql and not error:
+            update_stage(task_id, "llm_judge", "loading", "Reviewing the SQL with the cross-model judge.")
+            judge_client = get_judge()
+            if isinstance(judge_client, Exception):
+                update_stage(
+                    task_id,
+                    "llm_judge",
+                    "warning",
+                    f"Judge unavailable: {judge_client}",
+                    str(judge_client),
+                )
+            else:
+                try:
+                    judge_prompt = build_judge_prompt(question, sql, None, None)
+                    judge_raw = judge_client.generate(judge_prompt)
+                    judge_result = parse_judge_response(judge_raw)
+                    update_stage(
+                        task_id,
+                        "llm_judge",
+                        "complete" if judge_result.pass_ else "warning",
+                        f"{'PASS (no issues found)' if judge_result.pass_ else 'ISSUES DETECTED'} — confidence {judge_result.confidence:.0%}",
+                        f"Reasoning: {judge_result.reasoning}\n\nConfidence: {judge_result.confidence:.0%}",
+                    )
+                except Exception as e:
+                    update_stage(
+                        task_id,
+                        "llm_judge",
+                        "warning",
+                        f"Judge error: {e}",
+                        str(e),
+                    )
+        else:
+            update_stage(
+                task_id,
+                "llm_judge",
+                "skipped",
+                "Skipped because no SQL candidate was generated.",
+                "",
+            )
+
+        update_stage(task_id, "sql_validation", "loading", "Checking query shape before execution.")
+        validation_error = None
+        if sql and not regex.match(r"^\s*(SELECT|WITH)\b", sql, regex.IGNORECASE):
+            validation_error = "Only SELECT or WITH queries can be previewed."
+        update_stage(
+            task_id,
+            "sql_validation",
+            "error" if validation_error else ("complete" if sql else "skipped"),
+            validation_error or ("Read-only query accepted for SQLite preview." if sql else "Skipped because no SQL was generated."),
+            validation_error or "Checked query shape before execution.",
+        )
+        if validation_error:
+            error = validation_error
+
+        results, cols, exec_err = None, None, None
+        update_stage(task_id, "preview_execution", "loading", "Executing a read-only preview against SQLite.")
+        if sql and not error and db_id:
+            dp = os.path.join(BIRD_ROOT, db_id, f"{db_id}.sqlite")
+            if os.path.exists(dp):
+                try:
+                    conn = sqlite3.connect(dp)
+                    conn.row_factory = sqlite3.Row
+                    c = conn.cursor()
+                    c.execute(sql)
+                    cols = [d[0] for d in c.description] if c.description else []
+                    rows = c.fetchall()
+                    results = [list(r) for r in rows]
+                    conn.close()
+                except Exception as e:
+                    exec_err = str(e)
+        update_stage(
+            task_id,
+            "preview_execution",
+            "error" if exec_err else ("complete" if results is not None else "skipped"),
+            exec_err or (f"Returned {len(results)} rows." if results is not None else "Skipped because no database was selected."),
+            exec_err or "Executed against the selected BIRD SQLite database with a read-only preview.",
+        )
+
+        elapsed = time.time() - start
+        resp = {
+            "question": question,
+            "db_id": db_id,
+            "sql": sql,
+            "results": results,
+            "columns": cols,
+            "execution_error": exec_err,
+            "error": error,
+            "patterns_used": [{"intent": p.metadata.business_intent, "question": p.question[:50]} for p in patterns],
+            "elapsed": round(elapsed, 2),
+            "pipeline_stages": snapshot_task(task_id)["stages"],
+        }
+        save_history(resp)
+        task = _tasks[task_id]
+        task["result"] = resp
+        task["status"] = "complete"
+        task["updated_at"] = time.time()
+    except Exception as exc:
+        task = _tasks.get(task_id)
+        if task:
+            task["status"] = "error"
+            task["error"] = str(exc)
+            task["updated_at"] = time.time()
 
 
 def get_schema(db_id):
@@ -233,6 +460,10 @@ class Handler(BaseHTTPRequestHandler):
             self._json(load_history())
         elif p == "/api/stats":
             self._json(mem().stats())
+        elif p.startswith("/api/query/task/"):
+            task_id = p.rsplit("/", 1)[-1]
+            task = snapshot_task(task_id)
+            self._json(task if task else {"error": "Task not found"}, 200 if task else 404)
         else:
             self.send_error(404)
     
@@ -280,97 +511,17 @@ class Handler(BaseHTTPRequestHandler):
         if not question:
             self._json({"error": "Question required"}, 400)
             return
-        
-        start = time.time()
-        stages = []
-        schema = get_schema(db_id) if db_id else ""
-        stages.append({
-            "id": "schema_context",
-            "title": "Schema context",
-            "status": "complete" if schema else "warning",
-            "summary": f"Loaded {len(schema.splitlines())} schema lines for {db_id or 'no database'}.",
-            "detail": schema[:12000],
-        })
-        patterns = mem().retrieve(question, db_id=db_id, top_k=3) if db_id else []
-        stages.append({
-            "id": "pattern_retrieval",
-            "title": "Pattern & semantic retrieval",
-            "status": "complete",
-            "summary": f"Found {len(patterns)} relevant prior query patterns.",
-            "detail": "\n".join(f"- {p.question}" for p in patterns) or "No prior patterns matched; using schema context.",
-        })
-        
-        if patterns:
-            prompt = mem().build_few_shot_prompt(question, schema, patterns)
-        else:
-            parts = ["You are a SQLite expert. Generate a single SELECT statement.",
-                     f"Database Schema:\n{schema}" if schema else "",
-                     f"Question: {question}",
-                     'Return ONLY: {"sql":"SELECT...","assumptions":[],"tables_used":[],"columns_used":[],"confidence":"high|medium|low","reasoning_summary":"..."}']
-            prompt = "\n\n".join(p for p in parts if p)
-        
-        sql, error = "", None
-        try:
-            raw = prov().generate(f"Return ONLY valid JSON.\n\n{prompt}")
-            sql = extract_sql(raw)
-            if not sql: error = "Could not extract SQL"
-        except Exception as e:
-            error = str(e)
-        stages.append({
-            "id": "sql_generation",
-            "title": "SQL candidate generation",
-            "status": "error" if error else "complete",
-            "summary": error or "Generated one SQLite SQL candidate.",
-            "detail": sql or error or "No SQL was produced.",
-        })
-
-        validation_error = None
-        if sql and not regex.match(r"^\s*(SELECT|WITH)\b", sql, regex.IGNORECASE):
-            validation_error = "Only SELECT or WITH queries can be previewed."
-        stages.append({
-            "id": "sql_validation",
-            "title": "SQL validation",
-            "status": "error" if validation_error else ("complete" if sql else "skipped"),
-            "summary": validation_error or ("Read-only query accepted for SQLite preview." if sql else "Skipped because no SQL was generated."),
-            "detail": validation_error or "Checked query shape before execution.",
-        })
-        if validation_error:
-            error = validation_error
-        
-        results, cols, exec_err = None, None, None
-        if sql and not error and db_id:
-            dp = os.path.join(BIRD_ROOT, db_id, f"{db_id}.sqlite")
-            if os.path.exists(dp):
-                try:
-                    conn = sqlite3.connect(dp)
-                    conn.row_factory = sqlite3.Row
-                    c = conn.cursor()
-                    c.execute(sql)
-                    cols = [d[0] for d in c.description] if c.description else []
-                    rows = c.fetchall()
-                    results = [list(r) for r in rows]
-                    conn.close()
-                except Exception as e:
-                    exec_err = str(e)
-        stages.append({
-            "id": "preview_execution",
-            "title": "Preview execution",
-            "status": "error" if exec_err else ("complete" if results is not None else "skipped"),
-            "summary": exec_err or (f"Returned {len(results)} rows." if results is not None else "Skipped because no database was selected."),
-            "detail": exec_err or "Executed against the selected BIRD SQLite database with a read-only preview.",
-        })
-        
-        elapsed = time.time() - start
-        resp = {
-            "question": question, "db_id": db_id, "sql": sql,
-            "results": results, "columns": cols,
-            "execution_error": exec_err, "error": error,
-            "patterns_used": [{"intent": p.metadata.business_intent, "question": p.question[:50]} for p in patterns],
-            "elapsed": round(elapsed, 2),
-            "pipeline_stages": stages,
+        task_id = str(uuid.uuid4())
+        _tasks[task_id] = {
+            "status": "running",
+            "stages": pending_pipeline_stages(),
+            "result": None,
+            "error": None,
+            "created_at": time.time(),
+            "updated_at": time.time(),
         }
-        save_history(resp)
-        self._json(resp)
+        threading.Thread(target=run_query_task, args=(task_id, question, db_id), daemon=True).start()
+        self._json({"task_id": task_id})
     
     def _handle_confirm(self, data):
         q, s, d = data.get("question",""), data.get("sql",""), data.get("db_id","")
@@ -381,10 +532,14 @@ class Handler(BaseHTTPRequestHandler):
             self._json({"error": "Missing fields"}, 400)
     
     def log_message(self, fmt, *args):
-        sys.stderr.write(f"[NL2SQL] {args[0]} {args[1]} {args[2]}\n")
+        try:
+            message = fmt % args
+        except Exception:
+            message = " ".join(str(arg) for arg in args)
+        sys.stderr.write(f"[NL2SQL] {message}\n")
 
 
 if __name__ == "__main__":
     print(f"NL2SQL API at http://localhost:{PORT}")
     print(f"Open in browser: http://localhost:{PORT}")
-    HTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
+    ThreadingHTTPServer(("0.0.0.0", PORT), Handler).serve_forever()
