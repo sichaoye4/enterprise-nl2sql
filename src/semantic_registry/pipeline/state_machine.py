@@ -567,6 +567,7 @@ class NL2SQLPipeline:
         prompt_a = context.context_prompt or ""
         self._record_llm_trace(context, f"{trace_prefix}candidate_a", prompt=prompt_a)
         context.sql_candidates = self.candidate_generator.generate_candidates(context)
+        self._post_process_bird_candidates(context)
         for candidate in context.sql_candidates:
             stage = f"{trace_prefix}candidate_{candidate.candidate_id.lower()}"
             if stage in context.llm_trace and context.llm_trace[stage].get("response") is None:
@@ -576,6 +577,82 @@ class NL2SQLPipeline:
                     response=candidate.model_dump_json(),
                 )
         return context
+
+    def _post_process_bird_candidates(self, context: PipelineContext) -> None:
+        for candidate in context.sql_candidates:
+            processed_sql = self._post_process_bird_sql(candidate.sql, context.question)
+            if processed_sql == candidate.sql:
+                continue
+            candidate.sql = processed_sql
+            candidate.columns_used = [
+                "circuits.url" if column.lower() == "races.url" else column
+                for column in candidate.columns_used
+            ]
+            note = "Post-processed Formula 1 race URL selection to use the circuit URL."
+            if note not in candidate.assumptions:
+                candidate.assumptions.append(note)
+
+    def _post_process_bird_sql(self, sql: str, question: str) -> str:
+        question_text = question.lower()
+        if not any(trigger in question_text for trigger in ("introduction", "information about", "where can")):
+            return sql
+
+        try:
+            statement = sqlglot.parse_one(sql, read="sqlite")
+        except sqlglot.errors.ParseError:
+            return sql
+
+        table_refs: dict[str, set[str]] = {}
+        for table in statement.find_all(exp.Table):
+            table_refs.setdefault(table.name.lower(), set()).add(table.alias_or_name)
+        if "races" not in table_refs or "circuits" not in table_refs:
+            return sql
+
+        race_refs = table_refs["races"] | {"races"}
+        circuit_ref = next(iter(table_refs["circuits"]), "circuits")
+        selected_race_url = any(
+            column.name.lower() == "url" and column.table in race_refs
+            for select_expression in statement.expressions
+            for column in select_expression.find_all(exp.Column)
+        )
+        if not selected_race_url:
+            return sql
+
+        from_match = re.search(r"\bfrom\b", sql, flags=re.IGNORECASE)
+        if from_match is None:
+            return sql
+
+        select_clause = sql[:from_match.start()]
+        rest = sql[from_match.start():]
+        rewritten_select = select_clause
+        for race_ref in sorted(race_refs, key=len, reverse=True):
+            rewritten_select = re.sub(
+                self._qualified_url_pattern(race_ref),
+                f"{circuit_ref}.url",
+                rewritten_select,
+                flags=re.IGNORECASE,
+            )
+        if rewritten_select == select_clause:
+            return sql
+        if not re.match(r"\s*select\s+distinct\b", rewritten_select, flags=re.IGNORECASE):
+            rewritten_select = re.sub(
+                r"^(\s*select)\b",
+                r"\1 DISTINCT",
+                rewritten_select,
+                count=1,
+                flags=re.IGNORECASE,
+            )
+        return rewritten_select + rest
+
+    def _qualified_url_pattern(self, table_ref: str) -> str:
+        return (
+            rf"{self._sql_identifier_pattern(table_ref)}\s*\.\s*"
+            rf"{self._sql_identifier_pattern('url')}(?![A-Za-z0-9_])"
+        )
+
+    def _sql_identifier_pattern(self, identifier: str) -> str:
+        escaped = re.escape(identifier)
+        return rf"(?:`{escaped}`|\"{escaped}\"|\[{escaped}\]|{escaped})"
 
     def _candidate_plan_first_prompt(self, prompt: str) -> str:
         instruction = (

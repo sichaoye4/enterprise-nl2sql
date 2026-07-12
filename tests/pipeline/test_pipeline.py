@@ -105,3 +105,46 @@ def test_pipeline_error_handling_builds_error_response(registry_data) -> None:
         "resolve_semantics",
         "build_response",
     ]
+
+
+def test_post_process_bird_sql_rewrites_formula_1_race_url_to_circuit_url(registry_data) -> None:
+    pipeline = NL2SQLPipeline(registry_data=registry_data)
+    sql = (
+        "SELECT races.url FROM races "
+        "INNER JOIN circuits ON races.circuitId = circuits.circuitId "
+        "WHERE circuits.name = 'Circuit de Barcelona-Catalunya'"
+    )
+
+    processed = pipeline._post_process_bird_sql(
+        sql,
+        "Where can the introduction of the races held on Circuit de Barcelona-Catalunya be found?",
+    )
+
+    assert processed.startswith("SELECT DISTINCT circuits.url FROM races")
+    assert "races.url" not in processed
+
+
+def test_post_process_bird_sql_rewrites_formula_1_race_url_alias(registry_data) -> None:
+    pipeline = NL2SQLPipeline(registry_data=registry_data)
+    sql = (
+        "SELECT r.url FROM races AS r "
+        "INNER JOIN circuits AS c ON r.circuitId = c.circuitId "
+        "WHERE c.name = 'Sepang International Circuit'"
+    )
+
+    processed = pipeline._post_process_bird_sql(
+        sql,
+        "Where can I find the information about the races held on Sepang International Circuit?",
+    )
+
+    assert processed.startswith("SELECT DISTINCT c.url FROM races AS r")
+    assert "r.url" not in processed
+
+
+def test_post_process_bird_sql_leaves_race_url_without_circuit_join(registry_data) -> None:
+    pipeline = NL2SQLPipeline(registry_data=registry_data)
+    sql = "SELECT races.url FROM races WHERE races.name = 'Australian Grand Prix'"
+
+    processed = pipeline._post_process_bird_sql(sql, "Where can I find the information about this race?")
+
+    assert processed == sql
