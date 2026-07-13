@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NL2SQL PoC — BIRD Showcase</title>
+  <style>
+    :root { --navy:#0a1530; --navy2:#111f42; --purple:#5645d4; --ink:#1a1a1a; --muted:#5d5b54; --line:#e5e3df; --paper:#fff; --surface:#f6f5f4; --peach:#ffe8d4; --mint:#d9f3e1; --sky:#dcecfa; --lav:#e6e0f5; --yellow:#f9e79f; --green:#1aae39; }
+    * { box-sizing:border-box; }
+    html, body { margin:0; min-height:100%; background:#141a2a; font-family:"Notion Sans", Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; color:var(--ink); }
+    .deck { width:1600px; height:900px; overflow:hidden; margin:0 auto; background:var(--paper); position:relative; }
+    .slide { position:absolute; inset:0; padding:58px 74px 48px; display:none; background:var(--paper); }
+    .slide.active { display:block; animation:enter .32s ease-out; }
+    @keyframes enter { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:translateX(0); } }
+    .slide-num { position:absolute; top:35px; right:74px; color:#a4a097; font-size:14px; font-weight:600; letter-spacing:.09em; }
+    .eyebrow { display:inline-flex; align-items:center; gap:9px; color:#4534b3; font-size:13px; font-weight:700; letter-spacing:.11em; text-transform:uppercase; }
+    .eyebrow::before { content:""; display:block; width:22px; height:7px; background:var(--purple); border-radius:2px; }
+    h1, h2, h3, p { margin:0; }
+    h1 { font-size:60px; line-height:1.02; letter-spacing:-2.3px; font-weight:700; }
+    h2 { font-size:43px; line-height:1.08; letter-spacing:-1.4px; font-weight:700; }
+    h3 { font-size:18px; line-height:1.25; letter-spacing:-.25px; }
+    .subtitle { color:var(--muted); font-size:18px; line-height:1.45; margin-top:12px; max-width:920px; }
+    .kicker { color:#787671; font-size:13px; font-weight:650; letter-spacing:.1em; text-transform:uppercase; }
+    .badge { display:inline-block; padding:5px 9px; border-radius:5px; font-size:12px; font-weight:700; }
+    .badge.purple { color:#391c57; background:var(--lav); } .badge.green { color:#087b21; background:var(--mint); } .badge.orange { color:#793400; background:var(--peach); }
+    .scope-grid { display:grid; grid-template-columns:1.05fr 1.95fr; gap:26px; margin-top:32px; height:684px; }
+    .dark-panel { position:relative; overflow:hidden; background:var(--navy); border-radius:14px; padding:34px; color:#fff; }
+    .dark-panel::after { content:""; position:absolute; width:390px; height:390px; border:1px solid #7b3ff2; border-radius:50%; right:-225px; top:-105px; opacity:.7; }
+    .dark-panel::before { content:""; position:absolute; width:13px; height:13px; border-radius:3px; background:#ff64c8; right:96px; top:84px; box-shadow:58px 48px 0 #f5d75e, 8px 130px 0 #2a9d99, 98px 160px 0 #7b3ff2; }
+    .dark-panel h1 { position:relative; z-index:1; margin-top:18px; font-size:53px; }
+    .dark-panel .lede { position:relative; z-index:1; margin-top:20px; font-size:19px; line-height:1.48; color:#e6e0f5; max-width:370px; }
+    .repo-row { position:absolute; left:34px; right:34px; bottom:34px; display:grid; grid-template-columns:1fr 1fr; gap:10px; z-index:1; }
+    .repo { min-height:108px; padding:15px; border:1px solid #30416b; border-radius:10px; background:rgba(255,255,255,.055); }
+    .repo strong { display:block; font-size:15px; } .repo span { display:block; margin-top:8px; color:#b9c5e5; font-size:13px; line-height:1.35; }
+    .arch-panel { border:1px solid var(--line); border-radius:14px; padding:27px 30px; overflow:hidden; }
+    .arch-top { display:flex; align-items:flex-start; justify-content:space-between; }
+    .arch-top p { color:var(--muted); font-size:15px; margin-top:6px; }
+    .architecture { margin-top:26px; height:410px; position:relative; }
+    .lane { position:absolute; left:0; right:0; height:192px; padding:18px 20px; border-radius:12px; }
+    .lane.enterprise { top:0; background:#f7f6fc; border:1px solid #e6e0f5; }
+    .lane.bird { bottom:0; background:#f0f8f2; border:1px solid #d9f3e1; }
+    .lane-label { position:absolute; top:15px; left:18px; font-size:12px; font-weight:750; letter-spacing:.09em; text-transform:uppercase; }
+    .enterprise .lane-label { color:#4534b3; } .bird .lane-label { color:#087b21; }
+    .flow { position:absolute; left:18px; right:18px; top:64px; display:flex; align-items:center; gap:8px; }
+    .node { width:136px; height:81px; padding:11px 10px; border:1px solid var(--line); border-radius:9px; background:#fff; display:flex; flex-direction:column; justify-content:center; font-size:13px; line-height:1.22; font-weight:700; }
+    .node small { margin-top:5px; color:var(--muted); font-size:11px; line-height:1.2; font-weight:500; }
+    .node.highlight { border-color:#5645d4; box-shadow:0 0 0 2px rgba(86,69,212,.12); } .bird .node.highlight { border-color:#1aae39; box-shadow:0 0 0 2px rgba(26,174,57,.12); }
+    .arrow { color:#a4a097; font-size:20px; font-weight:400; }
+    .architecture-note { display:flex; gap:12px; margin-top:19px; }
+    .architecture-note div { flex:1; padding:13px 14px; border-radius:8px; font-size:13px; line-height:1.35; } .architecture-note strong { display:block; margin-bottom:4px; }
+    .note-lav { background:var(--lav); } .note-mint { background:var(--mint); }
+    .enterprise-flow { display:grid; grid-template-columns:repeat(7, 1fr); gap:12px; align-items:center; margin-top:34px; }
+    .enterprise-flow .node { position:relative; width:auto; height:116px; padding:14px 12px; border-color:#d8d2f4; background:#fbfaff; font-size:14px; }
+    .enterprise-flow .node:nth-child(3), .enterprise-flow .node:nth-child(4) { background:#f1effb; border-color:#5645d4; }
+    .enterprise-flow .node:nth-child(6), .enterprise-flow .node:nth-child(7) { background:#f0f8f2; border-color:#8bcf9a; }
+    .enterprise-flow .node:not(:last-child)::after { content:"->"; position:absolute; right:-20px; top:47px; color:#a4a097; font-size:14px; font-weight:500; }
+    .architecture-legend { display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:12px; margin-top:34px; }
+    .architecture-legend div { padding:16px; border-radius:9px; font-size:13px; line-height:1.38; }
+    .architecture-legend strong { display:block; margin-bottom:5px; font-size:14px; }
+    .strategy-grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:18px; margin-top:30px; }
+    .strategy { min-height:235px; padding:24px; border:1px solid var(--line); border-radius:13px; }
+    .strategy:nth-child(1) { background:var(--sky); } .strategy:nth-child(2) { background:var(--mint); } .strategy:nth-child(3) { background:var(--peach); }
+    .strategy .number { display:grid; place-items:center; width:34px; height:34px; margin-bottom:16px; border-radius:7px; background:#fff; color:var(--purple); font-size:15px; font-weight:800; }
+    .strategy p { margin-top:10px; color:#37352f; font-size:14px; line-height:1.45; }
+    .roadmap { display:grid; grid-template-columns:190px 1fr 1fr 1fr; gap:1px; margin-top:20px; overflow:hidden; border:1px solid #d6b6f6; border-radius:13px; background:#d6b6f6; }
+    .roadmap > div { min-height:134px; padding:19px 20px; background:#fff; }
+    .roadmap .roadmap-label { display:flex; align-items:center; background:#f1effb; color:#391c57; font-size:15px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; }
+    .roadmap h3 { font-size:16px; } .roadmap p { margin-top:8px; font-size:13px; line-height:1.4; color:#5d5b54; }
+    .result-grid { display:grid; grid-template-columns:1.05fr 1.35fr; gap:28px; margin-top:31px; height:660px; }
+    .scorecard { border-radius:14px; padding:30px; background:var(--navy); color:#fff; position:relative; overflow:hidden; }
+    .scorecard::after { content:"80"; position:absolute; right:-21px; bottom:-78px; color:#172850; font-size:285px; line-height:1; font-weight:750; letter-spacing:-22px; }
+    .scorecard > * { position:relative; z-index:1; }
+    .score { font-size:118px; font-weight:750; letter-spacing:-7px; line-height:.94; margin-top:28px; }
+    .score span { font-size:36px; letter-spacing:-1px; }
+    .score-label { color:#d6b6f6; margin-top:11px; font-size:17px; font-weight:650; }
+    .stat-stack { margin-top:42px; display:grid; gap:11px; }
+    .stat { display:flex; justify-content:space-between; align-items:center; padding:13px 14px; background:rgba(255,255,255,.08); border:1px solid #30416b; border-radius:8px; font-size:14px; }
+    .stat strong { font-size:18px; } .stat span { color:#cbd5ef; }
+    .comparison { border:1px solid var(--line); border-radius:14px; padding:26px 28px; }
+    .comparison h3 { font-size:22px; } .comparison .context { color:var(--muted); font-size:14px; margin-top:7px; }
+    .bars { margin-top:24px; display:grid; gap:16px; }
+    .bar-row { display:grid; grid-template-columns:185px 1fr 71px; gap:14px; align-items:center; }
+    .bar-label { font-size:14px; font-weight:650; } .bar-label small { display:block; color:#787671; font-weight:500; font-size:11px; margin-top:2px; }
+    .track { height:24px; overflow:hidden; background:#f0eeec; border-radius:5px; } .fill { height:100%; display:flex; align-items:center; justify-content:flex-end; padding-right:8px; color:#fff; font-size:11px; font-weight:700; border-radius:5px; }
+    .f-ours { background:var(--purple); } .f-sota { background:#7b3ff2; } .f-mid { background:#8e8a83; } .f-base { background:#bcb8b0; }
+    .bar-value { font-size:14px; font-weight:750; text-align:right; }
+    .comparison-note { margin-top:22px; padding:13px 14px; background:var(--yellow); border-radius:8px; color:#523410; font-size:13px; line-height:1.35; }
+    .learning-grid { display:grid; grid-template-columns:1.05fr 1.05fr 1.05fr; gap:18px; margin-top:30px; }
+    .learning { min-height:223px; padding:24px; border:1px solid var(--line); border-radius:13px; } .learning:nth-child(1){background:var(--sky)} .learning:nth-child(2){background:var(--mint)} .learning:nth-child(3){background:var(--peach)}
+    .learning .icon { width:34px; height:34px; display:grid; place-items:center; margin-bottom:16px; border-radius:7px; background:#fff; font-size:17px; }
+    .learning p { margin-top:10px; font-size:14px; line-height:1.43; color:#37352f; }
+    .next { margin-top:18px; border:1px solid #d6b6f6; border-radius:13px; background:#f7f6fc; padding:22px 25px; display:grid; grid-template-columns:190px 1fr; gap:22px; align-items:center; }
+    .next-title { color:#391c57; font-size:15px; font-weight:750; letter-spacing:.08em; text-transform:uppercase; } .next-copy { font-size:18px; line-height:1.38; font-weight:650; }
+    .source { position:absolute; left:74px; right:74px; bottom:22px; padding-top:12px; border-top:1px solid var(--line); color:#787671; font-size:11px; line-height:1.35; }
+    .source a { color:#4534b3; font-weight:700; text-decoration:none; border-bottom:1px solid #d6b6f6; }
+    .controls { position:fixed; bottom:18px; right:22px; z-index:5; display:flex; gap:7px; } .controls button { width:38px; height:34px; border:1px solid #5c6375; border-radius:6px; background:#202a43; color:#fff; font-size:19px; cursor:pointer; }
+    .controls button:hover { background:var(--purple); border-color:var(--purple); }
+    .architecture-overview { margin-top:24px; }
+    .experience-row { display:grid; grid-template-columns:1.1fr 1.9fr; gap:12px; }
+    .architecture-label { display:flex; align-items:center; padding:16px 20px; border-radius:11px; background:var(--navy); color:#fff; font-size:15px; font-weight:750; }
+    .architecture-label small { display:block; margin-top:5px; color:#b9c5e5; font-size:12px; font-weight:500; }
+    .experience-card { padding:16px 20px; border:1px solid #c7c0ef; border-radius:11px; background:#f7f6fc; }
+    .experience-card strong { font-size:16px; } .experience-card span { display:block; margin-top:6px; color:#5d5b54; font-size:13px; }
+    .connector { height:22px; display:flex; align-items:center; justify-content:center; color:#787671; font-size:18px; }
+    .plane-title { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+    .plane-title strong { font-size:14px; letter-spacing:.07em; text-transform:uppercase; color:#4534b3; }
+    .plane-title span { color:#787671; font-size:12px; }
+    .control-plane { display:grid; grid-template-columns:repeat(4, 1fr); gap:12px; }
+    .control-card { min-height:126px; padding:17px; border:1px solid var(--line); border-radius:11px; }
+    .control-card:nth-child(1) { background:var(--lav); border-color:#d6b6f6; } .control-card:nth-child(2) { background:var(--sky); border-color:#c7e4f7; } .control-card:nth-child(3) { background:var(--mint); border-color:#bce9c8; } .control-card:nth-child(4) { background:var(--peach); border-color:#f6d0ac; }
+    .control-card h3 { font-size:16px; } .control-card p { margin-top:7px; color:#37352f; font-size:12px; line-height:1.38; }
+    .runtime-shell { padding:17px 18px 20px; border:1px solid #d8d2f4; border-radius:12px; background:#fbfaff; }
+    .runtime-header { display:flex; justify-content:space-between; align-items:baseline; } .runtime-header strong { color:#4534b3; font-size:14px; letter-spacing:.07em; text-transform:uppercase; } .runtime-header span { color:#787671; font-size:12px; }
+    .runtime-flow { display:grid; grid-template-columns:repeat(7, 1fr); gap:10px; margin-top:14px; }
+    .runtime-step { position:relative; min-height:78px; padding:10px 9px; border:1px solid #e5e3df; border-radius:8px; background:#fff; font-size:13px; font-weight:750; line-height:1.18; }
+    .runtime-step small { display:block; margin-top:5px; color:#5d5b54; font-size:10px; font-weight:500; line-height:1.2; }
+    .runtime-step:not(:last-child)::after { content:"->"; position:absolute; right:-17px; top:31px; color:#a4a097; font-size:12px; }
+    .feedback-strip { display:grid; grid-template-columns:1.1fr 2.9fr; gap:12px; margin-top:12px; }
+    .feedback-strip div { padding:12px 16px; border-radius:8px; font-size:12px; line-height:1.35; } .feedback-strip .feedback-title { background:#f0eeec; font-weight:750; } .feedback-strip .feedback-copy { background:#fef7d6; color:#523410; }
+    .principle-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:28px; }
+    .principle { min-height:154px; padding:20px 22px; border:1px solid var(--line); border-radius:12px; }
+    .principle:nth-child(1) { background:var(--lav); border-color:#d6b6f6; } .principle:nth-child(2) { background:var(--sky); border-color:#c7e4f7; } .principle:nth-child(3) { background:var(--mint); border-color:#bce9c8; } .principle:nth-child(4) { background:var(--peach); border-color:#f6d0ac; }
+    .principle-top { display:flex; align-items:center; gap:10px; } .principle-number { display:grid; place-items:center; width:26px; height:26px; border-radius:6px; background:#fff; color:#5645d4; font-size:12px; font-weight:800; }
+    .principle h3 { font-size:17px; } .principle p { margin-top:10px; color:#37352f; font-size:13px; line-height:1.42; }
+    .accuracy-loop { display:grid; grid-template-columns:210px 1fr; gap:18px; align-items:center; margin-top:18px; padding:18px 20px; border:1px solid #d6b6f6; border-radius:12px; background:#fbfaff; }
+    .accuracy-loop h3 { color:#391c57; font-size:16px; } .accuracy-loop p { margin-top:6px; color:#5d5b54; font-size:12px; line-height:1.35; }
+    .loop-steps { display:grid; grid-template-columns:repeat(5, 1fr); gap:26px; } .loop-step { position:relative; padding:11px 10px; border-radius:7px; background:#fff; border:1px solid #e5e3df; font-size:12px; font-weight:700; text-align:center; } .loop-step:not(:last-child)::after { content:"->"; position:absolute; right:-21px; top:50%; transform:translateY(-50%); color:#a4a097; font-size:12px; font-weight:500; }
+    @media print { html,body { background:#fff; overflow:visible; } .stage { overflow:visible; } .deck { width:1600px; height:auto; overflow:visible; position:relative; transform:none !important; } .slide { position:relative; display:block !important; width:1600px; height:900px; page-break-after:always; } .controls { display:none; } }
+  </style>
+</head>
+<body>
+  <div class="stage" id="stage"><main class="deck" aria-label="Three-page NL2SQL PoC showcase deck">
+    <section class="slide active" id="slide-1">
+      <span class="slide-num">01 / 03</span>
+      <div class="eyebrow">Enterprise NL2SQL Architecture</div>
+      <h2>Turn business questions into governed, verifiable data access.</h2>
+      <p class="subtitle">The system resolves business meaning before SQL generation, then applies safety, semantic and execution checks before returning an answer that users can inspect and improve.</p>
+      <div class="architecture-overview">
+        <div class="experience-row"><div class="architecture-label">Business users and BI tools<small>Natural language questions, SQL editing, review and feedback</small></div><div class="experience-card"><strong>NL2SQL experience and API</strong><span>Ask a question, clarify ambiguous intent, inspect the semantic interpretation, review generated SQL and preview results, then confirm or correct the outcome.</span></div></div>
+        <div class="connector">v</div>
+        <div class="plane-title"><strong>Enterprise knowledge and control plane</strong><span>Shared services ground and constrain every query</span></div>
+        <div class="control-plane"><article class="control-card"><h3>Semantic layer</h3><p>Business terms, certified metrics, dimensions, entities, time semantics and safe join paths.</p></article><article class="control-card"><h3>Metadata and retrieval</h3><p>Eligible tables, schema, grain, ownership, samples, documentation and known caveats.</p></article><article class="control-card"><h3>Policy and safety</h3><p>Permissions, PII controls, table and column access, read-only execution, limits and cost checks.</p></article><article class="control-card"><h3>Learning assets</h3><p>Query history, curated examples, user corrections, evaluation cases and regression evidence.</p></article></div>
+        <div class="connector">v</div>
+        <div class="runtime-shell"><div class="runtime-header"><strong>Runtime decision pipeline</strong><span>Every query follows a visible, testable lifecycle</span></div><div class="runtime-flow"><div class="runtime-step">Classify<small>intent, risk and ambiguity</small></div><div class="runtime-step">Resolve meaning<small>terms, metrics and dimensions</small></div><div class="runtime-step">Build context<small>metadata, joins and examples</small></div><div class="runtime-step">Generate SQL<small>semantic compiler or LLM candidates</small></div><div class="runtime-step">Validate<small>static, semantic and policy checks</small></div><div class="runtime-step">Preview and select<small>dry run, repair and best candidate</small></div><div class="runtime-step">Judge and explain<small>quality review, assumptions and response</small></div></div></div>
+        <div class="feedback-strip"><div class="feedback-title">Feedback and evaluation loop</div><div class="feedback-copy">User corrections and observed failures are captured as evaluation cases, semantic-model improvements, better retrieval assets and regression tests - making accuracy an operating capability, not a one-time model choice.</div></div>
+      </div>
+    </section>
+
+    <section class="slide" id="slide-2">
+      <span class="slide-num">02 / 03</span>
+      <div class="eyebrow">BIRD benchmark result</div>
+      <h2>80.0% execution accuracy—with one LLM call per question.</h2>
+      <p class="subtitle">The final balanced 110-question evaluation beat the PoC target and substantially improved on the same-model one-pass baseline.</p>
+      <div class="result-grid">
+        <section class="scorecard">
+          <span class="badge purple">Final PoC run</span>
+          <div class="score">80<span>.0%</span></div>
+          <div class="score-label">Execution Accuracy · 88 / 110 questions</div>
+          <div class="stat-stack">
+            <div class="stat"><span>Improvement vs one-pass baseline</span><strong>+14pp</strong></div>
+            <div class="stat"><span>Original success target</span><strong>+5pp</strong></div>
+            <div class="stat"><span>End-to-end benchmark time</span><strong>35–55 min</strong></div>
+            <div class="stat"><span>Per-question latency</span><strong>20–30 sec</strong></div>
+          </div>
+        </section>
+        <section class="comparison">
+          <h3>Published academic BIRD reference points</h3>
+          <p class="context">Paper-reported EX values. Splits and system configurations differ, so these are directional research reference points rather than a single comparable leaderboard.</p>
+          <div class="bars">
+            <div class="bar-row"><div class="bar-label">Our final PoC<small>balanced 110-question BIRD evaluation</small></div><div class="track"><div class="fill f-ours" style="width:80%">80.00%</div></div><div class="bar-value">80.00%</div></div>
+            <div class="bar-row"><div class="bar-label">Our one-pass baseline<small>V4 Flash xhigh + few-shot, internal 50-question control</small></div><div class="track"><div class="fill f-base" style="width:66%">66.00%</div></div><div class="bar-value">66.00%</div></div>
+            <div class="bar-row"><div class="bar-label"><a href="https://arxiv.org/pdf/2405.16755" target="_blank" rel="noopener">CHESS</a> + proprietary<small>hierarchical context harness - BIRD dev</small></div><div class="track"><div class="fill f-sota" style="width:65%">65.00%</div></div><div class="bar-value">65.00%</div></div>
+            <div class="bar-row"><div class="bar-label"><a href="https://arxiv.org/abs/2312.11242" target="_blank" rel="noopener">MAC-SQL</a> + GPT-4<small>multi-agent collaboration - BIRD test</small></div><div class="track"><div class="fill f-mid" style="width:59.59%">59.59%</div></div><div class="bar-value">59.59%</div></div>
+            <div class="bar-row"><div class="bar-label"><a href="https://arxiv.org/abs/2304.11015" target="_blank" rel="noopener">DIN-SQL</a> + GPT-4<small>decomposition + self-correction - BIRD test</small></div><div class="track"><div class="fill f-mid" style="width:55.9%">55.90%</div></div><div class="bar-value">55.90%</div></div>
+          </div>
+          <div class="comparison-note"><strong>What makes the result distinctive:</strong> the final system reached 80% in its balanced PoC evaluation through a semantic pipeline, grounded context and targeted deterministic SQL controls. The published papers linked above provide the academic reference values shown.</div>
+        </section>
+      </div>      <div class="source">Academic sources: <a href="https://arxiv.org/pdf/2405.16755" target="_blank" rel="noopener">CHESS (BIRD dev EX 65.00%)</a> &middot; <a href="https://arxiv.org/abs/2312.11242" target="_blank" rel="noopener">MAC-SQL (BIRD test EX 59.59%)</a> &middot; <a href="https://arxiv.org/abs/2304.11015" target="_blank" rel="noopener">DIN-SQL (BIRD test EX 55.9%)</a>. Our PoC figures: NL2SQL Pipeline POC Final Report.</div>
+    </section>
+
+    <section class="slide" id="slide-3">
+      <span class="slide-num">03 / 03</span>
+      <div class="eyebrow">Lessons for higher accuracy</div>
+      <h2>What makes an NL2SQL system accurate enough to trust?</h2>
+      <p class="subtitle">High accuracy is not a property of the LLM alone. It is the outcome of disciplined meaning resolution, high-quality context, layered verification and a deliberate learning loop.</p>
+      <div class="principle-grid">
+        <article class="principle"><div class="principle-top"><div class="principle-number">01</div><h3>Resolve meaning before retrieving schema</h3></div><p>Business language is overloaded. Define governed metrics, dimensions, entities, time semantics and join paths so the system can distinguish concepts such as GMV, paid GMV and net revenue before it writes SQL.</p></article>
+        <article class="principle"><div class="principle-top"><div class="principle-number">02</div><h3>Treat context as a curated data product</h3></div><p>More schema is not better context. Favor certified, eligible data assets with clear grain, ownership, descriptions, sample values and caveats. Retrieve the smallest relevant set that supports the question.</p></article>
+        <article class="principle"><div class="principle-top"><div class="principle-number">03</div><h3>Verify semantics, not only syntax</h3></div><p>Executable SQL can still be wrong. Combine static checks with semantic validation of metric, aggregation, time, joins and grain; then use preview execution and an independent quality review for uncertain cases.</p></article>
+        <article class="principle"><div class="principle-top"><div class="principle-number">04</div><h3>Make learning part of the product</h3></div><p>Capture questions, route decisions, context, SQL, outcomes and user corrections. Convert repeatable failures into regression cases, stronger semantic definitions, retrieval assets and tested guardrails.</p></article>
+      </div>
+      <div class="accuracy-loop"><div><h3>Accuracy operating loop</h3><p>Reduce uncertainty early, verify before impact, and make every confirmed outcome reusable.</p></div><div class="loop-steps"><div class="loop-step">Clarify ambiguity</div><div class="loop-step">Ground the meaning</div><div class="loop-step">Generate with constraints</div><div class="loop-step">Verify the outcome</div><div class="loop-step">Learn and regress</div></div></div>
+    </section>
+  </main></div>
+  <nav class="controls" aria-label="Slide controls"><button id="prev" aria-label="Previous slide">‹</button><button id="next" aria-label="Next slide">›</button></nav>
+  <script>
+    (() => { const slides=[...document.querySelectorAll('.slide')], deck=document.querySelector('.deck'); let current=0; const fit=()=>{const scale=Math.min(innerWidth/1600,innerHeight/900);deck.style.transform=`translate(${Math.max(0,(innerWidth-1600*scale)/2)}px,${Math.max(0,(innerHeight-900*scale)/2)}px) scale(${scale})`}; const show=i=>{current=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,n)=>s.classList.toggle('active',n===current));history.replaceState(null,'',`#slide-${current+1}`)}; document.getElementById('prev').onclick=()=>show(current-1);document.getElementById('next').onclick=()=>show(current+1);document.addEventListener('keydown',e=>{if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(current+1)}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(current-1)}});addEventListener('resize',fit);const found=location.hash.match(/slide-(\d+)/);if(found)show(+found[1]-1);fit(); })();
+  </script>
+</body>
+</html>
